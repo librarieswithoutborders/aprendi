@@ -3,7 +3,7 @@
   position: relative;
   background: colors(white);
   color: colors(blue);
-  border-bottom: $standard-border;
+  border-bottom: standard-border(blue);
   height: $top-nav-height;
 
   &__contents {
@@ -21,6 +21,9 @@
     vertical-align: middle;
     padding-right: 15px;
     color: colors(blue);
+    border-right: standard-border(blue);
+    margin-right: 15px;
+    font-size: 30px;
   }
 
   &__left {

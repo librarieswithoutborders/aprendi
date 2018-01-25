@@ -25,6 +25,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "auth0-js": "9.1.1",
+    "jwt-decode": "2.2.0",
     "object-assign": "4.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",

@@ -1,2 +1,5 @@
 $top-nav-height: 60px;
-$standard-border: 2px solid colors(blue);
+
+@function standard-border($color) {
+	@return 2px solid colors($color);
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { login, logout, isLoggedIn } from '../utils/AuthService';
 
 const TopNav = () => {
   return (
@@ -12,7 +13,11 @@ const TopNav = () => {
           <h5 className="top-nav__link">About</h5>
         </div>
         <div className="top-nav__right">
-          <h5 className="top-nav__link">Admin Login</h5>
+          
+          {
+            (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout()}>Log out </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
+          }
+
         </div>
       </div>
     </div>

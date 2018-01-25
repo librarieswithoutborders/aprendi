@@ -7,7 +7,13 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
 const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production'),
+  'process.env': {
+    NODE_ENV: JSON.stringify('development'),
+    AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN ),
+    API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE ),
+    AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID ),
+    CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL )
+  },
   __DEV__: false
 };
 
