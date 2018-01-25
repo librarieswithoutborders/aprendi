@@ -1,0 +1,41 @@
+.top-nav {
+  width: 100%;
+  position: relative;
+  background: colors(white);
+  color: colors(blue);
+  border-bottom: $standard-border;
+  height: $top-nav-height;
+
+  &__contents {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0px 10px;
+  }
+
+  &__logo, &__left, &__right {
+    display: inline-block;
+  }
+
+  &__logo {
+    vertical-align: middle;
+    padding-right: 15px;
+    color: colors(blue);
+  }
+
+  &__left {
+    position: relative;
+    left: 0;
+  }
+
+  &__right {
+    position: absolute;
+    right: 0;
+  }
+
+  &__link {
+
+  }
+
+
+}

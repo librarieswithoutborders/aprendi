@@ -1,0 +1,10 @@
+$color-palette: (
+  white: #ffffff,
+  orange: #ff7e1c,
+  blue: #54a2de,
+  grey: #a8a8a8,
+);
+
+@function colors($key) {
+	@return map-get($color-palette, $key);
+}
