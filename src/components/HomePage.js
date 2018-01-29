@@ -1,12 +1,40 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { fetchResources } from '../actions/actions.js';
+import { connect } from 'react-redux'
 
-const HomePage = () => {
-  return (
-    <div>
-      <h1>Welcome to My Library Guide</h1>
-    </div>
-  );
+
+class HomePage extends Component {
+  constructor() {
+    super()
+  }
+
+  componentWillMount() {
+    console.log(this.props)
+    this.props.fetchResources()
+  }
+
+  render() {
+    console.log(this.props)
+    return (
+      <div>
+        <h1>Welcome to My Library Guide</h1>
+      </div>
+    );
+  }
 };
 
-export default HomePage;
+const mapStateToProps = (state) => {
+  return {
+    resources: state.fetchedResources
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchResources: () => {
+      dispatch(fetchResources())
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage)

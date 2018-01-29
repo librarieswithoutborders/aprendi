@@ -1,0 +1,1 @@
+export const FETCH_RESOURCES = 'FETCH_RESOURCES';
