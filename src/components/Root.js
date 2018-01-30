@@ -7,8 +7,6 @@ import AdminModal from './AdminModal'
 import { connect } from 'react-redux'
 import { hideAdminModal } from '../actions/actions.js';
 
-
-
 class Root extends Component {
   render() {
     const { store, adminModal, hideAdminModal } = this.props;

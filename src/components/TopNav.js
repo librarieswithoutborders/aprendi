@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { login, logout, isLoggedIn } from '../utils/AuthService';
+import { connect } from 'react-redux'
+import { setUserInfo } from '../actions/actions.js';
+
 
 class TopNav extends Component {
   constructor() {
@@ -20,13 +23,34 @@ class TopNav extends Component {
           </div>
           <div className="top-nav__right">
             {
-              (isLoggedIn()) ? ( <button className="btn btn-danger log" onClick={() => logout(this.props.history)}>Log out </button> ) : ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
+              (isLoggedIn()) ?
+              (
+                <div>
+                  <h5>{this.props.userInfo.name}</h5>
+                  <button className="btn btn-danger log" onClick={() => logout(this.props.history, this.props.clearUserInfo)}>Log out</button>
+                </div>
+              ) :
+              ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
             }
           </div>
         </div>
       </div>
     );
   }
-};
+}
 
-export default withRouter(TopNav);
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearUserInfo: () => {
+      dispatch(setUserInfo({}))
+    },
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopNav));

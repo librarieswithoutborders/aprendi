@@ -15,8 +15,8 @@ const routes = (
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/callback" component={AuthCallback} />
-          <Route exact path="/:userId" component={UserHomePage} />
-          <Route path="/:userId/:collectionId" component={Collection} />
+          <Route exact path="/users/:userId" component={UserHomePage} />
+          <Route path="/:collectionId" component={Collection} />
           <Route path="/special" component={HomePage} onEnter={requireAuth} />
         </Switch>
 

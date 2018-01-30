@@ -1,5 +1,4 @@
 import decode from 'jwt-decode';
-import { browserHistory } from 'react-router';
 import auth0 from 'auth0-js';
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
@@ -8,7 +7,6 @@ const CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN;
 // const CLIENT_DOMAIN = 'librarieswithoutborders.auth0.com'
 const REDIRECT = process.env.CALLBACK_URL;
-const SCOPE = process.env.SCOPE;
 const AUDIENCE = process.env.API_AUDIENCE;
 
 var auth = new auth0.WebAuth({
@@ -21,13 +19,14 @@ export function login() {
     responseType: 'token id_token',
     redirectUri: REDIRECT,
     audience: AUDIENCE,
-    scope: SCOPE
+    scope: 'openid profile email user_id'
   });
 }
 
-export function logout(history) {
+export function logout(history, clearUserInfo) {
   clearIdToken();
   clearAccessToken();
+  clearUserInfo();
   history.push('/');
 }
 
@@ -92,7 +91,6 @@ function isTokenExpired(token) {
 }
 
 export async function getUserInfo(hash) {
-  let userInfo;
   return new Promise((resolve) => {
     // let userInfo;
     auth.parseHash({ hash: hash }, function(err, authResult) {
@@ -101,7 +99,6 @@ export async function getUserInfo(hash) {
       auth.client.userInfo(authResult.accessToken, function(err, user) {
         // Now you have the user's information
         console.log(user)
-        userInfo = user;
         resolve(user);
       });
     });
