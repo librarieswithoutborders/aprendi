@@ -25,10 +25,10 @@ export function login() {
   });
 }
 
-export function logout() {
+export function logout(history) {
   clearIdToken();
   clearAccessToken();
-  browserHistory.push('/');
+  history.push('/');
 }
 
 export function requireAuth(nextState, replace) {
@@ -89,4 +89,21 @@ function getTokenExpirationDate(encodedToken) {
 function isTokenExpired(token) {
   const expirationDate = getTokenExpirationDate(token);
   return expirationDate < new Date();
+}
+
+export async function getUserInfo(hash) {
+  let userInfo;
+  return new Promise((resolve) => {
+    // let userInfo;
+    auth.parseHash({ hash: hash }, function(err, authResult) {
+      if (err) { return console.log(err); }
+
+      auth.client.userInfo(authResult.accessToken, function(err, user) {
+        // Now you have the user's information
+        console.log(user)
+        userInfo = user;
+        resolve(user);
+      });
+    });
+  })
 }

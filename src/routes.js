@@ -1,20 +1,26 @@
 import React from 'react';
 import { requireAuth } from './utils/AuthService';
 import HomePage from './components/HomePage';
+import UserHomePage from './components/UserHomePage';
 // import NotFoundPage from './NotFoundPage';
 import AuthCallback from './components/AuthCallback';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import TopNav from './components/TopNav';
+import Collection from './components/Collection';
+
+import { Route, Switch } from 'react-router-dom';
 
 const routes = (
-  <Router>
+
     <div>
-      <TopNav />
-      <Route exact path="/" component={HomePage} />
-      <Route path="/special" component={HomePage} onEnter={requireAuth} />
-      <Route path="/callback" component={AuthCallback} />
+
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/callback" component={AuthCallback} />
+          <Route exact path="/:userId" component={UserHomePage} />
+          <Route path="/:userId/:collectionId" component={Collection} />
+          <Route path="/special" component={HomePage} onEnter={requireAuth} />
+        </Switch>
+
     </div>
-  </Router>
 
 )
 

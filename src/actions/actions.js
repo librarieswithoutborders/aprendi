@@ -6,8 +6,63 @@ export function fetchResources() {
     payload: {
       request:{
         method:'get',
-        url:'/api/jokes/food'
+        url:'/resources'
       }
     }
+  }
+}
+
+export function fetchCollectionList() {
+  return {
+    type: types.FETCH_COLLECTION_LIST,
+    payload: {
+      request:{
+        method:'get',
+        url:'/collections'
+      }
+    }
+  }
+}
+
+export function fetchCollectionData() {
+  return {
+    type: types.FETCH_COLLECTION_DATA,
+    payload: {
+      request:{
+        method:'get',
+        url:'/collection'
+      }
+    }
+  }
+}
+
+export function editCollection() {
+  return {
+    type: types.FETCH_COLLECTION_DATA,
+    payload: {
+      request:{
+        method:'get',
+        url:'/collection'
+      }
+    }
+  }
+}
+
+export function showAdminModal() {
+  return {
+    type: types.SHOW_ADMIN_MODAL
+  }
+}
+
+export function hideAdminModal() {
+  return {
+    type: types.HIDE_ADMIN_MODAL
+  }
+}
+
+export function setUserInfo(user) {
+  return {
+    type: types.SET_USER_INFO,
+    user: user
   }
 }
