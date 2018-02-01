@@ -24,13 +24,13 @@ export function fetchCollectionList() {
   }
 }
 
-export function fetchCollectionData() {
+export function fetchCollectionData(collectionId) {
   return {
     type: types.FETCH_COLLECTION_DATA,
     payload: {
       request:{
         method:'get',
-        url:'/collection'
+        url:'/collection/' + collectionId
       }
     }
   }
