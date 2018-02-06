@@ -9,14 +9,14 @@ import { hideAdminModal } from '../actions/actions.js';
 
 class Root extends Component {
   render() {
-    const { store, adminModal, hideAdminModal } = this.props;
+    const { store, adminModalContent, hideAdminModal } = this.props;
 
     return (
       <Provider store={store}>
       <Router>
         <div>
-          {adminModal && <AdminModal />}
-          {adminModal && <div className="content-overlay" onClick={() => hideAdminModal()}></div>}
+          {adminModalContent && <AdminModal />}
+          {adminModalContent && <div className="content-overlay" onClick={() => hideAdminModal()}></div>}
           <div className="content">
             <TopNav />
             <div className="content-container">
@@ -32,7 +32,7 @@ class Root extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    adminModal: state.adminModal
+    adminModalContent: state.adminModalContent
   }
 }
 

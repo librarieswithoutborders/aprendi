@@ -2,16 +2,60 @@ import { combineReducers } from 'redux';
 
 // import * as types from '../actions/actionTypes'
 
-function fetchedResources(state = [], action) {
+function fullTeamList(state = [], action) {
   switch (action.type) {
-    case "FETCH_RESOURCES_SUCCESS":
-      console.log(action)
+    case "GET_FULL_TEAM_LIST_SUCCESS":
       return action.payload.data
-
     default:
       return state
   }
 }
+
+function currTeamInfo(state = {}, action) {
+  switch (action.type) {
+    case "GET_TEAM_INFO_SUCCESS":
+      return action.payload.data
+    default:
+      return state
+  }
+}
+
+function teamUpdateStatus(state = null, action) {
+  switch (action.type) {
+    case "CREATE_TEAM_SUCCESS":
+      return "Success"
+    case "DELETE_TEAM_SUCCESS":
+      return "Success"
+    case "DELETE_TEAM_FAIL":
+        return "Success"
+    default:
+      return state
+  }
+}
+
+function collectionUpdateStatus(state = null, action) {
+  switch (action.type) {
+    case "CREATE_COLLECTION_SUCCESS":
+      return "Success"
+    case "DELETE_COLLECTION_SUCCESS":
+      return "Success"
+    case "DELETE_COLLECTION_FAIL":
+        return "Failure"
+    default:
+      return state
+  }
+}
+
+// function fetchedResources(state = [], action) {
+//   switch (action.type) {
+//     case "FETCH_RESOURCES_SUCCESS":
+//       console.log(action)
+//       return action.payload.data
+//
+//     default:
+//       return state
+//   }
+// }
 
 function collectionList(state = [], action) {
   switch (action.type) {
@@ -24,22 +68,24 @@ function collectionList(state = [], action) {
   }
 }
 
-function fetchedCollections(state = [], action) {
+function fetchedCollections(state = {}, action) {
   switch (action.type) {
-    case "FETCH_COLLECTION_DATA_SUCCESS":
+    case "FETCH_COLLECTION_SUCCESS":
       console.log(action)
-      return action.payload.data
+      return Object.assign({}, state, {
+        [action.payload.data.path] : action.payload.data
+      })
     default:
       return state
   }
 }
 
-function adminModal(state = null, action) {
+function adminModalContent(state = null, action) {
   switch (action.type) {
     case "HIDE_ADMIN_MODAL":
       return null
     case "SHOW_ADMIN_MODAL":
-        return {}
+      return {data: action.data, formType: action.formType }
     default:
       return state
   }
@@ -55,8 +101,12 @@ function userInfo(state = {}, action) {
 }
 
 const rootReducer = combineReducers({
-  adminModal,
-  fetchedResources,
+  fullTeamList,
+  currTeamInfo,
+  teamUpdateStatus,
+  collectionUpdateStatus,
+  adminModalContent,
+  // fetchedResources,
   fetchedCollections,
   collectionList,
   userInfo

@@ -2,7 +2,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
   background-color: colors(white);
   border: standard-border(blue);
-  z-index: 15;
+  z-index: 40;
 }

@@ -1,0 +1,10 @@
+.form {
+  &__field {
+    display: block;
+    padding: 5px 5px;
+
+    &__label {
+      color: colors(blue);
+    }
+  }
+}

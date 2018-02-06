@@ -1,10 +1,11 @@
 .top-nav {
   width: 100%;
-  position: relative;
+  position: fixed;
   background: colors(white);
   color: colors(blue);
   border-bottom: standard-border(blue);
   height: $top-nav-height;
+  z-index: 20;
 
   &__contents {
     position: relative;

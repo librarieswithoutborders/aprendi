@@ -46,7 +46,7 @@ class Grid extends React.Component {
     return data.map((d, i) => {
       return (
         <div key={i} className="grid__item">
-          <Link to={d.slug}>
+          <Link to={window.location.pathname + "/" + d.path}>
             <div key={i} className="grid__item__content">
               <div key={i} className="grid__item__text-container">
                 <h5 className="grid__item__title">{d.title}</h5>
