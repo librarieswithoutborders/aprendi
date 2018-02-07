@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions } from '../constants'
-import { createCollection, hideAdminModal } from '../actions/actions.js';
+import { createCollection, updateCollection, hideAdminModal } from '../actions/actions.js';
 
 
 class AdminCollectionForm extends Component {
@@ -17,11 +17,25 @@ class AdminCollectionForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {collectionUpdateStatus, hideAdminModal} = this.props;
-    console.log(nextProps.collectionUpdateStatus)
+    // console.log(nextProps.collectionUpdateStatus)
+    //
+    // if (nextProps.collectionUpdateStatus == "Success") {
+    //   hideAdminModal()
+    // }
+  }
 
-    if (nextProps.collectionUpdateStatus == "Success") {
-      hideAdminModal()
+  submitForm(submittedValues) {
+    const {action, team, createCollection, updateCollection} = this.props;
+    console.log("submitting")
+    console.log(this.props)
+    if (action == "create") {
+      return createCollection({data: submittedValues, team: team})
+    } else {
+      return updateCollection({data: submittedValues})
     }
+  }
+  submitFormFailure(err) {
+    console.log(err)
   }
 
   renderForm(formApi) {
@@ -32,32 +46,28 @@ class AdminCollectionForm extends Component {
           <Text field="title" id="title" />
         </div>
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="url">Url</label>
-          <Text field="url" id="url" />
+          <label className="form__field__label" htmlFor="path">Url Path</label>
+          <Text field="path" id="path" />
         </div>
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="team">Team</label>
-          <Text field="team" id="team" />
+          <label className="form__field__label" htmlFor="short_description">Short Description</label>
+          <TextArea field="short_description" id="short_description" />
         </div>
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="shortDescription">Short Description</label>
-          <TextArea field="shortDescription" id="shortDescription" />
-        </div>
-        <div className= "form__field">
-          <label className="form__field__label" htmlFor="longDescription">Long Description</label>
-          <TextArea field="longDescription" id="longDescription" />
+          <label className="form__field__label" htmlFor="long_description">Long Description</label>
+          <TextArea field="long_description" id="long_description" />
         </div>
         <div className= "form__field">
           <label className="form__field__label" htmlFor="language" className="d-block">Language</label>
           <Select field="language" id="language" options={languageOptions} />
         </div>
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="disclaimerMessage">Disclaimer Message</label>
-          <TextArea field="disclaimerMessage" id="disclaimerMessage" />
+          <label className="form__field__label" htmlFor="disclaimer_message">Disclaimer Message</label>
+          <TextArea field="disclaimer_message" id="disclaimer_message" />
         </div>
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="defaultZoom" className="d-block">Default Zoom</label>
-          <Select field="defaultZoom" id="defaultZoom" options={zoomOptions} />
+          <label className="form__field__label" htmlFor="default_zoom" className="d-block">Default Zoom</label>
+          <Select field="default_zoom" id="default_zoom" options={zoomOptions} />
         </div>
         <button type="submit" className="mb-4 btn btn-primary">Submit</button>
       </form>
@@ -70,7 +80,8 @@ class AdminCollectionForm extends Component {
 
     return (
       <Form
-        onSubmit={submittedValues => { console.log(submittedValues); createCollection(submittedValues)}}
+        onSubmit={(submittedValues) => this.submitForm(submittedValues)}
+        onSubmitFailure={(err) => this.submitFormFailure(err)}
         defaultValues={this.props.data}>
         { formApi => this.renderForm(formApi)}
       </Form>
@@ -88,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createCollection: (collectionInfo) => {
       dispatch(createCollection(collectionInfo))
+    },
+    updateCollection: (collectionInfo) => {
+      dispatch(updateCollection(collectionInfo))
     },
     hideAdminModal: () => {
       dispatch(hideAdminModal())

@@ -23,20 +23,19 @@ export function deleteTeam(_id) {
       request:{
         method:'delete',
         url:'/team/?_id=' + _id,
-        params: {_id: _id}
       }
     }
   }
 }
 
-export function getTeamInfo(teamId) {
-  console.log("get team info for ", teamId)
+export function getTeamInfo(path) {
+  console.log("get team info for ", path)
   return {
     type: types.GET_TEAM_INFO,
     payload: {
       request:{
         method:'get',
-        url:'/team/?team_id=' + teamId
+        url:'/team/?path=' + path
       }
     }
   }
@@ -78,6 +77,32 @@ export function createCollection(collectionInfo) {
     payload: {
       request:{
         method:'post',
+        url:'/collection',
+        data: collectionInfo
+      }
+    }
+  }
+}
+
+export function deleteCollection(id) {
+  console.log("deleting collection", id)
+  return {
+    type: types.DELETE_COLLECTION,
+    payload: {
+      request:{
+        method:'delete',
+        url:'/collection/?_id=' + id
+      }
+    }
+  }
+}
+
+export function updateCollection(collectionInfo) {
+  return {
+    type: types.UPDATE_COLLECTION,
+    payload: {
+      request:{
+        method:'put',
         url:'/collection',
         data: collectionInfo
       }
@@ -133,17 +158,7 @@ export function fetchCollection(collectionId) {
   }
 }
 
-export function editCollection() {
-  return {
-    type: types.FETCH_COLLECTION_DATA,
-    payload: {
-      request:{
-        method:'get',
-        url:'/collection'
-      }
-    }
-  }
-}
+
 
 //subcollection
 
@@ -155,6 +170,32 @@ export function createSubcollection(subcollectionInfo) {
         method:'post',
         url:'/subcollection',
         data: subcollectionInfo
+      }
+    }
+  }
+}
+
+export function updateSubcollection(subcollectionInfo) {
+  return {
+    type: types.UPDATE_SUBCOLLECTION,
+    payload: {
+      request:{
+        method:'put',
+        url:'/subcollection',
+        data: subcollectionInfo
+      }
+    }
+  }
+}
+
+export function deleteSubcollection({id, parentId, parentType}) {
+  console.log("deleting subcollection", id)
+  return {
+    type: types.DELETE_SUBCOLLECTION,
+    payload: {
+      request:{
+        method:'delete',
+        url:'/subcollection/?_id=' + id + "&parent_id=" + parentId + "&parent_type=" + parentType
       }
     }
   }

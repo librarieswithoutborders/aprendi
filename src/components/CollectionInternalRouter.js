@@ -6,11 +6,12 @@ import { Route, Switch } from 'react-router-dom'
 import { PropsRoute } from '../utils/propsRoute'
 import Collection from './Collection'
 
-const RecursiveRouter = ({match, breadcrumbs, data}) => {
-
+const RecursiveRouter = ({match, breadcrumbs, parent, parentType}) => {
   const {subPath} = match.params
   console.log("rendering ", subPath)
   console.log(breadcrumbs)
+
+  let data = parent.subcollections
 
   let subcollectionData;
   data.forEach(d => {
@@ -25,8 +26,8 @@ const RecursiveRouter = ({match, breadcrumbs, data}) => {
     console.log(breadcrumbs)
     return (
       <div>
-        <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={subcollectionData} />
-        <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={subcollectionData.subcollections} />
+        <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} parent={parent} parentType={parentType} data={subcollectionData} />
+        <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} parent={subcollectionData} parentType="subcollection"/>
       </div>
     )
   } else {
@@ -40,7 +41,7 @@ const CollectionInternalRouter = ({match, data}) => {
   return (
     <div>
       <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={data} />
-      <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={data.subcollections} />
+      <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} parent={data} parentType="collection"/>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showAdminModal } from '../actions/actions.js'
+import { showAdminModal, deleteCollection, deleteSubcollection } from '../actions/actions.js'
 
 import Breadcrumbs from './Breadcrumbs'
 import Grid from './Grid'
@@ -11,7 +11,7 @@ class Collection extends Component {
   }
   render() {
     console.log(this.props)
-    const { data, breadcrumbs, createSubcollection } = this.props
+    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
     return (
       <div className="collection">
@@ -19,7 +19,8 @@ class Collection extends Component {
         <div className="collection__text-container">
           <h1 className="collection__title">{data.title}</h1>
           <p className="collection__description">{data.short_description}</p>
-          <button onClick={() => editCollection(data)} >Edit Collection</button>
+          <button onClick={() => updateCollection({data, type})} >Edit Collection</button>
+          <button onClick={() => deleteCollection({data, type, parent, parentType})} >Delete Collection</button>
         </div>
         <div className="collection__contents">
           <Grid data={data.subcollections} createNew={() => createSubcollection({parentId:data._id, parentType:type})}/>
@@ -46,8 +47,17 @@ const mapDispatchToProps = (dispatch) => {
       console.log(parent)
       dispatch(showAdminModal({action:"create", type:"resource", parent: parent}))
     },
-    editCollection: (data) => {
-      dispatch(showAdminModal({action:"edit", type:"collection", data: data}))
+    updateCollection: ({data, type}) => {
+      dispatch(showAdminModal({action:"edit", type:type, data: data}))
+    },
+    deleteCollection: ({data, type, parent, parentType}) => {
+      console.log(parent)
+      if (type === "collection") {
+        dispatch(deleteCollection(data._id))
+      } else {
+        dispatch(deleteSubcollection({id: data._id, parentId: parent._id, parentType: parentType}))
+      }
+
     },
   }
 }

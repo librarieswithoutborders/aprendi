@@ -22,15 +22,15 @@ const TeamHomePage = ({teamInfo, createNewCollection}) => {
           })}
         </ul>
       }
-      <button onClick={() => { createNewCollection(teamInfo.team_id) }}>Create New Collection</button>
+      <button onClick={() => { createNewCollection(teamInfo._id) }}>Create New Collection</button>
       {teamInfo.collections &&
         <ul>
           {teamInfo.collections.map(collection => {
             return (
               <li>
-                <Link to={"/" + collection.url}>
+                <Link to={"/" + collection.path}>
                   <span>{collection.title}</span>
-                  <span>{collection.url}</span>
+                  <span>{collection.path}</span>
                   <span>{collection.createdAt}</span>
                 </Link>
               </li>
@@ -49,12 +49,12 @@ class TeamHomePageContainer extends React.Component {
 
   componentWillMount() {
     const {teamInfo, getTeamInfo, fetchCollectionsByTeam, match} = this.props
-    const {teamId} = match.params
+    const {teamPath} = match.params
 
     console.log(teamInfo)
 
-    if (!teamInfo || teamInfo.team_id !== teamId) {
-      getTeamInfo(teamId);
+    if (!teamInfo || teamInfo.path !== teamPath) {
+      getTeamInfo(teamPath);
     }
   }
 
@@ -80,13 +80,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTeamInfo: (teamId) => {
-      dispatch(getTeamInfo(teamId))
+    getTeamInfo: (teamPath) => {
+      dispatch(getTeamInfo(teamPath))
     },
     createNewCollection: (teamId) => {
-      dispatch(showAdminModal({ formType:"collection", data: {team: teamId} }))
-    },
-
+      dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))    },
   }
 }
 

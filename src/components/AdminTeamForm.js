@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions } from '../constants'
-import { createSubcollection, updateSubcollection, hideAdminModal } from '../actions/actions.js';
+import { createTeam, updateTeam, hideAdminModal } from '../actions/actions.js';
 
 
-class AdminSubcollectionForm extends Component {
+class AdminTeamForm extends Component {
   constructor() {
     super()
   }
 
   componentWillMount() {
     console.log(this.props)
-    // this.props.fetchAdminSubcollectionFormData()
+    // this.props.fetchAdminTeamFormData()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -25,13 +25,13 @@ class AdminSubcollectionForm extends Component {
   }
 
   submitForm(submittedValues) {
-    const {action, parent, createSubcollection, updateSubcollection} = this.props;
+    const {action, createTeam, updateTeam} = this.props;
     console.log("submitting")
     console.log(this.props)
     if (action == "create") {
-      return createSubcollection({data: submittedValues, parent: parent})
+      return createTeam(submittedValues)
     } else {
-      return updateSubcollection({data: submittedValues})
+      return updateTeam({data: submittedValues})
     }
   }
   submitFormFailure(err) {
@@ -42,20 +42,12 @@ class AdminSubcollectionForm extends Component {
     return (
       <form onSubmit={formApi.submitForm} id="form">
         <div className= "form__field">
-          <label className="form__field__label" htmlFor="title">Title</label>
-          <Text field="title" id="title" />
+          <label className="form__field__label" htmlFor="team_name">Team Name</label>
+          <Text field="team_name" id="team_name" />
         </div>
         <div className= "form__field">
           <label className="form__field__label" htmlFor="path">Url Path</label>
           <Text field="path" id="path" />
-        </div>
-        <div className= "form__field">
-          <label className="form__field__label" htmlFor="short_description">Short Description</label>
-          <TextArea field="short_description" id="short_description" />
-        </div>
-        <div className= "form__field">
-          <label className="form__field__label" htmlFor="long_description">Long Description</label>
-          <TextArea field="long_description" id="long_description" />
         </div>
 
         <button type="submit" className="mb-4 btn btn-primary">Submit</button>
@@ -65,7 +57,7 @@ class AdminSubcollectionForm extends Component {
 
   render() {
     console.log(this.props)
-    const { createSubcollection, action } = this.props
+    const { createTeam, action } = this.props
 
     return (
       <Form
@@ -86,11 +78,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createSubcollection: (subcollectionInfo) => {
-      dispatch(createSubcollection(subcollectionInfo))
+    createTeam: (teamInfo) => {
+      dispatch(createTeam(teamInfo))
     },
-    updateSubcollection: (subcollectionInfo) => {
-      dispatch(updateSubcollection(subcollectionInfo))
+    updateTeam: (teamInfo) => {
+      dispatch(updateTeam(teamInfo))
     },
     hideAdminModal: () => {
       dispatch(hideAdminModal())
@@ -98,4 +90,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminSubcollectionForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminTeamForm)

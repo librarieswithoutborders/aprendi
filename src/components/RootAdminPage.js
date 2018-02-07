@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTeam, deleteTeam, getFullTeamList } from '../actions/actions.js';
+import { showAdminModal, deleteTeam, getFullTeamList } from '../actions/actions.js';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const RootAdminPage = ({teams, createTeam, deleteTeam}) => {
         {teams.map((team) => {
           return (
             <li>
-              <Link to={'/teams/' + team.team_id} >
+              <Link to={'/teams/' + team.path} >
                 <span>{team.team_name}</span>
               </Link>
               <button onClick={() => deleteTeam(team._id)} >Delete Team</button>
@@ -38,7 +38,7 @@ class RootAdminPageContainer extends React.Component {
 
   render() {
     const {teams, createTeam} = this.props;
-    if (teams && teams.length > 0) {
+    if (teams) {
       return <RootAdminPage teams={teams} createTeam={createTeam} deleteTeam={deleteTeam}/>
     } else {
       return <h5>Loading Teams</h5>
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getFullTeamList())
     },
     createTeam: (teamInfo) => {
-      dispatch(createTeam(teamInfo))
+      dispatch(showAdminModal({action:"create", type:"team"}))
     },
     deleteTeam: (id) => {
       dispatch(deleteTeam(id))

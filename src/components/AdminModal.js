@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import AdminTeamForm from './AdminTeamForm'
 import AdminCollectionForm from './AdminCollectionForm'
 import AdminSubcollectionForm from './AdminSubcollectionForm'
 import AdminResourceForm from './AdminResourceForm'
@@ -7,17 +8,20 @@ import AdminResourceForm from './AdminResourceForm'
 const AdminModal = (props) => {
   console.log(props)
 
-  const {action, type, parent} = props
+  const {action, type, data, parent, team} = props
 
   console.log(action, type, parent)
   let form;
 
   switch(type) {
+    case "team":
+      form = <AdminTeamForm action={action} data={data} />
+      break;
     case "collection":
-      form = <AdminCollectionForm action={action} />
+      form = <AdminCollectionForm action={action} data={data} team={team}/>
       break;
     case "subcollection":
-      form = <AdminSubcollectionForm action={action} parent={parent} />
+      form = <AdminSubcollectionForm action={action} data={data} parent={parent} />
       break;
     case "resource":
       form = <AdminResourceForm data={data} />
