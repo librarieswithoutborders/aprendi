@@ -25,8 +25,8 @@ const RecursiveRouter = ({match, breadcrumbs, data}) => {
     console.log(breadcrumbs)
     return (
       <div>
-        <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={subcollectionData}/>
-        <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={subcollectionData.subcollections}/>
+        <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={subcollectionData} />
+        <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={subcollectionData.subcollections} />
       </div>
     )
   } else {
@@ -39,8 +39,8 @@ const CollectionInternalRouter = ({match, data}) => {
   let breadcrumbs = [{ title: data.title, path: data.path }]
   return (
     <div>
-      <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={data}/>
-      <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={data.subcollections}/>
+      <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} data={data} />
+      <PropsRoute path={match.path + "/:subPath"} component={RecursiveRouter} breadcrumbs={breadcrumbs} data={data.subcollections} />
     </div>
   )
 }

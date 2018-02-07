@@ -145,11 +145,26 @@ export function editCollection() {
   }
 }
 
-export function showAdminModal({formType, data}) {
+//subcollection
+
+export function createSubcollection(subcollectionInfo) {
+  return {
+    type: types.CREATE_SUBCOLLECTION,
+    payload: {
+      request:{
+        method:'post',
+        url:'/subcollection',
+        data: subcollectionInfo
+      }
+    }
+  }
+}
+
+
+export function showAdminModal(props) {
   return {
     type: types.SHOW_ADMIN_MODAL,
-    formType,
-    data
+    props
   }
 }
 

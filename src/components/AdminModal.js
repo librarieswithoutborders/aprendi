@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import AdminCollectionForm from './AdminCollectionForm'
+import AdminSubcollectionForm from './AdminSubcollectionForm'
 import AdminResourceForm from './AdminResourceForm'
 
 const AdminModal = (props) => {
   console.log(props)
-  const {formType, data} = props
+
+  const {action, type, parent} = props
+
+  console.log(action, type, parent)
   let form;
 
-  switch(formType) {
+  switch(type) {
     case "collection":
-      form = <AdminCollectionForm data={data} />
+      form = <AdminCollectionForm action={action} />
+      break;
+    case "subcollection":
+      form = <AdminSubcollectionForm action={action} parent={parent} />
       break;
     case "resource":
       form = <AdminResourceForm data={data} />
@@ -44,15 +51,14 @@ class AdminModalContainer extends Component {
     // if (collections.length <= 0) {
     //   return <h1>Loading ...</h1>
     // } else {
-      return <AdminModal {...this.props} />
+      return <AdminModal {...this.props.modalProps} />
     // }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    formType: state.adminModalContent.formType,
-    data: state.adminModalContent.data
+    modalProps: state.adminModalContent,
   }
 }
 

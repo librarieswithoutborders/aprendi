@@ -58,6 +58,19 @@ class Grid extends React.Component {
     });
   }
 
+  addCreateGridItem() {
+    const { data, createNew } = this.props;
+    return(
+      <div key={data.length} className="grid__item">
+        <div className="grid__item__content" onClick={() => createNew()}>
+          <div className="grid__item__text-container">
+            <h5 className="grid__item__title">+</h5>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   generateLayout() {
     const { data } = this.props
 
@@ -103,6 +116,7 @@ class Grid extends React.Component {
         compactType="horizontal"
       >
         {this.generateDOM()}
+        {this.addCreateGridItem()}
       </ResponsiveReactGridLayout>
     );
   }

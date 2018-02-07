@@ -85,7 +85,7 @@ function adminModalContent(state = null, action) {
     case "HIDE_ADMIN_MODAL":
       return null
     case "SHOW_ADMIN_MODAL":
-      return {data: action.data, formType: action.formType }
+      return action.props
     default:
       return state
   }

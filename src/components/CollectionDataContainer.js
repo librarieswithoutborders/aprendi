@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { showAdminModal, fetchCollection } from '../actions/actions.js'
+import { fetchCollection } from '../actions/actions.js'
 import { connect } from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
 
@@ -26,19 +26,12 @@ class CollectionDataContainer extends Component {
     console.log(nextProps)
   }
 
-  editCollection(data) {
-    console.log("editing collection")
-    const { showAdminModal } = this.props;
-
-    showAdminModal({ formType: "collection", data: data});
-  }
-
   render() {
     console.log(this.props)
     const {collectionPath, fetchedCollections, fetchCollection, match} = this.props;
     console.log(fetchedCollections, collectionPath)
     if (fetchedCollections[collectionPath]) {
-      return <CollectionInternalRouter data={fetchedCollections[collectionPath]} match={match}/>
+      return <CollectionInternalRouter data={fetchedCollections[collectionPath]} match={match} />
     } else {
       return <h5>Loading</h5>
     }
