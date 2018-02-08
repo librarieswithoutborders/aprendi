@@ -1,6 +1,8 @@
 import React from 'react'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions } from '../constants'
+import AdminImageUpload from '../components/AdminImageUpload'
+
 
 const teamFields = (
   <div>
@@ -25,6 +27,7 @@ const collectionFields = (
       <label className="form__field__label" htmlFor="path">Url Path</label>
       <Text field="path" id="path" />
     </div>
+    <AdminImageUpload />
     <div className= "form__field">
       <label className="form__field__label" htmlFor="short_description">Short Description</label>
       <TextArea field="short_description" id="short_description" />
@@ -58,6 +61,29 @@ const subcollectionFields = (
       <label className="form__field__label" htmlFor="path">Url Path</label>
       <Text field="path" id="path" />
     </div>
+    <AdminImageUpload />
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="short_description">Short Description</label>
+      <TextArea field="short_description" id="short_description" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="long_description">Long Description</label>
+      <TextArea field="long_description" id="long_description" />
+    </div>
+  </div>
+)
+
+const resourceFields = (
+  <div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="title">Title</label>
+      <Text field="title" id="title" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
+    </div>
+    <AdminImageUpload />
     <div className= "form__field">
       <label className="form__field__label" htmlFor="short_description">Short Description</label>
       <TextArea field="short_description" id="short_description" />

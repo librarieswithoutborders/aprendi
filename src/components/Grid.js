@@ -43,9 +43,19 @@ class Grid extends React.Component {
 
   generateDOM() {
     const { data } = this.props;
+
+
     return data.map((d, i) => {
+      let styleObject = {}
+      console.log(d.image_url)
+      if (d.image_url) {
+        let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
+        console.log(fullImageUrl)
+        styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      }
+
       return (
-        <div key={i} className="grid__item">
+        <div key={i} className="grid__item" style={styleObject}>
           <Link to={window.location.pathname + "/" + d.path}>
             <div key={i} className="grid__item__content">
               <div key={i} className="grid__item__text-container">

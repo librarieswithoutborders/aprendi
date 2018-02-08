@@ -6,8 +6,16 @@ import {createTeam, updateTeam, createCollection, updateCollection, createSubcol
 
 class AdminModal extends Component {
   submitForm(data) {
+    const {imageUrl} = this.props
     console.log(data)
-    this.props.submit(data)
+    console.log(imageUrl)
+
+    let retObject = {}
+
+    Object.assign(retObject, data)
+    retObject.image_url = imageUrl
+    console.log(retObject)
+    this.props.submit(retObject)
   }
   submitFormFailure(err) {
     console.log(err)
@@ -63,7 +71,7 @@ class AdminModalContainer extends Component {
         }
       case "resource":
         return {
-          create: data => createResource({data}),
+          create: data => createResource({data, parent, team}),
           update: data => updateResource({data})
         }
     }
@@ -71,17 +79,18 @@ class AdminModalContainer extends Component {
 
   render() {
     console.log(this.props)
-    const {action, data, type} = this.props.modalProps
+    const {action, data, type, imageUrl} = this.props.modalProps
 
     const submitFunc = this.setSubmitFunction()[action]
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} submit={submitFunc} updateStatus={this.props.updateStatus}/>
+    return <AdminModal data={data} type={type} imageUrl={imageUrl} submit={submitFunc} updateStatus={this.props.updateStatus}/>
   }
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     modalProps: state.adminModalContent,
     updateStatus: state.updateStatus

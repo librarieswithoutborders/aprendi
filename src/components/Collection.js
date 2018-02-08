@@ -11,7 +11,7 @@ class Collection extends Component {
   }
   render() {
     console.log(this.props)
-    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection } = this.props
+    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, createResource } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
     return (
       <div className="collection">
@@ -68,6 +68,5 @@ const deleteCallback = (response, dispatch) => {
   console.log(response.payload)
   if (response.payload.status === 200) {
     dispatch(invalidateCurrCollection())
-    history.push('/')
   }
 }

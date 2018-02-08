@@ -207,6 +207,8 @@ export function deleteSubcollection({id, parentId, parentType}) {
   }
 }
 
+//Resource
+
 export function createResource(resourceInfo) {
   return {
     type: types.CREATE_RESOURCE,
@@ -220,7 +222,21 @@ export function createResource(resourceInfo) {
   }
 }
 
+export function deleteResource(id) {
+  console.log("deleting resource", id)
+  return {
+    type: types.DELETE_RESOURCE,
+    payload: {
+      request:{
+        method:'delete',
+        url:'/resource/?_id=' + id
+      }
+    }
+  }
+}
+
 export function updateResource(resourceInfo) {
+  console.log(resourceInfo)
   return {
     type: types.UPDATE_RESOURCE,
     payload: {
@@ -263,5 +279,12 @@ export function getS3SignedRequest(file) {
         url:'/sign-s3?file-name=' + file.name + '&file-type=' + file.type
       }
     }
+  }
+}
+
+export function addImageUrlToAdminModalContent(url) {
+  return {
+    type: types.ADD_IMAGE_URL_TO_MODAL_CONTENT,
+    url
   }
 }
