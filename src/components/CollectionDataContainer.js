@@ -20,6 +20,10 @@ class CollectionDataContainer extends Component {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     console.log("receiving props")
+    const {collectionPath, fetchCollection, currCollectionInvalidated} = this.props;
+    if (nextProps.currCollectionInvalidated && !currCollectionInvalidated) {
+      fetchCollection(collectionPath)
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -44,6 +48,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     collectionPath: path,
     fetchedCollections: state.fetchedCollections || {},
+    currCollectionInvalidated: state.currCollectionInvalidated
   }
 }
 

@@ -20,16 +20,19 @@ function currTeamInfo(state = {}, action) {
   }
 }
 
-function teamUpdateStatus(state = null, action) {
-  switch (action.type) {
-    case "CREATE_TEAM_SUCCESS":
-      return "Success"
-    case "DELETE_TEAM_SUCCESS":
-      return "Success"
-    case "DELETE_TEAM_FAIL":
+function updateStatus(state = null, action) {
+  let splitPieces = action.type.split("_")
+  if (splitPieces[0] === "CREATE" || splitPieces[0] === "UPDATE" || splitPieces[0] === "DELETE") {
+    switch (splitPieces[2]) {
+      case "SUCCESS":
         return "Success"
-    default:
-      return state
+      case "FAIL":
+        return "Failure"
+      default:
+        return state
+    }
+  } else {
+    return state
   }
 }
 
@@ -100,13 +103,24 @@ function userInfo(state = {}, action) {
   }
 }
 
+function currCollectionInvalidated(state = false, action) {
+  switch (action.type) {
+    case "INVALIDATE_CURR_COLLECTION":
+      return true
+    case "FETCH_COLLECTION_SUCCESS":
+      return false
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   fullTeamList,
   currTeamInfo,
-  teamUpdateStatus,
-  collectionUpdateStatus,
+  updateStatus,
   adminModalContent,
   // fetchedResources,
+  currCollectionInvalidated,
   fetchedCollections,
   collectionList,
   userInfo

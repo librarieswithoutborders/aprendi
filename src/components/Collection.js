@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showAdminModal, deleteCollection, deleteSubcollection } from '../actions/actions.js'
+import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection } from '../actions/actions.js'
 
 import Breadcrumbs from './Breadcrumbs'
 import Grid from './Grid'
@@ -48,14 +48,14 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(showAdminModal({action:"create", type:"resource", parent: parent}))
     },
     updateCollection: ({data, type}) => {
-      dispatch(showAdminModal({action:"edit", type:type, data: data}))
+      dispatch(showAdminModal({action:"update", type:type, data: data}))
     },
     deleteCollection: ({data, type, parent, parentType}) => {
       console.log(parent)
       if (type === "collection") {
-        dispatch(deleteCollection(data._id))
+        dispatch(deleteCollection(data._id)).then(response => deleteCallback(response, dispatch))
       } else {
-        dispatch(deleteSubcollection({id: data._id, parentId: parent._id, parentType: parentType}))
+        dispatch(deleteSubcollection({id: data._id, parentId: parent._id, parentType: parentType})).then(response => deleteCallback(response, dispatch))
       }
 
     },
@@ -63,3 +63,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collection)
+
+const deleteCallback = (response, dispatch) => {
+  console.log(response.payload)
+  if (response.payload.status === 200) {
+    dispatch(invalidateCurrCollection())
+    history.push('/')
+  }
+}

@@ -98,6 +98,7 @@ export function deleteCollection(id) {
 }
 
 export function updateCollection(collectionInfo) {
+  console.log(collectionInfo)
   return {
     type: types.UPDATE_COLLECTION,
     payload: {
@@ -158,6 +159,11 @@ export function fetchCollection(collectionId) {
   }
 }
 
+export function invalidateCurrCollection() {
+  return {
+    type: types.INVALIDATE_CURR_COLLECTION,
+  }
+}
 
 
 //subcollection
@@ -201,6 +207,32 @@ export function deleteSubcollection({id, parentId, parentType}) {
   }
 }
 
+export function createResource(resourceInfo) {
+  return {
+    type: types.CREATE_RESOURCE,
+    payload: {
+      request:{
+        method:'post',
+        url:'/resource',
+        data: resourceInfo
+      }
+    }
+  }
+}
+
+export function updateResource(resourceInfo) {
+  return {
+    type: types.UPDATE_RESOURCE,
+    payload: {
+      request:{
+        method:'put',
+        url:'/resource',
+        data: resourceInfo
+      }
+    }
+  }
+}
+
 
 export function showAdminModal(props) {
   return {
@@ -219,5 +251,17 @@ export function setUserInfo(user) {
   return {
     type: types.SET_USER_INFO,
     user: user
+  }
+}
+
+export function getS3SignedRequest(file) {
+  return {
+    type: types.GET_S3_SIGNED_REQUEST,
+    payload: {
+      request:{
+        method:'get',
+        url:'/sign-s3?file-name=' + file.name + '&file-type=' + file.type
+      }
+    }
   }
 }

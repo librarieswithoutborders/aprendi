@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import AdminTeamForm from './AdminTeamForm'
-import AdminCollectionForm from './AdminCollectionForm'
-import AdminSubcollectionForm from './AdminSubcollectionForm'
-import AdminResourceForm from './AdminResourceForm'
+import getFormFields from '../utils/getFormFields'
+import { Form } from 'react-form'
+import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrCollection} from '../actions/actions.js'
 
-const AdminModal = (props) => {
-  console.log(props)
-
-  const {action, type, data, parent, team} = props
-
-  console.log(action, type, parent)
-  let form;
-
-  switch(type) {
-    case "team":
-      form = <AdminTeamForm action={action} data={data} />
-      break;
-    case "collection":
-      form = <AdminCollectionForm action={action} data={data} team={team}/>
-      break;
-    case "subcollection":
-      form = <AdminSubcollectionForm action={action} data={data} parent={parent} />
-      break;
-    case "resource":
-      form = <AdminResourceForm data={data} />
-      break;
+class AdminModal extends Component {
+  submitForm(data) {
+    console.log(data)
+    this.props.submit(data)
+  }
+  submitFormFailure(err) {
+    console.log(err)
   }
 
-  return (
-    <div className="admin-modal">
-      <div className="admin-modal__content">
-        {form}
+  render() {
+    const {type, data, updateStatus} = this.props
+    return (
+      <div className="admin-modal">
+        <div>{updateStatus}</div>
+        <div className="admin-modal__content">
+          <Form
+            onSubmit={(submittedValues) => this.submitForm(submittedValues)}
+            onSubmitFailure={(err) => this.submitFormFailure(err)}
+            defaultValues={this.props.data} >
+            { formApi => (
+              <form onSubmit={formApi.submitForm} id="form">
+                {getFormFields(type)}
+                <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+              </form>
+            )}
+          </Form>
+        </div>
       </div>
-    </div>
-
-  )
+    )
+  }
 }
 
 class AdminModalContainer extends Component {
@@ -43,35 +41,72 @@ class AdminModalContainer extends Component {
     super()
   }
 
-  componentWillMount() {
-    console.log(this.props)
-    // this.props.fetchAdminModalData()
+  setSubmitFunction() {
+    const {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource} = this.props
+    const {type, team, parent} = this.props.modalProps;
+
+    switch(type) {
+      case "team":
+        return {
+          create: data => createTeam({data}),
+          update: data => updateTeam({data})
+        }
+      case "collection":
+        return {
+          create: data => createCollection({data, team}),
+          update: data => updateCollection({data})
+        }
+      case "subcollection":
+        return {
+          create: data => createSubcollection({data, parent}),
+          update: data => updateSubcollection({data})
+        }
+      case "resource":
+        return {
+          create: data => createResource({data}),
+          update: data => updateResource({data})
+        }
+    }
   }
 
   render() {
     console.log(this.props)
-    // const { collections } = this.props
+    const {action, data, type} = this.props.modalProps
 
-    // if (collections.length <= 0) {
-    //   return <h1>Loading ...</h1>
-    // } else {
-      return <AdminModal {...this.props.modalProps} />
-    // }
+    const submitFunc = this.setSubmitFunction()[action]
+
+    console.log(submitFunc, action)
+
+    return <AdminModal data={data} type={type} submit={submitFunc} updateStatus={this.props.updateStatus}/>
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     modalProps: state.adminModalContent,
+    updateStatus: state.updateStatus
   }
 }
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    // fetchAdminModalData: () => {
-    //   dispatch(fetchAdminModalData())
-    // },
+    createTeam: (data) => dispatch(createTeam(data)).then(response => formSubmitCallback(response, dispatch)),
+    updateTeam: (data) => dispatch(updateTeam(data)).then(response => formSubmitCallback(response, dispatch)),
+    createCollection: (data) => dispatch(createCollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
+    updateCollection: (data) => dispatch(updateCollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
+    createSubcollection: (data) => dispatch(createSubcollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
+    updateSubcollection: (data) => dispatch(updateSubcollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
+    createResource: (data) => dispatch(createResource(data)).then(response => formSubmitCallback(response, dispatch)),
+    updateResource: (data) => dispatch(updateResource(data)).then(response => formSubmitCallback(response, dispatch)),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModalContainer)
+
+const formSubmitCallback = (response, dispatch, type) => {
+  console.log(response.payload)
+  if (response.payload.status === 200) {
+    dispatch(hideAdminModal())
+    dispatch(invalidateCurrCollection())
+  }
+}
