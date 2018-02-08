@@ -33,7 +33,7 @@ class AdminModal extends Component {
             defaultValues={this.props.data} >
             { formApi => (
               <form onSubmit={formApi.submitForm} id="form">
-                {getFormFields(type)}
+                {getFormFields(type, formApi.values)}
                 <button type="submit" className="mb-4 btn btn-primary">Submit</button>
               </form>
             )}

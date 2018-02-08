@@ -27,3 +27,37 @@ export const zoomOptions = [
     value: 'large'
   }
 ]
+
+export const resourceTypeOptions = [
+  {
+    label: 'Video',
+    value: 'video'
+  },
+  {
+    label: 'PDF',
+    value: 'pdf'
+  },
+  {
+    label: 'Image',
+    value: 'image'
+  },
+  {
+    label: 'Text Entry',
+    value: 'rich_text'
+  },
+  {
+    label: 'External Website',
+    value: 'website'
+  }
+]
+
+export const videoProviderOptions = [
+  {
+    label: 'YouTube',
+    value: 'youtube'
+  },
+  {
+    label: 'Vimeo',
+    value: 'vimeo'
+  },
+]

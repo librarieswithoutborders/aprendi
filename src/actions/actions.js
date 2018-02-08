@@ -249,6 +249,13 @@ export function updateResource(resourceInfo) {
   }
 }
 
+export function setCurrResourceIndex(newIndex) {
+  return {
+    type: types.SET_CURR_RESOURCE_INDEX,
+    newIndex
+  }
+}
+
 
 export function showAdminModal(props) {
   return {
@@ -260,6 +267,21 @@ export function showAdminModal(props) {
 export function hideAdminModal() {
   return {
     type: types.HIDE_ADMIN_MODAL
+  }
+}
+
+export function showResourceViewer({resourceList, currIndex}) {
+  console.log(resourceList, currIndex)
+  return {
+    type: types.SHOW_RESOURCE_VIEWER,
+    resourceList,
+    currIndex
+  }
+}
+
+export function hideResourceViewer() {
+  return {
+    type: types.HIDE_RESOURCE_VIEWER
   }
 }
 

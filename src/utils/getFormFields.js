@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
-import { languageOptions, zoomOptions } from '../constants'
+import { languageOptions, zoomOptions, resourceTypeOptions, videoProviderOptions } from '../constants'
 import AdminImageUpload from '../components/AdminImageUpload'
 
 
@@ -73,7 +73,7 @@ const subcollectionFields = (
   </div>
 )
 
-const resourceFields = (
+const resourceFields = (resourceType) => (
   <div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
@@ -92,10 +92,49 @@ const resourceFields = (
       <label className="form__field__label" htmlFor="long_description">Long Description</label>
       <TextArea field="long_description" id="long_description" />
     </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="resource_type" className="d-block">Resource Type</label>
+      <Select field="resource_type" id="resource_type" options={resourceTypeOptions} />
+    </div>
+    {resourceType === "video" &&
+      <div>
+        <div className= "form__field">
+          <label className="form__field__label" htmlFor="video_provider" className="d-block">Video Provider</label>
+          <Select field="video_provider" id="video_provider" options={videoProviderOptions} />
+        </div>
+        <div className= "form__field">
+          <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>
+          <Text field="resource_url" id="resource_url" />
+        </div>
+
+      </div>
+    }
+    {resourceType === "pdf" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="resource_url" className="d-block">PDF Url</label>
+        <Text field="resource_url" id="resource_url" />
+      </div>
+    }
+    {resourceType === "website" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="resource_url" className="d-block">External Website Url</label>
+        <Text field="resource_url" id="resource_url" />
+      </div>
+    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="source_organization">Source Organization</label>
+      <Text field="source_organization" id="source_organization" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="source_url">Source Website</label>
+      <Text field="source_url" id="source_url" />
+    </div>
   </div>
 )
 
-const getFormFields = (type) => {
+const getFormFields = (type, values) => {
+  console.log(values)
+
   switch(type) {
     case "team":
       return teamFields
@@ -104,7 +143,7 @@ const getFormFields = (type) => {
     case "subcollection":
       return subcollectionFields
     case "resource":
-      return resourceFields
+      return resourceFields(values.resource_type)
   }
 }
 

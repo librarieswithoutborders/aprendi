@@ -125,12 +125,32 @@ function currCollectionInvalidated(state = false, action) {
   }
 }
 
+function resourceViewerContent(state = null, action) {
+  switch (action.type) {
+    case "HIDE_RESOURCE_VIEWER":
+      return null
+    case "SHOW_RESOURCE_VIEWER":
+      return {
+        resourceList: action.resourceList,
+        currIndex: action.currIndex
+      }
+    case "SET_CURR_RESOURCE_INDEX":
+      return Object.assign({}, state, {
+        "currIndex": action.newIndex
+      })
+    default:
+      return state
+  }
+}
+
+
+
 const rootReducer = combineReducers({
   fullTeamList,
   currTeamInfo,
   updateStatus,
   adminModalContent,
-  // fetchedResources,
+  resourceViewerContent,
   currCollectionInvalidated,
   fetchedCollections,
   collectionList,

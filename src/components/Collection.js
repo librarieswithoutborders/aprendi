@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection } from '../actions/actions.js'
+import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer } from '../actions/actions.js'
 
 import Breadcrumbs from './Breadcrumbs'
 import Grid from './Grid'
@@ -11,7 +11,7 @@ class Collection extends Component {
   }
   render() {
     console.log(this.props)
-    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, createResource } = this.props
+    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, createResource, setResourceViewerContent } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
     return (
       <div className="collection">
@@ -26,7 +26,7 @@ class Collection extends Component {
           <Grid data={data.subcollections} createNew={() => createSubcollection({parentId:data._id, parentType:type})}/>
         </div>
         <div className="collection__contents">
-          <Grid data={data.resources} createNew={() => createResource({parentId:data._id, parentType:type})}/>
+          <Grid data={data.resources} createNew={() => createResource({parentId:data._id, parentType:type})} clickHandler={(data, i) => setResourceViewerContent(data, i)}/>
         </div>
       </div>
     )
@@ -57,8 +57,11 @@ const mapDispatchToProps = (dispatch) => {
       } else {
         dispatch(deleteSubcollection({id: data._id, parentId: parent._id, parentType: parentType})).then(response => deleteCallback(response, dispatch))
       }
-
     },
+    setResourceViewerContent: (data, i) => {
+      console.log(data, i)
+      dispatch(showResourceViewer({resourceList: data, currIndex: i}))
+    }
   }
 }
 

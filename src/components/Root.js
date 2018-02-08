@@ -4,12 +4,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import routes from '../routes'
 import TopNav from './TopNav'
 import AdminModal from './AdminModal'
+import ResourceViewer from './ResourceViewer'
 import { connect } from 'react-redux'
 import { hideAdminModal } from '../actions/actions.js';
 
 class Root extends Component {
   render() {
-    const { store, adminModalContent, hideAdminModal } = this.props;
+    const { store, adminModalContent, resourceViewerContent, hideAdminModal } = this.props;
 
     return (
       <Provider store={store}>
@@ -17,6 +18,7 @@ class Root extends Component {
         <div>
           {adminModalContent && <AdminModal />}
           {adminModalContent && <div className="content-overlay" onClick={() => hideAdminModal()}></div>}
+          {resourceViewerContent && <ResourceViewer />}
           <div className="content">
             <TopNav />
             <div className="content-container">
@@ -32,7 +34,8 @@ class Root extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    adminModalContent: state.adminModalContent
+    adminModalContent: state.adminModalContent,
+    resourceViewerContent: state.resourceViewerContent
   }
 }
 

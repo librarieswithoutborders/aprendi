@@ -42,7 +42,7 @@ class Grid extends React.Component {
   }
 
   generateDOM() {
-    const { data } = this.props;
+    const { data, clickHandler } = this.props;
 
 
     return data.map((d, i) => {
@@ -55,14 +55,12 @@ class Grid extends React.Component {
       }
 
       return (
-        <div key={i} className="grid__item" style={styleObject}>
-          <Link to={window.location.pathname + "/" + d.path}>
-            <div key={i} className="grid__item__content">
-              <div key={i} className="grid__item__text-container">
-                <h5 className="grid__item__title">{d.title}</h5>
-              </div>
+        <div key={i} className="grid__item" style={styleObject} onClick={() => clickHandler(data, i)}>
+          <div key={i} className="grid__item__content">
+            <div key={i} className="grid__item__text-container">
+              <h5 className="grid__item__title">{d.title}</h5>
             </div>
-          </Link>
+          </div>
         </div>
       );
     });
