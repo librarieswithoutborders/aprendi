@@ -6,20 +6,21 @@ import TopNav from './TopNav'
 import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
 import { connect } from 'react-redux'
-import { hideAdminModal } from '../actions/actions.js';
+import { hideAdminModal, hideResourceViewer } from '../actions/actions.js';
 
 class Root extends Component {
   render() {
-    const { store, adminModalContent, resourceViewerContent, hideAdminModal } = this.props;
+    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer } = this.props;
 
+    let showOverlay = adminModalContent || resourceViewerContent
     return (
       <Provider store={store}>
       <Router>
         <div>
           {adminModalContent && <AdminModal />}
-          {adminModalContent && <div className="content-overlay" onClick={() => hideAdminModal()}></div>}
+          {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer();}}></div>}
           {resourceViewerContent && <ResourceViewer />}
-          <div className="content">
+          <div className={showOverlay ? "content fixed" : "content"}>
             <TopNav />
             <div className="content-container">
               {routes}
@@ -43,6 +44,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     hideAdminModal: () => {
       dispatch(hideAdminModal())
+    },
+    hideResourceViewer: () => {
+      dispatch(hideResourceViewer())
     },
   }
 }

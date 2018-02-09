@@ -94,11 +94,10 @@ function adminModalContent(state = null, action) {
       console.log(state)
       console.log(action)
       return Object.assign({}, state, {
-        "imageUrl" : action.url
-        // data: {
-        //   ...state.data,
-        //   "image_url" : action.url
-        // }
+        data: {
+          ...state.data,
+          [action.field] : action.url
+        }
       })
     default:
       return state

@@ -44,7 +44,6 @@ class Grid extends React.Component {
   generateDOM() {
     const { data, clickHandler } = this.props;
 
-
     return data.map((d, i) => {
       let styleObject = {}
       console.log(d.image_url)
@@ -69,11 +68,9 @@ class Grid extends React.Component {
   addCreateGridItem() {
     const { data, createNew } = this.props;
     return(
-      <div key={data.length} className="grid__item">
+      <div key={data.length} className="grid__item add-new">
         <div className="grid__item__content" onClick={() => createNew()}>
-          <div className="grid__item__text-container">
             <h5 className="grid__item__title">+</h5>
-          </div>
         </div>
       </div>
     )
@@ -97,6 +94,17 @@ class Grid extends React.Component {
           i: String(i)
         }
       })
+      console.log(layouts[key])
+      let createNewIndex = data.length
+      layouts[key].push(
+        {
+          x: createNewIndex%numColumns,
+          y: Math.floor(createNewIndex/numColumns),
+          w: 1,
+          h: 1,
+          i: String(createNewIndex)
+        }
+      )
     }
     return layouts
   }

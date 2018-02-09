@@ -6,26 +6,17 @@ import {createTeam, updateTeam, createCollection, updateCollection, createSubcol
 
 class AdminModal extends Component {
   submitForm(data) {
-    const {imageUrl} = this.props
-    console.log(data)
-    console.log(imageUrl)
-
-    let retObject = {}
-
-    Object.assign(retObject, data)
-    retObject.image_url = imageUrl
-    console.log(retObject)
-    this.props.submit(retObject)
+    this.props.submit(data)
   }
   submitFormFailure(err) {
     console.log(err)
   }
 
   render() {
-    const {type, data, updateStatus} = this.props
+    const {type, data, action, updateStatus} = this.props
     return (
       <div className="admin-modal">
-        <div>{updateStatus}</div>
+        <div className="admin-modal__status">{updateStatus}</div>
         <div className="admin-modal__content">
           <Form
             onSubmit={(submittedValues) => this.submitForm(submittedValues)}
@@ -33,7 +24,7 @@ class AdminModal extends Component {
             defaultValues={this.props.data} >
             { formApi => (
               <form onSubmit={formApi.submitForm} id="form">
-                {getFormFields(type, formApi.values)}
+                {getFormFields(type, formApi.values, action)}
                 <button type="submit" className="mb-4 btn btn-primary">Submit</button>
               </form>
             )}
@@ -79,13 +70,13 @@ class AdminModalContainer extends Component {
 
   render() {
     console.log(this.props)
-    const {action, data, type, imageUrl} = this.props.modalProps
+    const {action, data, type} = this.props.modalProps
 
     const submitFunc = this.setSubmitFunction()[action]
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} imageUrl={imageUrl} submit={submitFunc} updateStatus={this.props.updateStatus}/>
+    return <AdminModal data={data} type={type} submit={submitFunc} action={action} updateStatus={this.props.updateStatus}/>
   }
 }
 

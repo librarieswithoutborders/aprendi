@@ -304,9 +304,10 @@ export function getS3SignedRequest(file) {
   }
 }
 
-export function addImageUrlToAdminModalContent(url) {
+export function addImageUrlToAdminModalContent(field, url) {
   return {
     type: types.ADD_IMAGE_URL_TO_MODAL_CONTENT,
+    field,
     url
   }
 }

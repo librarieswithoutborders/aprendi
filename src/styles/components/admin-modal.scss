@@ -6,4 +6,8 @@
   background-color: colors(white);
   border: standard-border(blue);
   z-index: 40;
+
+  &__content {
+    padding: 20px;
+  }
 }
