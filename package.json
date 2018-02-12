@@ -14,7 +14,7 @@
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "rimraf ./dist",
     "build": "babel-node tools/build.js && npm run open:dist",
-    "start": "NODE_ENV=production node server.js",
+    "start": "babel-node tools/build.js && NODE_ENV=production node server.js",
     "open:cover": "npm run test:cover && opn ./coverage/lcov-report/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
   },
