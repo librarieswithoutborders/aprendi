@@ -5,10 +5,12 @@ import axios from 'axios';
 import { multiClientMiddleware } from 'redux-axios-middleware';
 const loggerMiddleware = createLogger()
 
+console.log(process.env)
+
 const clients = {
   default: {
-    client: axios.create({ //all axios can be used, shown in axios documentation
-      baseURL:'http://localhost:3333',
+    client: axios.create({
+      baseURL: process.env.NODE_ENV === "production" ? 'http://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333',
       responseType: 'json'
     })
   },
