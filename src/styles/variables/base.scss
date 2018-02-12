@@ -3,3 +3,7 @@ $top-nav-height: 60px;
 @function standard-border($color) {
 	@return 2px solid colors($color);
 }
+
+@function standard-shadow($color) {
+	@return 0px 0px 7px -1px colors($color);
+}

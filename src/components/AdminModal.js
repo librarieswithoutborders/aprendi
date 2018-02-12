@@ -3,34 +3,76 @@ import { connect } from 'react-redux'
 import getFormFields from '../utils/getFormFields'
 import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
+import ResourceTypeSelector from './ResourceTypeSelector'
 import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrCollection} from '../actions/actions.js'
 
 class AdminModal extends Component {
-  submitForm(data) {
+  constructor() {
+    super()
 
-    this.props.submit(processFormData(data))
+    this.state = {
+      resourceType: null
+    }
+  }
+  submitForm(data) {
+    const {action} = this.props
+    const {resourceType} = this.state
+    this.props.submit(processFormData(data, action, resourceType))
   }
   submitFormFailure(err) {
     console.log(err)
+  }
+
+  setTitle() {
+    const {type, action, data} = this.props
+    let title = ""
+
+    title += action === "create" ? "Create New " : "Edit "
+    title += type.charAt(0).toUpperCase() + type.slice(1)
+    title += action === "update" ? ":" + data.title : ""
+
+    return title
+  }
+
+  setContent() {
+    const {type, data, action, updateStatus} = this.props
+    const {resourceType} = this.state
+
+    console.log(type, action, resourceType)
+    if (type === "resource" && action === "create" && !resourceType) {
+      return <ResourceTypeSelector setResourceType={(type) => this.setResourceType(type)}/>
+    } else {
+      return (
+        <Form
+          onSubmit={(submittedValues) => this.submitForm(submittedValues)}
+          onSubmitFailure={(err) => this.submitFormFailure(err)}
+          defaultValues={this.props.data} >
+          { formApi => (
+            <form onSubmit={formApi.submitForm} id="form">
+              {getFormFields(type, formApi.values, action, resourceType)}
+              <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+            </form>
+          )}
+        </Form>
+      )
+    }
+  }
+
+  setResourceType(type) {
+    console.log("setting resource type", type)
+    this.setState({
+      resourceType: type
+    })
   }
 
   render() {
     const {type, data, action, updateStatus} = this.props
     return (
       <div className="admin-modal">
+        <div className="admin-modal__title">{this.setTitle()}</div>
         <div className="admin-modal__status">{updateStatus}</div>
         <div className="admin-modal__content">
-          <Form
-            onSubmit={(submittedValues) => this.submitForm(submittedValues)}
-            onSubmitFailure={(err) => this.submitFormFailure(err)}
-            defaultValues={this.props.data} >
-            { formApi => (
-              <form onSubmit={formApi.submitForm} id="form">
-                {getFormFields(type, formApi.values, action)}
-                <button type="submit" className="mb-4 btn btn-primary">Submit</button>
-              </form>
-            )}
-          </Form>
+          {this.setContent()}
         </div>
       </div>
     )

@@ -6,5 +6,9 @@
     &__label {
       color: colors(blue);
     }
+
+    & > * {
+
+    }
   }
 }

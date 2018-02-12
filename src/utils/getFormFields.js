@@ -4,29 +4,33 @@ import { languageOptions, zoomOptions, resourceTypeOptions, videoProviderOptions
 import ImageUploadField from '../components/ImageUploadField'
 
 
-const teamFields = (
+const teamFields = (action) => (
   <div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="team_name">Team Name</label>
       <Text field="team_name" id="team_name" />
     </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
+    {action !== "create" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="path">Url Path</label>
+        <Text field="path" id="path" />
+      </div>
+    }
   </div>
 )
 
-const collectionFields = (
+const collectionFields = (action) => (
   <div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
+    {action !== "create" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="path">Url Path</label>
+        <Text field="path" id="path" />
+      </div>
+    }
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <ImageUploadField field="image_url"/>
@@ -54,16 +58,18 @@ const collectionFields = (
   </div>
 )
 
-const subcollectionFields = (
+const subcollectionFields = (action) => (
   <div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
+    {action !== "create" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="path">Url Path</label>
+        <Text field="path" id="path" />
+      </div>
+    }
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <ImageUploadField field="image_url"/>
@@ -81,32 +87,6 @@ const subcollectionFields = (
 
 const resourceFields = (resourceType, action) => (
   <div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="title">Title</label>
-      <Text field="title" id="title" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
-    {action != "create" &&
-      <div className= "form__field">
-        <label className="form__field__label">Cover Image</label>
-        <ImageUploadField field="image_url"/>
-      </div>
-    }
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="short_description">Short Description</label>
-      <TextArea field="short_description" id="short_description" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="long_description">Long Description</label>
-      <TextArea field="long_description" id="long_description" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="resource_type" className="d-block">Resource Type</label>
-      <Select field="resource_type" id="resource_type" options={resourceTypeOptions} />
-    </div>
     {resourceType === "video" &&
       <div className= "form__field">
         <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>
@@ -128,6 +108,27 @@ const resourceFields = (resourceType, action) => (
       </div>
     }
     <div className= "form__field">
+      <label className="form__field__label" htmlFor="title">Title</label>
+      <Text field="title" id="title" />
+    </div>
+    {action !== "create" &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="path">Url Path</label>
+        <Text field="path" id="path" />
+      </div>
+    }
+    {action != "create" &&
+      <div className= "form__field">
+        <label className="form__field__label">Cover Image</label>
+        <ImageUploadField field="image_url"/>
+      </div>
+    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="short_description">Description</label>
+      <TextArea field="short_description" id="short_description" />
+    </div>
+
+    <div className= "form__field">
       <label className="form__field__label" htmlFor="source_organization">Source Organization</label>
       <Text field="source_organization" id="source_organization" />
     </div>
@@ -138,18 +139,18 @@ const resourceFields = (resourceType, action) => (
   </div>
 )
 
-const getFormFields = (type, values, action) => {
+const getFormFields = (type, values, action, resourceType) => {
   console.log(values)
 
   switch(type) {
     case "team":
-      return teamFields
+      return teamFields(action)
     case "collection":
-      return collectionFields
+      return collectionFields(action)
     case "subcollection":
-      return subcollectionFields
+      return subcollectionFields(action)
     case "resource":
-      return resourceFields(values.resource_type, action)
+      return resourceFields(resourceType || values.resource_type, action)
   }
 }
 

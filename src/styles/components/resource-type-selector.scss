@@ -1,0 +1,22 @@
+$item-padding: 3px;
+.resource-type-selector {
+
+  &__item {
+    box-shadow: standard-shadow(blue);
+    background-color: colors(offwhite);
+    cursor: pointer;
+
+    &:hover {
+      background-color: colors(blue-10);
+    }
+
+    &__text {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0px;
+      text-align: center;
+
+    }
+  }
+}

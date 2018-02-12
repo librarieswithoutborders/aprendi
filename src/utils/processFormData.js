@@ -1,11 +1,5 @@
-// https://www.youtube.com/watch?v=BU6dAAfg-qk&list=RDBU6dAAfg-qk
-// https://youtu.be/BU6dAAfg-qk
+import convertToUrlPath from "./convertToUrlPath"
 
-// https://www.youtube.com/embed/BU6dAAfg-qk
-
-// https://vimeo.com/154758433
-
-// https://player.vimeo.com/video/154758433
 const youtubeGetId = (url) => {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   var match = url.match(regExp);
@@ -43,14 +37,26 @@ const processVideoUrl = (url) => {
 }
 
 
-const processFormData = (data) => {
+const processFormData = (data, action, resourceTypeOverride) => {
+  console.log("processing form data")
   let retObject = {}
   Object.assign(retObject, data)
-  if (data.resource_type === "video") {
+
+  if (resourceTypeOverride) {
+    retObject.resource_type = resourceTypeOverride
+  }
+
+  if (action === "create") {
+    retObject.path = convertToUrlPath(data.title)
+  }
+
+  if (retObject.resource_type === "video") {
     let results = processVideoUrl(data.resource_url)
     retObject.video_provider = results.video_provider
     retObject.resource_url = results.resource_url
   }
+
+  console.log(retObject)
 
   return retObject
 }
