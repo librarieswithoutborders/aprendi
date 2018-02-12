@@ -11,7 +11,7 @@ const PageHeader = ({contents}) => {
   }
   return (
     <div className="page-header-container">
-      <div className={content.image_url ? "page-header with-image" : "page-header"} style={styleObject}>
+      <div className={contents.image_url ? "page-header with-image" : "page-header"} style={styleObject}>
         <div className="page-header__contents">
           <h1 className="page-header__title">{contents.title}</h1>
           <p className="page-header__description">{contents.short_description}</p>
