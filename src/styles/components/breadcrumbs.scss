@@ -1,0 +1,33 @@
+$breadcrumbs-height: 45px;
+
+.breadcrumbs {
+  background-color: colors(offwhite);
+  width: 100%;
+  height: $breadcrumbs-height;
+
+
+  &__list {
+    list-style-type: none;
+    padding: 10px 20px;
+  }
+
+  &__list-item {
+    display: inline-block;
+    .icon {
+      height: 20px;
+      fill: colors(blue);
+      stroke: colors(blue);
+
+    }
+
+    &__link__text {
+      font-style: normal;
+    }
+
+    &__link, &__arrow-container {
+      display: inline-block;
+    }
+  }
+
+
+}

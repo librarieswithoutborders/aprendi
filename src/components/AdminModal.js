@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import getFormFields from '../utils/getFormFields'
+import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
 import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrCollection} from '../actions/actions.js'
 
 class AdminModal extends Component {
   submitForm(data) {
-    this.props.submit(data)
+
+    this.props.submit(processFormData(data))
   }
   submitFormFailure(err) {
     console.log(err)

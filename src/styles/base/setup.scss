@@ -6,3 +6,22 @@ body {
 h1 {
   margin: 0px;
 }
+
+a:link, a:visited    {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            colors(black);
+}
+
+a:hover, a:active   {
+  /* Applies to links under the pointer */
+  text-decoration:  none;
+  font-weight:      bold;
+  color:            colors(blue);
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+}

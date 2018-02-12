@@ -89,16 +89,6 @@ function adminModalContent(state = null, action) {
       return null
     case "SHOW_ADMIN_MODAL":
       return action.props
-    case "ADD_IMAGE_URL_TO_MODAL_CONTENT":
-      console.log("in reducer!!!")
-      console.log(state)
-      console.log(action)
-      return Object.assign({}, state, {
-        data: {
-          ...state.data,
-          [action.field] : action.url
-        }
-      })
     default:
       return state
   }

@@ -3,9 +3,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 import { Link } from 'react-router-dom';
 
-
-const rowHeight = 200;
-const columns = { lg: 6, md: 5, sm: 3, xs: 2, xxs: 1 }
+const columns = { lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }
 
 class Grid extends React.Component {
   constructor(props) {
@@ -44,7 +42,9 @@ class Grid extends React.Component {
   generateDOM() {
     const { data, clickHandler } = this.props;
 
-    return data.map((d, i) => {
+    console.log(data)
+
+    let gridItems = data.map((d, i) => {
       let styleObject = {}
       console.log(d.image_url)
       if (d.image_url) {
@@ -63,6 +63,12 @@ class Grid extends React.Component {
         </div>
       );
     });
+    let createGridItem = this.addCreateGridItem()
+
+    console.log(gridItems, createGridItem)
+
+    return [...gridItems, ...[createGridItem]]
+
   }
 
   addCreateGridItem() {
@@ -102,9 +108,11 @@ class Grid extends React.Component {
           y: Math.floor(createNewIndex/numColumns),
           w: 1,
           h: 1,
-          i: String(createNewIndex)
+          i: String(createNewIndex),
+          static: true,
         }
       )
+      console.log(layouts[key])
     }
     return layouts
   }
@@ -114,6 +122,7 @@ class Grid extends React.Component {
   }
 
   render() {
+    const {type} = this.props
     console.log(this.state.layouts)
     return (
       <ResponsiveReactGridLayout
@@ -129,10 +138,10 @@ class Grid extends React.Component {
         measureBeforeMount={false}
         useCSSTransforms={true}
         preventCollision={false}
-        compactType="horizontal"
+        compactType="vertical"
+        rowHeight={200}
       >
         {this.generateDOM()}
-        {this.addCreateGridItem()}
       </ResponsiveReactGridLayout>
     );
   }

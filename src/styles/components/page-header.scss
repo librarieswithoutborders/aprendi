@@ -1,0 +1,25 @@
+$page-header-height: 200px;
+
+.page-header {
+  height: $page-header-height;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  &__contents {
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+    position: relative;
+    z-index: 10;
+    padding: 20px;
+  }
+
+  &__overlay {
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: $page-header-height;
+    z-index: 5;
+  }
+}

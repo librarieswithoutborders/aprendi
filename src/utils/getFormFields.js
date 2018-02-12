@@ -108,16 +108,9 @@ const resourceFields = (resourceType, action) => (
       <Select field="resource_type" id="resource_type" options={resourceTypeOptions} />
     </div>
     {resourceType === "video" &&
-      <div>
-        <div className= "form__field">
-          <label className="form__field__label" htmlFor="video_provider" className="d-block">Video Provider</label>
-          <Select field="video_provider" id="video_provider" options={videoProviderOptions} />
-        </div>
-        <div className= "form__field">
-          <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>
-          <Text field="resource_url" id="resource_url" />
-        </div>
-
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>
+        <Text field="resource_url" id="resource_url" />
       </div>
     }
     {resourceType === "pdf" &&

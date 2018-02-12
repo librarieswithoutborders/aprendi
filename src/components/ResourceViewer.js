@@ -26,11 +26,14 @@ class ResourceViewer extends Component {
     const {decrementCurrIndex, incrementCurrIndex, resourceList, currIndex} = this.props
 
     console.log(resourceList, currIndex)
+    let nextPrevFunctions = {
+      next: currIndex !== this.numResources ? () => incrementCurrIndex(currIndex) : null,
+      prev: currIndex !== 0 ? () => decrementCurrIndex(currIndex) : null
+    }
+
     return (
       <div className="resource-viewer">
-        {currIndex !== 0 && <h5 onClick={() => decrementCurrIndex(currIndex)}>Previous</h5>}
-        <Resource content={resourceList[currIndex]} />
-        {currIndex !== this.numResources - 1 && <h5 onClick={() => incrementCurrIndex(currIndex)}>Next</h5>}
+        <Resource content={resourceList[currIndex]} nextPrevFunctions={nextPrevFunctions}/>
       </div>
     )
   }

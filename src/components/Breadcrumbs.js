@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import SvgIcon from './SvgIcon'
 
 
 const Breadcrumbs = ({data}) => {
 
   return (
-    <ul className="breadcrumbs">
-      {data.slice(0,-1).map((d, i) => {
-        let linkPrefix = ""
+    <div className="breadcrumbs">
+      <div className="breadcrumbs__list">
+        {data
+          .map((d, i) => {
+          let linkPrefix = ""
 
-        for (let j=0; j < (data.length - i - 1); j++) {
-          linkPrefix += '../'
-        }
+          for (let j=0; j < (data.length - i - 1); j++) {
+            linkPrefix += '../'
+          }
 
-        return (
-          <li key={i} >
-            <Link to={linkPrefix + d.path}>
-              <span>{d.title}</span>
-            </Link>
-          </li>
-        )
-      })}
-    </ul>
+          return (
+            <div className="breadcrumbs__list-item" key={i} >
+              <Link className="breadcrumbs__list-item__link" to={linkPrefix + d.path}>
+                <span className="breadcrumbs__list-item__link__text">{d.title}</span>
+              </Link>
+              <div className="breadcrumbs__list-item__arrow-container">
+                <SvgIcon name="arrow" />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 

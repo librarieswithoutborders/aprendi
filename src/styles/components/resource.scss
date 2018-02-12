@@ -1,4 +1,51 @@
 .resource {
-  padding: 20px;
+
+  &__header, &__content {
+    // padding: 15px;
+  }
+
+  &__header {
+    background-color: colors(white);
+    box-shadow: 0 5px 12px -10px colors(blue);
+    z-index: 2;
+    position: relative;
+
+    // &__arrow-container {
+    //   position: absolute;
+    //   width: 100%;
+    // }
+    &__text {
+      padding: 25px 45px;
+    }
+    &__arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      &.prev {
+        left: 7px;
+        .icon {
+          transform: rotate(180deg);
+        }
+      }
+      &.next {
+        right: 7px;
+      }
+      .icon {
+        height: 20px;
+        fill: colors(grey);
+        cursor: pointer;
+
+        &:hover {
+          fill: colors(blue);
+        }
+
+      }
+    }
+  }
+
+  &__content {
+    background-color: colors(offwhite);
+    z-index: 1;
+  }
 
 }

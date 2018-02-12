@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer, hideResourceViewer } from '../actions/actions.js'
 
+import PageHeader from './PageHeader'
 import Breadcrumbs from './Breadcrumbs'
 import Grid from './Grid'
 
@@ -55,25 +56,21 @@ class Collection extends Component {
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
     return (
       <div className="collection">
+        <PageHeader contents={data} />
         {type == "subcollection" && <Breadcrumbs data={breadcrumbs} /> }
-        <div className="collection__text-container">
-          <h1 className="collection__title">{data.title}</h1>
-          <p className="collection__description">{data.short_description}</p>
-          <button onClick={() => updateCollection({data, type})} >Edit Collection</button>
-          <button onClick={() => deleteCollection({data, type, parent, parentType})} >Delete Collection</button>
-        </div>
         <div className="collection__contents">
-          <h5 className="collection__section-title">Subcollections</h5>
           <Grid
             data={data.subcollections}
+            type="collection"
             createNew={() => createSubcollection({parentId:data._id, parentType:type})}
             clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
           />
         </div>
+        <hr className="collection__divider" />
         <div className="collection__contents">
-          <h5 className="collection__section-title">Resources</h5>
           <Grid
             data={data.resources}
+            type="resource"
             createNew={() => createResource({parentId:data._id, parentType:type})}
             clickHandler={(data, i) => {history.push(location.pathname + "#" + data[i].path); setResourceViewerContent(data, i)}}
           />
