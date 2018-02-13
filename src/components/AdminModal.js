@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import getFormFields from '../utils/getFormFields'
 import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
-import ResourceTypeSelector from './ResourceTypeSelector'
+import ResourceCreator from './ResourceCreator'
 import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrCollection} from '../actions/actions.js'
 
 class AdminModal extends Component {
@@ -27,7 +27,7 @@ class AdminModal extends Component {
     const {type, action, data} = this.props
     let title = ""
 
-    title += action === "create" ? "Create New " : "Edit "
+    title += action === "create" ? "Add " : "Edit "
     title += type.charAt(0).toUpperCase() + type.slice(1)
     title += action === "update" ? ":" + data.title : ""
 
@@ -40,7 +40,7 @@ class AdminModal extends Component {
 
     console.log(type, action, resourceType)
     if (type === "resource" && action === "create" && !resourceType) {
-      return <ResourceTypeSelector setResourceType={(type) => this.setResourceType(type)}/>
+      return <ResourceCreator setResourceType={(type) => this.setResourceType(type)}/>
     } else {
       return (
         <Form

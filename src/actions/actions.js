@@ -123,9 +123,9 @@ export function fetchCollectionsByTeam(teamId) {
   }
 }
 
-export function fetchResources() {
+export function fetchResourceList() {
   return {
-    type: types.FETCH_RESOURCES,
+    type: types.FETCH_RESOURCE_LIST,
     payload: {
       request:{
         method:'get',

@@ -1,0 +1,34 @@
+.search {
+  &__results-list {
+    &__item {
+      border: 1px solid colors(blue-10);
+      padding: 10px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: colors(blue-10);
+      }
+
+      &__title, &__subheading {
+        display: inline-block;
+      }
+
+      &__title {
+        font-weight: bold;
+        padding-right: 10px;
+      }
+
+      &__subheading {
+        font-weight: normal;
+        color: colors(grey);
+      }
+    }
+  }
+}
+
+.react-autosuggest {
+  &__suggestions-container {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+}

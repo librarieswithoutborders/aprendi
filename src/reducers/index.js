@@ -49,16 +49,18 @@ function collectionUpdateStatus(state = null, action) {
   }
 }
 
-// function fetchedResources(state = [], action) {
-//   switch (action.type) {
-//     case "FETCH_RESOURCES_SUCCESS":
-//       console.log(action)
-//       return action.payload.data
-//
-//     default:
-//       return state
-//   }
-// }
+// "all" is placeholder for now
+function fetchedResourceLists(state = {}, action) {
+  switch (action.type) {
+    case "FETCH_RESOURCE_LIST_SUCCESS":
+      console.log(action)
+      return Object.assign({}, state, {
+        all : action.payload.data
+      })
+    default:
+      return state
+  }
+}
 
 function collectionList(state = [], action) {
   switch (action.type) {
@@ -142,6 +144,7 @@ const rootReducer = combineReducers({
   resourceViewerContent,
   currCollectionInvalidated,
   fetchedCollections,
+  fetchedResourceLists,
   collectionList,
   userInfo
 });

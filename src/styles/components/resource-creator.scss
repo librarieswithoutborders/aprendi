@@ -1,0 +1,38 @@
+.resource-creator {
+  &__tab-container {
+    display: table;
+    padding: 0px;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__tab {
+    display: table-cell;
+    width: 50%;
+    background-color: colors(blue-10);
+    padding: 15px;
+    cursor: pointer;
+    border: 1px solid colors(grey);
+
+    &.active {
+      background-color: colors(white);
+      cursor: auto;
+      pointer-events: none;
+      // box-shadow: standard-shadow(blue);
+      z-index: 20;
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: colors(blue);
+    }
+  }
+
+  &__tab-contents {
+    padding: 20px 10px;
+    z-index: 5;
+    border: 1px solid colors(grey);
+    border-top: none;
+  }
+
+}

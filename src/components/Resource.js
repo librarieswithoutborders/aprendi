@@ -9,6 +9,9 @@ const Resource = ({content, nextPrevFunctions}) => {
     case "video":
       renderedContent = renderVideo(content)
       break
+    case "rich_text":
+      renderedContent = renderRichText(content)
+      break
   }
 
   return (
@@ -69,6 +72,10 @@ const renderVideo = ({video_provider, resource_url}) => {
       {videoContent}
     </div>
   )
+}
+
+const renderRichText = ({rich_text}) => {
+  return <div dangerouslySetInnerHTML={{__html: rich_text}} />
 }
 
 export default Resource

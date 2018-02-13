@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions, resourceTypeOptions, videoProviderOptions } from '../constants'
 import ImageUploadField from '../components/ImageUploadField'
+import RichTextField from '../components/RichTextField'
 
 
 const teamFields = (action) => (
@@ -107,6 +108,11 @@ const resourceFields = (resourceType, action) => (
         <Text field="resource_url" id="resource_url" />
       </div>
     }
+    {resourceType === "rich_text" &&
+      <div className= "form__field">
+        <RichTextField field="rich_text" id="rich_text" />
+      </div>
+    }
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
@@ -127,7 +133,6 @@ const resourceFields = (resourceType, action) => (
       <label className="form__field__label" htmlFor="short_description">Description</label>
       <TextArea field="short_description" id="short_description" />
     </div>
-
     <div className= "form__field">
       <label className="form__field__label" htmlFor="source_organization">Source Organization</label>
       <Text field="source_organization" id="source_organization" />

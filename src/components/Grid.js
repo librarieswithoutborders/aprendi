@@ -25,13 +25,6 @@ class Grid extends React.Component {
     });
   };
 
-  onNewLayout = () => {
-    console.log("new layout")
-    this.setState({
-      layouts: this.generateLayout()
-    });
-  };
-
   onWidthChange = props => {
     // console.log(props)
     // this.setState({
