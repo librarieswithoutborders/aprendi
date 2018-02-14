@@ -26,7 +26,7 @@ class ResourceExistingSearch extends Component {
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={(props) => this.onSuggestionsFetchRequested(props)}
-          onSuggestionSelected={(props) => this.onSuggestionSelected(props)}
+          onSuggestionSelected={(event, props) => this.onSuggestionSelected(event, props)}
           onSuggestionsClearRequested={() => {}}
           renderSuggestion={(props) => this.renderSuggestion(props)}
           getSuggestionValue={(props) => this.getSuggestionValue(props)}
@@ -40,10 +40,11 @@ class ResourceExistingSearch extends Component {
 
 	onChange(event, { newValue, method }) {
     console.log("on change", event, newValue, method)
-
-		this.setState({
-      value: newValue
-    });
+		if (method !== "click") {
+			this.setState({
+	      value: newValue
+	    });
+		}
 	}
 
 	// Autosuggest will call this function every time you need to update suggestions.
@@ -55,12 +56,11 @@ class ResourceExistingSearch extends Component {
     });
 	}
 
-  onSuggestionSelected(event, props) {
-    console.log("selected", props, event)
-    this.setState({
-			value: ''
-		})
+  onSuggestionSelected(event, {suggestion}) {
+    console.log("selected", suggestion, event)
+
     console.log("dispatching action to set resource data")
+    this.props.onSelect(suggestion._id)
 	}
 
 	getSuggestions(value) {
@@ -79,7 +79,7 @@ class ResourceExistingSearch extends Component {
 
 	getSuggestionValue(value) {
     console.log("getting suggestion value", value)
-    return value.path
+    return value.title
 	}
 
   renderSuggestion({title, resource_type}) {

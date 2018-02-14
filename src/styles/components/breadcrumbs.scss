@@ -9,23 +9,48 @@ $breadcrumbs-height: 45px;
   &__list {
     list-style-type: none;
     padding: 10px 20px;
+    display: table;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   &__list-item {
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
     .icon {
       height: 20px;
       fill: colors(blue);
       stroke: colors(blue);
-
     }
 
-    &__link__text {
-      font-style: normal;
+    &__contents {
+      display: table;
     }
 
-    &__link, &__arrow-container {
-      display: inline-block;
+    &__link, &__arrow {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    &__link {
+      .breadcrumbs__list-item__text {
+        font-style: normal;
+        color: colors(grey);
+
+        &:hover {
+          color: colors(blue);
+        }
+      }
+    }
+
+    &__arrow {
+      padding: 0px 5px;
+    }
+
+    &__text {
+      font-style: bold;
+      color: colors(black);
     }
   }
 

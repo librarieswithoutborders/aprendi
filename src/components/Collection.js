@@ -61,7 +61,7 @@ class Collection extends Component {
         <div className="collection__contents">
           <Grid
             data={data.subcollections}
-            type="collection"
+            type="subcollection"
             createNew={() => createSubcollection({parentId:data._id, parentType:type})}
             clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
           />

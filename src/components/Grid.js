@@ -1,7 +1,8 @@
-import React from "react";
-import { Responsive, WidthProvider } from "react-grid-layout";
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-import { Link } from 'react-router-dom';
+import React from "react"
+import { Responsive, WidthProvider } from "react-grid-layout"
+const ResponsiveReactGridLayout = WidthProvider(Responsive)
+import { Link } from 'react-router-dom'
+import SvgIcon from './SvgIcon'
 
 const columns = { lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }
 
@@ -33,7 +34,7 @@ class Grid extends React.Component {
   }
 
   generateDOM() {
-    const { data, clickHandler } = this.props;
+    const { data, clickHandler, type } = this.props;
 
     console.log(data)
 
@@ -46,31 +47,66 @@ class Grid extends React.Component {
         styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
       }
 
-      return (
-        <div key={i} className="grid__item" style={styleObject} onClick={() => clickHandler(data, i)}>
-          <div key={i} className="grid__item__content">
-            <div key={i} className="grid__item__text-container">
-              <h5 className="grid__item__title">{d.title}</h5>
-            </div>
-          </div>
-        </div>
-      );
+      if (type === "collection" || type === "subcollection") {
+        return this.renderCollectionItem(d, i, styleObject)
+      } else {
+        return this.renderResourceItem(d, i, styleObject)
+      }
     });
     let createGridItem = this.addCreateGridItem()
 
     console.log(gridItems, createGridItem)
 
     return [...gridItems, ...[createGridItem]]
+  }
 
+  renderCollectionItem(d, i, styleObject) {
+    const { data, clickHandler} = this.props;
+    return (
+      <div key={i} className={"grid__item item-type-collection"} onClick={() => clickHandler(data, i)}>
+        <div className="grid__item__image" style={styleObject} >
+        </div>
+        <div className="grid__item__content">
+          <div className="grid__item__text">
+            <h5 className="grid__item__text__main">{d.title}</h5>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderResourceItem(d, i, styleObject) {
+    const { data, clickHandler} = this.props;
+    return (
+      <div key={i} className={"grid__item item-type-resource"} onClick={() => clickHandler(data, i)}>
+        <div className="grid__item__content">
+          <div className="grid__item__text">
+            <h5 className="grid__item__text__sub">{d.resource_type}</h5>
+            <h5 className="grid__item__text__main">{d.title}</h5>
+          </div>
+        </div>
+        <div className="grid__item__image" style={styleObject} >
+        </div>
+      </div>
+    );
   }
 
   addCreateGridItem() {
-    const { data, createNew } = this.props;
+    const { data, createNew, type } = this.props;
+    let text;
+    if (type === "collection") {
+      text = "Create New Collection"
+    } else if (type === "subcollection") {
+      text = "Create New Subcollection"
+    } else {
+      text = "Add New Resource"
+    }
     return(
-      <div key={data.length} className="grid__item add-new">
-        <div className="grid__item__content" onClick={() => createNew()}>
-            <h5 className="grid__item__title">+</h5>
-        </div>
+      <div key={data.length} className="grid__item add-new" onClick={() => createNew()}>
+          <SvgIcon className="grid__item__plus" name="plus" />
+          <div className="grid__item__text">
+            <h5 className="grid__item__text__sub">{text}</h5>
+          </div>
       </div>
     )
   }
@@ -132,7 +168,7 @@ class Grid extends React.Component {
         useCSSTransforms={true}
         preventCollision={false}
         compactType="vertical"
-        rowHeight={200}
+        rowHeight={type === "collection" || type === "subcollection" ? 250 : 300}
       >
         {this.generateDOM()}
       </ResponsiveReactGridLayout>

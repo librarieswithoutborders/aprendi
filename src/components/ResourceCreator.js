@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchResourceList } from '../actions/actions.js'
+import { fetchResourceList, addResourceToCollection, hideAdminModal, invalidateCurrCollection } from '../actions/actions.js'
 import ResourceTypeSelector from './ResourceTypeSelector'
 import ResourceExistingSearch from './ResourceExistingSearch'
 
@@ -33,6 +33,12 @@ class ResourceCreator extends Component {
     }
   }
 
+  existingResourceSelected(resourceId) {
+    const {parent, addResourceToCollection} = this.props
+
+    addResourceToCollection(resourceId, parent)
+  }
+
   render() {
     console.log(this.props)
     const {setResourceType, fetchedResourceLists} = this.props
@@ -49,7 +55,7 @@ class ResourceCreator extends Component {
         {activeTab === 0 &&
           <div className="resource-creator__tab-contents">
             {currResourceList &&
-              <ResourceExistingSearch resources={currResourceList} />
+              <ResourceExistingSearch resources={currResourceList} onSelect={resourceId => this.existingResourceSelected(resourceId)}/>
             }
           </div>
         }
@@ -65,14 +71,24 @@ class ResourceCreator extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    fetchedResourceLists: state.fetchedResourceLists
+    fetchedResourceLists: state.fetchedResourceLists,
+    parent: state.adminModalContent.parent
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResourceList: () => dispatch(fetchResourceList("all"))
+    fetchResourceList: () => dispatch(fetchResourceList("all")),
+    addResourceToCollection: (resourceId, parent) => dispatch(addResourceToCollection(resourceId, parent)).then(response => existingResourceSelectCallback(response, dispatch))
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceCreator)
+
+const existingResourceSelectCallback = (response, dispatch, type) => {
+  console.log(response.payload)
+  if (response.payload.status === 200) {
+    dispatch(hideAdminModal())
+    dispatch(invalidateCurrCollection())
+  }
+}

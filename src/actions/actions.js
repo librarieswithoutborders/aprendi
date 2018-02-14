@@ -249,6 +249,20 @@ export function updateResource(resourceInfo) {
   }
 }
 
+export function addResourceToCollection(resourceId, parent) {
+  console.log(resourceId, parent)
+  return {
+    type: parent.parentType == "collection" ? types.UPDATE_COLLECTION : types.UPDATE_SUBCOLLECTION,
+    payload: {
+      request:{
+        method:'put',
+        url:parent.parentType == "collection" ? '/collection-add-resource' : '/subcollection-add-resource',
+        data: {resourceId: resourceId, parentId: parent.parentId}
+      }
+    }
+  }
+}
+
 export function setCurrResourceIndex(newIndex) {
   return {
     type: types.SET_CURR_RESOURCE_INDEX,
