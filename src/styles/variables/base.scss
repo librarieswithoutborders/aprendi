@@ -1,4 +1,5 @@
 $top-nav-height: 60px;
+$standard-padding: 20px;
 
 @function standard-border($color) {
 	@return 2px solid colors($color);

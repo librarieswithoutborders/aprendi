@@ -1,43 +1,58 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { getTeamInfo, showAdminModal } from '../actions/actions.js';
+import { getTeamInfo, showAdminModal, fetchResourceList } from '../actions/actions.js';
 import { Link } from 'react-router-dom';
+import PageHeader from './PageHeader'
+import Grid from './Grid'
+import ResourceExistingSearch from './ResourceExistingSearch'
+import LoadingIcon from './LoadingIcon'
 
+// hard-coded temporarily
+const currTeam = "all"
 
-
-const TeamHomePage = ({teamInfo, createNewCollection}) => {
+const TeamHomePage = ({teamInfo, teamResources, createNewCollection, createNewResource, history}) => {
+  console.log(history)
+  let headerContents = {
+    title: teamInfo.team_name
+  }
   return (
-    <div>
-      <h1>{teamInfo.team_name}</h1>
-      {teamInfo.users &&
-        <ul>
-          {teamInfo.users.map(user => {
-            return (
-              <li>
-                <span>{user.name}</span>
-                <span>{user.email}</span>
-                <span>{user.last_login}</span>
-              </li>
-            )
-          })}
-        </ul>
-      }
-      <button onClick={() => { createNewCollection(teamInfo._id) }}>Create New Collection</button>
-      {teamInfo.collections &&
-        <ul>
-          {teamInfo.collections.map(collection => {
-            return (
-              <li>
-                <Link to={"/" + collection.path}>
-                  <span>{collection.title}</span>
-                  <span>{collection.path}</span>
-                  <span>{collection.createdAt}</span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      }
+    <div className="team-home-page">
+      <PageHeader contents={headerContents} />
+      <div className="team-home-page__contents">
+        <h5 className="team-home-page__section-title">Collections</h5>
+        <div className="team-home-page__section">
+          {teamInfo.collections &&
+            <Grid
+              data={teamInfo.collections}
+              type="collection"
+              createNew={() => createNewCollection(teamInfo._id)}
+              clickHandler={(data, i) => { history.push("/" + data[i].path)}}
+            />
+          }
+        </div>
+        <h5 className="team-home-page__section-title">Resources</h5>
+        <div className="team-home-page__section">
+          {teamResources && teamResources.length > 0 &&
+            <ResourceExistingSearch resources={teamResources} onSelect={resourceId => console.log(resourceId)}/>
+          }
+        </div>
+        <h5 className="team-home-page__section-title">Users</h5>
+        <div className="team-home-page__section">
+          {teamInfo.users &&
+            <ul>
+              {teamInfo.users.map(user => {
+                return (
+                  <li>
+                    <span>{user.name}</span>
+                    <span>{user.email}</span>
+                    <span>{user.last_login}</span>
+                  </li>
+                )
+              })}
+            </ul>
+          }
+        </div>
+      </div>
     </div>
   )
 }
@@ -48,7 +63,7 @@ class TeamHomePageContainer extends React.Component {
   }
 
   componentWillMount() {
-    const {teamInfo, getTeamInfo, fetchCollectionsByTeam, match} = this.props
+    const {teamInfo, getTeamInfo, match, fetchedResourceLists, fetchResourceList} = this.props
     const {teamPath} = match.params
 
     console.log(teamInfo)
@@ -56,17 +71,21 @@ class TeamHomePageContainer extends React.Component {
     if (!teamInfo || teamInfo.path !== teamPath) {
       getTeamInfo(teamPath);
     }
+
+    if (!fetchedResourceLists[currTeam]) {
+      fetchResourceList(currTeam)
+    }
   }
 
   render() {
-    const {teamInfo, createNewCollection} = this.props
+    const {teamInfo, createNewCollection, history, fetchedResourceLists} = this.props
 
-    if (teamInfo) {
+    if (teamInfo && fetchedResourceLists[currTeam]) {
       return (
-        <TeamHomePage teamInfo={teamInfo} createNewCollection={createNewCollection}/>
+        <TeamHomePage teamInfo={teamInfo} teamResources={fetchedResourceLists[currTeam]} createNewCollection={createNewCollection} history={history} />
       );
     } else {
-      return <h5>Loading Team Info</h5>
+      return <LoadingIcon />
     }
 
   }
@@ -74,7 +93,8 @@ class TeamHomePageContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    teamInfo: state.currTeamInfo
+    teamInfo: state.currTeamInfo,
+    fetchedResourceLists: state.fetchedResourceLists,
   }
 }
 
@@ -84,7 +104,12 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(getTeamInfo(teamPath))
     },
     createNewCollection: (teamId) => {
-      dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))    },
+      dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))
+    },
+    createNewResource: () => {
+      dispatch(showAdminModal({action:"create", type:"resource", parent: null}))
+    },
+    fetchResourceList: () => dispatch(fetchResourceList("all")),
   }
 }
 

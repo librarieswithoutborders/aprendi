@@ -29,15 +29,17 @@ class ImageUploadFieldContent extends React.Component {
     styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
 
     return (
-      <div>
+      <div className="form__image-upload">
         {currValue &&
-          <div>
-            <div className="form-field__image-preview" style={styleObject} />
-            <button className="form-field__change-image" onClick={() => setValue(null)}>Change Image</button>
+          <div className="form__image-upload__preview-container">
+            <div className="form__image-upload__preview" style={styleObject} />
+            <button className="form__image-upload__change-image" onClick={() => setValue(null)}>Change Image</button>
           </div>
         }
         {!currValue &&
-          <Dropzone onDrop={(files) => this.onDrop(files)} onDragStart={setTouched}>
+          <Dropzone className="form__image-upload__image-input"
+            onDrop={(files) => this.onDrop(files)}
+            onDragStart={setTouched}>
             <p>Drop image file here or click to select files to upload</p>
           </Dropzone>
         }

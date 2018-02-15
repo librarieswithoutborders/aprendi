@@ -1,14 +1,63 @@
 .form {
+  &__contents {
+    display: table;
+  }
+
   &__field {
-    display: block;
-    padding: 5px 5px;
+    display: table-row;
 
     &__label {
       color: colors(blue);
+      padding-right: 15px;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      font-size: 12px;
+      text-align: right;
     }
 
     & > * {
+      display: table-cell;
+      vertical-align: middle;
+      margin: 15px 10px 15px 0px;
+    }
+  }
 
+  &__image-upload {
+    &__preview-container {
+      display: table;
+    }
+    &__preview, &__change-image {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    &__preview {
+      height: 100px;
+      width: 140px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+    }
+
+    &__change-image {
+      margin-left: 10px;
+    }
+
+    &__image-input {
+      border: standard-border(grey);
+      border-style: dashed;
+      padding: 15px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: colors(offwhite);
+      }
+
+      p {
+        font-size: 12px;
+        color: colors(grey);
+      }
     }
   }
 }

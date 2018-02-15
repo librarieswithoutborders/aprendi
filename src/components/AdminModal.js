@@ -69,9 +69,11 @@ class AdminModal extends Component {
     const {type, data, action, updateStatus} = this.props
     return (
       <div className="admin-modal">
-        <div className="admin-modal__title">{this.setTitle()}</div>
+        <div className="admin-modal__header">
+          <h1 className="admin-modal__header__text">{this.setTitle()}</h1>
+        </div>
         <div className="admin-modal__status">{updateStatus}</div>
-        <div className="admin-modal__content">
+        <div className="admin-modal__contents">
           {this.setContent()}
         </div>
       </div>

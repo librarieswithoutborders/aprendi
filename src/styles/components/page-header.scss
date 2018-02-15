@@ -22,4 +22,10 @@ $page-header-height: 200px;
     height: $page-header-height;
     z-index: 5;
   }
+
+  &__byline {
+    font-size: 14px;
+    color: colors(grey);
+    text-transform: uppercase;
+  }
 }

@@ -16,14 +16,19 @@
     width: 50%;
   }
 
-  &__title {
-    background-color: colors(offwhite);
-    padding: 15px 20px;
-    font-weight: bold;
-    color: colors(blue);
+  &__header {
+    &__text {
+      background-color: colors(offwhite);
+      padding: 15px 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: colors(blue);
+    }
   }
 
-  &__content {
+  &__contents {
     padding: 20px;
+    max-height: calc(100vh - 120px);
+    overflow: scroll;
   }
 }

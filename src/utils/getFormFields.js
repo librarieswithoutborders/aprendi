@@ -6,7 +6,7 @@ import RichTextField from '../components/RichTextField'
 
 
 const teamFields = (action) => (
-  <div>
+  <div className="form__contents">
     <div className= "form__field">
       <label className="form__field__label" htmlFor="team_name">Team Name</label>
       <Text field="team_name" id="team_name" />
@@ -21,7 +21,7 @@ const teamFields = (action) => (
 )
 
 const collectionFields = (action) => (
-  <div>
+  <div className="form__contents">
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
@@ -60,7 +60,7 @@ const collectionFields = (action) => (
 )
 
 const subcollectionFields = (action) => (
-  <div>
+  <div className="form__contents">
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
@@ -87,7 +87,7 @@ const subcollectionFields = (action) => (
 )
 
 const resourceFields = (resourceType, action) => (
-  <div>
+  <div className="form__contents">
     {resourceType === "video" &&
       <div className= "form__field">
         <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>

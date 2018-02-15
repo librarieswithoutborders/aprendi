@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { fetchCollection } from '../actions/actions.js'
 import { connect } from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
+import LoadingIcon from './LoadingIcon'
 
 class CollectionDataContainer extends Component {
   constructor() {
@@ -37,7 +38,7 @@ class CollectionDataContainer extends Component {
     if (fetchedCollections[collectionPath]) {
       return <CollectionInternalRouter data={fetchedCollections[collectionPath]} match={match} />
     } else {
-      return <h5>Loading</h5>
+      return <LoadingIcon />
     }
   }
 }
