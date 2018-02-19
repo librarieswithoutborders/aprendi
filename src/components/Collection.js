@@ -22,13 +22,13 @@ class Collection extends Component {
   }
 
   renderResourceFromHash(hash) {
-    const { data, setResourceViewerContent, hideResourceViewer, location, history } = this.props
-
+    const { data, setResourceViewerContent, hideResourceViewer, location, history, breadcrumbs } = this.props
+    const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
     let hashFound = false
     data.resources.forEach((d, i) => {
       if (d.path === hash) {
         hashFound = true
-        setResourceViewerContent(data.resources, i)
+        setResourceViewerContent({parentType: type, parentId: data._id}, data.resources, i)
         return
       }
     })
@@ -82,7 +82,7 @@ class Collection extends Component {
             data={data.resources}
             type="resource"
             createNew={() => createResource({parentId:data._id, parentType:type})}
-            clickHandler={(data, i) => {history.push(location.pathname + "#" + data[i].path); setResourceViewerContent(data, i)}}
+            clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
             reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
           />
         </div>
@@ -105,7 +105,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     createResource: (parent) => {
       console.log(parent)
-      dispatch(showAdminModal({action:"create", type:"resource", parent: parent}))
+      dispatch(showAdminModal({action:"create", type:"resource", parent: parent, showExisting: true}))
     },
     updateCollection: ({data, type}) => {
       dispatch(showAdminModal({action:"update", type:type, data: data}))
@@ -131,9 +131,9 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(updateSubcollection(params))
       }
     },
-    setResourceViewerContent: (data, i) => {
-      console.log(data, i)
-      dispatch(showResourceViewer({resourceList: data, currIndex: i}))
+    setResourceViewerContent: (parent, resourceList, i) => {
+      console.log(resourceList, i)
+      dispatch(showResourceViewer({parent: parent, resourceList: resourceList, currIndex: i}))
     },
     hideResourceViewer: () => dispatch(hideResourceViewer())
   }

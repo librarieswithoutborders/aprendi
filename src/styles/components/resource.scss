@@ -16,6 +16,14 @@
     // }
     &__text {
       padding: 25px 45px;
+      position: relative;
+
+      h1 {
+        font-size: 24px;
+        display: inline-block;
+        padding-right: 20px;
+        vertical-align: middle;
+      }
     }
     &__arrow {
       position: absolute;
@@ -46,6 +54,26 @@
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
+  }
+
+  &__video {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 50%;
+  }
+
+  &__video iframe {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__richtext {
+    padding: $standard-padding;
+    background-color: colors(white);
   }
 
 }

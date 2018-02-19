@@ -2,16 +2,25 @@ $page-header-height: 200px;
 
 .page-header {
   height: $page-header-height;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+  background: linear-gradient(0deg, colors(offwhite), colors(white), colors(offwhite));
+
+  &.with-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border: none;
+  }
   &__contents {
-    color: white;
+    color: black;
     top: 50%;
     transform: translateY(-50%);
     position: relative;
     z-index: 10;
     padding: 20px;
+
+    .with-image & {
+      color: white;
+    }
   }
 
   &__overlay {

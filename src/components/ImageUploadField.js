@@ -1,13 +1,42 @@
 import React from 'react';
 import Dropzone from 'react-dropzone'
-import { getS3SignedRequest, addImageUrlToAdminModalContent } from '../actions/actions.js'
+import { getS3SignedRequest, addImageUrlToAdminModalContent, uploadImage } from '../actions/actions.js'
 import { connect } from 'react-redux'
 import { Form, Text, FormField } from 'react-form';
 
 
 class ImageUploadFieldContent extends React.Component {
   onDrop(files) {
-    this.props.uploadImage(files[0], this.props.fieldApi.setValue)
+
+    console.log(files)
+    if (files[0].type === "application/pdf") {
+      console.log("is pdf!")
+      this.props.uploadImage(files[0], this.props.fieldApi.setValue)
+
+
+    } else {
+      this.props.uploadImage(files[0], this.props.fieldApi.setValue)
+    }
+
+    //
+    // var pdfImage = new PDFImage("/tmp/slide.pdf");
+    // pdfImage.convertPage(0).then(function (imagePath) {
+    //   // 0-th page (first page) of the slide.pdf is available as slide-0.png
+    //   fs.existsSync("/tmp/slide-0.png") // => true
+    // });
+  }
+
+  getSnapshotOfPdf(fileName) {
+
+    // console.log(fileName)
+    // let pdfImage = new PDFImage("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + fileName);
+    // console.log(pdfImage)
+    // pdfImage.convertPage(0).then(function (imagePath) {
+    //   console.log(imagePath)
+    //   this.props.uploadImage(imagePath, this.props.fieldApi.setValue)
+    //   // 0-th page (first page) of the slide.pdf is available as slide-0.png
+    //   // fs.existsSync("/tmp/slide-0.png") // => true
+    // });
   }
 
   render() {
@@ -38,6 +67,7 @@ class ImageUploadFieldContent extends React.Component {
         }
         {!currValue &&
           <Dropzone className="form__image-upload__image-input"
+            createImageThumbnails={true}
             onDrop={(files) => this.onDrop(files)}
             onDragStart={setTouched}>
             <p>Drop image file here or click to select files to upload</p>
@@ -55,20 +85,21 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     uploadImage: (file, setValue) => {
-      dispatch(getS3SignedRequest(file)).then(response => {
-        console.log(response);
-
-        const xhr = new XMLHttpRequest();
-        xhr.onload = (a) => {
-          console.log(a)
-          if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            console.log(xhr);
-            setValue(file.name)
-          }
-        };
-        xhr.open('PUT', response.payload.data.signedUrl);
-        xhr.send(file);
-      })
+      dispatch(uploadImage(file))
+      // dispatch(getS3SignedRequest(file)).then(response => {
+      //   console.log(response);
+      //
+      //   const xhr = new XMLHttpRequest();
+      //   xhr.onload = (a) => {
+      //     console.log(a)
+      //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      //       console.log(xhr);
+      //       setValue(file.name)
+      //     }
+      //   };
+      //   xhr.open('PUT', response.payload.data.signedUrl);
+      //   xhr.send(file);
+      // })
     }
 
   }

@@ -1,6 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial');
+// @font-face {
+//   font-family: "BebasNeue-Book";
+//   src: url("../../static/fonts/bebas_neue/BebasNeue-Book.otf") format("otf"),
+// }
+
+
 body {
   margin: 0px;
-  font-family: 'Arial';
+  font-family: 'Arial', sans-serif;
   font-weight: normal;
 }
 h1, h2, h3, h4, h5 {
@@ -23,4 +30,40 @@ ul {
   margin: 0px;
   padding: 0px;
   list-style: none;
+}
+
+input, textarea {
+  padding: 10px;
+  border: 1px solid colors(grey);
+
+  &:focus {
+    outline-color: colors(blue-20);
+    outline-width: 2px;
+    outline-style: solid;
+    outline-offset: -3px;
+  }
+}
+
+input {
+    max-width: 400px;
+}
+
+textarea {
+  resize: none;
+  min-height: 100px;
+}
+
+.button {
+  background-color: colors(blue);
+  color: white;
+  box-shadow: standard-shadow(grey);
+  display: inline-block;
+  padding: 9px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    // box-shadow: standard-hover-shadow(grey);
+    opacity: .8;
+  }
 }

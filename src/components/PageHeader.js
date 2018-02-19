@@ -34,7 +34,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc}) => {
           }
         </div>
       </div>
-      <div className="page-header__overlay" />
+      {image_url && <div className="page-header__overlay" />}
     </div>
   )
 }

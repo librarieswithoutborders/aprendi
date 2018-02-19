@@ -15,10 +15,19 @@ class AdminModal extends Component {
     }
   }
   submitForm(data) {
-    const {action} = this.props
+    const {action, team} = this.props
     const {resourceType} = this.state
-    this.props.submit(processFormData(data, action, resourceType))
+    let values = {}
+    Object.assign(values, data)
+    if (team) {
+      values.team = team
+    }
+
+    console.log(values, this.props)
+
+    this.props.submit(processFormData(values, action, resourceType))
   }
+
   submitFormFailure(err) {
     console.log(err)
   }
@@ -35,12 +44,12 @@ class AdminModal extends Component {
   }
 
   setContent() {
-    const {type, data, action, updateStatus} = this.props
+    const {type, data, action, updateStatus, showExisting} = this.props
     const {resourceType} = this.state
 
     console.log(type, action, resourceType)
-    if (type === "resource" && action === "create" && !resourceType) {
-      return <ResourceCreator setResourceType={(type) => this.setResourceType(type)}/>
+    if (type === "resource" && action === "create" && !resourceType ) {
+      return <ResourceCreator showExisting={showExisting} setResourceType={(type) => this.setResourceType(type)}/>
     } else {
       return (
         <Form
@@ -50,7 +59,9 @@ class AdminModal extends Component {
           { formApi => (
             <form onSubmit={formApi.submitForm} id="form">
               {getFormFields(type, formApi.values, action, resourceType)}
-              <button type="submit" className="mb-4 btn btn-primary">Submit</button>
+              <div className="form__submit-container">
+                <div type="submit" className="mb-4 btn btn-primary button form__submit">Submit</div>
+              </div>
             </form>
           )}
         </Form>
@@ -116,13 +127,13 @@ class AdminModalContainer extends Component {
 
   render() {
     console.log(this.props)
-    const {action, data, type} = this.props.modalProps
+    const {action, data, type, team, showExisting} = this.props.modalProps
 
     const submitFunc = this.setSubmitFunction()[action]
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} submit={submitFunc} action={action} updateStatus={this.props.updateStatus}/>
+    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus}/>
   }
 }
 

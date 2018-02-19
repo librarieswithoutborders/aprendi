@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import SvgIcon from './SvgIcon'
 
-const Resource = ({content, nextPrevFunctions}) => {
+const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) => {
   console.log(content)
   let renderedContent
   switch(content.resource_type) {
@@ -29,10 +29,16 @@ const Resource = ({content, nextPrevFunctions}) => {
           }
         <div className="resource__header__text">
           <h1>{content.title}</h1>
-          <p>{content.short_description}</p>
+          {content.short_description &&
+            <p>{content.short_description}</p>
+          }
           {content.source_url &&
             <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
           }
+          {removeResource &&
+            <div className="button" onClick={() => removeResource(content._id)}>Remove Resource From Collection</div>
+          }
+          <div className="button" onClick={() => deleteResource(content._id)}>Delete Resource</div>
         </div>
       </div>
       <div className="resource__content">
@@ -48,12 +54,9 @@ const renderVideo = ({video_provider, resource_url}) => {
   if (video_provider == "youtube") {
     videoContent = (
       <iframe
-        width="560"
-        height="315"
         src={resource_url}
         frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
+        allow="autoplay; encrypted-media">
       </iframe>
     )
   } else {
@@ -62,20 +65,19 @@ const renderVideo = ({video_provider, resource_url}) => {
         src={resource_url}
         width="640"
         height="360"
-        frameborder="0"
-        webkitallowfullscreen mozallowfullscreen allowfullscreen>
+        frameborder="0">
       </iframe>
     )
   }
   return (
-    <div className="resource__video-container">
+    <div className="resource__video">
       {videoContent}
     </div>
   )
 }
 
 const renderRichText = ({rich_text}) => {
-  return <div dangerouslySetInnerHTML={{__html: rich_text}} />
+  return <div className="resource__richtext" dangerouslySetInnerHTML={{__html: rich_text}} />
 }
 
 export default Resource

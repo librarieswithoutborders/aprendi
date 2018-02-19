@@ -3,11 +3,20 @@
     padding: $standard-padding;
   }
 
-  &__secton-title {
-
+  &__section-title {
+    font-size: 16px;
+    display: inline-block;
+    padding-right: 15px;
+    margin-bottom: 25px;
   }
 
   &__section {
     padding: $standard-padding 0px;
+  }
+
+  &__section-divider {
+    margin: 20px 0px;
+    border: 0;
+    border-top: 1px solid colors(grey);
   }
 }

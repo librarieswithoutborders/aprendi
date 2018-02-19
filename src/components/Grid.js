@@ -4,7 +4,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 import { Link } from 'react-router-dom'
 import SvgIcon from './SvgIcon'
 
-const columns = { lg: 4, md: 4, sm: 3, xs: 2, xxs: 1 }
+const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 
 class Grid extends React.Component {
   constructor(props) {
@@ -38,18 +38,13 @@ class Grid extends React.Component {
 
     let gridItems = [...data, ...[{}]].map((d, i) => {
       if (i === data.length) { return this.addCreateGridItem()}
-      let styleObject = {}
-      if (d.image_url) {
-        let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
-        styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
-      }
 
       if (type === "collection") {
-        return this.renderCollectionItem(d, i, styleObject)
+        return this.renderCollectionItem(d, i)
       } else if (type === "subcollection") {
-        return this.renderSubcollectionItem(d, i, styleObject)
+        return this.renderSubcollectionItem(d, i)
       } else {
-        return this.renderResourceItem(d, i, styleObject)
+        return this.renderResourceItem(d, i)
       }
     });
     // let createGridItem =
@@ -58,13 +53,24 @@ class Grid extends React.Component {
     return gridItems
   }
 
-  renderCollectionItem(d, i, styleObject) {
+  renderCollectionItem(d, i) {
     const { data, clickHandler} = this.props;
-
+    let background;
+    if (d.image_url) {
+      let styleObject = {}
+      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
+      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      background = (
+        <div className="grid__item__image" style={styleObject} ></div>
+      )
+    } else {
+      background = (
+        <div className="grid__item__image"><SvgIcon name="folder" /></div>
+      )
+    }
     return (
       <div key={d._id} className={"grid__item item-type-collection"} onClick={() => { clickHandler(data, i)}}>
-        <div className="grid__item__image" style={styleObject} >
-        </div>
+        {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{d.title}</h5>
@@ -74,12 +80,25 @@ class Grid extends React.Component {
     );
   }
 
-  renderSubcollectionItem(d, i, styleObject) {
+  renderSubcollectionItem(d, i) {
     const { data, clickHandler} = this.props;
+
+    let background;
+    if (d.image_url) {
+      let styleObject = {}
+      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
+      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      background = (
+        <div className="grid__item__image" style={styleObject} ></div>
+      )
+    } else {
+      background = (
+        <div className="grid__item__image"><SvgIcon name="folder" /></div>
+      )
+    }
     return (
       <div key={d._id} className={"grid__item item-type-collection"} onClick={() => clickHandler(data, i)}>
-        <div className="grid__item__image" style={styleObject} >
-        </div>
+        {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{d.title}</h5>
@@ -89,8 +108,30 @@ class Grid extends React.Component {
     );
   }
 
-  renderResourceItem(d, i, styleObject) {
+  renderResourceItem(d, i) {
     const { data, clickHandler} = this.props;
+    let background;
+    if (d.image_url) {
+      let styleObject = {}
+      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
+      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      background = (
+        <div className="grid__item__image" style={styleObject} ></div>
+      )
+    } else {
+      let iconName;
+
+      if (d.resource_type === "video") {
+        iconName = "video"
+      } else if (d.resource_type === "richtext") {
+        iconName = "text"
+      } else {
+        iconName = "document"
+      }
+      background = (
+        <div className="grid__item__image"><SvgIcon name={iconName} /></div>
+      )
+    }
     return (
       <div key={d._id} className={"grid__item item-type-resource"} onClick={() => clickHandler(data, i)}>
         <div className="grid__item__content">
@@ -99,8 +140,7 @@ class Grid extends React.Component {
             <h5 className="grid__item__text__main">{d.title}</h5>
           </div>
         </div>
-        <div className="grid__item__image" style={styleObject} >
-        </div>
+        {background}
       </div>
     );
   }
@@ -116,7 +156,7 @@ class Grid extends React.Component {
       text = "Add New Resource"
     }
     return(
-      <div key="Create New" className="grid__item add-new" onClick={() => createNew()}>
+      <div key="Create" className="grid__item add-new" onClick={() => createNew()}>
           <SvgIcon className="grid__item__plus" name="plus" />
           <div className="grid__item__text">
             <h5 className="grid__item__text__sub">{text}</h5>
@@ -126,20 +166,18 @@ class Grid extends React.Component {
   }
 
   generateLayout(idList) {
-
     let layouts = {};
 
     for (let key in columns) {
       let numColumns = columns[key]
 
-      layouts[key] = [...idList, ...["Create New"]].map((d, i) => {
+      layouts[key] = [...idList, ...["Create"]].map((d, i) => {
         return {
           x: i%numColumns,
           y: Math.floor(i/numColumns),
           w: 1,
           h: 1,
           i: d,
-          static: d === "Create New"
         }
       })
       // let createNewIndex = idList.length
@@ -163,10 +201,10 @@ class Grid extends React.Component {
 
   onLayoutChange(layout, layouts) {
     console.log("in on layout change")
-    console.log(layout)
+    console.log(layout, layouts)
 
     if (this.itemDragged) {
-      let currDataOrder = [...layout].filter(d => d.i !== "Create New").sort((a, b) => {
+      let currDataOrder = [...layout].filter(d => d.i !== "Create").sort((a, b) => {
         if (a.y < b.y) {
           return -1
         } else if (a.y > b.y) {
@@ -186,9 +224,21 @@ class Grid extends React.Component {
       this.setState({
         layouts: this.generateLayout(currDataOrder)
       });
+    } else {
+      this.setState({
+        layouts: this.generateLayout(this.props.data.map(d => d._id))
+      });
     }
 
   }
+
+  // checkContiguous(layout) {
+  //   const numColumns = columns(this.state.currentBreakpoint)
+  //   console.log(numColumns)
+  //   for (let i = 0; i < numColumns; i++) {
+  //
+  //   }
+  // }
 
   render() {
     const {type} = this.props
@@ -199,11 +249,10 @@ class Grid extends React.Component {
     return (
       <ResponsiveReactGridLayout
         layouts={this.state.layouts}
-        autoSize={true}
         margin= {[10, 10]}
         containerPadding= {[10, 10]}
         isResizable={false}
-        isDraggable={true}
+        isDraggable={type !== "collection"}
         cols= {columns}
         onBreakpointChange={() => this.onBreakpointChange()}
         onDragStop={this.onDragStop.bind(this)}
@@ -212,7 +261,6 @@ class Grid extends React.Component {
         measureBeforeMount={false}
         useCSSTransforms={true}
         preventCollision={false}
-        verticalCompact={true}
         compactType="horizontal"
         rowHeight={type === "collection" || type === "subcollection" ? 250 : 300}
       >

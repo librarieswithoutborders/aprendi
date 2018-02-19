@@ -11,11 +11,23 @@
     }
 
     &__image {
-      background-color: colors(blue);
+      background-color: colors(offwhite);
       background-position: 50% 50%;
       background-size: cover;
       background-repeat: no-repeat;
       height: 150px;
+      text-align: center;
+
+      .icon {
+        height: 100px;
+        top: 50%;
+        position: relative;
+        transform: translateY(-50%);
+
+        path {
+          fill: colors(grey);
+        }
+      }
     }
     &__content {
       width: 100%;

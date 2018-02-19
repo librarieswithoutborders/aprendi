@@ -122,6 +122,7 @@ function resourceViewerContent(state = null, action) {
       return null
     case "SHOW_RESOURCE_VIEWER":
       return {
+        parent: action.parent,
         resourceList: action.resourceList,
         currIndex: action.currIndex
       }

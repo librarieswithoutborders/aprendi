@@ -263,6 +263,20 @@ export function addResourceToCollection(resourceId, parent) {
   }
 }
 
+export function removeResourceFromCollection(resourceId, parent) {
+  console.log(resourceId, parent)
+  return {
+    type: parent.parentType == "collection" ? types.UPDATE_COLLECTION : types.UPDATE_SUBCOLLECTION,
+    payload: {
+      request:{
+        method:'put',
+        url:parent.parentType == "collection" ? '/collection-remove-resource' : '/subcollection-remove-resource',
+        data: {resourceId: resourceId, parentId: parent.parentId}
+      }
+    }
+  }
+}
+
 export function setCurrResourceIndex(newIndex) {
   return {
     type: types.SET_CURR_RESOURCE_INDEX,
@@ -284,10 +298,10 @@ export function hideAdminModal() {
   }
 }
 
-export function showResourceViewer({resourceList, currIndex}) {
-  console.log(resourceList, currIndex)
+export function showResourceViewer({parent, resourceList, currIndex}) {
   return {
     type: types.SHOW_RESOURCE_VIEWER,
+    parent,
     resourceList,
     currIndex
   }
@@ -303,6 +317,19 @@ export function setUserInfo(user) {
   return {
     type: types.SET_USER_INFO,
     user: user
+  }
+}
+
+export function uploadImage(file) {
+  return {
+    type: types.UPLOAD_IMAGE,
+    payload: {
+      request:{
+        method:'put',
+        url:'/upload-image',
+        data: file
+      }
+    }
   }
 }
 

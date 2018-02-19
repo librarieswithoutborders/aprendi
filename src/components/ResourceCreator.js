@@ -33,39 +33,47 @@ class ResourceCreator extends Component {
     }
   }
 
-  existingResourceSelected(resourceId) {
+  existingResourceSelected(resource) {
     const {parent, addResourceToCollection} = this.props
 
-    addResourceToCollection(resourceId, parent)
+    addResourceToCollection(resource._id, parent)
   }
 
   render() {
     console.log(this.props)
-    const {setResourceType, fetchedResourceLists} = this.props
+    const {setResourceType, fetchedResourceLists, showExisting} = this.props
     const {activeTab} = this.state
 
     const currResourceList = fetchedResourceLists[currTeam]
 
-    return (
-      <div className="resource-creator">
-        <div className="resource-creator__tab-container">
-          <div className={activeTab === 0 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(0)}>Search Existing Resources</div>
-          <div className={activeTab === 1 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(1)}>Upload New Resource</div>
+    if (!showExisting) {
+      return (
+        <div className="resource-creator">
+          <ResourceTypeSelector setResourceType={setResourceType} />
         </div>
-        {activeTab === 0 &&
-          <div className="resource-creator__tab-contents">
-            {currResourceList &&
-              <ResourceExistingSearch resources={currResourceList} onSelect={resourceId => this.existingResourceSelected(resourceId)}/>
-            }
+      )
+    } else {
+      return (
+        <div className="resource-creator">
+          <div className="resource-creator__tab-container">
+            <div className={activeTab === 0 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(0)}>Search Existing Resources</div>
+            <div className={activeTab === 1 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(1)}>Upload New Resource</div>
           </div>
-        }
-        {activeTab === 1 &&
-          <div className="resource-creator__tab-contents">
-            <ResourceTypeSelector setResourceType={setResourceType} />
-          </div>
-        }
-      </div>
-    )
+          {activeTab === 0 &&
+            <div className="resource-creator__tab-contents">
+              {currResourceList &&
+                <ResourceExistingSearch resources={currResourceList} onSelect={resourceId => this.existingResourceSelected(resourceId)}/>
+              }
+            </div>
+          }
+          {activeTab === 1 &&
+            <div className="resource-creator__tab-contents">
+              <ResourceTypeSelector setResourceType={setResourceType} />
+            </div>
+          }
+        </div>
+      )
+    }
   }
 }
 

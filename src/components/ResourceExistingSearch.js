@@ -22,7 +22,7 @@ class ResourceExistingSearch extends Component {
     };
 
 		return (
-      <div>
+      <div className="search">
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={(props) => this.onSuggestionsFetchRequested(props)}
@@ -60,7 +60,7 @@ class ResourceExistingSearch extends Component {
     console.log("selected", suggestion, event)
 
     console.log("dispatching action to set resource data")
-    this.props.onSelect(suggestion._id)
+    this.props.onSelect(suggestion)
 	}
 
 	getSuggestions(value) {
@@ -84,10 +84,19 @@ class ResourceExistingSearch extends Component {
 
   renderSuggestion({title, resource_type}) {
     console.log("rendering suggestion")
+		let iconName;
+
+		if (resource_type === "video") {
+			iconName = "video"
+		} else if (resource_type === "richtext") {
+			iconName = "text"
+		} else {
+			iconName = "document"
+		}
     return (
       <div className="search__results-list__item">
+				<SvgIcon name={iconName} />
         <h5 className="search__results-list__item__title">{title}</h5>
-        <h5 className="search__results-list__item__subheading">{resource_type}</h5>
       </div>
     )
 
