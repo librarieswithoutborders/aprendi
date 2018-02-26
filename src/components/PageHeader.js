@@ -27,10 +27,10 @@ const PageHeader = ({contents, type, editFunc, deleteFunc}) => {
             <p className="page-header__description">{short_description}</p>
           }
           {editFunc &&
-            <button onClick={editFunc}>{"Edit " + getButtonLabel(type)}</button>
+            <div className="button" onClick={editFunc}>{"Edit " + getButtonLabel(type)}</div>
           }
           {deleteFunc &&
-            <button onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</button>
+            <div className="button" onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</div>
           }
         </div>
       </div>
@@ -44,6 +44,8 @@ const getButtonLabel = (type) => {
     return "Collection"
   } else if (type === "subcollection") {
     return "Subcollection"
+  } else {
+    return "Team"
   }
 }
 

@@ -21,6 +21,10 @@ $page-header-height: 200px;
     .with-image & {
       color: white;
     }
+
+    .button {
+      margin: 0px 5px;
+    }
   }
 
   &__overlay {
@@ -33,8 +37,20 @@ $page-header-height: 200px;
   }
 
   &__byline {
-    font-size: 14px;
-    color: colors(grey);
-    text-transform: uppercase;
+    margin: 0px 0px 5px;
+    & > a {
+      font-size: 14px;
+      color: colors(grey);
+
+      &:hover {
+        color: colors(blue);
+      }
+    }
+  }
+
+  &__title {
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 25px;
   }
 }

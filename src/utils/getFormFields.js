@@ -11,12 +11,18 @@ const teamFields = (action) => (
       <label className="form__field__label" htmlFor="team_name">Team Name</label>
       <Text field="team_name" id="team_name" />
     </div>
-    {action !== "create" &&
-      <div className= "form__field">
-        <label className="form__field__label" htmlFor="path">Url Path</label>
-        <Text field="path" id="path" />
-      </div>
-    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="description">Description</label>
+      <TextArea field="description" id="description" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label">Team Image</label>
+      <ImageUploadField field="image_url"/>
+    </div>
   </div>
 )
 
@@ -26,12 +32,10 @@ const collectionFields = (action) => (
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
-    {action !== "create" &&
-      <div className= "form__field">
-        <label className="form__field__label" htmlFor="path">Url Path</label>
-        <Text field="path" id="path" />
-      </div>
-    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
+    </div>
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <ImageUploadField field="image_url"/>
@@ -65,12 +69,10 @@ const subcollectionFields = (action) => (
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
-    {action !== "create" &&
-      <div className= "form__field">
-        <label className="form__field__label" htmlFor="path">Url Path</label>
-        <Text field="path" id="path" />
-      </div>
-    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
+    </div>
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <ImageUploadField field="image_url"/>
@@ -117,12 +119,10 @@ const resourceFields = (resourceType, action) => (
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
-    {action !== "create" &&
-      <div className= "form__field">
-        <label className="form__field__label" htmlFor="path">Url Path</label>
-        <Text field="path" id="path" />
-      </div>
-    }
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
+    </div>
     {action != "create" &&
       <div className= "form__field">
         <label className="form__field__label">Cover Image</label>

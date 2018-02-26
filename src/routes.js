@@ -18,6 +18,7 @@ const routes = (
           <Route exact path="/" component={HomePage} />
           <Route path="/callback" component={AuthCallback} />
           <Route exact path="/admin" component={RootAdminPage} />
+          <Route exact path="/teams" component={RootAdminPage} />
           <Route exact path="/teams/:teamPath" component={TeamHomePage} />
           <Route path="/:collectionPath" component={CollectionDataContainer} />
           <Route path="/special" component={HomePage} onEnter={requireAuth} />

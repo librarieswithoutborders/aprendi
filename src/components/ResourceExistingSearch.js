@@ -82,8 +82,7 @@ class ResourceExistingSearch extends Component {
     return value.title
 	}
 
-  renderSuggestion({title, resource_type}) {
-    console.log("rendering suggestion")
+  renderSuggestion({title, resource_type, updatedAt}) {
 		let iconName;
 
 		if (resource_type === "video") {
@@ -97,6 +96,7 @@ class ResourceExistingSearch extends Component {
       <div className="search__results-list__item">
 				<SvgIcon name={iconName} />
         <h5 className="search__results-list__item__title">{title}</h5>
+				<h5 className="search__results-list__item__subheading">{"Last Updated: " + updatedAt}</h5>
       </div>
     )
 

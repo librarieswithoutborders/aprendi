@@ -69,7 +69,7 @@ class Grid extends React.Component {
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => { clickHandler(data, i)}}>
+      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => { this.itemDragged ? null : clickHandler(data, i)}}>
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
@@ -97,10 +97,11 @@ class Grid extends React.Component {
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => clickHandler(data, i)}>
+      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
+            {d.image_url && <SvgIcon name="folder" />}
             <h5 className="grid__item__text__main">{d.title}</h5>
           </div>
         </div>
@@ -133,7 +134,7 @@ class Grid extends React.Component {
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-resource"} onClick={() => clickHandler(data, i)}>
+      <div key={d._id} className={"grid__item item-type-resource"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
         <div className="grid__item__content">
           <div className="grid__item__text">
             <h5 className="grid__item__text__sub">{d.resource_type}</h5>
@@ -196,7 +197,9 @@ class Grid extends React.Component {
   }
 
   onDragStop(layout, oldItem, newItem, placeholder, e, element) {
-    this.itemDragged = true
+    if (oldItem.x !== newItem.x || oldItem.y !== newItem.y) {
+      this.itemDragged = true
+    }
   }
 
   onLayoutChange(layout, layouts) {
@@ -220,7 +223,6 @@ class Grid extends React.Component {
       }).map(d => d.i)
 
       this.props.reOrderHandler(currDataOrder)
-      this.itemDragged = false
       this.setState({
         layouts: this.generateLayout(currDataOrder)
       });
@@ -229,7 +231,6 @@ class Grid extends React.Component {
         layouts: this.generateLayout(this.props.data.map(d => d._id))
       });
     }
-
   }
 
   // checkContiguous(layout) {

@@ -2,19 +2,161 @@ import { combineReducers } from 'redux';
 
 // import * as types from '../actions/actionTypes'
 
-function fullTeamList(state = [], action) {
+function adminModalContent(state = null, action) {
   switch (action.type) {
-    case "GET_FULL_TEAM_LIST_SUCCESS":
-      return action.payload.data
+    case "HIDE_ADMIN_MODAL":
+      return null
+    case "SHOW_ADMIN_MODAL":
+      return action.content
     default:
       return state
   }
 }
 
-function currTeamInfo(state = {}, action) {
+function teamList(state = [], action) {
   switch (action.type) {
+    case "FETCH_TEAMS":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    case "CREATE_TEAM":
+      if (action.status === "SUCCESS") {
+        console.log("success!")
+        console.log([...state, ...[action.data]])
+        return [...state, ...[action.data]]
+      }
+    case "UPDATE_TEAM":
+      if (action.status === "SUCCESS") {
+        let updatedIndex = state.indexOf(action.data)
+        state.splice(updatedIndex, 1, action.data)
+        return [...state]
+      }
+    case "DELETE_TEAM":
+      if (action.status === "SUCCESS") {
+        let deletedIndex = state.indexOf(action.data)
+        state.splice(deletedIndex, 1)
+        return [...state]
+      }
+    default:
+      return state
+  }
+}
+
+function updateStatus(state = null, action) {
+  let splitPieces = action.type.split("_")
+  if (splitPieces[0] === "CREATE" || splitPieces[0] === "UPDATE" || splitPieces[0] === "DELETE") {
+    return action.status
+  } else if (action.type === "HIDE_ADMIN_MODAL"){
+    return null
+  } else {
+    return state
+  }
+}
+
+function currTeam(state = null, action) {
+  switch (action.type) {
+    case "FETCH_TEAM":
+      if (action.status === "SUCCESS") {
+        return action.data
+      } else if (action.status === "FAILURE") {
+        return "Not Found"
+      } else {
+        return "Fetching"
+      }
+    case "UPDATE_TEAM":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    case "DELETE_TEAM":
+      if (action.status === "SUCCESS") {
+        return null
+      }
+    case "CREATE_COLLECTION":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        newState.collections.push(action.data)
+        return newState
+      }
+    case "UPDATE_COLLECTION":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.collections.indexOf(action.data)
+        newState.collections.splice(deletedIndex, 1, action.data)
+        return newState
+      }
+    case "DELETE_COLLECTION":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.collections.indexOf(action.data)
+        newState.collections.splice(deletedIndex, 1)
+        return newState
+      }
+    default:
+      return state
+  }
+}
+
+function currCollection(state = null, action) {
+  switch (action.type) {
+    case "FETCH_COLLECTION":
+      if (action.status === "SUCCESS") {
+        return action.data
+      } else if (action.status === "FAILURE") {
+        return "Not Found"
+      } else {
+        return "Fetching"
+      }
+    case "UPDATE_COLLECTION":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    case "COLLECTION_REORDER_CHILDREN":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "DELETE_COLLECTION":
+      if (action.status === "SUCCESS") {
+        return null
+      }
+    case "CREATE_SUBCOLLECTION":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "UPDATE_SUBCOLLECTION":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "SUBCOLLECTION_REORDER_CHILDREN":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "DELETE_SUBCOLLECTION":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    default:
+      return state
+  }
+}
+
+function newBrowserLocation(state = null, action) {
+  switch (action.type) {
+    case "NEW_BROWSER_LOCATION":
+      return action.newUrl
+    default:
+      return state
+  }
+}
+
+function currTeamInvalidated(state = false, action) {
+  switch (action.type) {
+    case "INVALIDATE_CURR_TEAM":
+      return true
     case "GET_TEAM_INFO_SUCCESS":
-      return action.payload.data
+      return false
     default:
       return state
   }
@@ -31,21 +173,10 @@ function updateStatus(state = null, action) {
       default:
         return state
     }
+  } else if (action.type === "HIDE_ADMIN_MODAL"){
+    return null
   } else {
     return state
-  }
-}
-
-function collectionUpdateStatus(state = null, action) {
-  switch (action.type) {
-    case "CREATE_COLLECTION_SUCCESS":
-      return "Success"
-    case "DELETE_COLLECTION_SUCCESS":
-      return "Success"
-    case "DELETE_COLLECTION_FAIL":
-        return "Failure"
-    default:
-      return state
   }
 }
 
@@ -85,16 +216,7 @@ function fetchedCollections(state = {}, action) {
   }
 }
 
-function adminModalContent(state = null, action) {
-  switch (action.type) {
-    case "HIDE_ADMIN_MODAL":
-      return null
-    case "SHOW_ADMIN_MODAL":
-      return action.props
-    default:
-      return state
-  }
-}
+
 
 function userInfo(state = {}, action) {
   switch (action.type) {
@@ -138,16 +260,20 @@ function resourceViewerContent(state = null, action) {
 
 
 const rootReducer = combineReducers({
-  fullTeamList,
-  currTeamInfo,
-  updateStatus,
   adminModalContent,
-  resourceViewerContent,
-  currCollectionInvalidated,
-  fetchedCollections,
-  fetchedResourceLists,
-  collectionList,
-  userInfo
+  teamList,
+  currTeam,
+  currCollection,
+  newBrowserLocation
+  // updateStatus,
+  // adminModalContent,
+  // resourceViewerContent,
+  // currCollectionInvalidated,
+  // currTeamInvalidated,
+  // fetchedCollections,
+  // fetchedResourceLists,
+  // collectionList,
+  // userInfo
 });
 
 export default rootReducer;

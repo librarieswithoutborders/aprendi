@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer, hideResourceViewer, updateCollection } from '../actions/actions.js'
+import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer, hideResourceViewer, updateCollection, updateSubcollection, collectionReorderChildren, subcollectionReorderChildren } from '../actions/actions.js'
 
 import PageHeader from './PageHeader'
 import Breadcrumbs from './Breadcrumbs'
@@ -13,7 +13,18 @@ class Collection extends Component {
 
   componentWillMount() {
     console.log(this.props)
-    const {location} = this.props
+    const {data, history, location} = this.props
+
+    // subcollection does not exist -> redirect to one level up heirarchy
+    if (!data) {
+      let splitPieces = history.location.pathname.split('/');
+      // url has trailing /
+      if (splitPieces[splitPieces.length - 1] === "") {
+        splitPieces.pop()
+      }
+      splitPieces.pop()
+      history.replace(splitPieces.join("/"))
+    }
 
     if (location.hash != "") {
       console.log("there is a hash, it is: ", location.hash)
@@ -55,17 +66,18 @@ class Collection extends Component {
     const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
 
+    console.log(type)
 
     const headerContents = {
       title: data.title,
-      byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
+      // byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
       image_url: data.image_url,
       short_description: data.short_description
     }
 
     return (
       <div className="collection">
-        <PageHeader contents={headerContents} type={type} editFunc={() => updateCollection({data: data, type: "subcollection"})} deleteFunc={() => deleteCollection({data: data, type: "subcollection", parent: parent, parentType: parentType, history: history})}/>
+        <PageHeader contents={headerContents} type={type} editFunc={() => updateCollection({data: data, type: type})} deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
         {type == "subcollection" && <Breadcrumbs data={breadcrumbs} /> }
         <div className="collection__contents">
           <Grid
@@ -111,24 +123,26 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(showAdminModal({action:"update", type:type, data: data}))
     },
     deleteCollection: ({data, type, parent, parentType, history}) => {
-      console.log(parent)
+      console.log(data)
       if (type === "collection") {
-        dispatch(deleteCollection(data._id)).then(response => deleteCallback(response, dispatch))
+        dispatch(deleteCollection(data))
       } else {
-        dispatch(deleteSubcollection({id: data._id, parentId: parent._id, parentType: parentType})).then(response => deleteCallback(response, dispatch, history))
+        dispatch(deleteSubcollection({subcollectionInfo: data, parentId: parent._id, parentType: parentType}))
       }
     },
     updateOrder: ({data, parentType, childType, newOrder}) => {
-      let params = {data:{_id:data._id}}
+      let newData = {}
+      Object.assign(newData, data)
+
       if (childType === "subcollection") {
-        params.data.subcollections = newOrder
+        newData.subcollections = newOrder
       } else {
-        params.data.resources = newOrder
+        newData.resources = newOrder
       }
       if (parentType === "collection") {
-        dispatch(updateCollection(params))
+        dispatch(collectionReorderChildren({data: newData}))
       } else if (parentType === "subcollection") {
-        dispatch(updateSubcollection(params))
+        dispatch(subcollectionReorderChildren({data: newData}))
       }
     },
     setResourceViewerContent: (parent, resourceList, i) => {

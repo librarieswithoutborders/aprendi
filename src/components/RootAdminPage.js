@@ -1,5 +1,5 @@
 import React from 'react';
-import { showAdminModal, deleteTeam, getFullTeamList } from '../actions/actions.js';
+import { showAdminModal, deleteTeam, fetchTeamList } from '../actions/actions.js';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ const RootAdminPage = ({teams, createTeam, deleteTeam}) => {
               <Link to={'/teams/' + team.path} >
                 <span>{team.team_name}</span>
               </Link>
-              <button onClick={() => deleteTeam(team._id)} >Delete Team</button>
+              <button onClick={() => deleteTeam(team)} >Delete Team</button>
             </li>
           )
         })}
@@ -29,15 +29,15 @@ const RootAdminPage = ({teams, createTeam, deleteTeam}) => {
 
 class RootAdminPageContainer extends React.Component {
   componentWillMount() {
-    const {teams, getFullTeamList} = this.props;
+    const {teams, fetchTeamList} = this.props;
 
     if (teams.length === 0) {
-      getFullTeamList();
+      fetchTeamList();
     }
   }
 
   render() {
-    const {teams, createTeam} = this.props;
+    const {teams, createTeam, deleteTeam} = this.props;
     if (teams) {
       return <RootAdminPage teams={teams} createTeam={createTeam} deleteTeam={deleteTeam}/>
     } else {
@@ -49,20 +49,20 @@ class RootAdminPageContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    teams: state.fullTeamList
+    teams: state.teamList
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getFullTeamList: () => {
-      dispatch(getFullTeamList())
+    fetchTeamList: () => {
+      dispatch(fetchTeamList())
     },
     createTeam: (teamInfo) => {
       dispatch(showAdminModal({action:"create", type:"team"}))
     },
-    deleteTeam: (id) => {
-      dispatch(deleteTeam(id))
+    deleteTeam: (teamInfo) => {
+      dispatch(deleteTeam(teamInfo))
     },
   }
 }

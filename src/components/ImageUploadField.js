@@ -85,21 +85,21 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     uploadImage: (file, setValue) => {
-      dispatch(uploadImage(file))
-      // dispatch(getS3SignedRequest(file)).then(response => {
-      //   console.log(response);
-      //
-      //   const xhr = new XMLHttpRequest();
-      //   xhr.onload = (a) => {
-      //     console.log(a)
-      //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      //       console.log(xhr);
-      //       setValue(file.name)
-      //     }
-      //   };
-      //   xhr.open('PUT', response.payload.data.signedUrl);
-      //   xhr.send(file);
-      // })
+      // dispatch(uploadImage(file))
+      dispatch(getS3SignedRequest(file)).then(response => {
+        console.log(response);
+
+        const xhr = new XMLHttpRequest();
+        xhr.onload = (a) => {
+          console.log(a)
+          if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            console.log(xhr);
+            setValue(file.name)
+          }
+        };
+        xhr.open('PUT', response.payload.data.signedUrl);
+        xhr.send(file);
+      })
     }
 
   }

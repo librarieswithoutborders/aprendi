@@ -31,7 +31,11 @@ const RecursiveRouter = ({match, breadcrumbs, parent, parentType}) => {
       </div>
     )
   } else {
-    return <h5>Sub Path not found</h5>
+    return (
+      <div>
+        <PropsRoute path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} parent={parent} parentType={parentType} data={subcollectionData} />
+      </div>
+    )
   }
 }
 
@@ -47,3 +51,7 @@ const CollectionInternalRouter = ({match, data}) => {
 }
 
 export default CollectionInternalRouter
+
+const hasMatchingSubPath = (data, path) => {
+
+}

@@ -4,10 +4,15 @@
     box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
     -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
     -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
+
     &:hover {
       box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
       -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
       -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
+    }
+
+    &.react-draggable-dragging {
+      z-index: 100;
     }
 
     &__image {
@@ -33,6 +38,7 @@
       width: 100%;
       height: 100px;
       text-align: center;
+      background-color: colors(white);
     }
 
     &__text {
@@ -43,8 +49,9 @@
       &__main {
         color: colors(black);
         margin: 0px;
-        padding: 0px 10px;
+        padding: 0px 7px;
         font-size: 18px;
+        display: inline-block;
       }
 
       &__sub {
@@ -54,6 +61,12 @@
         padding: 0px 10px;
         font-size: 15px;
         padding-bottom: 10px;
+      }
+
+      .icon {
+        height: 12px;
+        fill: colors(blue);
+        stroke: colors(blue);
       }
     }
 

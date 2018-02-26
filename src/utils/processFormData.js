@@ -46,7 +46,7 @@ const processFormData = (data, action, resourceTypeOverride) => {
     retObject.resource_type = resourceTypeOverride
   }
 
-  if (action === "create") {
+  if (action === "create" && !retObject.path) {
     retObject.path = convertToUrlPath(data.title || data.team_name)
   }
 

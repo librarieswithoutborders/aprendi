@@ -4,7 +4,7 @@ import getFormFields from '../utils/getFormFields'
 import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
 import ResourceCreator from './ResourceCreator'
-import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrCollection} from '../actions/actions.js'
+import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection} from '../actions/actions.js'
 
 class AdminModal extends Component {
   constructor() {
@@ -60,7 +60,7 @@ class AdminModal extends Component {
             <form onSubmit={formApi.submitForm} id="form">
               {getFormFields(type, formApi.values, action, resourceType)}
               <div className="form__submit-container">
-                <div type="submit" className="mb-4 btn btn-primary button form__submit">Submit</div>
+                <button type="submit" className="mb-4 btn btn-primary button form__submit">Submit</button>
               </div>
             </form>
           )}
@@ -93,8 +93,8 @@ class AdminModal extends Component {
 }
 
 class AdminModalContainer extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
   }
 
   setSubmitFunction() {
@@ -147,23 +147,24 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createTeam: (data) => dispatch(createTeam(data)).then(response => formSubmitCallback(response, dispatch)),
-    updateTeam: (data) => dispatch(updateTeam(data)).then(response => formSubmitCallback(response, dispatch)),
-    createCollection: (data) => dispatch(createCollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
-    updateCollection: (data) => dispatch(updateCollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
-    createSubcollection: (data) => dispatch(createSubcollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
-    updateSubcollection: (data) => dispatch(updateSubcollection(data)).then(response => formSubmitCallback(response, dispatch, "collection")),
-    createResource: (data) => dispatch(createResource(data)).then(response => formSubmitCallback(response, dispatch)),
-    updateResource: (data) => dispatch(updateResource(data)).then(response => formSubmitCallback(response, dispatch)),
+    createTeam: (data) => dispatch(createTeam(data)),
+    updateTeam: (data) => dispatch(updateTeam(data)),
+    createCollection: (data) => dispatch(createCollection(data)),
+    updateCollection: (data) => dispatch(updateCollection(data)),
+    createSubcollection: (data) => dispatch(createSubcollection(data)),
+    updateSubcollection: (data) => dispatch(updateSubcollection(data)),
+    // createResource: (data) => dispatch(createResource(data)).then(response => formSubmitCallback(response, dispatch)),
+    // updateResource: (data) => dispatch(updateResource(data)).then(response => formSubmitCallback(response, dispatch)),
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminModalContainer)
 
-const formSubmitCallback = (response, dispatch, type) => {
-  console.log(response.payload)
-  if (response.payload.status === 200) {
-    dispatch(hideAdminModal())
-    dispatch(invalidateCurrCollection())
-  }
-}
+// const formSubmitCallback = (response, dispatch, type) => {
+//   console.log(response.payload)
+//   if (response.payload.status === 200) {
+//     dispatch(hideAdminModal())
+//     dispatch(invalidateCurrTeam())
+//     dispatch(invalidateCurrCollection())
+//   }
+// }
