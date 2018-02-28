@@ -2,12 +2,21 @@ import React, {Component} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { login, logout, isLoggedIn } from '../utils/AuthService';
 import { connect } from 'react-redux'
-import { setUserInfo } from '../actions/actions.js';
+import { sendUserInfoRequest, setUserInfo } from '../actions/actions.js';
 
 
 class TopNav extends Component {
   constructor() {
     super()
+  }
+
+  componentWillMount() {
+    const { userInfo, sendUserInfoRequest } = this.props
+    console.log("component mounting")
+    console.log(userInfo)
+    if (!userInfo) {
+      sendUserInfoRequest()
+    }
   }
 
   render() {
@@ -26,7 +35,7 @@ class TopNav extends Component {
               (isLoggedIn()) ?
               (
                 <div>
-                  <h5>{this.props.userInfo.name}</h5>
+                  {this.props.userInfo && <h5>{this.props.userInfo.name}</h5> }
                   <button className="btn btn-danger log" onClick={() => logout(this.props.history, this.props.clearUserInfo)}>Log out</button>
                 </div>
               ) :
@@ -47,8 +56,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    sendUserInfoRequest: () => {
+      dispatch(sendUserInfoRequest())
+    },
     clearUserInfo: () => {
-      dispatch(setUserInfo({}))
+      dispatch(setUserInfo())
     },
   }
 }

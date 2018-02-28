@@ -16,10 +16,11 @@ class AuthCallback extends Component {
     console.log(this.props)
     setAccessToken();
     setIdToken();
+    console.log(window.opener)
+
     getUserInfo(window.location.hash).then(userInfo => {
-      this.props.setUserInfo(userInfo)
-      this.props.history.push("/")
-      // this.props.history.push("/users/" + userInfo)
+      window.opener.loginCallback(userInfo)
+      // window.close()
     });
 
   }

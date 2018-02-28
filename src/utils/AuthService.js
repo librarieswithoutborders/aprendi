@@ -15,7 +15,7 @@ var auth = new auth0.WebAuth({
 });
 
 export function login() {
-  auth.authorize({
+  auth.popup.authorize({
     responseType: 'token id_token',
     redirectUri: REDIRECT,
     audience: AUDIENCE,
@@ -91,6 +91,7 @@ function isTokenExpired(token) {
 }
 
 export async function getUserInfo(hash) {
+  console.log(hash)
   return new Promise((resolve) => {
     // let userInfo;
     auth.parseHash({ hash: hash }, function(err, authResult) {
@@ -101,6 +102,20 @@ export async function getUserInfo(hash) {
         console.log(user)
         resolve(user);
       });
+    });
+  })
+}
+
+export async function getCurrUser() {
+  if (!isLoggedIn()) { return null; }
+
+  let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+  console.log(accessToken)
+  return new Promise((resolve) => {
+    auth.client.userInfo(accessToken, function(err, user) {
+      // Now you have the user's information
+      console.log(user)
+      resolve(user);
     });
   })
 }

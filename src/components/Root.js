@@ -6,12 +6,12 @@ import TopNav from './TopNav'
 import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
 import { connect } from 'react-redux'
-import { hideAdminModal, hideResourceViewer } from '../actions/actions.js';
+import { hideAdminModal, hideResourceViewer, setUserInfo } from '../actions/actions.js';
 
 class Root extends Component {
   render() {
-    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer } = this.props;
-
+    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo } = this.props;
+    window.loginCallback = userInfo => setUserInfo(userInfo)
     let showOverlay = adminModalContent || resourceViewerContent
     return (
       <Provider store={store}>
@@ -48,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
     hideResourceViewer: () => {
       dispatch(hideResourceViewer())
     },
+    setUserInfo: (userInfo) => {
+      dispatch(setUserInfo(userInfo))
+    }
   }
 }
 

@@ -194,10 +194,10 @@ function currCollection(state = null, action) {
 
 
 
-function userInfo(state = {}, action) {
+function userInfo(state = null, action) {
   switch (action.type) {
     case "SET_USER_INFO":
-      return action.user || {}
+      return action.user || null
     default:
       return state
   }
@@ -248,7 +248,7 @@ const rootReducer = combineReducers({
   // fetchedCollections,
   // fetchedResourceLists,
   // collectionList,
-  // userInfo
+  userInfo
 });
 
 export default rootReducer;

@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import addDateHash from '../utils/addDateHash'
+import { getCurrUser } from '../utils/AuthService'
 
 const dbPath = process.env.NODE_ENV === "production" ? 'http://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
 
@@ -845,14 +846,23 @@ function getS3SignedRequest(file, callback) {
 // }
 //
 
+export function sendUserInfoRequest() {
+  console.log("getting user info")
+  return (dispatch) => {
+    getCurrUser().then(user => {
+      console.log(user)
+      dispatch(setUserInfo(user))
+    })
+  }
 
-//
-// export function setUserInfo(user) {
-//   return {
-//     type: types.SET_USER_INFO,
-//     user: user
-//   }
-// }
+}
+
+export function setUserInfo(user) {
+  return {
+    type: "SET_USER_INFO",
+    user: user
+  }
+}
 //
 // export function uploadImage(file) {
 //   return {
