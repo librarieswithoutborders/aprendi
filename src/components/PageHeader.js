@@ -6,8 +6,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc}) => {
   const {title, short_description, image_url, byline} = contents
   let styleObject = {}
   if (image_url) {
-    let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + image_url
-    styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+    styleObject.backgroundImage = 'url(' + image_url + ')'
   }
 
   let editButtonText, deleteButtonText;

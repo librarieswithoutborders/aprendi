@@ -11,25 +11,26 @@ class FileUploadFieldContent extends React.Component {
     const {type} = this.props
     console.log(files)
 
-    this.props.uploadFile(files[0], true, this.props.fieldApi.setValue)
+    this.props.uploadFile(files[0], true, this.uploadCallback.bind(this))
   }
 
-  getSnapshotOfPdf(canvasElem, filePath) {
+  getSnapshotOfPdf(canvasElem, fileUrl) {
+    let newFileUrl = fileUrl.replace("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/", "").replace('.pdf', '.png')
+    console.log("UPLOADING", newFileUrl)
     canvasElem.toBlob(blob => {
-      let file = new File([blob], filePath.replace('pdf', 'png'), {type: 'image/png'})
+      let file = new File([blob], newFileUrl, {type: 'image/png'})
       this.props.uploadFile(file, false, null)
     })
   }
 
-  generatePreview(filePath) {
+  generatePreview(fileUrl) {
     const {type} = this.props
     let previewContent
 
     if (type === "pdf") {
-      previewContent = <PdfViewer singlePage={true} renderCallback={(canvasElem) => this.getSnapshotOfPdf(canvasElem, filePath)} url={"https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/" + filePath} />
+      previewContent = <PdfViewer singlePage={true} renderCallback={(canvasElem) => this.getSnapshotOfPdf(canvasElem, fileUrl)} url={fileUrl} />
     } else {
-      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + filePath
-      let styleObject = {backgroundImage: 'url(' + fullImageUrl + ')'}
+      let styleObject = {backgroundImage: 'url(' + fileUrl + ')'}
 
       previewContent = <div className="form__image-upload__preview" style={styleObject} />
     }
@@ -41,6 +42,17 @@ class FileUploadFieldContent extends React.Component {
       </div>
     )
 
+  }
+
+  uploadCallback(fileName) {
+    const {type, fieldApi} = this.props
+    const { setValue } = fieldApi;
+
+    if (type === "pdf") {
+      setValue("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/" + fileName)
+    } else {
+      setValue("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + fileName)
+    }
   }
 
   render() {
@@ -60,7 +72,6 @@ class FileUploadFieldContent extends React.Component {
         {preview}
         {!currValue &&
           <Dropzone className="form__image-upload__image-input"
-            createImageThumbnails={true}
             onDrop={(files) => this.onDrop(files)}
             onDragStart={setTouched}>
             <p>Drop image file here or click to select files to upload</p>

@@ -85,7 +85,7 @@ const renderRichText = ({rich_text}) => {
 }
 
 const renderPdf = ({resource_url}) => {
-  return <PdfViewer url={'https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/' + resource_url} />
+  return <PdfViewer url={resource_url} />
 }
 
 export default Resource

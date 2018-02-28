@@ -28,11 +28,11 @@ const processVideoUrl = (url) => {
     console.log("is youtube")
     let id = youtubeGetId(url)
 
-    return {video_provider: "youtube", resource_url: "https://www.youtube.com/embed/" + id}
+    return {video_provider: "youtube", resource_url: "https://www.youtube.com/embed/" + id, resource_id: id}
   } else if (url.match(/vimeo/)) {
     let id = vimeoGetId(url)
 
-    return {video_provider: "vimeo", resource_url: "https://player.vimeo.com/video/" + id}
+    return {video_provider: "vimeo", resource_url: "https://player.vimeo.com/video/" + id, resource_id: id}
   }
 }
 
@@ -54,10 +54,11 @@ const processFormData = (data, action, resourceTypeOverride) => {
     let results = processVideoUrl(data.resource_url)
     retObject.video_provider = results.video_provider
     retObject.resource_url = results.resource_url
+    retObject.image_url = results.video_provider === "youtube" ? "https://img.youtube.com/vi/" + results.resource_id + "/0.jpg" : null
   }
 
   if (retObject.resource_type === "pdf") {
-    retObject.image_url = retObject.resource_url.replace("pdf", "png")
+    retObject.image_url = retObject.resource_url.replace("/pdf/", "/images/").replace(".pdf", ".png")
   }
 
   console.log(retObject)

@@ -58,8 +58,7 @@ class Grid extends React.Component {
     let background;
     if (d.image_url) {
       let styleObject = {}
-      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
-      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      styleObject.backgroundImage = 'url(' + d.image_url + ')'
       background = (
         <div className="grid__item__image" style={styleObject} ></div>
       )
@@ -86,8 +85,7 @@ class Grid extends React.Component {
     let background;
     if (d.image_url) {
       let styleObject = {}
-      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
-      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      styleObject.backgroundImage = 'url(' + d.image_url + ')'
       background = (
         <div className="grid__item__image" style={styleObject} ></div>
       )
@@ -114,8 +112,7 @@ class Grid extends React.Component {
     let background;
     if (d.image_url) {
       let styleObject = {}
-      let fullImageUrl = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d.image_url
-      styleObject.backgroundImage = 'url(' + fullImageUrl + ')'
+      styleObject.backgroundImage = 'url(' + d.image_url + ')'
       background = (
         <div className="grid__item__image" style={styleObject} ></div>
       )
