@@ -82,8 +82,10 @@ function currTeam(state = null, action) {
       if (action.status === "SUCCESS") {
         let newState = {}
         Object.assign(newState, state)
-        let deletedIndex = state.collections.indexOf(action.data)
-        newState.collections.splice(deletedIndex, 1, action.data)
+        if (state && state.collections) {
+          let deletedIndex = state.collections.indexOf(action.data)
+          newState.collections.splice(deletedIndex, 1, action.data)
+        }
         return newState
       }
     case "DELETE_COLLECTION":
@@ -92,6 +94,22 @@ function currTeam(state = null, action) {
         Object.assign(newState, state)
         let deletedIndex = state.collections.indexOf(action.data)
         newState.collections.splice(deletedIndex, 1)
+        return newState
+      }
+    case "CREATE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        newState.resources.push(action.data)
+        return newState
+      }
+    case "DELETE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.resources.indexOf(action.data)
+        console.log(deletedIndex)
+        newState.resources.splice(deletedIndex, 1)
         return newState
       }
     default:
@@ -117,6 +135,22 @@ function currCollection(state = null, action) {
       if (action.status === "SUCCESS") {
         return "Invalid"
       }
+    case "COLLECTION_ADD_EXISTING_RESOURCE":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        newState.resources.push(action.data)
+        return newState
+      }
+    case "COLLECTION_REMOVE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.resources.indexOf(action.data)
+        console.log(deletedIndex)
+        newState.resources.splice(deletedIndex, 1)
+        return newState
+      }
     case "DELETE_COLLECTION":
       if (action.status === "SUCCESS") {
         return null
@@ -133,84 +167,26 @@ function currCollection(state = null, action) {
       if (action.status === "SUCCESS") {
         return "Invalid"
       }
+    case "SUBCOLLECTION_ADD_EXISTING_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "SUBCOLLECTION_REMOVE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
     case "DELETE_SUBCOLLECTION":
       if (action.status === "SUCCESS") {
         return "Invalid"
       }
-    default:
-      return state
-  }
-}
-
-function newBrowserLocation(state = null, action) {
-  switch (action.type) {
-    case "NEW_BROWSER_LOCATION":
-      return action.newUrl
-    default:
-      return state
-  }
-}
-
-function currTeamInvalidated(state = false, action) {
-  switch (action.type) {
-    case "INVALIDATE_CURR_TEAM":
-      return true
-    case "GET_TEAM_INFO_SUCCESS":
-      return false
-    default:
-      return state
-  }
-}
-
-function updateStatus(state = null, action) {
-  let splitPieces = action.type.split("_")
-  if (splitPieces[0] === "CREATE" || splitPieces[0] === "UPDATE" || splitPieces[0] === "DELETE") {
-    switch (splitPieces[2]) {
-      case "SUCCESS":
-        return "Success"
-      case "FAIL":
-        return "Failure"
-      default:
-        return state
-    }
-  } else if (action.type === "HIDE_ADMIN_MODAL"){
-    return null
-  } else {
-    return state
-  }
-}
-
-// "all" is placeholder for now
-function fetchedResourceLists(state = {}, action) {
-  switch (action.type) {
-    case "FETCH_RESOURCE_LIST_SUCCESS":
-      console.log(action)
-      return Object.assign({}, state, {
-        all : action.payload.data
-      })
-    default:
-      return state
-  }
-}
-
-function collectionList(state = [], action) {
-  switch (action.type) {
-    case "FETCH_COLLECTION_LIST_SUCCESS":
-      console.log(action)
-      return action.payload.data
-
-    default:
-      return state
-  }
-}
-
-function fetchedCollections(state = {}, action) {
-  switch (action.type) {
-    case "FETCH_COLLECTION_SUCCESS":
-      console.log(action)
-      return Object.assign({}, state, {
-        [action.payload.data.path] : action.payload.data
-      })
+    case "CREATE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
+    case "DELETE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
     default:
       return state
   }
@@ -222,17 +198,6 @@ function userInfo(state = {}, action) {
   switch (action.type) {
     case "SET_USER_INFO":
       return action.user || {}
-    default:
-      return state
-  }
-}
-
-function currCollectionInvalidated(state = false, action) {
-  switch (action.type) {
-    case "INVALIDATE_CURR_COLLECTION":
-      return true
-    case "FETCH_COLLECTION_SUCCESS":
-      return false
     default:
       return state
   }
@@ -252,6 +217,18 @@ function resourceViewerContent(state = null, action) {
       return Object.assign({}, state, {
         "currIndex": action.newIndex
       })
+    case "DELETE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return null
+      }
+    case "COLLECTION_REMOVE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return null
+      }
+    case "SUBCOLLECTION_REMOVE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return null
+      }
     default:
       return state
   }
@@ -264,10 +241,8 @@ const rootReducer = combineReducers({
   teamList,
   currTeam,
   currCollection,
-  newBrowserLocation
-  // updateStatus,
-  // adminModalContent,
-  // resourceViewerContent,
+  updateStatus,
+  resourceViewerContent,
   // currCollectionInvalidated,
   // currTeamInvalidated,
   // fetchedCollections,

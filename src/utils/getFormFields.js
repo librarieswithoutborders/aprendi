@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions, resourceTypeOptions, videoProviderOptions } from '../constants'
-import ImageUploadField from '../components/ImageUploadField'
+import FileUploadField from '../components/FileUploadField'
 import RichTextField from '../components/RichTextField'
 
 
@@ -21,7 +21,7 @@ const teamFields = (action) => (
     </div>
     <div className= "form__field">
       <label className="form__field__label">Team Image</label>
-      <ImageUploadField field="image_url"/>
+      <FileUploadField type="image" field="image_url"/>
     </div>
   </div>
 )
@@ -38,7 +38,7 @@ const collectionFields = (action) => (
     </div>
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
-      <ImageUploadField field="image_url"/>
+      <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="short_description">Short Description</label>
@@ -75,7 +75,7 @@ const subcollectionFields = (action) => (
     </div>
     <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
-      <ImageUploadField field="image_url"/>
+      <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="short_description">Short Description</label>
@@ -100,7 +100,7 @@ const resourceFields = (resourceType, action) => (
       <div>
         <div className= "form__field">
           <label className="form__field__label">PDF</label>
-          <ImageUploadField field="resource_url" />
+          <FileUploadField type="pdf" field="resource_url" />
         </div>
       </div>
     }
@@ -126,7 +126,7 @@ const resourceFields = (resourceType, action) => (
     {action != "create" &&
       <div className= "form__field">
         <label className="form__field__label">Cover Image</label>
-        <ImageUploadField field="image_url"/>
+        <FileUploadField type="image" field="image_url"/>
       </div>
     }
     <div className= "form__field">

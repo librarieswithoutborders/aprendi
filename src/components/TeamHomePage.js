@@ -10,7 +10,7 @@ import LoadingIcon from './LoadingIcon'
 // hard-coded temporarily
 const currTeam = "all"
 
-const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, teamResources, createNewCollection, createNewResource, history, showResourceViewer}) => {
+const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer}) => {
   let headerContents = {
     title: teamInfo.team_name
   }
@@ -33,9 +33,9 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, teamResources, createNe
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
           <div className="button" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>
-          {teamResources && teamResources.length > 0 &&
+          {teamInfo.resources && teamInfo.resources.length > 0 &&
             <ResourceExistingSearch
-              resources={teamResources}
+              resources={teamInfo.resources}
               onSelect={resource => showResourceViewer(resource)}/>
           }
         </div>
@@ -75,10 +75,6 @@ class TeamHomePageContainer extends React.Component {
     if (!teamInfo || teamInfo.path !== teamPath) {
       fetchTeam(teamPath);
     }
-
-    // if (!fetchedResourceLists[currTeam]) {
-    //   fetchResourceList(currTeam)
-    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -119,8 +115,6 @@ class TeamHomePageContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     teamInfo: state.currTeam,
-    fetchedResourceLists: state.fetchedResourceLists,
-    currTeamInvalidated: state.currTeamInvalidated
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchCollection, resetCurrCollection } from '../actions/actions.js'
+import { fetchCollection} from '../actions/actions.js'
 import { connect } from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
 import LoadingIcon from './LoadingIcon'
@@ -13,7 +13,7 @@ class CollectionDataContainer extends Component {
   componentWillMount() {
     console.log(this.props)
     const {collectionPath, currCollection, fetchCollection} = this.props;
-    if (!currCollection) {
+    if (!currCollection || typeof currCollection != 'object') {
       fetchCollection(collectionPath)
     }
   }
@@ -25,7 +25,6 @@ class CollectionDataContainer extends Component {
     const {history} = this.props;
 
     if (nextProps.currCollection === "Not Found") {
-      resetCurrCollection()
       if (nextProps.currTeam) {
         history.push("/teams/" + nextProps.currTeam.path)
       } else {
@@ -80,9 +79,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCollection: (id) => {
       dispatch(fetchCollection(id))
-    },
-    resetCurrCollection: () => {
-      dispatch(resetCurrCollection())
     },
     showAdminModal: (props) => {
       dispatch(showAdminModal(props))

@@ -63,14 +63,14 @@ class Collection extends Component {
 
   render() {
     console.log(this.props)
-    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location } = this.props
+    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
 
-    console.log(type)
+    console.log(currTeam)
 
     const headerContents = {
       title: data.title,
-      // byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
+      byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
       image_url: data.image_url,
       short_description: data.short_description
     }
@@ -93,7 +93,7 @@ class Collection extends Component {
           <Grid
             data={data.resources}
             type="resource"
-            createNew={() => createResource({parentId:data._id, parentType:type})}
+            createNew={() => createResource({parentId:data._id, parentType:type, parentResources:data.resources.map(d => d._id)}, currTeam._id)}
             clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
             reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
           />
@@ -105,7 +105,8 @@ class Collection extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    resourceViewerContent: state.resourceViewerContent
+    resourceViewerContent: state.resourceViewerContent,
+    currTeam: state.currTeam
   }
 }
 
@@ -115,9 +116,9 @@ const mapDispatchToProps = (dispatch) => {
       console.log(parent)
       dispatch(showAdminModal({action:"create", type:"subcollection", parent: parent}))
     },
-    createResource: (parent) => {
+    createResource: (parent, teamId) => {
       console.log(parent)
-      dispatch(showAdminModal({action:"create", type:"resource", parent: parent, showExisting: true}))
+      dispatch(showAdminModal({action:"create", type:"resource", parent: parent, showExisting: true, team: teamId}))
     },
     updateCollection: ({data, type}) => {
       dispatch(showAdminModal({action:"update", type:type, data: data}))

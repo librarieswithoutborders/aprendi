@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchResourceList, addResourceToCollection, hideAdminModal, invalidateCurrCollection } from '../actions/actions.js'
+import { fetchResourceList, collectionAddExistingResource, subcollectionAddExistingResource, hideAdminModal, invalidateCurrCollection } from '../actions/actions.js'
 import ResourceTypeSelector from './ResourceTypeSelector'
 import ResourceExistingSearch from './ResourceExistingSearch'
 
-// hard-coded for now but will be dynamic
-const currTeam = "all"
 
 class ResourceCreator extends Component {
   constructor() {
@@ -13,15 +11,6 @@ class ResourceCreator extends Component {
 
     this.state = {
       activeTab: 0
-    }
-  }
-
-  componentWillMount() {
-    console.log(this.props)
-    const {fetchedResourceLists, fetchResourceList} = this.props
-
-    if (!fetchedResourceLists[currTeam]) {
-      fetchResourceList(currTeam)
     }
   }
 
@@ -34,17 +23,19 @@ class ResourceCreator extends Component {
   }
 
   existingResourceSelected(resource) {
-    const {parent, addResourceToCollection} = this.props
+    const {parent, addExistingResource} = this.props
 
-    addResourceToCollection(resource._id, parent)
+    addExistingResource(resource, parent)
   }
 
   render() {
-    console.log(this.props)
-    const {setResourceType, fetchedResourceLists, showExisting} = this.props
+    const {setResourceType, showExisting, currTeam, parent} = this.props
     const {activeTab} = this.state
 
-    const currResourceList = fetchedResourceLists[currTeam]
+    let currResourceList = currTeam.resources
+    if (parent && parent.parentResources) {
+      currResourceList = currResourceList.filter(d => parent.parentResources.indexOf(d._id) < 0)
+    }
 
     if (!showExisting) {
       return (
@@ -79,24 +70,21 @@ class ResourceCreator extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    fetchedResourceLists: state.fetchedResourceLists,
+    currTeam: state.currTeam,
     parent: state.adminModalContent.parent
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResourceList: () => dispatch(fetchResourceList("all")),
-    addResourceToCollection: (resourceId, parent) => dispatch(addResourceToCollection(resourceId, parent)).then(response => existingResourceSelectCallback(response, dispatch))
+    addExistingResource: (resource, parent) => {
+      if (parent.parentType === "collection") {
+        dispatch(collectionAddExistingResource(resource, parent.parentId))
+      } else {
+        dispatch(subcollectionAddExistingResource(resource, parent.parentId))
+      }
+    }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResourceCreator)
-
-const existingResourceSelectCallback = (response, dispatch, type) => {
-  console.log(response.payload)
-  if (response.payload.status === 200) {
-    dispatch(hideAdminModal())
-    dispatch(invalidateCurrCollection())
-  }
-}

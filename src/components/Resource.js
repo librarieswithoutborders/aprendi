@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import SvgIcon from './SvgIcon'
+import PdfViewer from './PdfViewer'
 
 const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) => {
   console.log(content)
   let renderedContent
   switch(content.resource_type) {
+    case "pdf":
+      renderedContent = renderPdf(content)
+      break
     case "video":
       renderedContent = renderVideo(content)
       break
@@ -36,9 +40,9 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) 
             <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
           }
           {removeResource &&
-            <div className="button" onClick={() => removeResource(content._id)}>Remove Resource From Collection</div>
+            <div className="button" onClick={() => removeResource(content)}>Remove Resource From Collection</div>
           }
-          <div className="button" onClick={() => deleteResource(content._id)}>Delete Resource</div>
+          <div className="button" onClick={() => deleteResource(content)}>Delete Resource</div>
         </div>
       </div>
       <div className="resource__content">
@@ -78,6 +82,10 @@ const renderVideo = ({video_provider, resource_url}) => {
 
 const renderRichText = ({rich_text}) => {
   return <div className="resource__richtext" dangerouslySetInnerHTML={{__html: rich_text}} />
+}
+
+const renderPdf = ({resource_url}) => {
+  return <PdfViewer url={'https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/' + resource_url} />
 }
 
 export default Resource

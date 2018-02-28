@@ -153,8 +153,8 @@ const mapDispatchToProps = (dispatch) => {
     updateCollection: (data) => dispatch(updateCollection(data)),
     createSubcollection: (data) => dispatch(createSubcollection(data)),
     updateSubcollection: (data) => dispatch(updateSubcollection(data)),
-    // createResource: (data) => dispatch(createResource(data)).then(response => formSubmitCallback(response, dispatch)),
-    // updateResource: (data) => dispatch(updateResource(data)).then(response => formSubmitCallback(response, dispatch)),
+    createResource: (data) => dispatch(createResource(data)),
+    updateResource: (data) => dispatch(updateResource(data)),
   }
 }
 

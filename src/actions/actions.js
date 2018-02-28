@@ -1,4 +1,5 @@
 import * as types from './actionTypes';
+import addDateHash from '../utils/addDateHash'
 
 const dbPath = process.env.NODE_ENV === "production" ? 'http://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
 
@@ -33,6 +34,20 @@ export function hideAdminModal() {
   }
 }
 
+export function showResourceViewer({parent, resourceList, currIndex}) {
+  return {
+    type: 'SHOW_RESOURCE_VIEWER',
+    parent,
+    resourceList,
+    currIndex
+  }
+}
+
+export function hideResourceViewer() {
+  return {
+    type: 'HIDE_RESOURCE_VIEWER'
+  }
+}
 
 //TEAM
 
@@ -247,6 +262,60 @@ export function updateCollection(collectionInfo) {
   }
 }
 
+export function collectionAddExistingResource(resource, parentId) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"COLLECTION_ADD_EXISTING_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/collection-add-resource",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({resourceId: resource._id, parentId: parentId})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"COLLECTION_ADD_EXISTING_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"COLLECTION_ADD_EXISTING_RESOURCE", status:"SUCCESS", data: resource}))
+        }
+      })
+  }
+}
+
+export function collectionRemoveResource(resource, parentId) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"COLLECTION_REMOVE_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/collection-remove-resource",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({resourceId: resource._id, parentId: parentId})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"COLLECTION_REMOVE_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"COLLECTION_REMOVE_RESOURCE", status:"SUCCESS", data: resource}))
+        }
+      })
+  }
+}
+
 export function collectionReorderChildren(collectionInfo) {
   console.log(collectionInfo)
   return (dispatch) => {
@@ -359,6 +428,60 @@ export function subcollectionReorderChildren(subcollectionInfo) {
   }
 }
 
+export function subcollectionAddExistingResource(resource, parentId) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"SUBCOLLECTION_ADD_EXISTING_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/subcollection-add-resource",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({resourceId: resource._id, parentId: parentId})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"SUBCOLLECTION_ADD_EXISTING_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"SUBCOLLECTION_ADD_EXISTING_RESOURCE", status:"SUCCESS", data: resource}))
+        }
+      })
+  }
+}
+
+export function subcollectionRemoveResource(resource, parentId) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"SUBCOLLECTION_REMOVE_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/subcollection-remove-resource",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({resourceId: resource._id, parentId: parentId})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"SUBCOLLECTION_REMOVE_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"SUBCOLLECTION_REMOVE_RESOURCE", status:"SUCCESS", data: resource}))
+        }
+      })
+  }
+}
+
 export function deleteSubcollection({subcollectionInfo, parentId, parentType}) {
   console.log(subcollectionInfo)
   return (dispatch) => {
@@ -375,6 +498,97 @@ export function deleteSubcollection({subcollectionInfo, parentId, parentType}) {
 
       })
   }
+}
+
+// Resource
+
+export function createResource(resourceInfo) {
+  console.log(resourceInfo)
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"CREATE_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/resource",
+      {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(resourceInfo)
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"CREATE_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"CREATE_RESOURCE", status:"SUCCESS", data:json}))
+        }
+      })
+  }
+}
+
+export function deleteResource(resourceInfo) {
+  console.log(resourceInfo)
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"DELETE_RESOURCE", status:"INITIATED"}))
+    return fetch(
+      dbPath + '/resource/?_id=' + resourceInfo._id,
+      {
+        method: "DELETE"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+        dispatch(setUpdateStatus({type:"DELETE_RESOURCE", status:"SUCCESS", data: resourceInfo}))
+      })
+  }
+}
+
+export function uploadFile(file, addHash, callback) {
+  let newFile = addHash ? addDateHash(file) : file
+
+  let reader = new FileReader()
+  console.log(reader.readAsDataURL(newFile))
+
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"INITIATED"}))
+
+    return getS3SignedRequest(newFile, response => {
+      console.log(response)
+      if (!response || !response.signedUrl) {
+        dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"FAILED"}))
+        return
+      } else {
+        return fetch(
+          response.signedUrl,
+          {
+            method: "PUT",
+            body: newFile
+          }
+        )
+        .then(response => {
+          console.log(response)
+          if (response.status == 200) {
+            dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"SUCCESS"}))
+            callback ? callback(newFile.name) : null
+          }
+        })
+      }
+    })
+  }
+}
+
+function getS3SignedRequest(file, callback) {
+  return fetch(
+    dbPath + '/sign-s3?file-name=' + file.name + '&file-type=' + file.type,
+    {
+      method: "GET"
+    }
+  ).then(response => response.json())
+  .then(callback)
 }
 
 
@@ -630,20 +844,8 @@ export function deleteSubcollection({subcollectionInfo, parentId, parentType}) {
 //   }
 // }
 //
-// export function showResourceViewer({parent, resourceList, currIndex}) {
-//   return {
-//     type: types.SHOW_RESOURCE_VIEWER,
-//     parent,
-//     resourceList,
-//     currIndex
-//   }
-// }
-//
-// export function hideResourceViewer() {
-//   return {
-//     type: types.HIDE_RESOURCE_VIEWER
-//   }
-// }
+
+
 //
 // export function setUserInfo(user) {
 //   return {

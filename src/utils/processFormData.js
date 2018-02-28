@@ -56,6 +56,10 @@ const processFormData = (data, action, resourceTypeOverride) => {
     retObject.resource_url = results.resource_url
   }
 
+  if (retObject.resource_type === "pdf") {
+    retObject.image_url = retObject.resource_url.replace("pdf", "png")
+  }
+
   console.log(retObject)
 
   return retObject

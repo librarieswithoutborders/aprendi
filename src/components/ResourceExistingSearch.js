@@ -12,8 +12,22 @@ class ResourceExistingSearch extends Component {
     };
 	}
 
+	componentWillReceiveProps(nextProps) {
+		console.log("receiving new PROPSSSSS")
+		console.log(nextProps.resources, this.props.resources)
+		// if (nextProps.resources && this.props.resources && nextProps.resources !== this.props.resources) {
+			this.setState({
+				value: '',
+				suggestions: nextProps.resources
+			})
+		// }
+	}
+
 	render() {
 		const { value, suggestions } = this.state;
+
+		console.log(suggestions)
+		console.log(this.props.resources)
 
 		const inputProps = {
   		placeholder: 'Search',
