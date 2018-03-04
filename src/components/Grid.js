@@ -1,6 +1,7 @@
 import React from "react"
 import { Responsive, WidthProvider } from "react-grid-layout"
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
+import { isLoggedIn } from '../utils/AuthService';
 import { Link } from 'react-router-dom'
 import SvgIcon from './SvgIcon'
 
@@ -34,22 +35,26 @@ class Grid extends React.Component {
   }
 
   generateDOM() {
-    const { data, clickHandler, type } = this.props;
+    const { data, clickHandler, type, editingMode } = this.props;
 
-    let gridItems = [...data, ...[{}]].map((d, i) => {
+    let fullList = editingMode ? [...data, ...[{}]] : data
+
+    let gridItems = fullList.map((d, i) => {
       if (i === data.length) { return this.addCreateGridItem()}
 
       if (type === "collection") {
         return this.renderCollectionItem(d, i)
       } else if (type === "subcollection") {
         return this.renderSubcollectionItem(d, i)
-      } else {
+      } else if (type === "resource") {
         return this.renderResourceItem(d, i)
+      } else if (type === "team") {
+        return this.renderTeamItem(d, i)
+      } else {
+        return this.renderUserItem(d, i)
       }
     });
-    // let createGridItem =
 
-    // return [...gridItems, ...[createGridItem]]
     return gridItems
   }
 
@@ -143,33 +148,85 @@ class Grid extends React.Component {
     );
   }
 
-  addCreateGridItem() {
-    const { data, createNew, type } = this.props;
-    let text;
-    if (type === "collection") {
-      text = "Create New Collection"
-    } else if (type === "subcollection") {
-      text = "Create New Subcollection"
+  renderTeamItem(d, i) {
+    const { data, clickHandler, buttonClickHandler, editingMode} = this.props;
+    let background;
+    if (d.image_url) {
+      let styleObject = {}
+      styleObject.backgroundImage = 'url(' + d.image_url + ')'
+      background = (
+        <div className="grid__item__image" style={styleObject} ></div>
+      )
     } else {
-      text = "Add New Resource"
+      background = (
+        <div className="grid__item__image"><SvgIcon name="team" /></div>
+      )
     }
+    return (
+      <div key={d._id} className={"grid__item item-type-team"}  onClick={() => clickHandler(d)}>
+        {background}
+        <div className="grid__item__content">
+          <div className="grid__item__text">
+            <h5 className="grid__item__text__main">{d.team_name}</h5>
+            <h5 className="grid__item__text__sub">{d.users.length + " Members"}</h5>
+            {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderUserItem(d, i) {
+    const { data, buttonClickHandler, editingMode} = this.props;
+    let background;
+    if (d.image_url) {
+      let styleObject = {}
+      styleObject.backgroundImage = 'url(' + d.image_url + ')'
+      background = (
+        <div className="grid__item__image" style={styleObject} ></div>
+      )
+    } else {
+      background = (
+        <div className="grid__item__image"><SvgIcon name="user" /></div>
+      )
+    }
+    return (
+      <div key={d._id} className={"grid__item item-type-user"}>
+        {background}
+        <div className="grid__item__content">
+          <div className="grid__item__text">
+            <h5 className="grid__item__text__main">{d.name}</h5>
+            <h5 className="grid__item__text__sub">{d.email}</h5>
+            {editingMode && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Remove User from Team</div>}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  addCreateGridItem() {
+    const { data, createNew, type, createNewText } = this.props;
+
     return(
       <div key="Create" className="grid__item add-new" onClick={() => createNew()}>
           <SvgIcon className="grid__item__plus" name="plus" />
           <div className="grid__item__text">
-            <h5 className="grid__item__text__sub">{text}</h5>
+            <h5 className="grid__item__text__sub">{createNewText}</h5>
           </div>
       </div>
     )
   }
 
   generateLayout(idList) {
+    const {editingMode} = this.props
     let layouts = {};
 
     for (let key in columns) {
       let numColumns = columns[key]
 
-      layouts[key] = [...idList, ...["Create"]].map((d, i) => {
+      let fullList = editingMode ? [...idList, ...["Create"]] : idList
+
+      layouts[key] = fullList.map((d, i) => {
         return {
           x: i%numColumns,
           y: Math.floor(i/numColumns),
@@ -239,7 +296,7 @@ class Grid extends React.Component {
   // }
 
   render() {
-    const {type} = this.props
+    const {type, isDraggable, editingMode} = this.props
 
     console.log("in render")
     console.log(this.state.layouts)
@@ -250,7 +307,7 @@ class Grid extends React.Component {
         margin= {[10, 10]}
         containerPadding= {[10, 10]}
         isResizable={false}
-        isDraggable={type !== "collection"}
+        isDraggable={editingMode && isDraggable}
         cols= {columns}
         onBreakpointChange={() => this.onBreakpointChange()}
         onDragStop={this.onDragStop.bind(this)}

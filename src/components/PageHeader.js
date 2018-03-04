@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-const PageHeader = ({contents, type, editFunc, deleteFunc}) => {
+const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
   const {title, short_description, image_url, byline} = contents
   let styleObject = {}
   if (image_url) {
@@ -25,10 +25,10 @@ const PageHeader = ({contents, type, editFunc, deleteFunc}) => {
           {short_description &&
             <p className="page-header__description">{short_description}</p>
           }
-          {editFunc &&
+          {editFunc && editingMode &&
             <div className="button" onClick={editFunc}>{"Edit " + getButtonLabel(type)}</div>
           }
-          {deleteFunc &&
+          {deleteFunc && editingMode &&
             <div className="button" onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</div>
           }
         </div>

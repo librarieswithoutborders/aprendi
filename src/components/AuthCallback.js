@@ -1,7 +1,7 @@
 "use strict";
 
 import { Component } from 'react';
-import { setIdToken, setAccessToken, getUserInfo } from '../utils/AuthService';
+import { setIdToken, setAccessToken, getUserByHash } from '../utils/AuthService';
 import { connect } from 'react-redux'
 import { setUserInfo } from '../actions/actions.js';
 // import {withRouter} from "react-router-dom";
@@ -18,9 +18,9 @@ class AuthCallback extends Component {
     setIdToken();
     console.log(window.opener)
 
-    getUserInfo(window.location.hash).then(userInfo => {
-      window.opener.loginCallback(userInfo)
-      // window.close()
+    getUserByHash(window.location.hash).then(userInfo => {
+      window.opener.location.reload()
+      window.close()
     });
 
   }

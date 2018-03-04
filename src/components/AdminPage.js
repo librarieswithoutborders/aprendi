@@ -2,44 +2,42 @@ import React from 'react';
 import { showAdminModal, deleteTeam, fetchTeamList } from '../actions/actions.js';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+import PageHeader from './PageHeader'
+import Search from './Search'
 
-
-const RootAdminPage = ({teams, createTeam, deleteTeam}) => {
+const AdminPage = ({teams, createTeam, deleteTeam, history}) => {
   console.log(teams)
+
+  let headerContents = {
+    title: "Admin"
+  }
+
   return (
     <div>
+      <PageHeader contents={headerContents} type="admin" />
       <h5>Teams</h5>
       <button onClick={() => createTeam({team_id:"new_team", team_name:"New Team"})} >Create New Team</button>
-      <ul>
-        {teams.map((team) => {
-          return (
-            <li>
-              <Link to={'/teams/' + team.path} >
-                <span>{team.team_name}</span>
-              </Link>
-              <button onClick={() => deleteTeam(team)} >Delete Team</button>
-            </li>
-          )
-        })}
-      </ul>
+      <Search type="team" showAll={true} onSelect={item => history.push('/teams/' + item.path)}/>
+      <Search type="collection" showAll={true} onSelect={item => history.push('/' + item.path)}/>
+      <Search type="resource" showAll={true} onSelect={item => history.push('/' + item.path)}/>
     </div>
   )
 
 }
 
-class RootAdminPageContainer extends React.Component {
+class AdminPageContainer extends React.Component {
   componentWillMount() {
     const {teams, fetchTeamList} = this.props;
 
-    if (teams.length === 0) {
+    if (!teams) {
       fetchTeamList();
     }
   }
 
   render() {
-    const {teams, createTeam, deleteTeam} = this.props;
+    const {teams} = this.props;
     if (teams) {
-      return <RootAdminPage teams={teams} createTeam={createTeam} deleteTeam={deleteTeam}/>
+      return <AdminPage {...this.props} />
     } else {
       return <h5>Loading Teams</h5>
     }
@@ -58,7 +56,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchTeamList: () => {
       dispatch(fetchTeamList())
     },
-    createTeam: (teamInfo) => {
+    createTeam: () => {
       dispatch(showAdminModal({action:"create", type:"team"}))
     },
     deleteTeam: (teamInfo) => {
@@ -67,4 +65,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootAdminPageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPageContainer)

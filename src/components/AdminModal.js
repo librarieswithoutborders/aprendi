@@ -4,6 +4,7 @@ import getFormFields from '../utils/getFormFields'
 import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
 import ResourceCreator from './ResourceCreator'
+import Search from './Search'
 import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection} from '../actions/actions.js'
 
 class AdminModal extends Component {
@@ -36,7 +37,16 @@ class AdminModal extends Component {
     const {type, action, data} = this.props
     let title = ""
 
-    title += action === "create" ? "Add " : "Edit "
+    if (action === "create") {
+      title += "Add "
+    } else if (action === "add_user") {
+      title += "Add User to "
+    } else if (action === "add_team") {
+      title += "Join New Team"
+      return title
+    } else {
+      title += "Edit "
+    }
     title += type.charAt(0).toUpperCase() + type.slice(1)
     title += action === "update" ? ":" + data.title : ""
 
@@ -44,12 +54,16 @@ class AdminModal extends Component {
   }
 
   setContent() {
-    const {type, data, action, updateStatus, showExisting} = this.props
+    const {type, data, action, updateStatus, showExisting, submit} = this.props
     const {resourceType} = this.state
 
     console.log(type, action, resourceType)
     if (type === "resource" && action === "create" && !resourceType ) {
       return <ResourceCreator showExisting={showExisting} setResourceType={(type) => this.setResourceType(type)}/>
+    } else if (type === "team" && action === "add_user") {
+      return <Search type="user" onSelect={submit} />
+    } else if (type === "user" && action === "add_team") {
+      return <Search type="team" />
     } else {
       return (
         <Form
@@ -98,14 +112,24 @@ class AdminModalContainer extends Component {
   }
 
   setSubmitFunction() {
-    const {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource} = this.props
-    const {type, team, parent} = this.props.modalProps;
+    const {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, addUserToTeam} = this.props
+    const {type, team, parent, user} = this.props.modalProps;
 
     switch(type) {
       case "team":
         return {
-          create: data => createTeam({data}),
-          update: data => updateTeam({data})
+          create: data => {
+            console.log(data)
+            if (user && user.permissions._id) {
+              console.log({users:[user.permissions._id], ...data})
+              createTeam({data:{users:[user.permissions._id], ...data}})
+
+            } else {
+              createTeam({data})
+            }
+          },
+          update: data => updateTeam({data}),
+          add_user: (user, team) => addUserToTeam(user, team)
         }
       case "collection":
         return {
@@ -122,6 +146,8 @@ class AdminModalContainer extends Component {
           create: data => createResource({data, parent, team}),
           update: data => updateResource({data})
         }
+      case "user":
+        return {}
     }
   }
 
@@ -149,6 +175,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createTeam: (data) => dispatch(createTeam(data)),
     updateTeam: (data) => dispatch(updateTeam(data)),
+    addUserToTeam: (user, team) => dispatch(addUserToTeam(user, team)),
     createCollection: (data) => dispatch(createCollection(data)),
     updateCollection: (data) => dispatch(updateCollection(data)),
     createSubcollection: (data) => dispatch(createSubcollection(data)),

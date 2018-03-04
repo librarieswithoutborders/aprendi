@@ -66,4 +66,17 @@ textarea {
     // box-shadow: standard-hover-shadow(grey);
     opacity: .8;
   }
+
+  &.button-white {
+    background-color: colors(white);
+    color: colors(grey);
+    box-shadow: none;
+    border: 1px solid colors(grey);
+
+    &:hover {
+      color: colors(black);
+      border-color: colors(black);
+      opacity: 1;
+    }
+  }
 }

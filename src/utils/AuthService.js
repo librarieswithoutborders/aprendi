@@ -19,7 +19,7 @@ export function login() {
     responseType: 'token id_token',
     redirectUri: REDIRECT,
     audience: AUDIENCE,
-    scope: 'openid profile email user_id'
+    scope: 'openid profile email read:users user_id id'
   });
 }
 
@@ -90,7 +90,7 @@ function isTokenExpired(token) {
   return expirationDate < new Date();
 }
 
-export async function getUserInfo(hash) {
+export async function getUserByHash(hash) {
   console.log(hash)
   return new Promise((resolve) => {
     // let userInfo;

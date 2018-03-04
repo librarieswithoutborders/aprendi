@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer, hideResourceViewer, updateCollection, updateSubcollection, collectionReorderChildren, subcollectionReorderChildren } from '../actions/actions.js'
+import canUserEdit from '../utils/canUserEdit'
 
 import PageHeader from './PageHeader'
 import Breadcrumbs from './Breadcrumbs'
@@ -63,7 +64,7 @@ class Collection extends Component {
 
   render() {
     console.log(this.props)
-    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam } = this.props
+    const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
 
     console.log(currTeam)
@@ -77,7 +78,7 @@ class Collection extends Component {
 
     return (
       <div className="collection">
-        <PageHeader contents={headerContents} type={type} editFunc={() => updateCollection({data: data, type: type})} deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
+        <PageHeader contents={headerContents} type={type} editingMode={editingMode} editFunc={() => updateCollection({data: data, type: type})} deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
         {type == "subcollection" && <Breadcrumbs data={breadcrumbs} /> }
         <div className="collection__contents">
           <Grid
@@ -86,6 +87,9 @@ class Collection extends Component {
             createNew={() => createSubcollection({parentId:data._id, parentType:type})}
             clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
             reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
+            isDraggable={true}
+            editingMode={editingMode}
+            createNewText="Create New Collection"
           />
         </div>
         <hr className="collection__divider" />
@@ -96,6 +100,9 @@ class Collection extends Component {
             createNew={() => createResource({parentId:data._id, parentType:type, parentResources:data.resources.map(d => d._id)}, currTeam._id)}
             clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
             reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
+            isDraggable={true}
+            editingMode={editingMode}
+            createNewText="Add New Resource"
           />
         </div>
       </div>
@@ -104,9 +111,12 @@ class Collection extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(canUserEdit)
+  let canEdit = canUserEdit(state.currUser, state.currCollection, "collection")
   return {
     resourceViewerContent: state.resourceViewerContent,
-    currTeam: state.currTeam
+    currTeam: state.currTeam,
+    editingMode: canEdit
   }
 }
 

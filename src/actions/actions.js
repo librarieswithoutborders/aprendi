@@ -217,6 +217,24 @@ export function fetchCollection(path) {
   }
 }
 
+export function fetchCollectionList() {
+  return (dispatch) => {
+    dispatch(setRequestStatus({type:"FETCH_COLLECTIONS", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + '/collections',
+      {
+        method: "GET"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+
+        dispatch(setRequestStatus({type:"FETCH_COLLECTIONS", status:"SUCCESS", data:json}))
+      })
+  }
+}
+
 export function deleteCollection(collectionInfo) {
   console.log(collectionInfo)
   return (dispatch) => {
@@ -582,6 +600,24 @@ export function uploadFile(file, addHash, callback) {
   }
 }
 
+export function fetchResourceList() {
+  return (dispatch) => {
+    dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + '/resources',
+      {
+        method: "GET"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+
+        dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"SUCCESS", data:json}))
+      })
+  }
+}
+
 function getS3SignedRequest(file, callback) {
   return fetch(
     dbPath + '/sign-s3?file-name=' + file.name + '&file-type=' + file.type,
@@ -610,220 +646,9 @@ function getS3SignedRequest(file, callback) {
 //   }
 // }
 //
-// export function invalidateCurrTeam() {
-//   return {
-//     type: types.INVALIDATE_CURR_TEAM,
-//   }
-// }
 //
-// //Collection
-//
-// export function createCollection(collectionInfo) {
-//   return {
-//     type: types.CREATE_COLLECTION,
-//     payload: {
-//       request:{
-//         method:'post',
-//         url:'/collection',
-//         data: collectionInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function deleteCollection(id) {
-//   console.log("deleting collection", id)
-//   return {
-//     type: types.DELETE_COLLECTION,
-//     payload: {
-//       request:{
-//         method:'delete',
-//         url:'/collection/?_id=' + id
-//       }
-//     }
-//   }
-// }
-//
-// export function updateCollection(collectionInfo) {
-//   console.log(collectionInfo)
-//   return {
-//     type: types.UPDATE_COLLECTION,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:'/collection',
-//         data: collectionInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function fetchCollectionsByTeam(teamId) {
-//   return {
-//     type: types.FETCH_COLLECTIONS_BY_TEAM,
-//     payload: {
-//       request:{
-//         method:'get',
-//         url:'/collections/?team=' + teamId,
-//       }
-//     }
-//   }
-// }
-//
-// export function fetchResourceList() {
-//   return {
-//     type: types.FETCH_RESOURCE_LIST,
-//     payload: {
-//       request:{
-//         method:'get',
-//         url:'/resources'
-//       }
-//     }
-//   }
-// }
-//
-// export function fetchCollectionList() {
-//   return {
-//     type: types.FETCH_COLLECTION_LIST,
-//     payload: {
-//       request:{
-//         method:'get',
-//         url:'/collections'
-//       }
-//     }
-//   }
-// }
-//
-// export function fetchCollection(collectionId) {
-//   return {
-//     type: types.FETCH_COLLECTION,
-//     payload: {
-//       request:{
-//         method:'get',
-//         url:'/collection?path=' + collectionId
-//       }
-//     }
-//   }
-// }
-//
-// export function invalidateCurrCollection() {
-//   return {
-//     type: types.INVALIDATE_CURR_COLLECTION,
-//   }
-// }
-//
-//
-// //subcollection
-//
-// export function createSubcollection(subcollectionInfo) {
-//   return {
-//     type: types.CREATE_SUBCOLLECTION,
-//     payload: {
-//       request:{
-//         method:'post',
-//         url:'/subcollection',
-//         data: subcollectionInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function updateSubcollection(subcollectionInfo) {
-//   return {
-//     type: types.UPDATE_SUBCOLLECTION,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:'/subcollection',
-//         data: subcollectionInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function deleteSubcollection({id, parentId, parentType}) {
-//   console.log("deleting subcollection", id)
-//   return {
-//     type: types.DELETE_SUBCOLLECTION,
-//     payload: {
-//       request:{
-//         method:'delete',
-//         url:'/subcollection/?_id=' + id + "&parent_id=" + parentId + "&parent_type=" + parentType
-//       }
-//     }
-//   }
-// }
-//
-// //Resource
-//
-// export function createResource(resourceInfo) {
-//   return {
-//     type: types.CREATE_RESOURCE,
-//     payload: {
-//       request:{
-//         method:'post',
-//         url:'/resource',
-//         data: resourceInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function deleteResource(id) {
-//   console.log("deleting resource", id)
-//   return {
-//     type: types.DELETE_RESOURCE,
-//     payload: {
-//       request:{
-//         method:'delete',
-//         url:'/resource/?_id=' + id
-//       }
-//     }
-//   }
-// }
-//
-// export function updateResource(resourceInfo) {
-//   console.log(resourceInfo)
-//   return {
-//     type: types.UPDATE_RESOURCE,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:'/resource',
-//         data: resourceInfo
-//       }
-//     }
-//   }
-// }
-//
-// export function addResourceToCollection(resourceId, parent) {
-//   console.log(resourceId, parent)
-//   return {
-//     type: parent.parentType == "collection" ? types.UPDATE_COLLECTION : types.UPDATE_SUBCOLLECTION,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:parent.parentType == "collection" ? '/collection-add-resource' : '/subcollection-add-resource',
-//         data: {resourceId: resourceId, parentId: parent.parentId}
-//       }
-//     }
-//   }
-// }
-//
-// export function removeResourceFromCollection(resourceId, parent) {
-//   console.log(resourceId, parent)
-//   return {
-//     type: parent.parentType == "collection" ? types.UPDATE_COLLECTION : types.UPDATE_SUBCOLLECTION,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:parent.parentType == "collection" ? '/collection-remove-resource' : '/subcollection-remove-resource',
-//         data: {resourceId: resourceId, parentId: parent.parentId}
-//       }
-//     }
-//   }
-// }
-//
+
+
 // export function setCurrResourceIndex(newIndex) {
 //   return {
 //     type: types.SET_CURR_RESOURCE_INDEX,
@@ -832,29 +657,47 @@ function getS3SignedRequest(file, callback) {
 // }
 //
 //
-// export function showAdminModal(props) {
-//   return {
-//     type: types.SHOW_ADMIN_MODAL,
-//     props
-//   }
-// }
-//
-// export function hideAdminModal() {
-//   return {
-//     type: types.HIDE_ADMIN_MODAL
-//   }
-// }
-//
 
 export function sendUserInfoRequest() {
   console.log("getting user info")
   return (dispatch) => {
     getCurrUser().then(user => {
       console.log(user)
-      dispatch(setUserInfo(user))
+      if (user) {
+        dispatch(getUserTeam(user))
+      }
     })
   }
+}
 
+export function getUserTeam(user) {
+  console.log(user)
+  return (dispatch) => {
+    console.log(dispatch)
+    dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + '/user',
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json, user)
+        if (json) {
+          dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"SUCCESS", data:json}))
+          dispatch(setUserInfo({userInfo: user, permissions: json}))
+        } else {
+          dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"FAILURE"}))
+          dispatch(setUserInfo({userInfo: user}))
+        }
+      })
+    }
 }
 
 export function setUserInfo(user) {
@@ -863,28 +706,75 @@ export function setUserInfo(user) {
     user: user
   }
 }
-//
-// export function uploadImage(file) {
-//   return {
-//     type: types.UPLOAD_IMAGE,
-//     payload: {
-//       request:{
-//         method:'put',
-//         url:'/upload-image',
-//         data: file
-//       }
-//     }
-//   }
-// }
-//
-// export function getS3SignedRequest(file) {
-//   return {
-//     type: types.GET_S3_SIGNED_REQUEST,
-//     payload: {
-//       request:{
-//         method:'get',
-//         url:'/sign-s3?file-name=' + file.name + '&file-type=' + file.type
-//       }
-//     }
-//   }
-// }
+
+export function addUserToTeam(user, team) {
+  console.log("adding", user, team)
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"TEAM_ADD_USER", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/team_add_user",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId: user._id, teamId: team._id})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"TEAM_ADD_USER", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"TEAM_ADD_USER", status:"SUCCESS", data: user}))
+        }
+      })
+  }
+}
+
+export function removeUserFromTeam(user, team) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/team_remove_user",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId: user._id, teamId: team._id})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", status:"SUCCESS", data: user}))
+        }
+      })
+  }
+}
+
+export function fetchUserList() {
+  return (dispatch) => {
+    dispatch(setRequestStatus({type:"FETCH_USERS", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + '/users',
+      {
+        method: "GET"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+
+        dispatch(setRequestStatus({type:"FETCH_USERS", status:"SUCCESS", data:json}))
+      })
+  }
+}

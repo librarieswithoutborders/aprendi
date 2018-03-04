@@ -11,10 +11,10 @@ class TopNav extends Component {
   }
 
   componentWillMount() {
-    const { userInfo, sendUserInfoRequest } = this.props
+    const { currUser, sendUserInfoRequest } = this.props
     console.log("component mounting")
-    console.log(userInfo)
-    if (!userInfo) {
+    console.log(currUser)
+    if (!currUser) {
       sendUserInfoRequest()
     }
   }
@@ -24,22 +24,16 @@ class TopNav extends Component {
     return (
       <div className="top-nav">
         <div className="top-nav__contents">
-          {/*<Link to="/">
-            <h1 className="top-nav__logo">My Library Guide</h1>
-          </Link>
-          <div className="top-nav__left">
-            <h5 className="top-nav__link">About</h5>
-          </div>*/}
           <div className="top-nav__right">
             {
               (isLoggedIn()) ?
               (
                 <div>
-                  {this.props.userInfo && <h5>{this.props.userInfo.name}</h5> }
-                  <button className="btn btn-danger log" onClick={() => logout(this.props.history, this.props.clearUserInfo)}>Log out</button>
+                  {this.props.currUser && <h5>{this.props.currUser.userInfo.name}</h5> }
+                  <div className="button" onClick={() => logout(this.props.history, this.props.clearUserInfo)}>Log out</div>
                 </div>
               ) :
-              ( <button className="btn btn-info log" onClick={() => login()}>Log In</button> )
+              ( <div className="button" onClick={() => login()}>Log In</div> )
             }
           </div>
         </div>
@@ -50,7 +44,7 @@ class TopNav extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userInfo: state.userInfo
+    currUser: state.currUser
   }
 }
 

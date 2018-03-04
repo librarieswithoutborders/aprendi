@@ -1,22 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchTeam, deleteTeam, updateTeam, resetCurrTeam, showAdminModal, fetchResourceList, showResourceViewer} from '../actions/actions.js';
+import { fetchTeam, deleteTeam, updateTeam, resetCurrTeam, showAdminModal, fetchResourceList, showResourceViewer, removeUserFromTeam} from '../actions/actions.js';
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Grid from './Grid'
 import ResourceExistingSearch from './ResourceExistingSearch'
 import LoadingIcon from './LoadingIcon'
+import canUserEdit from '../utils/canUserEdit'
 
 // hard-coded temporarily
 const currTeam = "all"
 
-const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer}) => {
+const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode}) => {
   let headerContents = {
     title: teamInfo.team_name
   }
   return (
     <div className="team-home-page">
-      <PageHeader contents={headerContents} type="team" editFunc={() => updateTeam(teamInfo)} deleteFunc={() => deleteTeam(teamInfo)}/>
+      <PageHeader contents={headerContents} type="team" editingMode={editingMode} editFunc={() => updateTeam(teamInfo)} deleteFunc={() => deleteTeam(teamInfo)}/>
       <div className="team-home-page__contents">
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Collections</h5>
@@ -26,13 +27,16 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
               clickHandler={(data, i) => { history.push("/" + data[i].path)}}
+              isDraggable={false}
+              editingMode={editingMode}
+              createNewText="Create New Collection"
             />
           }
         </div>
         <hr className="team-home-page__section-divider" />
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
-          <div className="button" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>
+          {editingMode && <div className="button" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
           {teamInfo.resources && teamInfo.resources.length > 0 &&
             <ResourceExistingSearch
               resources={teamInfo.resources}
@@ -43,17 +47,15 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Users</h5>
           {teamInfo.users &&
-            <ul>
-              {teamInfo.users.map(user => {
-                return (
-                  <li>
-                    <span>{user.name}</span>
-                    <span>{user.email}</span>
-                    <span>{user.last_login}</span>
-                  </li>
-                )
-              })}
-            </ul>
+            <Grid
+              data={teamInfo.users}
+              type="user"
+              createNew={() => addUserToTeam(teamInfo)}
+              buttonClickHandler={(user) => removeUserFromTeam(user, teamInfo)}
+              isDraggable={false}
+              editingMode={editingMode}
+              createNewText="Add User to Team"
+            />
           }
         </div>
       </div>
@@ -113,8 +115,10 @@ class TeamHomePageContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
   return {
     teamInfo: state.currTeam,
+    editingMode: canUserEdit(state.currUser, state.currTeam, "team")
   }
 }
 
@@ -131,6 +135,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     resetCurrTeam: () => {
       dispatch(resetCurrTeam())
+    },
+    addUserToTeam: (teamInfo) => {
+      dispatch(showAdminModal({action:"add_user", type:"team", data:teamInfo}))
+    },
+    removeUserFromTeam: (user, teamInfo) => {
+      dispatch(removeUserFromTeam(user, teamInfo))
     },
     createNewCollection: (teamId) => {
       dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))

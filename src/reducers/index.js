@@ -13,7 +13,7 @@ function adminModalContent(state = null, action) {
   }
 }
 
-function teamList(state = [], action) {
+function teamList(state = null, action) {
   switch (action.type) {
     case "FETCH_TEAMS":
       if (action.status === "SUCCESS") {
@@ -70,6 +70,22 @@ function currTeam(state = null, action) {
     case "DELETE_TEAM":
       if (action.status === "SUCCESS") {
         return null
+      }
+    case "TEAM_ADD_USER":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        !newState.users ? newState.users = [] : null
+        newState.users.push(action.data)
+        return newState
+      }
+    case "TEAM_REMOVE_USER":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.users.indexOf(action.data)
+        newState.users.splice(deletedIndex, 1)
+        return newState
       }
     case "CREATE_COLLECTION":
       if (action.status === "SUCCESS") {
@@ -192,12 +208,54 @@ function currCollection(state = null, action) {
   }
 }
 
+function userList(state = null, action) {
+  switch (action.type) {
+    case "FETCH_USERS":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    case "TEAM_ADD_USER":
+      if (action.status === "SUCCESS") {
+        return null
+      }
+    default:
+      return state
+  }
+}
 
+function collectionList(state = null, action) {
+  switch (action.type) {
+    case "FETCH_COLLECTIONS":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    default:
+      return state
+  }
+}
 
-function userInfo(state = null, action) {
+function currUser(state = null, action) {
   switch (action.type) {
     case "SET_USER_INFO":
       return action.user || null
+    case "CREATE_TEAM":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        newState.permissions.teams.push(action.data)
+        return newState
+      }
+    default:
+      return state
+  }
+}
+
+function resourceList(state = null, action) {
+  switch (action.type) {
+    case "FETCH_RESOURCES":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
     default:
       return state
   }
@@ -240,7 +298,11 @@ const rootReducer = combineReducers({
   adminModalContent,
   teamList,
   currTeam,
+  userList,
+  currUser,
+  collectionList,
   currCollection,
+  resourceList,
   updateStatus,
   resourceViewerContent,
   // currCollectionInvalidated,
@@ -248,7 +310,7 @@ const rootReducer = combineReducers({
   // fetchedCollections,
   // fetchedResourceLists,
   // collectionList,
-  userInfo
+
 });
 
 export default rootReducer;
