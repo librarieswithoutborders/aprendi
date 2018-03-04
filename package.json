@@ -158,7 +158,7 @@
           ],
           "react",
           "stage-1"
-        ],
+        ]
       },
       "test": {
         "presets": [
