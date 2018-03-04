@@ -144,8 +144,7 @@
       },
       "production": {
         "presets": [
-          "react",
-          "stage-1"
+          "react"
         ]
       },
       "test": {
