@@ -7,7 +7,7 @@ import LoadingIcon from './LoadingIcon'
 import { showAdminModal, removeUserFromTeam } from '../actions/actions.js';
 
 
-const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam}) => {
+const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editingMode}) => {
   console.log(user)
   let headerContents = {
     title: 'Welcome Back ' + user.userInfo.given_name
@@ -27,6 +27,7 @@ const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam}) => {
               clickHandler={team => history.push('/teams/' + team.path)}
               buttonClickHandler={team => removeUserFromTeam(user, team)}
               isDraggable={false}
+              editingMode={editingMode}
             />
           }
         </div>
@@ -59,6 +60,7 @@ class UserHomePageContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     user: state.currUser,
+    editingMode: true
   }
 }
 

@@ -299,7 +299,7 @@ class Grid extends React.Component {
     const {type, isDraggable, editingMode} = this.props
 
     console.log("in render")
-    console.log(this.state.layouts)
+    console.log(this.props)
 
     return (
       <ResponsiveReactGridLayout

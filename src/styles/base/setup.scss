@@ -79,4 +79,18 @@ textarea {
       opacity: 1;
     }
   }
+
+  &.button-transparent {
+    background-color: rgba(0,0,0,0);
+    color: colors(white);
+    box-shadow: none;
+    border: 1px solid colors(white);
+    border-color: colors(white);
+
+    &:hover {
+      color: colors(grey);
+      border-color: colors(grey);
+      opacity: 1;
+    }
+  }
 }

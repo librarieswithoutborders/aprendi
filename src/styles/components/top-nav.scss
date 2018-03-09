@@ -8,38 +8,122 @@
   z-index: 20;
 
   &__contents {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    margin: 0px 10px;
-  }
-
-  &__logo, &__left, &__right {
-    display: inline-block;
-  }
-
-  &__logo {
-    vertical-align: middle;
-    padding-right: 15px;
-    color: colors(blue);
-    border-right: standard-border(blue);
-    margin-right: 15px;
-    font-size: 30px;
-  }
-
-  &__left {
-    position: relative;
-    left: 0;
-  }
-
-  &__right {
     position: absolute;
-    right: 0;
+    top: 20px;
+    right: 20px;
   }
 
-  &__link {
+  &__button {
+    display: table;
+    background-color: colors(white);
+    box-shadow: standard-shadow(grey);
+    z-index: 25 !important;
+    // border: 1px solid colors(blue);
+    border-radius: 20px;
+    padding: 7px 9px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-radius .5s ease-in-out;
+    transition-delay: .4s;
 
+    &:hover {
+      box-shadow: standard-hover-shadow(grey);
+    }
+
+    &.dropdown-expanded {
+      border-radius: 0px;
+      transition-delay: 0s;
+    }
+
+    &__text, &__arrow {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    &__text {
+      padding-right: 3px;
+      alignment-baseline: middle;
+    }
+
+    &__arrow {
+      height: 14px;
+      transition: all .5s ease-in-out;
+
+      &.down {
+        transform: rotate(90deg);
+      }
+
+      &.up {
+        transform: rotate(-90deg);
+
+      }
+    }
   }
+
+  &__dropdown {
+    background-color: colors(white);
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height .5s ease-in-out;
+    transition-delay: 0s;
+    z-index: 1 !important;
+
+    &.expanded {
+      max-height: 1000px;
+      box-shadow: standard-shadow(grey);
+      transition-delay: .4s;
+    }
+
+    &__sub-text {
+      padding: 10px;
+      color: colors(grey);
+      font-size: 11px;
+      font-weight: normal;
+    }
+
+    &__list {
+      padding: 0px 10px 10px;
+    }
+
+    &__list-item {
+      font-size: 12px;
+      padding: 5px 0px;
+      cursor: pointer;
+      color: colros(black);
+
+      &:hover {
+        color: colors(blue);
+      }
+    }
+  }
+
+  // &__logo, &__left, &__right {
+  //   display: inline-block;
+  // }
+
+  // &__logo {
+  //   vertical-align: middle;
+  //   padding-right: 15px;
+  //   color: colors(blue);
+  //   border-right: standard-border(blue);
+  //   margin-right: 15px;
+  //   font-size: 30px;
+  // }
+  //
+  // &__left {
+  //   position: relative;
+  //   left: 0;
+  // }
+
+  // &__right {
+  //   position: absolute;
+  //   right: 20px;
+  //   top: 20px;
+  // }
+  //
+  // &__link {
+  //
+  // }
 
 
 }

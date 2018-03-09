@@ -13,7 +13,9 @@ const currTeam = "all"
 
 const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode}) => {
   let headerContents = {
-    title: teamInfo.team_name
+    title: teamInfo.team_name,
+    image_url: teamInfo.image_url,
+    description: teamInfo.description
   }
   return (
     <div className="team-home-page">
