@@ -6,6 +6,8 @@
   left: 0;
   transform: translate(5%, 5%);
   z-index: 40;
+  border-radius: 20px;
+  border: 2px solid colors(white);
 
   &__content {
     height: 90vh;
@@ -22,16 +24,23 @@
     background-color: colors(white);
     cursor: pointer;
 
+
     &:hover {
       background-color: colors(offwhite);
     }
 
     &.prev {
       left: 0;
+      border-right: 2px solid colors(offwhite);
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
     }
 
     &.next {
       right: 0;
+      border-left: 2px solid colors(offwhite);
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
     }
 
     &__arrow-container {

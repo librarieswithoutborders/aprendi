@@ -1,0 +1,28 @@
+.home-page {
+  &__section {
+    padding: 130px 50px;
+    text-align: center;
+
+    &.blue {
+      background-color: colors(blue);
+
+      * {
+        color: white;
+      }
+    }
+
+    &.white {
+      background-color: colors(white);
+    }
+
+    &__title {
+      font-size: 36px;
+      padding-bottom: 20px;
+    }
+
+    &__content {
+      max-width: 650px;
+      margin: auto;
+    }
+  }
+}

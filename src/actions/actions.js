@@ -649,14 +649,14 @@ function getS3SignedRequest(file, callback) {
 //
 
 
-// export function setCurrResourceIndex(newIndex) {
-//   return {
-//     type: types.SET_CURR_RESOURCE_INDEX,
-//     newIndex
-//   }
-// }
-//
-//
+export function setCurrResourceIndex(newIndex) {
+  return {
+    type: types.SET_CURR_RESOURCE_INDEX,
+    newIndex
+  }
+}
+
+
 
 export function sendUserInfoRequest() {
   console.log("getting user info")

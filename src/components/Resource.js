@@ -20,18 +20,20 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) 
   return (
     <div className="resource">
       <div className="resource__header">
-        <div className="resource__header__text">
-          <h1>{content.title}</h1>
-          {content.short_description &&
-            <p>{content.short_description}</p>
-          }
-          {content.source_url &&
-            <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
-          }
-          {removeResource &&
-            <div className="button button-white" onClick={() => removeResource(content)}>Remove Resource From Collection</div>
-          }
-          <div className="button button-white" onClick={() => deleteResource(content)}>Delete Resource</div>
+        <div className="resource__header__content">
+          <h1 className="resource__header__text">{content.title}</h1>
+            {/*{content.short_description &&
+              <p>{content.short_description}</p>
+            }
+            {content.source_url &&
+              <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
+            }*/}
+          <div className="resource__header__button-container">
+            {removeResource &&
+              <h5 className="resource__header__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
+            }
+            <h5 className="resource__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+          </div>
         </div>
       </div>
       <div className="resource__content">

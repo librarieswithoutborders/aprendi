@@ -18,7 +18,7 @@ $grid-item-height-map: (
 	subcollection: 200px,
 	resource: 320px,
 	user: 300px,
-	team: 300px
+	team: 200px
 );
 
 @function grid-item-height($key) {

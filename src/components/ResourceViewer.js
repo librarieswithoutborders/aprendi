@@ -38,7 +38,6 @@ class ResourceViewer extends Component {
         <div className="resource-viewer__content">
           <Resource
             content={resourceList[currIndex]}
-            nextPrevFunctions={nextPrevFunctions}
             removeResource={parent ? (id) => removeResourceFromCollection(id, parent) : null}
             deleteResource={(data) => deleteResource(data)}/>
         </div>

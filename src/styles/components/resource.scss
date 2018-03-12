@@ -6,54 +6,76 @@
 
   &__header {
     background-color: colors(white);
-    box-shadow: 0 5px 12px -10px colors(blue);
+    box-shadow: 0 5px 20px -10px colors(grey);
     z-index: 2;
-    position: relative;
+    position: fixed;
+    transform: translateX(2px);
 
-    // &__arrow-container {
-    //   position: absolute;
-    //   width: 100%;
-    // }
-    &__text {
-      padding: 25px 45px;
+    width: calc(100% - 54px);
+
+    &__content {
       position: relative;
+      padding: 7px 7px;
+    }
 
-      h1 {
-        font-size: 24px;
-        display: inline-block;
-        padding-right: 20px;
-        vertical-align: middle;
+    &__text {
+      position: relative;
+      font-size: 16px;
+      display: inline-block;
+      padding-right: 20px;
+      vertical-align: middle;
+      color: colors(black);
+      font-weight: bold;
+    }
+
+    &__button-container {
+      display: inline-block;
+      position: relative;
+      float: right;
+    }
+
+    &__button {
+      color: colors(blue);
+      display: inline-block;
+      font-weight: normal;
+      cursor: pointer;
+      padding: 0px 7px;
+
+      &:hover {
+        color: colors(grey);
       }
     }
-    &__arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      &.prev {
-        left: 7px;
-        .icon {
-          transform: rotate(180deg);
-        }
-      }
-      &.next {
-        right: 7px;
-      }
-      .icon {
-        height: 20px;
-        fill: colors(grey);
-        cursor: pointer;
 
-        &:hover {
-          fill: colors(blue);
-        }
-
-      }
-    }
+    // &__arrow {
+    //   position: absolute;
+    //   top: 50%;
+    //   transform: translateY(-50%);
+    //   &.prev {
+    //     left: 7px;
+    //     .icon {
+    //       transform: rotate(180deg);
+    //     }
+    //   }
+    //   &.next {
+    //     right: 7px;
+    //   }
+    //   .icon {
+    //     height: 20px;
+    //     fill: colors(grey);
+    //     cursor: pointer;
+    //
+    //     &:hover {
+    //       fill: colors(blue);
+    //     }
+    //
+    //   }
+    // }
   }
 
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
+    padding: 30px $standard-padding 10px;
 
     .ReactPDF {
       &__Document {
@@ -71,7 +93,7 @@
 
         &__canvas {
           margin: auto;
-
+          box-shadow: standard-shadow(grey);
         }
       }
     }

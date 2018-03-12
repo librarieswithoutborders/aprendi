@@ -12,7 +12,7 @@ const rowHeight = {
   subcollection: 200,
   resource: 320,
   user: 300,
-  type: 300,
+  team: 200,
 }
 
 class Grid extends React.Component {
@@ -56,7 +56,7 @@ class Grid extends React.Component {
         return this.renderSubcollectionItem(d, i)
       } else if (type === "resource") {
         return this.renderResourceItem(d, i)
-      } else if (type === "type") {
+      } else if (type === "team") {
         return this.renderTeamItem(d, i)
       } else {
         return this.renderUserItem(d, i)
@@ -168,15 +168,15 @@ class Grid extends React.Component {
       )
     } else {
       background = (
-        <div className="grid__item__image"><SvgIcon name="type" /></div>
+        <div className="grid__item__image"><SvgIcon name="team" /></div>
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-type"}  onClick={() => clickHandler(d)}>
+      <div key={d._id} className={"grid__item item-type-team"}  onClick={() => clickHandler(d)}>
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
-            <h5 className="grid__item__text__main">{d.type_name}</h5>
+            <h5 className="grid__item__text__main">{d.team_name}</h5>
             <h5 className="grid__item__text__sub">{d.users.length + " Members"}</h5>
             {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
           </div>
