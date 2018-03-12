@@ -4,7 +4,7 @@ $breadcrumbs-height: 45px;
   background-color: colors(offwhite);
   width: 100%;
   height: $breadcrumbs-height;
-
+  font-size: 14px;
 
   &__list {
     list-style-type: none;
@@ -20,8 +20,8 @@ $breadcrumbs-height: 45px;
     vertical-align: middle;
     .icon {
       height: 20px;
-      fill: colors(blue);
-      stroke: colors(blue);
+      fill: colors(grey);
+      stroke: colors(grey);
     }
 
     &__contents {

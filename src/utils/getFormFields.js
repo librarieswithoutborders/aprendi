@@ -41,12 +41,8 @@ const collectionFields = (action) => (
       <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="short_description">Short Description</label>
-      <TextArea field="short_description" id="short_description" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="long_description">Long Description</label>
-      <TextArea field="long_description" id="long_description" />
+      <label className="form__field__label" htmlFor="description">Description</label>
+      <TextArea field="description" id="description" />
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="language" className="d-block">Language</label>
@@ -78,12 +74,8 @@ const subcollectionFields = (action) => (
       <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="short_description">Short Description</label>
-      <TextArea field="short_description" id="short_description" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="long_description">Long Description</label>
-      <TextArea field="long_description" id="long_description" />
+      <label className="form__field__label" htmlFor="description">Description</label>
+      <TextArea field="description" id="description" />
     </div>
   </div>
 )
@@ -130,8 +122,8 @@ const resourceFields = (resourceType, action) => (
       </div>
     }
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="short_description">Description</label>
-      <TextArea field="short_description" id="short_description" />
+      <label className="form__field__label" htmlFor="description">Description</label>
+      <TextArea field="description" id="description" />
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="source_organization">Source Organization</label>

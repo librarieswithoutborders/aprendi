@@ -1,9 +1,30 @@
 .collection {
   &__text-container {
-    padding: 15px;
-
+    padding: 30px $standard-padding 15px;
   }
+
   &__contents {
+    padding: $standard-padding 0px;
+  }
+
+  &__divider {
+    margin: 0px 30px;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.2);
+  }
+
+  &__section-contents {
     position: relative;
+    padding: $standard-padding 0px;
+  }
+
+  &__section-title {
+    margin: $standard-padding;
+    padding-bottom: 5px;
+    color: colors(blue-70);
+    font-weight: normal;
+    // text-transform: uppercase;
+    font-size: 16px;
+    border-bottom: 1px solid colors(blue-50);
   }
 }

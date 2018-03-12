@@ -7,6 +7,14 @@ import SvgIcon from './SvgIcon'
 
 const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 
+const rowHeight = {
+  collection: 200,
+  subcollection: 200,
+  resource: 320,
+  user: 300,
+  type: 300,
+}
+
 class Grid extends React.Component {
   constructor(props) {
     super(props);
@@ -48,7 +56,7 @@ class Grid extends React.Component {
         return this.renderSubcollectionItem(d, i)
       } else if (type === "resource") {
         return this.renderResourceItem(d, i)
-      } else if (type === "team") {
+      } else if (type === "type") {
         return this.renderTeamItem(d, i)
       } else {
         return this.renderUserItem(d, i)
@@ -100,11 +108,11 @@ class Grid extends React.Component {
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
+      <div key={d._id} className={"grid__item item-type-subcollection"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
-            {d.image_url && <SvgIcon name="folder" />}
+            <SvgIcon name="folder" />
             <h5 className="grid__item__text__main">{d.title}</h5>
           </div>
         </div>
@@ -115,6 +123,16 @@ class Grid extends React.Component {
   renderResourceItem(d, i) {
     const { data, clickHandler} = this.props;
     let background;
+    let iconName;
+
+    if (d.resource_type === "video") {
+      iconName = "video"
+    } else if (d.resource_type === "richtext") {
+      iconName = "text"
+    } else {
+      iconName = "document"
+    }
+
     if (d.image_url) {
       let styleObject = {}
       styleObject.backgroundImage = 'url(' + d.image_url + ')'
@@ -122,15 +140,6 @@ class Grid extends React.Component {
         <div className="grid__item__image" style={styleObject} ></div>
       )
     } else {
-      let iconName;
-
-      if (d.resource_type === "video") {
-        iconName = "video"
-      } else if (d.resource_type === "richtext") {
-        iconName = "text"
-      } else {
-        iconName = "document"
-      }
       background = (
         <div className="grid__item__image"><SvgIcon name={iconName} /></div>
       )
@@ -139,7 +148,7 @@ class Grid extends React.Component {
       <div key={d._id} className={"grid__item item-type-resource"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
         <div className="grid__item__content">
           <div className="grid__item__text">
-            <h5 className="grid__item__text__sub">{d.resource_type}</h5>
+            <SvgIcon name={iconName} />
             <h5 className="grid__item__text__main">{d.title}</h5>
           </div>
         </div>
@@ -159,15 +168,15 @@ class Grid extends React.Component {
       )
     } else {
       background = (
-        <div className="grid__item__image"><SvgIcon name="team" /></div>
+        <div className="grid__item__image"><SvgIcon name="type" /></div>
       )
     }
     return (
-      <div key={d._id} className={"grid__item item-type-team"}  onClick={() => clickHandler(d)}>
+      <div key={d._id} className={"grid__item item-type-type"}  onClick={() => clickHandler(d)}>
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
-            <h5 className="grid__item__text__main">{d.team_name}</h5>
+            <h5 className="grid__item__text__main">{d.type_name}</h5>
             <h5 className="grid__item__text__sub">{d.users.length + " Members"}</h5>
             {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
           </div>
@@ -304,8 +313,8 @@ class Grid extends React.Component {
     return (
       <ResponsiveReactGridLayout
         layouts={this.state.layouts}
-        margin= {[10, 10]}
-        containerPadding= {[10, 10]}
+        margin= {[15, 15]}
+        containerPadding= {[20, 0]}
         isResizable={false}
         isDraggable={editingMode && isDraggable}
         cols= {columns}
@@ -317,7 +326,7 @@ class Grid extends React.Component {
         useCSSTransforms={true}
         preventCollision={false}
         compactType="horizontal"
-        rowHeight={type === "collection" || type === "subcollection" ? 250 : 300}
+        rowHeight={rowHeight[type]}
       >
         {this.generateDOM()}
       </ResponsiveReactGridLayout>

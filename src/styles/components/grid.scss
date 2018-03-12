@@ -1,18 +1,17 @@
 .grid {
   &__item {
     cursor: pointer;
-    box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
-    -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.25);
+    box-shadow: standard-shadow(grey);
 
     &:hover {
-      box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
-      -webkit-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
-      -moz-box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.25);
+      box-shadow: standard-hover-shadow(grey);
     }
 
     &.react-draggable-dragging {
       z-index: 100;
+    }
+
+    &.item-type-collection {
     }
 
     &__image {
@@ -22,6 +21,20 @@
       background-repeat: no-repeat;
       height: 150px;
       text-align: center;
+      position: relative;
+
+      .item-type-collection & {
+        height: grid-item-height(collection);
+      }
+
+      .item-type-subcollection & {
+        height: grid-item-height(subcollection)/2;
+      }
+
+      .item-type-resource & {
+        height: 2*grid-item-height(resource)/3;
+        box-shadow: inset 0px 6px 25px -10px colors(black);
+      }
 
       .icon {
         height: 100px;
@@ -36,9 +49,29 @@
     }
     &__content {
       width: 100%;
-      height: 100px;
+      height: 120px;
       text-align: center;
       background-color: colors(white);
+      position: relative;
+
+      .item-type-collection & {
+        position: absolute;
+        top: 0;
+        background-color: rgba(0,0,0,.1);
+        height: grid-item-height(collection);
+      }
+
+      .item-type-subcollection & {
+        height: grid-item-height(subcollection)/2;
+      }
+
+      .item-type-resource & {
+        height: grid-item-height(resource)/3;
+        // border-bottom: 1px solid colors(grey);
+
+        z-index: 1000;
+      }
+
     }
 
     &__text {
@@ -49,9 +82,18 @@
       &__main {
         color: colors(black);
         margin: 0px;
-        padding: 0px 7px;
-        font-size: 18px;
-        display: inline-block;
+        padding: 0px 15px;
+        font-size: 16px;
+        line-height: 1.4;
+        z-index: 20;
+
+        .item-type-collection & {
+          color: colors(white);
+        }
+
+        .item-type-subcollection & {
+
+        }
       }
 
       &__sub {
@@ -64,9 +106,13 @@
       }
 
       .icon {
-        height: 12px;
+        height: 14px;
         fill: colors(blue);
-        stroke: colors(blue);
+        margin-bottom: 3px;
+
+        .item-type-subcollection & {
+
+        }
       }
     }
 

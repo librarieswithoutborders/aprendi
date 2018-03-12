@@ -46,8 +46,8 @@ class TopNav extends Component {
               <div className={dropdownExpanded ? "top-nav__dropdown expanded" : "top-nav__dropdown"}>
                 <h5 className="top-nav__dropdown__sub-text">{this.props.currUser.userInfo.email}</h5>
                 <ul className="top-nav__dropdown__list">
-                  <li className="top-nav__dropdown__list-item" onClick={() => history.push('/')}>My Home Page</li>
-                  <li className="top-nav__dropdown__list-item" onClick={() => logout(history, clearUserInfo)}>Log Out</li>
+                  <li className="top-nav__dropdown__list-item" onClick={() => { this.toggleMenuExpansion(); history.push('/') }}>My Home Page</li>
+                  <li className="top-nav__dropdown__list-item" onClick={() => { this.toggleMenuExpansion(); logout(history, clearUserInfo) }}>Log Out</li>
                 </ul>
               </div>
             </div>

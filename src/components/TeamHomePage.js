@@ -38,11 +38,13 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         <hr className="team-home-page__section-divider" />
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
-          {editingMode && <div className="button" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
+          {editingMode && <div className="button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
           {teamInfo.resources && teamInfo.resources.length > 0 &&
-            <ResourceExistingSearch
-              resources={teamInfo.resources}
-              onSelect={resource => showResourceViewer(resource)}/>
+            <div className="team-home-page__resource-search" >
+              <ResourceExistingSearch
+                resources={teamInfo.resources}
+                onSelect={resource => showResourceViewer(resource)}/>
+            </div>
           }
         </div>
         <hr className="team-home-page__section-divider" />

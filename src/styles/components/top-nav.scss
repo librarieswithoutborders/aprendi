@@ -25,6 +25,7 @@
     cursor: pointer;
     transition: border-radius .5s ease-in-out;
     transition-delay: .4s;
+    position: relative;
 
     &:hover {
       box-shadow: standard-hover-shadow(grey);
@@ -66,11 +67,13 @@
     overflow: hidden;
     transition: max-height .5s ease-in-out;
     transition-delay: 0s;
-    z-index: 1 !important;
+    position: relative;
+    border-top: .3px solid rgba(0,0,0,.15);
+    z-index: 25;
 
     &.expanded {
       max-height: 1000px;
-      box-shadow: standard-shadow(grey);
+      box-shadow: 0px 2px 5px -2px colors(grey);
       transition-delay: .4s;
     }
 

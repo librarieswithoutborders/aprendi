@@ -73,7 +73,7 @@ class Collection extends Component {
       title: data.title,
       byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
       image_url: data.image_url,
-      short_description: data.short_description
+      description: data.description
     }
 
     return (
@@ -81,29 +81,32 @@ class Collection extends Component {
         <PageHeader contents={headerContents} type={type} editingMode={editingMode} editFunc={() => updateCollection({data: data, type: type})} deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
         {type == "subcollection" && <Breadcrumbs data={breadcrumbs} /> }
         <div className="collection__contents">
-          <Grid
-            data={data.subcollections}
-            type="subcollection"
-            createNew={() => createSubcollection({parentId:data._id, parentType:type})}
-            clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
-            reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
-            isDraggable={true}
-            editingMode={editingMode}
-            createNewText="Create New Collection"
-          />
-        </div>
-        <hr className="collection__divider" />
-        <div className="collection__contents">
-          <Grid
-            data={data.resources}
-            type="resource"
-            createNew={() => createResource({parentId:data._id, parentType:type, parentResources:data.resources.map(d => d._id)}, currTeam._id)}
-            clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
-            reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
-            isDraggable={true}
-            editingMode={editingMode}
-            createNewText="Add New Resource"
-          />
+          <h5 className="collection__section-title">Subcollections</h5>
+          <div className="collection__section-contents">
+            <Grid
+              data={data.subcollections}
+              type="subcollection"
+              createNew={() => createSubcollection({parentId:data._id, parentType:type})}
+              clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
+              reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
+              isDraggable={true}
+              editingMode={editingMode}
+              createNewText="Create New Collection"
+            />
+          </div>
+          <h5 className="collection__section-title">Resources</h5>
+          <div className="collection__section-contents">
+            <Grid
+              data={data.resources}
+              type="resource"
+              createNew={() => createResource({parentId:data._id, parentType:type, parentResources:data.resources.map(d => d._id)}, currTeam._id)}
+              clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
+              reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
+              isDraggable={true}
+              editingMode={editingMode}
+              createNewText="Add New Resource"
+            />
+          </div>
         </div>
       </div>
     )
