@@ -54,6 +54,27 @@
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
+
+    .ReactPDF {
+      &__Document {
+
+      }
+
+      &__Page {
+        padding: 20px 0px;
+        // border-bottom: 1px solid colors(blue-50);
+
+        // & > * {
+        //   max-width: 100% !important;
+        //   overflow-x: hidden;
+        // }
+
+        &__canvas {
+          margin: auto;
+
+        }
+      }
+    }
   }
 
   &__video {

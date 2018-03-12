@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { setCurrResourceIndex, invalidateCurrCollection, deleteResource, collectionRemoveResource, subcollectionRemoveResource, hideResourceViewer} from '../actions/actions.js'
 import { connect } from 'react-redux'
 import Resource from './Resource'
+import SvgIcon from './SvgIcon'
 
 class ResourceViewer extends Component {
   constructor(props) {
@@ -20,11 +21,27 @@ class ResourceViewer extends Component {
 
     return (
       <div className="resource-viewer">
-        <Resource
-          content={resourceList[currIndex]}
-          nextPrevFunctions={nextPrevFunctions}
-          removeResource={parent ? (id) => removeResourceFromCollection(id, parent) : null}
-          deleteResource={(data) => deleteResource(data)}/>
+        {nextPrevFunctions.prev &&
+          <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
+            <div className="resource-viewer__next-prev__arrow-container" >
+              <SvgIcon name="arrow" />
+            </div>
+          </div>
+        }
+        {nextPrevFunctions.next &&
+          <div className="resource-viewer__next-prev next" onClick={nextPrevFunctions.next}>
+            <div className="resource-viewer__next-prev__arrow-container" >
+              <SvgIcon name="arrow" />
+            </div>
+          </div>
+        }
+        <div className="resource-viewer__content">
+          <Resource
+            content={resourceList[currIndex]}
+            nextPrevFunctions={nextPrevFunctions}
+            removeResource={parent ? (id) => removeResourceFromCollection(id, parent) : null}
+            deleteResource={(data) => deleteResource(data)}/>
+        </div>
       </div>
     )
   }

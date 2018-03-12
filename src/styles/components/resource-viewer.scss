@@ -1,10 +1,49 @@
 .resource-viewer {
   background-color: white;
   width: 90%;
-  height: 90%;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   transform: translate(5%, 5%);
   z-index: 40;
 
+  &__content {
+    height: 90vh;
+    overflow: scroll;
+    margin: 0px 25px;
+  }
 
+  &__next-prev {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 25px;
+    z-index: 20;
+    background-color: colors(white);
+    cursor: pointer;
+
+    &:hover {
+      background-color: colors(offwhite);
+    }
+
+    &.prev {
+      left: 0;
+    }
+
+    &.next {
+      right: 0;
+    }
+
+    &__arrow-container {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+
+      & > .icon__arrow {
+        .prev & {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
 }

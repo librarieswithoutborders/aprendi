@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import SvgIcon from './SvgIcon'
 import PdfViewer from './PdfViewer'
 
 const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) => {
@@ -21,16 +20,6 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) 
   return (
     <div className="resource">
       <div className="resource__header">
-          {nextPrevFunctions.prev &&
-            <div className="resource__header__arrow prev" onClick={nextPrevFunctions.prev}>
-              <SvgIcon name="arrow" />
-            </div>
-          }
-          {nextPrevFunctions.next &&
-            <div className="resource__header__arrow next" onClick={nextPrevFunctions.next}>
-              <SvgIcon name="arrow" />
-            </div>
-          }
         <div className="resource__header__text">
           <h1>{content.title}</h1>
           {content.short_description &&
@@ -40,9 +29,9 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource}) 
             <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
           }
           {removeResource &&
-            <div className="button" onClick={() => removeResource(content)}>Remove Resource From Collection</div>
+            <div className="button button-white" onClick={() => removeResource(content)}>Remove Resource From Collection</div>
           }
-          <div className="button" onClick={() => deleteResource(content)}>Delete Resource</div>
+          <div className="button button-white" onClick={() => deleteResource(content)}>Delete Resource</div>
         </div>
       </div>
       <div className="resource__content">

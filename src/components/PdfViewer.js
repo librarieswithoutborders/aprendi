@@ -7,10 +7,26 @@ class PdfViewer extends React.Component {
   constructor(props) {
     super(props)
 
+    this.resizeFunc = this.resize.bind(this)
+
     this.state = {
       numPages: null,
-      pageNumber: 1,
+      docContainerWidth: 0
     }
+  }
+
+  componentDidMount() {
+    $(window).resize(this.resizeFunc)
+    
+    this.setState({
+      docContainerWidth: this.refs.documentContainer.clientWidth
+    })
+  }
+
+  resize() {
+    this.setState({
+      docContainerWidth: this.refs.documentContainer.clientWidth
+    })
   }
 
   onDocumentLoad = ({ numPages }) => {
@@ -22,6 +38,20 @@ class PdfViewer extends React.Component {
       let canvasElem = $('.ReactPDF__Page__canvas')[0]
       this.props.renderCallback(canvasElem)
     }
+
+
+  }
+
+  renderMultiPageContent() {
+    const { numPages, docContainerWidth } = this.state;
+    let pages = [];
+
+    for (let i = 1; i <= numPages; i++) {
+      pages.push(<Page key={i} pageNumber={i} width={docContainerWidth} />)
+    }
+
+    return pages
+
   }
 
   render() {
@@ -37,11 +67,11 @@ class PdfViewer extends React.Component {
         </Document>
       )
     } else {
+
       return (
-        <div>
-          <p>Page {pageNumber} of {numPages}</p>
-          <Document file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
-            <Page pageNumber={pageNumber} onRenderSuccess={props => this.props.shouldUploadSnapshot ? this.uploadSnaphot(props) : null}/>
+        <div ref="documentContainer">
+          <Document inputRef={(ref) => { this.documentRef = ref; }} file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
+            {this.renderMultiPageContent()}
           </Document>
         </div>
       )
