@@ -8,6 +8,7 @@
   box-shadow: 0px 0px 10px 0px colors(blue);
   z-index: 40;
   width: 90%;
+  border-radius: 10px;
 
   @include medium {
     width: 70%;
@@ -18,11 +19,14 @@
 
   &__header {
     &__text {
-      background-color: colors(offwhite);
-      padding: 15px 20px;
+      // background-color: colors(offwhite);
+      text-align: center;
+      border-bottom: 1px solid colors(grey);
+      padding: 10px 20px;
       font-weight: bold;
       font-size: 18px;
-      color: colors(blue);
+      color: colors(black);
+      box-shadow: 0 5px 28px -10px colors(grey);
     }
   }
 

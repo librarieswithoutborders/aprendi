@@ -27,7 +27,7 @@ export function logout(history, clearUserInfo) {
   clearIdToken();
   clearAccessToken();
   clearUserInfo();
-  history.push('/');
+  history.replace('/');
 }
 
 export function requireAuth(nextState, replace) {
@@ -71,7 +71,9 @@ export function setIdToken() {
 }
 
 export function isLoggedIn() {
+  console.log("calling is logged in")
   const idToken = getIdToken();
+  console.log(!!idToken && !isTokenExpired(idToken))
   return !!idToken && !isTokenExpired(idToken);
 }
 

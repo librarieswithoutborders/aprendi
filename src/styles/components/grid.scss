@@ -37,7 +37,7 @@
       }
 
       .item-type-team & {
-        height: 2*grid-item-height(team)/3;
+        height: grid-item-height(team)/2;
       }
 
       .icon {
@@ -77,7 +77,7 @@
       }
 
       .item-type-team & {
-        height: grid-item-height(team)/3;
+        height: grid-item-height(team)/2;
       }
 
     }
@@ -104,7 +104,7 @@
         }
 
         .item-type-team & {
-          
+
         }
       }
 
@@ -130,9 +130,7 @@
 
     &__plus {
       height: 110px;
-      position: relative;
-      top: 50%;
-      margin-top: 55px;
+
       * {
         fill: colors(grey);
         stroke: colors(grey);
@@ -150,6 +148,12 @@
 
       .grid__item__text {
         top: 10px;
+      }
+
+      .grid__item__add-new-content {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       &:hover {

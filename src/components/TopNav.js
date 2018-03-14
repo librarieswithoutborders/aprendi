@@ -55,7 +55,7 @@ class TopNav extends Component {
           (
             <div className="top-nav__contents">
               <div className="top-nav__button" onClick={() => login()}>
-                <h5 className="top-nav__button__text" >Log In</h5>
+                <h5 className="top-nav__button__text" >Admin Log In</h5>
               </div>
             </div>
           )

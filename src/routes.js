@@ -14,7 +14,6 @@ import { Route, Switch } from 'react-router-dom';
 import { isLoggedIn } from './utils/AuthService'
 
 const routes = (
-
     <div>
         <Switch>
           <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />

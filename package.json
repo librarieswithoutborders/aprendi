@@ -144,23 +144,9 @@
       },
       "production": {
         "presets": [
-          [
-            "env",
-            {
-              "es2015": {
-                "modules": false
-              },
-              "targets": {
-                "ie": 9,
-                "uglify": true
-              }
-            }
-          ],
+          "env",
           "react",
           "stage-1"
-        ],
-        "plugins": [
-          
         ]
       },
       "test": {

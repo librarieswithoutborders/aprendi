@@ -12,7 +12,7 @@ const rowHeight = {
   subcollection: 200,
   resource: 320,
   user: 300,
-  team: 200,
+  team: 260,
 }
 
 class Grid extends React.Component {
@@ -67,7 +67,7 @@ class Grid extends React.Component {
   }
 
   renderCollectionItem(d, i) {
-    const { data, clickHandler} = this.props;
+    const { data, clickHandler, showTeam} = this.props;
     let background;
     if (d.image_url) {
       let styleObject = {}
@@ -85,6 +85,7 @@ class Grid extends React.Component {
         {background}
         <div className="grid__item__content">
           <div className="grid__item__text">
+            {showTeam && <h5 className="grid__item__text__sub">{d.team}</h5>}
             <h5 className="grid__item__text__main">{d.title}</h5>
           </div>
         </div>
@@ -218,10 +219,12 @@ class Grid extends React.Component {
 
     return(
       <div key="Create" className="grid__item add-new" onClick={() => createNew()}>
+        <div className="grid__item__add-new-content">
           <SvgIcon className="grid__item__plus" name="plus" />
           <div className="grid__item__text">
             <h5 className="grid__item__text__sub">{createNewText}</h5>
           </div>
+        </div>
       </div>
     )
   }

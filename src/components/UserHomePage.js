@@ -5,7 +5,7 @@ import PageHeader from './PageHeader'
 import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
 import { showAdminModal, removeUserFromTeam } from '../actions/actions.js';
-
+import HomePage from './HomePage'
 
 const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editingMode}) => {
   console.log(user)
@@ -51,7 +51,9 @@ class UserHomePageContainer extends React.Component {
         <UserHomePage {...this.props} />
       );
     } else {
-      return <LoadingIcon />
+      return (
+        <HomePage />
+      );
     }
 
   }

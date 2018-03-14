@@ -89,11 +89,9 @@ const resourceFields = (resourceType, action) => (
       </div>
     }
     {resourceType === "pdf" &&
-      <div>
-        <div className= "form__field">
-          <label className="form__field__label">PDF</label>
-          <FileUploadField type="pdf" field="resource_url" />
-        </div>
+      <div className= "form__field">
+        <label className="form__field__label">PDF</label>
+        <FileUploadField type="pdf" field="resource_url" />
       </div>
     }
     {resourceType === "website" &&

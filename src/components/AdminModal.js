@@ -48,7 +48,7 @@ class AdminModal extends Component {
       title += "Edit "
     }
     title += type.charAt(0).toUpperCase() + type.slice(1)
-    title += action === "update" ? ":" + data.title : ""
+    // title += action === "update" ? ": " + data.title || data.team_name : ""
 
     return title
   }
