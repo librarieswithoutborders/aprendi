@@ -317,7 +317,7 @@ class Grid extends React.Component {
       <ResponsiveReactGridLayout
         layouts={this.state.layouts}
         margin= {[15, 15]}
-        containerPadding= {[20, 0]}
+        containerPadding= {[20, 20]}
         isResizable={false}
         isDraggable={editingMode && isDraggable}
         cols= {columns}

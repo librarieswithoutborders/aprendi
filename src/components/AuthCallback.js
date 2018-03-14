@@ -18,10 +18,11 @@ class AuthCallback extends Component {
     setIdToken();
     console.log(window.opener)
 
-    getUserByHash(window.location.hash).then(userInfo => {
-      window.opener.location.reload()
-      window.close()
-    });
+    // getUserByHash(window.location.hash).then(userInfo => {
+    //   console.log("got user")
+    window.opener.location.reload()
+    window.close()
+    // });
 
   }
 
