@@ -37,7 +37,11 @@ export function requireAuth(nextState, replace) {
 }
 
 export function getIdToken() {
-  return localStorage.getItem(ID_TOKEN_KEY);
+  if (localStorage && localStorage.getItem(ID_TOKEN_KEY)) {
+    return localStorage.getItem(ID_TOKEN_KEY);
+  } else {
+    return null;
+  }
 }
 
 export function getAccessToken() {

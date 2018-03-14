@@ -45,7 +45,7 @@ const collectionFields = (action) => (
       <TextArea field="description" id="description" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="language" className="d-block">Language</label>
+      <label className="form__field__label" htmlFor="language">Language</label>
       <Select field="language" id="language" options={languageOptions} />
     </div>
     <div className= "form__field">
@@ -53,7 +53,7 @@ const collectionFields = (action) => (
       <TextArea field="disclaimer_message" id="disclaimer_message" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="default_zoom" className="d-block">Default Zoom</label>
+      <label className="form__field__label" htmlFor="default_zoom">Default Zoom</label>
       <Select field="default_zoom" id="default_zoom" options={zoomOptions} />
     </div>
   </div>
@@ -84,7 +84,7 @@ const resourceFields = (resourceType, action) => (
   <div className="form__contents">
     {resourceType === "video" &&
       <div className= "form__field">
-        <label className="form__field__label" htmlFor="resource_url" className="d-block">Video Url</label>
+        <label className="form__field__label" htmlFor="resource_url">Video Url</label>
         <Text field="resource_url" id="resource_url" />
       </div>
     }
@@ -96,7 +96,7 @@ const resourceFields = (resourceType, action) => (
     }
     {resourceType === "website" &&
       <div className= "form__field">
-        <label className="form__field__label" htmlFor="resource_url" className="d-block">External Website Url</label>
+        <label className="form__field__label" htmlFor="resource_url">External Website Url</label>
         <Text field="resource_url" id="resource_url" />
       </div>
     }
