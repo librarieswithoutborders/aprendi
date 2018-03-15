@@ -203,6 +203,8 @@ function currCollection(state = null, action) {
       if (action.status === "SUCCESS") {
         return "Invalid"
       }
+    case "RESET_CURR_COLLECTION":
+      return null
     default:
       return state
   }

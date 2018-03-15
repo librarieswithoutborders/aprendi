@@ -5,7 +5,7 @@ import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
 import ResourceCreator from './ResourceCreator'
 import Search from './Search'
-import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection} from '../actions/actions.js'
+import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection, addUserToTeam} from '../actions/actions.js'
 
 class AdminModal extends Component {
   constructor() {

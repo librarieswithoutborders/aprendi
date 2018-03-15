@@ -24,7 +24,7 @@ const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editing
               data={user.permissions.teams}
               type="team"
               createNew={user => addUserToTeam(user)}
-              clickHandler={team => history.push('/teams/' + team.path)}
+              clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
               buttonClickHandler={team => removeUserFromTeam(user, team)}
               isDraggable={false}
               editingMode={editingMode}

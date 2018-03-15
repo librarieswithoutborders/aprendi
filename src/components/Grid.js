@@ -13,7 +13,7 @@ const rowHeight = {
   collection: 200,
   subcollection: 200,
   resource: 320,
-  user: 300,
+  user: 270,
   team: 260,
 }
 
@@ -59,6 +59,8 @@ class Grid extends React.Component {
   generateDOM() {
     const { data, clickHandler, createNew, type, editingMode, showTeam } = this.props;
 
+    console.log(clickHandler)
+
     let fullList = editingMode ? [...data, ...[{}]] : data
 
     let gridItems = fullList.map((d, i) => {
@@ -80,25 +82,6 @@ class Grid extends React.Component {
     return gridItems
   }
 
-  addCreateGridItem() {
-    const { createNew, type, createNewText } = this.props;
-
-    console.log("creating grid item")
-
-    return(
-      <div key="Create">
-        <div className="grid__item add-new" onClick={() => createNew()}>
-          <div className="grid__item__add-new-content">
-            <SvgIcon className="grid__item__plus" name="plus" />
-            <div className="grid__item__text">
-              <h5 className="grid__item__text__sub">{createNewText}</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   generateLayout(idList) {
     const {editingMode} = this.props
     let layouts = {};
@@ -117,17 +100,6 @@ class Grid extends React.Component {
           i: d,
         }
       })
-      // let createNewIndex = idList.length
-      // layouts[key].push(
-      //   {
-      //     x: createNewIndex%numColumns,
-      //     y: Math.floor(createNewIndex/numColumns),
-      //     w: 1,
-      //     h: 1,
-      //     i: "Create New",
-      //     static: true,
-      //   }
-      // )
     }
     return layouts
   }
@@ -169,19 +141,8 @@ class Grid extends React.Component {
     }
   }
 
-  // checkContiguous(layout) {
-  //   const numColumns = columns(this.state.currentBreakpoint)
-  //   console.log(numColumns)
-  //   for (let i = 0; i < numColumns; i++) {
-  //
-  //   }
-  // }
-
   render() {
     const {type, isDraggable, editingMode} = this.props
-
-    console.log("in render")
-    console.log(this.props)
 
     return (
       <ResponsiveReactGridLayout

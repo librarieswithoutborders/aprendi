@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchTeam, deleteTeam, updateTeam, resetCurrTeam, showAdminModal, fetchResourceList, showResourceViewer, removeUserFromTeam} from '../actions/actions.js';
+import { fetchTeam, deleteTeam, updateTeam, resetCurrTeam, showAdminModal, fetchResourceList, showResourceViewer, removeUserFromTeam, resetCurrCollection} from '../actions/actions.js';
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Grid from './Grid'
@@ -28,7 +28,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               data={teamInfo.collections}
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
-              clickHandler={(data, i) => { history.push("/" + data[i].path)}}
+              clickHandler={(data, i) => { console.log(data, i); history.push("/" + data[i].path)}}
               isDraggable={false}
               editingMode={editingMode}
               createNewText="Create New Collection"
@@ -73,13 +73,17 @@ class TeamHomePageContainer extends React.Component {
   }
 
   componentWillMount() {
-    const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList} = this.props
+    const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList, currCollection, resetCurrCollection} = this.props
     const {teamPath} = match.params
 
     console.log(teamInfo)
 
     if (!teamInfo || teamInfo.path !== teamPath) {
       fetchTeam(teamPath);
+    }
+
+    if (currCollection) {
+      resetCurrCollection()
     }
   }
 
@@ -122,7 +126,8 @@ const mapStateToProps = (state) => {
 
   return {
     teamInfo: state.currTeam,
-    editingMode: canUserEdit(state.currUser, state.currTeam, "team")
+    editingMode: canUserEdit(state.currUser, state.currTeam, "team"),
+    currCollection: state.currCollection
   }
 }
 
@@ -148,6 +153,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     createNewCollection: (teamId) => {
       dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))
+    },
+    resetCurrCollection: () => {
+      dispatch(resetCurrCollection())
     },
     createNewResource: (teamId) => {
       dispatch(showAdminModal({action:"create", type:"resource", team:teamId, parent: null, showExisting: false}))

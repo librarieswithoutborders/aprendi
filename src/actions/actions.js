@@ -363,6 +363,12 @@ export function collectionReorderChildren(collectionInfo) {
   }
 }
 
+export function resetCurrCollection() {
+  return {
+    type: "RESET_CURR_COLLECTION",
+  }
+}
+
 // subcollection
 
 export function createSubcollection(subcollectionInfo) {

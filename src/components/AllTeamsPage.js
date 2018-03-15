@@ -21,7 +21,7 @@ const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, curr
         data={teams}
         type="team"
         createNew={() => createTeam(currUser)}
-        clickHandler={team => history.push('/teams/' + team.path)}
+        clickHandler={(teams, i) => history.push('/teams/' + teams[i].path)}
         isDraggable={false}
         editingMode={editingMode}
         createNewText="Create New Team"

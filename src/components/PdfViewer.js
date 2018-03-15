@@ -39,7 +39,12 @@ class PdfViewer extends React.Component {
       this.props.renderCallback(canvasElem)
     }
 
+  }
 
+  renderSinglePageContent() {
+    const { docContainerWidth } = this.state;
+
+    return <Page pageNumber={1} width={docContainerWidth} onRenderSuccess={this.onRenderSuccess.bind(this)}/>
   }
 
   renderMultiPageContent() {
@@ -73,7 +78,7 @@ class PdfViewer extends React.Component {
       return (
         <div ref="documentContainer">
           <Document inputRef={(ref) => { this.documentRef = ref; }} file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
-            {this.renderMultiPageContent()}
+            {singlePage ? this.renderSinglePageContent() : this.renderMultiPageContent()}
           </Document>
         </div>
       )

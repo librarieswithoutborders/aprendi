@@ -33,21 +33,6 @@ class GridItem extends React.Component {
     this.data = props.data[props.index]
   }
 
-  addCreateGridItem() {
-    const { createNew, type, createNewText } = this.props;
-
-    return(
-      <div key="Create" className="grid__item add-new" onClick={() => createNew()}>
-        <div className="grid__item__add-new-content">
-          <SvgIcon className="grid__item__plus" name="plus" />
-          <div className="grid__item__text">
-            <h5 className="grid__item__text__sub">{createNewText}</h5>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   renderBackground() {
     const {type} = this.props
     if (this.data.image_url) {
@@ -89,7 +74,7 @@ class GridItem extends React.Component {
         return (
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.team_name}</h5>
-            <h5 className="grid__item__text__sub">{this.data.users.length + " Members"}</h5>
+            <h5 className="grid__item__text__sub">{this.data.users.length === 1 ? this.data.users.length + " Member" : this.data.users.length + " Members"}</h5>
             {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
           </div>
         )

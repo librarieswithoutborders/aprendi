@@ -27,7 +27,7 @@ export function logout(history, clearUserInfo) {
   clearIdToken();
   clearAccessToken();
   clearUserInfo();
-  history.replace('/');
+  
 }
 
 export function requireAuth(nextState, replace) {
