@@ -2,6 +2,7 @@ import * as types from './actionTypes';
 import addDateHash from '../utils/addDateHash'
 import { getCurrUser } from '../utils/AuthService'
 
+console.log(process.env.NODE_ENV)
 const dbPath = process.env.NODE_ENV === "production" ? 'http://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
 
 
