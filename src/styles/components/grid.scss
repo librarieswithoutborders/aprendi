@@ -2,13 +2,11 @@
   &__item {
     cursor: pointer;
     box-shadow: standard-shadow(grey);
+    transition: opacity 1000ms ease-in-out;
+    opacity: 0;
 
     &:hover {
       box-shadow: standard-hover-shadow(grey);
-    }
-
-    &.react-draggable-dragging {
-      z-index: 100;
     }
 
     &.item-type-collection {
@@ -32,6 +30,7 @@
       }
 
       .item-type-resource & {
+        transform: translateY(grid-item-height(resource)/3);
         height: 2*grid-item-height(resource)/3;
         box-shadow: inset 0px 6px 25px -10px colors(black);
       }
@@ -70,6 +69,7 @@
       }
 
       .item-type-resource & {
+        transform: translateY(-2*grid-item-height(resource)/3);
         height: grid-item-height(resource)/3;
         // border-bottom: 1px solid colors(grey);
 
@@ -138,13 +138,14 @@
 
     }
 
-    &.add-new {
+    &.item-type-add-new {
       box-shadow: none !important;
       background: none;
       border: 1px solid colors(grey);
       border-style: dashed;
       text-align: center;
       position: relative;
+      height: 100%;
 
       .grid__item__text {
         top: 10px;
@@ -167,4 +168,13 @@
       }
     }
   }
+}
+
+.react-draggable-dragging {
+  // z-index: 100;
+  margin-top: -20px;
+  // & > .grid__item {
+  //   transform: translateY(-20px);
+  // }
+
 }

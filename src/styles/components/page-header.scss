@@ -6,26 +6,28 @@ $page-header-height: 200px;
 
 .page-header {
     // height: $page-header-height;
-    padding: 120px 0px 0px;
-    background: linear-gradient(0deg, colors(offwhite), colors(white), colors(offwhite));
+    padding: 0px 0px 0px;
+    // border-bottom: 1px solid colors(grey);
+    box-shadow: 0 5px 28px -10px colors(grey);
+    background-color: colors(blue-10);
 
     &.with-image {
+      padding: 120px 0px 0px;
+      background: linear-gradient(0deg, colors(offwhite), colors(white), colors(offwhite));
       background-size: cover;
       background-repeat: no-repeat;
       background-position: 50% 50%;
       border: none;
     }
     &__contents {
-      color: black;
-      background-color: rgba(0,0,0,.4);
-      // top: 50%;
-      // transform: translateY(-50%);
+      color: colors(black);
       position: relative;
       z-index: 10;
       padding: 30px 20px;
 
       .with-image & {
         color: white;
+        background-color: rgba(0,0,0,.4);
       }
 
       .button {

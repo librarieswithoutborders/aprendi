@@ -89,7 +89,7 @@ class Collection extends Component {
                   data={data.subcollections}
                   type="subcollection"
                   createNew={() => createSubcollection({parentId:data._id, parentType:type})}
-                  clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
+                  clickHandler={(itemList, clickedIndex) => { console.log(itemList, clickedIndex); return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
                   isDraggable={true}
                   editingMode={editingMode}

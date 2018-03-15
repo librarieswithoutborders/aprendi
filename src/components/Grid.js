@@ -4,6 +4,8 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive)
 import { isLoggedIn } from '../utils/AuthService';
 import { Link } from 'react-router-dom'
 import SvgIcon from './SvgIcon'
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import GridItem from './GridItem'
 
 const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 
@@ -14,6 +16,18 @@ const rowHeight = {
   user: 300,
   team: 260,
 }
+
+const duration = 700;
+
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered:  { opacity: 1 },
+};
 
 class Grid extends React.Component {
   constructor(props) {
@@ -43,186 +57,42 @@ class Grid extends React.Component {
   }
 
   generateDOM() {
-    const { data, clickHandler, type, editingMode } = this.props;
+    const { data, clickHandler, createNew, type, editingMode, showTeam } = this.props;
 
     let fullList = editingMode ? [...data, ...[{}]] : data
 
     let gridItems = fullList.map((d, i) => {
-      if (i === data.length) { return this.addCreateGridItem()}
-
-      if (type === "collection") {
-        return this.renderCollectionItem(d, i)
-      } else if (type === "subcollection") {
-        return this.renderSubcollectionItem(d, i)
-      } else if (type === "resource") {
-        return this.renderResourceItem(d, i)
-      } else if (type === "team") {
-        return this.renderTeamItem(d, i)
+      if (i === data.length) {
+        return (
+          <div key="Create">
+            <GridItem index={i} {...this.props} type="add-new" clickHandler={createNew} />
+          </div>
+        )
       } else {
-        return this.renderUserItem(d, i)
+        return (
+          <div key={d._id}>
+            <GridItem index={i} {...this.props}/>
+          </div>
+        )
       }
-    });
+    })
 
     return gridItems
   }
 
-  renderCollectionItem(d, i) {
-    const { data, clickHandler, showTeam} = this.props;
-    let background;
-    if (d.image_url) {
-      let styleObject = {}
-      styleObject.backgroundImage = 'url(' + d.image_url + ')'
-      background = (
-        <div className="grid__item__image" style={styleObject} ></div>
-      )
-    } else {
-      background = (
-        <div className="grid__item__image"><SvgIcon name="folder" /></div>
-      )
-    }
-    return (
-      <div key={d._id} className={"grid__item item-type-collection"} onClick={() => { this.itemDragged ? null : clickHandler(data, i)}}>
-        {background}
-        <div className="grid__item__content">
-          <div className="grid__item__text">
-            {showTeam && <h5 className="grid__item__text__sub">{d.team}</h5>}
-            <h5 className="grid__item__text__main">{d.title}</h5>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderSubcollectionItem(d, i) {
-    const { data, clickHandler} = this.props;
-
-    let background;
-    if (d.image_url) {
-      let styleObject = {}
-      styleObject.backgroundImage = 'url(' + d.image_url + ')'
-      background = (
-        <div className="grid__item__image" style={styleObject} ></div>
-      )
-    } else {
-      background = (
-        <div className="grid__item__image"><SvgIcon name="folder" /></div>
-      )
-    }
-    return (
-      <div key={d._id} className={"grid__item item-type-subcollection"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
-        {background}
-        <div className="grid__item__content">
-          <div className="grid__item__text">
-            <SvgIcon name="folder" />
-            <h5 className="grid__item__text__main">{d.title}</h5>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderResourceItem(d, i) {
-    const { data, clickHandler} = this.props;
-    let background;
-    let iconName;
-
-    if (d.resource_type === "video") {
-      iconName = "video"
-    } else if (d.resource_type === "richtext") {
-      iconName = "text"
-    } else {
-      iconName = "document"
-    }
-
-    if (d.image_url) {
-      let styleObject = {}
-      styleObject.backgroundImage = 'url(' + d.image_url + ')'
-      background = (
-        <div className="grid__item__image" style={styleObject} ></div>
-      )
-    } else {
-      background = (
-        <div className="grid__item__image"><SvgIcon name={iconName} /></div>
-      )
-    }
-    return (
-      <div key={d._id} className={"grid__item item-type-resource"} onClick={() => this.itemDragged ? null : clickHandler(data, i)}>
-        <div className="grid__item__content">
-          <div className="grid__item__text">
-            <SvgIcon name={iconName} />
-            <h5 className="grid__item__text__main">{d.title}</h5>
-          </div>
-        </div>
-        {background}
-      </div>
-    );
-  }
-
-  renderTeamItem(d, i) {
-    const { data, clickHandler, buttonClickHandler, editingMode} = this.props;
-    let background;
-    if (d.image_url) {
-      let styleObject = {}
-      styleObject.backgroundImage = 'url(' + d.image_url + ')'
-      background = (
-        <div className="grid__item__image" style={styleObject} ></div>
-      )
-    } else {
-      background = (
-        <div className="grid__item__image"><SvgIcon name="team" /></div>
-      )
-    }
-    return (
-      <div key={d._id} className={"grid__item item-type-team"}  onClick={() => clickHandler(d)}>
-        {background}
-        <div className="grid__item__content">
-          <div className="grid__item__text">
-            <h5 className="grid__item__text__main">{d.team_name}</h5>
-            <h5 className="grid__item__text__sub">{d.users.length + " Members"}</h5>
-            {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderUserItem(d, i) {
-    const { data, buttonClickHandler, editingMode} = this.props;
-    let background;
-    if (d.image_url) {
-      let styleObject = {}
-      styleObject.backgroundImage = 'url(' + d.image_url + ')'
-      background = (
-        <div className="grid__item__image" style={styleObject} ></div>
-      )
-    } else {
-      background = (
-        <div className="grid__item__image"><SvgIcon name="user" /></div>
-      )
-    }
-    return (
-      <div key={d._id} className={"grid__item item-type-user"}>
-        {background}
-        <div className="grid__item__content">
-          <div className="grid__item__text">
-            <h5 className="grid__item__text__main">{d.name}</h5>
-            <h5 className="grid__item__text__sub">{d.email}</h5>
-            {editingMode && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Remove User from Team</div>}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   addCreateGridItem() {
-    const { data, createNew, type, createNewText } = this.props;
+    const { createNew, type, createNewText } = this.props;
+
+    console.log("creating grid item")
 
     return(
-      <div key="Create" className="grid__item add-new" onClick={() => createNew()}>
-        <div className="grid__item__add-new-content">
-          <SvgIcon className="grid__item__plus" name="plus" />
-          <div className="grid__item__text">
-            <h5 className="grid__item__text__sub">{createNewText}</h5>
+      <div key="Create">
+        <div className="grid__item add-new" onClick={() => createNew()}>
+          <div className="grid__item__add-new-content">
+            <SvgIcon className="grid__item__plus" name="plus" />
+            <div className="grid__item__text">
+              <h5 className="grid__item__text__sub">{createNewText}</h5>
+            </div>
           </div>
         </div>
       </div>

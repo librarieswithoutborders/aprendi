@@ -17,7 +17,7 @@ class PdfViewer extends React.Component {
 
   componentDidMount() {
     $(window).resize(this.resizeFunc)
-    
+
     this.setState({
       docContainerWidth: this.refs.documentContainer.clientWidth
     })
@@ -60,13 +60,15 @@ class PdfViewer extends React.Component {
 
     console.log(this.props, this.state)
 
-    if (singlePage) {
-      return (
-        <Document file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
-          <Page pageNumber={1} onRenderSuccess={this.onRenderSuccess.bind(this)}/>
-        </Document>
-      )
-    } else {
+    // if (singlePage) {
+    //   return (
+    //     <div ref="documentContainer">
+    //       <Document file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
+    //         <Page pageNumber={1} onRenderSuccess={this.onRenderSuccess.bind(this)}/>
+    //       </Document>
+    //     </div>
+    //   )
+    // } else {
 
       return (
         <div ref="documentContainer">
@@ -75,7 +77,7 @@ class PdfViewer extends React.Component {
           </Document>
         </div>
       )
-    }
+    // }
   }
 }
 
