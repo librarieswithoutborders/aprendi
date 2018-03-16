@@ -9,8 +9,14 @@ import { connect } from 'react-redux'
 import { hideAdminModal, hideResourceViewer, getUserTeam } from '../actions/actions.js';
 
 class Root extends Component {
+  // componentWillReceiveProps(nextProps) {
+  //   if (window.location.hash)
+  //
+  // }
+
   render() {
     const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo } = this.props;
+    console.log(history)
     window.loginCallback = getUserTeam
     let showOverlay = adminModalContent || resourceViewerContent
     return (
@@ -18,7 +24,7 @@ class Root extends Component {
       <Router>
         <div>
           {adminModalContent && <AdminModal />}
-          {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer();}}></div>}
+          {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
           {resourceViewerContent && <ResourceViewer />}
           <div className={showOverlay ? "content fixed" : "content"}>
             <TopNav />
