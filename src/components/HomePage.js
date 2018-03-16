@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Transition from 'react-transition-group/Transition';
+import ScrollAnimation from 'react-animate-on-scroll';
+
 import { login } from '../utils/AuthService';
 
 const FadeIn = ({children, duration, delay}) => {
