@@ -52,7 +52,7 @@ class GridItem extends React.Component {
       case "collection":
         return (
           <div className="grid__item__text">
-            {showTeam && <h5 className="grid__item__text__sub">{this.data.team}</h5>}
+            {showTeam && this.data.team && <h5 className="grid__item__text__sub">{this.data.team.team_name}</h5>}
             <h5 className="grid__item__text__main">{this.data.title}</h5>
           </div>
         )

@@ -115,6 +115,11 @@
         padding: 0px 10px;
         font-size: 15px;
         padding-bottom: 10px;
+
+        .item-type-collection & {
+          color: colors(blue-20);
+          font-size: 13px;
+        }
       }
 
       .icon {

@@ -58,7 +58,7 @@ textarea {
   color: white;
   box-shadow: standard-shadow(grey);
   display: inline-block;
-  padding: 9px;
+  padding: 10px 15px;
   font-size: 14px;
   cursor: pointer;
 
@@ -86,11 +86,19 @@ textarea {
     box-shadow: none;
     border: 1px solid colors(white);
     border-color: colors(white);
+    transition: all 300ms ease-in-out;
+    // font-weight: bold;
 
     &:hover {
-      color: colors(grey);
-      border-color: colors(grey);
+      color: colors(black);
+      // border-color: colors(blue);
       opacity: 1;
+      background-color: colors(white);
+      box-shadow: standard-shadow(grey);
+
+      * {
+        color: colors(black);
+      }
     }
   }
 }

@@ -41,6 +41,7 @@
     "passport-local": "1.0.0",
     "pdf-image": "1.0.5",
     "react": "16.2.0",
+    "react-animate-on-scroll": "2.1.0",
     "react-autosuggest": "9.3.3",
     "react-dom": "16.2.0",
     "react-dropzone": "4.2.7",

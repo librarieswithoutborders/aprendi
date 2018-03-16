@@ -1,16 +1,60 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Transition from 'react-transition-group/Transition';
+import { login } from '../utils/AuthService';
+
+const FadeIn = ({children, duration, delay}) => {
+  const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in-out ${delay}ms`,
+    opacity: 0
+  }
+
+  const transitionStyles = {
+    entering: { opacity: 0 },
+    entered:  { opacity: 1 },
+  }
+
+  console.log(children, duration, delay)
+
+  return (
+    <Transition in={true} appear={true} timeout={duration}>
+      {(state) => {
+        return (
+          <div
+            style={{
+              ...defaultStyle,
+              ...transitionStyles[state]
+            }}>
+              {children}
+          </div>
+        )
+      }}
+    </Transition>
+  )
+}
+
 
 class HomePage extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <div className="home-page__section blue">
-          <h1 className="home-page__section__title">Welcome to My Library Guide</h1>
-          <div className="home-page__section__content">
-            <p>My Library Guide is a tool developed by Libraries Without Borders to enable people to curate and add content Lorem Ipsum</p>
-            <p>Existing User? Sign in Button here</p>
-            <p>New to My Library Guide? Create Team/User Button here</p>
+        <div className="home-page__section title-section">
+          <div className="home-page__section__content-container" >
+            <FadeIn duration={800} delay={0} >
+              <h1 className="home-page__section__title">Welcome to My Library Guide</h1>
+            </FadeIn>
+            <FadeIn duration={800} delay={100} >
+              <div className="home-page__section__content">
+                <p>My Library Guide is a tool developed by Libraries Without Borders to enable people to curate and add content Lorem Ipsum</p>
+                <div className="home-page__section__button-container">
+                  <div className="button button-transparent"><Link to="/collections/">Browse Collections</Link></div>
+                  <div className="button button-transparent"><Link to="/teams/">Browse Teams</Link></div>
+                  <div className="button button-transparent" onClick={() => login()}>Admin Log in</div>
+                </div>
+              </div>
+            </FadeIn>
           </div>
+          <div className="home-page__section__overlay" />
         </div>
         <div className="home-page__section white">
           <h1 className="home-page__section__title">About the Project</h1>

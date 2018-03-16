@@ -1,28 +1,69 @@
 .home-page {
   &__section {
-    padding: 130px 50px;
+    padding: 130px 0px;
     text-align: center;
+    position: relative;
 
     &.blue {
-      background-color: colors(blue);
+      background-color: colors(blue-10);
 
-      * {
-        color: white;
-      }
+      // * {
+      //   color: white;
+      // }
     }
 
     &.white {
       background-color: colors(white);
     }
 
+    &.title-section {
+      background-image: url('../static/images/home_page_background.jpg');
+      background-size: cover;
+      background-position: 50% 50%;
+      z-index: 50;
+
+      * {
+        color: white;
+      }
+
+    }
+
+    &__content-container {
+      position: relative;
+      z-index: 100;
+      padding: 30px 50px;
+
+      .title-section & {
+        background-color: rgba(0,0,0,.4);
+      }
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      left: 0;
+      height: 100%;
+      background-color: rgba(0,0,0,0);
+      z-index: 1;
+    }
+
     &__title {
-      font-size: 36px;
-      padding-bottom: 20px;
+      font-size: 42px;
+      padding-bottom: 35px;
     }
 
     &__content {
       max-width: 650px;
       margin: auto;
+      z-index: 20;
+    }
+
+    &__button-container {
+      padding-top: 5px;
+      & > .button {
+        margin: 0px 10px;
+      }
     }
   }
 }
