@@ -19,7 +19,8 @@ export function login() {
     responseType: 'token id_token',
     redirectUri: REDIRECT,
     audience: AUDIENCE,
-    scope: 'openid profile email read:users user_id id'
+    scope: 'openid profile email read:users user_id id',
+    connection: 'google-oauth2'
   });
 }
 
@@ -27,7 +28,7 @@ export function logout(history, clearUserInfo) {
   clearIdToken();
   clearAccessToken();
   clearUserInfo();
-  
+
 }
 
 export function requireAuth(nextState, replace) {
