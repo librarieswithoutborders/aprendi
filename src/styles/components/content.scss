@@ -1,13 +1,13 @@
 .content {
   &.fixed {
-    position: fixed;
+    // position: fixed;
     width: 100%;
   }
 
   &-container {
     // padding-top: $top-nav-height;
   }
-  
+
   &-overlay {
     position: fixed;
     width: 100%;

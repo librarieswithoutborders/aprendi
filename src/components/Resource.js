@@ -22,12 +22,6 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
       <div className="resource__header">
         <div className="resource__header__content">
           <h1 className="resource__header__text">{content.title}</h1>
-            {/*{content.short_description &&
-              <p>{content.short_description}</p>
-            }
-            {content.source_url &&
-              <a href={"//" + content.source_url}>{content.source_organization || content.source_url}</a>
-            }*/}
           <div className="resource__header__button-container">
             <h5 className="resource__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
             {removeResource &&
@@ -39,9 +33,19 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
       </div>
       <div className="resource__content">
         {renderedContent}
-        {content.disclaimer_message &&
-          <div className="resource__disclaimer">
-            <div className="resource__disclaimer__content" dangerouslySetInnerHTML={{__html:content.disclaimer_message}} />
+        {(content.disclaimer_message || content.more_info) &&
+          <div className="resource__footer">
+            {content.disclaimer_message &&
+              <div className="resource__disclaimer">
+                <div className="resource__disclaimer__content" dangerouslySetInnerHTML={{__html:content.disclaimer_message}} />
+              </div>
+            }
+            {content.more_info &&
+              <div className="resource__more-info">
+                <span>For more information visit: </span>
+                <a href={content.more_info} target="_blank">{content.more_info}</a>
+              </div>
+            }
           </div>
         }
       </div>

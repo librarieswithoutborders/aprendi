@@ -169,15 +169,21 @@ function currCollection(state = null, action) {
         Object.assign(newState, state)
         newState.resources.push(action.data)
         return newState
+      } else {
+        return state
       }
     case "COLLECTION_REMOVE_RESOURCE":
       if (action.status === "SUCCESS") {
+        console.log(state)
+
         let newState = {}
         Object.assign(newState, state)
         let deletedIndex = state.resources.indexOf(action.data)
         console.log(deletedIndex)
         newState.resources.splice(deletedIndex, 1)
         return newState
+      } else {
+        return state
       }
     case "DELETE_COLLECTION":
       if (action.status === "SUCCESS") {
@@ -221,9 +227,9 @@ function currCollection(state = null, action) {
       }
     case "RESET_CURR_COLLECTION":
       return null
-    default:
-      return state
   }
+
+  return state
 }
 
 function userList(state = null, action) {

@@ -116,20 +116,16 @@ const resourceFields = (resourceType, action) => (
       </div>
     }
     <div className= "form__field">
+      <label className="form__field__label" htmlFor="more_info">More Information Link</label>
+      <Text field="more_info" id="more_info" />
+    </div>
+    <div className= "form__field">
       <label className="form__field__label" htmlFor="disclaimer_message">Disclaimer Message</label>
       <RichTextField field="disclaimer_message" id="disclaimer_message" />
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="path">Url Path</label>
       <Text field="path" id="path" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="source_organization">Source Organization</label>
-      <Text field="source_organization" id="source_organization" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="source_url">Source Website</label>
-      <Text field="source_url" id="source_url" />
     </div>
   </div>
 )
