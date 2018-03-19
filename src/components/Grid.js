@@ -36,7 +36,7 @@ class Grid extends React.Component {
     this.itemDragged = false
 
     this.state = {
-      layouts: this.generateLayout(props.data.map(d => d._id)),
+      layouts: props.data ? this.generateLayout(props.data.map(d => d._id)) : null,
       currentBreakpoint: "lg",
       width: 0
     };
