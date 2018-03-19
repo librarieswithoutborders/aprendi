@@ -24,7 +24,8 @@ class FileUploadFieldContent extends React.Component {
   }
 
   generatePreview(fileUrl) {
-    const {type} = this.props
+    const { type, fieldApi } = this.props
+    const { setValue } = fieldApi;
     let previewContent
 
     if (type === "pdf") {

@@ -47,21 +47,23 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             </div>
           }
         </div>
-        <hr className="team-home-page__section-divider" />
-        <div className="team-home-page__section">
-          <h5 className="team-home-page__section-title">Users</h5>
-          {teamInfo.users &&
-            <Grid
-              data={teamInfo.users}
-              type="user"
-              createNew={() => addUserToTeam(teamInfo)}
-              buttonClickHandler={(user) => removeUserFromTeam(user, teamInfo)}
-              isDraggable={false}
-              editingMode={editingMode}
-              createNewText="Add User to Team"
-            />
-          }
-        </div>
+        {editingMode && <hr className="team-home-page__section-divider" /> }
+        {editingMode &&
+          <div className="team-home-page__section">
+            <h5 className="team-home-page__section-title">Users</h5>
+            {teamInfo.users &&
+              <Grid
+                data={teamInfo.users}
+                type="user"
+                createNew={() => addUserToTeam(teamInfo)}
+                buttonClickHandler={(user) => removeUserFromTeam(user, teamInfo)}
+                isDraggable={false}
+                editingMode={editingMode}
+                createNewText="Add User to Team"
+              />
+            }
+          </div>
+        }
       </div>
     </div>
   )

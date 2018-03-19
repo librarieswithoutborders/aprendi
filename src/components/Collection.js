@@ -72,6 +72,7 @@ class Collection extends Component {
       title: data.title,
       byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
       image_url: data.image_url,
+      created_by: type === "collection" && data.created_by && data.contact_email ? {name: data.created_by, email: data.contact_email, image: data.created_by_image} : null,
     }
 
     return (

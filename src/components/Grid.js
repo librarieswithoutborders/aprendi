@@ -59,8 +59,6 @@ class Grid extends React.Component {
   generateDOM() {
     const { data, clickHandler, createNew, type, editingMode, showTeam } = this.props;
 
-    console.log(clickHandler)
-
     let fullList = editingMode ? [...data, ...[{}]] : data
 
     let gridItems = fullList.map((d, i) => {

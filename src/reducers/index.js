@@ -99,8 +99,9 @@ function currTeam(state = null, action) {
         let newState = {}
         Object.assign(newState, state)
         if (state && state.collections) {
-          let deletedIndex = state.collections.indexOf(action.data)
-          newState.collections.splice(deletedIndex, 1, action.data)
+          let updatedIndex = state.collections.findIndex(d => d._id === action.data._id)
+          console.log(updatedIndex)
+          newState.collections.splice(updatedIndex, 1, action.data)
         }
         return newState
       }
@@ -117,6 +118,17 @@ function currTeam(state = null, action) {
         let newState = {}
         Object.assign(newState, state)
         newState.resources.push(action.data)
+        return newState
+      }
+    case "UPDATE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        let newState = {}
+        Object.assign(newState, state)
+        if (state && state.resources) {
+          let updatedIndex = state.resources.findIndex(d => d._id === action.data._id)
+          console.log(updatedIndex)
+          newState.resources.splice(updatedIndex, 1, action.data)
+        }
         return newState
       }
     case "DELETE_RESOURCE":

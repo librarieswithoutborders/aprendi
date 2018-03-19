@@ -1,12 +1,14 @@
 .grid {
   &__item {
-    cursor: pointer;
     box-shadow: standard-shadow(grey);
     transition: opacity 1000ms ease-in-out;
     opacity: 0;
 
-    &:hover {
-      box-shadow: standard-hover-shadow(grey);
+    &.clickable {
+      cursor: pointer;
+      &:hover {
+        box-shadow: standard-hover-shadow(grey);
+      }
     }
 
     &.item-type-collection {

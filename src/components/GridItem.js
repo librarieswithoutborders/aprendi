@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import SvgIcon from './SvgIcon'
 import Transition from 'react-transition-group/Transition';
 import typeToIconMapping from '../utils/typeToIconMapping'
+import { connect } from 'react-redux'
+
 
 const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 
@@ -45,6 +47,14 @@ class GridItem extends React.Component {
     }
   }
 
+  canUserEdit() {
+    const {currUserId} = this.props
+    if (!currUserId) { return false }
+
+    console.log(this.data)
+    return currUserId === this.data.auth0id
+  }
+
   renderContent() {
     const {index, type, clickHandler, buttonClickHandler, showTeam, editingMode} = this.props
 
@@ -74,8 +84,8 @@ class GridItem extends React.Component {
         return (
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.team_name}</h5>
-            <h5 className="grid__item__text__sub">{this.data.users.length === 1 ? this.data.users.length + " Member" : this.data.users.length + " Members"}</h5>
-            {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Leave This Team</div>}
+            {editingMode && <h5 className="grid__item__text__sub">{this.data.users.length === 1 ? this.data.users.length + " Member" : this.data.users.length + " Members"}</h5>}
+            {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>}
           </div>
         )
       case "user":
@@ -83,7 +93,7 @@ class GridItem extends React.Component {
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.name}</h5>
             <h5 className="grid__item__text__sub">{this.data.email}</h5>
-            {editingMode && <div className="button button-white" onClick={() => buttonClickHandler(d)}>Remove User from Team</div>}
+            {editingMode && this.canUserEdit() && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>}
           </div>
         )
     }
@@ -114,15 +124,14 @@ class GridItem extends React.Component {
       )
     }
 
-
     return (
       <Transition in={true} appear={true} timeout={transitionDuration}>
         {(state) => {
 
           return (
             <div
-              className={"grid__item item-type-" + type}
-              onClick={() => { console.log(data, index); return clickHandler(data, index)}}
+              className={"grid__item item-type-" + type + (clickHandler ? " clickable" : "")}
+              onClick={() => { console.log(data, index); return clickHandler ? clickHandler(data, index) : null}}
               style={{
                 ...defaultStyle,
                 transitionDelay: (50*index) + "ms",
@@ -137,5 +146,14 @@ class GridItem extends React.Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  if (state.currUser && state.currUser.permissions) {
+    return {
+      currUserId: state.currUser.permissions.auth0id
+    }
+  } else {
+    return {}
+  }
+}
 
-export default GridItem
+export default connect(mapStateToProps)(GridItem)
