@@ -4,7 +4,7 @@
   }
 
   &__contents {
-    padding: $standard-padding 0px;
+    padding: $standard-padding 0px 0px;
   }
 
   &__divider {
@@ -26,5 +26,11 @@
     // text-transform: uppercase;
     font-size: 16px;
     border-bottom: 1px solid colors(blue-50);
+  }
+
+  &__disclaimer {
+    background-color: colors(blue-10);
+    color: colors(black);
+    padding: 20px;
   }
 }

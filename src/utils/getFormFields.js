@@ -12,16 +12,16 @@ const teamFields = (action) => (
       <Text field="team_name" id="team_name" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
-    <div className= "form__field">
       <label className="form__field__label" htmlFor="description">Description</label>
       <TextArea field="description" id="description" />
     </div>
     <div className= "form__field">
       <label className="form__field__label">Team Image</label>
       <FileUploadField type="image" field="image_url"/>
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
     </div>
   </div>
 )
@@ -33,28 +33,28 @@ const collectionFields = (action) => (
       <Text field="title" id="title" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
-    <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="description">Description</label>
-      <TextArea field="description" id="description" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="language">Language</label>
-      <Select field="language" id="language" options={languageOptions} />
-    </div>
-    <div className= "form__field">
       <label className="form__field__label" htmlFor="disclaimer_message">Disclaimer Message</label>
-      <TextArea field="disclaimer_message" id="disclaimer_message" />
+      <RichTextField field="disclaimer_message" id="disclaimer_message" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="default_zoom">Default Zoom</label>
-      <Select field="default_zoom" id="default_zoom" options={zoomOptions} />
+      <label className="form__field__label" htmlFor="created_by">Created by</label>
+      <Text field="created_by" id="created_by" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label">Created by - Image</label>
+      <FileUploadField type="image" field="created_by_image"/>
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="contact_email">Contact Email</label>
+      <Text field="contact_email" id="contact_email" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
     </div>
   </div>
 )
@@ -66,22 +66,26 @@ const subcollectionFields = (action) => (
       <Text field="title" id="title" />
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
-    <div className= "form__field">
       <label className="form__field__label">Cover Image</label>
       <FileUploadField type="image" field="image_url"/>
     </div>
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="description">Description</label>
-      <TextArea field="description" id="description" />
+      <label className="form__field__label" htmlFor="disclaimer_message">Disclaimer Message</label>
+      <RichTextField field="disclaimer_message" id="disclaimer_message" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
     </div>
   </div>
 )
 
 const resourceFields = (resourceType, action) => (
   <div className="form__contents">
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="title">Title</label>
+      <Text field="title" id="title" />
+    </div>
     {resourceType === "video" &&
       <div className= "form__field">
         <label className="form__field__label" htmlFor="resource_url">Video Url</label>
@@ -105,14 +109,6 @@ const resourceFields = (resourceType, action) => (
         <RichTextField field="rich_text" id="rich_text" />
       </div>
     }
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="title">Title</label>
-      <Text field="title" id="title" />
-    </div>
-    <div className= "form__field">
-      <label className="form__field__label" htmlFor="path">Url Path</label>
-      <Text field="path" id="path" />
-    </div>
     {action != "create" &&
       <div className= "form__field">
         <label className="form__field__label">Cover Image</label>
@@ -120,8 +116,12 @@ const resourceFields = (resourceType, action) => (
       </div>
     }
     <div className= "form__field">
-      <label className="form__field__label" htmlFor="description">Description</label>
-      <TextArea field="description" id="description" />
+      <label className="form__field__label" htmlFor="disclaimer_message">Disclaimer Message</label>
+      <RichTextField field="disclaimer_message" id="disclaimer_message" />
+    </div>
+    <div className= "form__field">
+      <label className="form__field__label" htmlFor="path">Url Path</label>
+      <Text field="path" id="path" />
     </div>
     <div className= "form__field">
       <label className="form__field__label" htmlFor="source_organization">Source Organization</label>

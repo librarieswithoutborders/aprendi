@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { setCurrResourceIndex, invalidateCurrCollection, deleteResource, collectionRemoveResource, subcollectionRemoveResource, hideResourceViewer} from '../actions/actions.js'
+import { setCurrResourceIndex, invalidateCurrCollection, deleteResource, showAdminModal, collectionRemoveResource, subcollectionRemoveResource, hideResourceViewer} from '../actions/actions.js'
 import { connect } from 'react-redux'
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
@@ -12,7 +12,7 @@ class ResourceViewer extends Component {
   }
 
   render() {
-    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, removeResourceFromCollection} = this.props
+    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection} = this.props
 
     let nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
@@ -39,7 +39,8 @@ class ResourceViewer extends Component {
           <Resource
             content={resourceList[currIndex]}
             removeResource={parent ? (id) => removeResourceFromCollection(id, parent) : null}
-            deleteResource={(data) => deleteResource(data)}/>
+            deleteResource={(data) => deleteResource(data)}
+            updateResource={(data) => updateResource(data)}/>
         </div>
       </div>
     )
@@ -72,6 +73,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteResource: (resourceInfo) => {
       dispatch(deleteResource(resourceInfo))
+    },
+    updateResource: (data) => {
+      dispatch(hideResourceViewer())
+      dispatch(showAdminModal({action:"update", type:"resource", data: data}))
     },
   }
 }

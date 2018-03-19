@@ -199,6 +199,10 @@ function currCollection(state = null, action) {
       if (action.status === "SUCCESS") {
         return "Invalid"
       }
+    case "UPDATE_RESOURCE":
+      if (action.status === "SUCCESS") {
+        return "Invalid"
+      }
     case "DELETE_RESOURCE":
       if (action.status === "SUCCESS") {
         return "Invalid"

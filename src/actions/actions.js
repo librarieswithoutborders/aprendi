@@ -556,6 +556,34 @@ export function createResource(resourceInfo) {
   }
 }
 
+export function updateResource(resourceInfo) {
+  console.log(resourceInfo)
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"UPDATE_RESOURCE", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/resource",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(resourceInfo)
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"UPDATE_RESOURCE", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"UPDATE_RESOURCE", status:"SUCCESS", data: resourceInfo.data}))
+        }
+      })
+  }
+}
+
 export function deleteResource(resourceInfo) {
   console.log(resourceInfo)
   return (dispatch) => {

@@ -63,17 +63,15 @@ class Collection extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
 
-    console.log(currTeam)
+    console.log(data.disclaimer_message)
 
     const headerContents = {
       title: data.title,
       byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
       image_url: data.image_url,
-      description: data.description
     }
 
     return (
@@ -113,6 +111,11 @@ class Collection extends Component {
                   createNewText="Add New Resource"
                 />
               </div>
+            </div>
+          }
+          {data.disclaimer_message &&
+            <div className="collection__disclaimer">
+              <div className="collection__disclaimer__content" dangerouslySetInnerHTML={{__html:data.disclaimer_message}} />
             </div>
           }
         </div>
