@@ -39,7 +39,7 @@ class GridItem extends React.Component {
     const {type} = this.props
     if (this.data.image_url) {
       let styleObject = {}
-      styleObject.backgroundImage = 'url(' + this.data.image_url + ')'
+      styleObject.backgroundImage = 'url("' + this.data.image_url + '")'
 
       return <div className="grid__item__image" style={styleObject} ></div>
     } else {

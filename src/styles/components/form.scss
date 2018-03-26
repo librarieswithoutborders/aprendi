@@ -24,16 +24,93 @@
       text-align: right;
       // border-right: 1px solid colors(grey);
       width: 25%;
+      display: table-cell;
+      vertical-align: middle;
     }
 
-    & > * {
+    // & > * {
+    //   display: table-cell;
+    //   vertical-align: middle;
+    //   margin: 10px 10px 10px 0px;
+    // }
+
+
+    .form__image-upload, .form__field__rich-text, input, textarea {
+      width: 75%;
       display: table-cell;
       vertical-align: middle;
       margin: 10px 10px 10px 0px;
     }
 
-    .form__image-upload, input, textarea {
-      width: 85%;
+    &__rich-text {
+      &.active {
+        .EditorToolbar__root___3_Aqz {
+          max-height: 1000px;
+          opacity: 1;
+          border-bottom: 1px solid colors(light-grey);
+          background-color: colors(white);
+        }
+      }
+
+      .EditorToolbar__root___3_Aqz {
+        max-height: 0px;
+        overflow-y: hidden;
+        padding: 0px;
+        margin: 0px;
+        border: none;
+        opacity: 0;
+        transition: opacity 1s ease-in-out, max-height 1s ease-in-out;
+        position: relative;
+      }
+
+      .RichTextEditor__editor___1QqIU {
+        font-size: 12px;
+        color: colors(black);
+        font-family: 'Roboto-Medium', sans-serif;
+      }
+
+      .ButtonGroup__root___3lEAn {
+        margin-bottom: -2px;
+        margin-right: 0px;
+        padding: 0px;
+
+        &:last-child {
+          position: absolute;
+          right: 0px;
+
+          .IconButton__root___3tqZW {
+            border-right: none;
+            border-left: 1px solid colors(light-grey);
+          }
+        }
+
+        // border-right: 1px solid colors(blue-20);
+      }
+
+      .IconButton__root___3tqZW {
+        border-left: none;
+        border-right: 1px solid colors(light-grey);
+        border-top: none;
+        border-bottom: none;
+        color: colors(grey) !important;
+        background-image: none;
+
+        &:hover {
+          background-color: colors(blue-10) !important;
+        }
+      }
+
+      .IconButton__isActive_2Ey8p {
+        background-color: colors(white) !important;
+      }
+
+      .InputPopover__root___3Hpj9 {
+        border: none;
+      }
+
+      .InputPopover__input___264Za {
+        border: none;
+      }
 
     }
   }
@@ -75,6 +152,19 @@
         font-size: 12px;
         color: colors(grey);
       }
+    }
+  }
+
+  &__error-message {
+    background-color: red;
+  }
+
+  &__external-website {
+    &__preview {
+      height: 100px;
+      width: 100px;
+      background-size: cover;
+      background-position: 50% 50%;
     }
   }
 }

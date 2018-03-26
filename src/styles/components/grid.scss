@@ -1,8 +1,11 @@
+$border-radius: 5px;
+
 .grid {
   &__item {
     box-shadow: standard-shadow(grey);
     transition: opacity 1000ms ease-in-out;
     opacity: 0;
+    border-radius: $border-radius;
 
     &.clickable {
       cursor: pointer;
@@ -25,16 +28,21 @@
 
       .item-type-collection & {
         height: grid-item-height(collection);
+        border-radius: $border-radius;
       }
 
       .item-type-subcollection & {
         height: grid-item-height(subcollection)/2;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
       }
 
       .item-type-resource & {
         transform: translateY(grid-item-height(resource)/3);
         height: 2*grid-item-height(resource)/3;
         box-shadow: inset 0px 6px 25px -10px colors(black);
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
       }
 
       .item-type-team & {
@@ -64,16 +72,21 @@
         top: 0;
         background-color: rgba(0,0,0,.3);
         height: grid-item-height(collection);
+        border-radius: $border-radius;
       }
 
       .item-type-subcollection & {
         height: grid-item-height(subcollection)/2;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
       }
 
       .item-type-resource & {
         transform: translateY(-2*grid-item-height(resource)/3);
         height: grid-item-height(resource)/3;
         // border-bottom: 1px solid colors(grey);
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
 
         z-index: 1000;
       }
@@ -126,7 +139,7 @@
 
       .icon {
         height: 14px;
-        fill: colors(blue);
+        fill: colors(grey);
         margin-bottom: 3px;
 
         .item-type-subcollection & {

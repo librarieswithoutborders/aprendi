@@ -1,10 +1,9 @@
 import * as types from './actionTypes';
-import addDateHash from '../utils/addDateHash'
+import processFileName from '../utils/processFileName'
 import { getCurrUser } from '../utils/AuthService'
 
 console.log(process.env.NODE_ENV)
 const dbPath = process.env.NODE_ENV === "production" ? 'https://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
-
 
 export function setUpdateStatus({type, message, status, data}) {
   return {
@@ -601,11 +600,29 @@ export function deleteResource(resourceInfo) {
   }
 }
 
-export function uploadFile(file, addHash, callback) {
-  let newFile = addHash ? addDateHash(file) : file
+export function fetchResourceList() {
+  return (dispatch) => {
+    dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"INITIATED"}))
 
-  let reader = new FileReader()
-  console.log(reader.readAsDataURL(newFile))
+    return fetch(
+      dbPath + '/resources',
+      {
+        method: "GET"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+
+        dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"SUCCESS", data:json}))
+      })
+  }
+}
+
+export function uploadFile(file, addHash, callback) {
+  let newFile = processFileName(file, addHash)
+
+  // let reader = new FileReader()
+  // console.log(reader.readAsDataURL(newFile))
 
   return (dispatch) => {
     dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"INITIATED"}))
@@ -635,21 +652,20 @@ export function uploadFile(file, addHash, callback) {
   }
 }
 
-export function fetchResourceList() {
+export function takeWebScreenshot(url, callback) {
   return (dispatch) => {
-    dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"INITIATED"}))
+    dispatch(setUpdateStatus({type:"FILE_UPLOAD", status:"INITIATED"}))
 
     return fetch(
-      dbPath + '/resources',
+      dbPath + '/take-web-screenshot?url=' + url,
       {
         method: "GET"
-      })
-      .then(response => { return response.json()})
-      .then(json => {
-        console.log(json)
-
-        dispatch(setRequestStatus({type:"FETCH_RESOURCES", status:"SUCCESS", data:json}))
-      })
+      }
+    ).then(response => response.json())
+    .then((d) => {
+      console.log(d)
+      dispatch(setUpdateStatus({type:"FILE_UPLOAD", status:"SUCCESS", data: d}))
+    })
   }
 }
 
@@ -712,7 +728,7 @@ export function getUserTeam(user) {
     dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"INITIATED"}))
 
     return fetch(
-      dbPath + '/user',
+      dbPath + '/user-get-upsert',
       {
         method: "PUT",
         headers: {
@@ -791,6 +807,32 @@ export function removeUserFromTeam(user, team) {
           dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", message:json.error.message, status:"FAILED"}))
         } else {
           dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", status:"SUCCESS", data: user}))
+        }
+      })
+  }
+}
+
+export function updateUser(userInfo) {
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"UPDATE_USER", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/user",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userInfo)
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"UPDATE_USER", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(setUpdateStatus({type:"UPDATE_USER", status:"SUCCESS", data: json}))
         }
       })
   }

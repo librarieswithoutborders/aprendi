@@ -8,8 +8,6 @@ import ResourceExistingSearch from './ResourceExistingSearch'
 import LoadingIcon from './LoadingIcon'
 import canUserEdit from '../utils/canUserEdit'
 
-// hard-coded temporarily
-const currTeam = "all"
 
 const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode}) => {
   let headerContents = {
@@ -25,7 +23,11 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
           <h5 className="team-home-page__section-title">Collections</h5>
           {teamInfo.collections &&
             <Grid
-              data={teamInfo.collections}
+              data={teamInfo.collections.sort((a, b) => {
+                if(a.title < b.title) return -1;
+                if(a.title > b.title) return 1;
+                return 0;
+              })}
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
               clickHandler={(data, i) => { console.log(data, i); history.push("/" + data[i].path)}}
@@ -53,7 +55,11 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             <h5 className="team-home-page__section-title">Users</h5>
             {teamInfo.users &&
               <Grid
-                data={teamInfo.users}
+                data={teamInfo.users.sort((a, b) => {
+                  if(a.name < b.name) return -1;
+                  if(a.name > b.name) return 1;
+                  return 0;
+                })}
                 type="user"
                 createNew={() => addUserToTeam(teamInfo)}
                 buttonClickHandler={(user) => removeUserFromTeam(user, teamInfo)}

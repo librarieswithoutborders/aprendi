@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SvgIcon from './SvgIcon'
 import {resourceTypeOptions} from '../constants'
 import { Responsive, WidthProvider } from "react-grid-layout";
+import typeToIconMapping from '../'
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const columns = { lg: 6, md: 5, sm: 4, xs: 3, xxs: 2 }
@@ -45,6 +46,7 @@ const ResourceTypeSelector = ({setResourceType}) => {
       >
       {resourceTypeOptions.map(option => (
         <div key={option.value} className="resource-type-selector__item" onClick={() => setResourceType(option.value)}>
+          <SvgIcon className="resource-type-selector__item__icon" name={option.icon} />
           <h5 className="resource-type-selector__item__text">{option.label}</h5>
         </div>
       ))}

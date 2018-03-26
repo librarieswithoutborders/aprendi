@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PdfViewer from './PdfViewer'
+const $ = require('jquery')
 
-const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource}) => {
+const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource, toggleShared}) => {
   console.log(content)
   let renderedContent
   switch(content.resource_type) {
@@ -15,6 +16,9 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
     case "rich_text":
       renderedContent = renderRichText(content)
       break
+    case "website":
+      renderedContent = renderWebsite(content)
+      break
   }
 
   return (
@@ -23,11 +27,15 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
         <div className="resource__header__content">
           <h1 className="resource__header__text">{content.title}</h1>
           <div className="resource__header__button-container">
-            <h5 className="resource__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
+            {updateResource &&
+              <h5 className="resource__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
+            }
             {removeResource &&
               <h5 className="resource__header__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
             }
-            <h5 className="resource__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+            {deleteResource &&
+              <h5 className="resource__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+            }
           </div>
         </div>
       </div>
@@ -87,6 +95,11 @@ const renderRichText = ({rich_text}) => {
 
 const renderPdf = ({resource_url}) => {
   return <PdfViewer url={resource_url} />
+}
+
+const renderWebsite = ({resource_url}) => {
+
+  return <iframe src={resource_url} height="500px" width="500px"/>
 }
 
 export default Resource

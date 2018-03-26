@@ -1,6 +1,7 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
 import { FormField } from 'react-form';
+import richTextToolbarConfig from '../utils/richTextToolbarConfig'
 
 class RichTextFieldContent extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ class RichTextFieldContent extends React.Component {
     const { getValue } = props.fieldApi;
     let currValue = getValue()
     this.state = {
-      content: RichTextEditor.createValueFromString(currValue ? currValue : "", 'html')
+      content: RichTextEditor.createValueFromString(currValue ? currValue : "", 'html'),
+      active: false
     }
   }
 
@@ -21,13 +23,24 @@ class RichTextFieldContent extends React.Component {
 
   }
 
-  render() {
+  setActive() {
+    if (!this.state.active) {
+      this.setState({
+        active: true
+      })
+    }
+  }
 
+  render() {
+    const { active, content } = this.state
     return(
-      <RichTextEditor
-        value={this.state.content}
-        onChange={(value) => this.onChange(value)}
-      />
+      <div className={active ? "form__field__rich-text active" : "form__field__rich-text"} tabIndex="0" onClick={() => this.setActive()}>
+        <RichTextEditor
+          value={content}
+          onChange={(value) => this.onChange(value)}
+          toolbarConfig={richTextToolbarConfig}
+        />
+      </div>
     );
   }
 }

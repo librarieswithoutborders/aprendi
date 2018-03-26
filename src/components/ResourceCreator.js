@@ -49,6 +49,7 @@ class ResourceCreator extends Component {
           <div className="resource-creator__tab-container">
             <div className={activeTab === 0 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(0)}>Search Existing Resources</div>
             <div className={activeTab === 1 ? "resource-creator__tab active" : "resource-creator__tab"} onClick={() => this.setActiveTab(1)}>Upload New Resource</div>
+            <div className="resource-creator__tab-mask" style={{left: activeTab === 0 ? "0" : "50%" }}></div>
           </div>
           {activeTab === 0 &&
             <div className="resource-creator__tab-contents">

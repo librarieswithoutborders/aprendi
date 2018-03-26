@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SvgIcon from './SvgIcon'
 import Autosuggest from 'react-autosuggest';
 import { connect } from 'react-redux'
-import { fetchUserList, fetchTeamList, fetchCollectionList, fetchResourceList, addUserToTeam } from '../actions/actions.js';
+import { fetchUserList, fetchTeamList, fetchCollectionList, fetchResourceList, addUserToTeam, updateUser } from '../actions/actions.js';
 
 
 class Search extends Component {
@@ -12,6 +12,7 @@ class Search extends Component {
 		this.state = {
   		value: '',
   		suggestions: this.props.data,
+			extendedView: null
     };
 	}
 
@@ -27,10 +28,13 @@ class Search extends Component {
 	}
 
 	render() {
-		const { value, suggestions } = this.state;
+		const { value, suggestions, extendedView } = this.state;
 
 		console.log(suggestions)
+
 		console.log(this.props.data)
+
+		console.log(extendedView)
 
 		const inputProps = {
   		placeholder: 'Search',
@@ -75,9 +79,15 @@ class Search extends Component {
 
   onSuggestionSelected(event, {suggestion}) {
     console.log("selected", suggestion, event)
+		const { extendedView } = this.state
 
-    console.log("dispatching action to set resource data")
-    this.props.onSelect(suggestion, this.props.parent)
+		if (this.props.onSelect) {
+    	this.props.onSelect(suggestion, this.props.parent)
+		} else {
+			this.setState({
+				extendedView: extendedView === suggestion ? null : suggestion
+			})
+		}
 	}
 
 	getSuggestions(value) {
@@ -105,33 +115,60 @@ class Search extends Component {
 	}
 
   renderSuggestion(item) {
-		console.log(item)
-		const {type} = this.props
+		const {type, changeUserPermissions} = this.props
+		const {extendedView} = this.state
 
 		if (type === "user") {
 	    return (
-	      <div className="search__results-list__item">
-					<SvgIcon name="user" />
-	        <h5 className="search__results-list__item__title">{item.name}</h5>
-					<h5 className="search__results-list__item__subheading">{item.email}</h5>
-					<h5 className="search__results-list__item__subheading">{item.teams && item.teams.map((d, i) => i > 0 ? ', ' + d.team_name : d.team_name)}</h5>
-	      </div>
+	      <div className={extendedView && extendedView._id === item._id ? "search__results-list__item extended" : "search__results-list__item"}>
+					<div className="search__results-list__item__listing">
+						<SvgIcon name="user" />
+		        <h5 className="search__results-list__item__title">{item.name}</h5>
+						<h5 className="search__results-list__item__subheading">{item.email}</h5>
+					</div>
+					<div className="search__results-list__item__extended-view">
+						{extendedView && extendedView._id === item._id &&
+							<div className="search__results-list__item__extended-view__contents">
+								<div className="search__results-list__item__extended-view__field">
+									<h5 className="search__results-list__item__extended-view__field__label">Teams:</h5>
+									<h5 className="search__results-list__item__extended-view__field__value">{item.teams && item.teams.map((d, i) => i > 0 ? ', ' + d.team_name : d.team_name)}</h5>
+								</div>
+								<div className="search__results-list__item__extended-view__field">
+									<h5 className="search__results-list__item__extended-view__field__label">Joined Date:</h5>
+									<h5 className="search__results-list__item__extended-view__field__value">{item.created_at}</h5>
+								</div>
+								<div className="search__results-list__item__extended-view__field">
+									<h5 className="search__results-list__item__extended-view__field__label">Core Admin:</h5>
+									<h5 className="search__results-list__item__extended-view__field__value">{String(item.core_admin)}</h5>
+								</div>
+								{!item.core_admin &&
+									<div className="search__results-list__item__extended-view__button button" onClick={() => { changeUserPermissions({_id: item._id, core_admin: !item.core_admin}) }} >Give Core Admin Permissions</div>
+								}
+							</div>
+						}
+					</div>
+				</div>
     	)
 		} else if (type === "team") {
 			return (
 	      <div className="search__results-list__item">
-					<SvgIcon name="team" />
-	        <h5 className="search__results-list__item__title">{item.team_name}</h5>
-					<h5 className="search__results-list__item__subheading">{item.users && item.users.length + " Members"}</h5>
-	      </div>
+					<div className="search__results-list__item__listing">
+						<SvgIcon name="team" />
+		        <h5 className="search__results-list__item__title">{item.team_name}</h5>
+						<h5 className="search__results-list__item__subheading">{item.users && item.users.length + " Members"}</h5>
+					</div>
+				</div>
     	)
 		} else if (type === "collection") {
 			return (
 	      <div className="search__results-list__item">
-					<SvgIcon name="folder" />
-	        <h5 className="search__results-list__item__title">{item.title}</h5>
-					<h5 className="search__results-list__item__subheading">{"/" + item.path}</h5>
-	      </div>
+					<div className="search__results-list__item__listing">
+						<SvgIcon name="folder" />
+		        <h5 className="search__results-list__item__title">{item.title}</h5>
+						<h5 className="search__results-list__item__subheading">{"/" + item.path}</h5>
+						<h5 className="search__results-list__item__subheading">{item.team && item.team.map((d, i) => i > 0 ? ', ' + d.team_name : d.team_name)}</h5>
+					</div>
+				</div>
     	)
 		} else {
 			let iconName
@@ -144,9 +181,11 @@ class Search extends Component {
 			}
 			return (
 	      <div className="search__results-list__item">
-					<SvgIcon name={iconName} />
-	        <h5 className="search__results-list__item__title">{item.title}</h5>
-	      </div>
+					<div className="search__results-list__item__listing">
+						<SvgIcon name={iconName} />
+		        <h5 className="search__results-list__item__title">{item.title}</h5>
+					</div>
+				</div>
     	)
 		}
 
@@ -213,6 +252,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			fetchItemList: () => {
 	      dispatch(fetchUserList())
 	    },
+			changeUserPermissions: (userInfo) => {
+				dispatch(updateUser({data: userInfo}))
+			}
 			// onSelect: (user, team) => {
 			// 	dispatch(addUserToTeam(user, team))
 			// }

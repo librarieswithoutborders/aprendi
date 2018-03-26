@@ -28,10 +28,14 @@ class FileUploadFieldContent extends React.Component {
     const { setValue } = fieldApi;
     let previewContent
 
+    console.log(fileUrl)
+
     if (type === "pdf") {
       previewContent = <PdfViewer singlePage={true} renderCallback={(canvasElem) => this.getSnapshotOfPdf(canvasElem, fileUrl)} url={fileUrl} />
     } else {
-      let styleObject = {backgroundImage: 'url(' + fileUrl + ')'}
+      let styleObject = {backgroundImage: 'url("' + fileUrl + '")'}
+
+      console.log(styleObject)
 
       previewContent = <div className="form__image-upload__preview" style={styleObject} />
     }
@@ -48,6 +52,8 @@ class FileUploadFieldContent extends React.Component {
   uploadCallback(fileName) {
     const {type, fieldApi} = this.props
     const { setValue } = fieldApi;
+
+    console.log(fileName)
 
     if (type === "pdf") {
       setValue("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/" + fileName)
@@ -66,6 +72,7 @@ class FileUploadFieldContent extends React.Component {
     const success = getSuccess();
 
     let currValue = getValue()
+
     let preview = currValue ? this.generatePreview(currValue) : null
 
     return (

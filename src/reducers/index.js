@@ -316,6 +316,17 @@ function resourceViewerContent(state = null, action) {
   }
 }
 
+function fileUploadStatus(state = null, action) {
+  switch (action.type) {
+    case "FILE_UPLOAD":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    default:
+      return state
+  }
+}
+
 
 
 const rootReducer = combineReducers({
@@ -329,6 +340,7 @@ const rootReducer = combineReducers({
   resourceList,
   updateStatus,
   resourceViewerContent,
+  fileUploadStatus,
   // currCollectionInvalidated,
   // currTeamInvalidated,
   // fetchedCollections,

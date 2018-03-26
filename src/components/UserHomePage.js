@@ -6,6 +6,7 @@ import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
 import { showAdminModal, removeUserFromTeam } from '../actions/actions.js';
 import HomePage from './HomePage'
+import CoreAdminPortal from './CoreAdminPortal'
 
 const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editingMode, createTeam}) => {
   console.log(user)
@@ -16,21 +17,28 @@ const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editing
     <div className="team-home-page">
       <PageHeader contents={headerContents} type="team" />
       <div className="team-home-page__contents">
-        <div className="team-home-page__section">
-          <h5 className="team-home-page__section-title">My Teams</h5>
-          <div className="button" onClick={() => createTeam(user)}>+ Create New Team</div>
-          {user.permissions.teams &&
-            <Grid
-              data={user.permissions.teams}
-              type="team"
-              createNew={user => addUserToTeam(user)}
-              clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
-              buttonClickHandler={team => removeUserFromTeam(user, team)}
-              isDraggable={false}
-              editingMode={editingMode}
-            />
-          }
-        </div>
+        {!user.permissions.core_admin &&
+          <div className="team-home-page__section">
+            <h5 className="team-home-page__section-title">My Teams</h5>
+            <div className="button" onClick={() => createTeam(user)}>+ Create New Team</div>
+            {user.permissions.teams &&
+              <Grid
+                data={user.permissions.teams}
+                type="team"
+                createNew={user => addUserToTeam(user)}
+                clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
+                buttonClickHandler={team => removeUserFromTeam(user, team)}
+                isDraggable={false}
+                editingMode={editingMode}
+              />
+            }
+          </div>
+        }
+        {user.permissions.core_admin &&
+          <div className="team-home-page__section">
+            <CoreAdminPortal history={history}/>
+          </div>
+        }
       </div>
     </div>
   )
@@ -52,7 +60,7 @@ class UserHomePageContainer extends React.Component {
       );
     } else {
       return (
-        <HomePage />
+        <LoadingIcon />
       );
     }
 

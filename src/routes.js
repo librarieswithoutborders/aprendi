@@ -8,8 +8,6 @@ import AllCollectionsPage from './components/AllCollectionsPage';
 import AuthCallback from './components/AuthCallback';
 import CollectionDataContainer from './components/CollectionDataContainer';
 
-import AdminPage from './components/AdminPage';
-
 import { Route, Switch } from 'react-router-dom';
 import { isLoggedIn } from './utils/AuthService'
 
@@ -18,7 +16,6 @@ const routes = (
         <Switch>
           <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />
           <Route path="/callback" component={AuthCallback} />
-          <Route exact path="/admin" component={AdminPage} />
           <Route exact path="/teams" component={AllTeamsPage} />
           <Route exact path="/teams/:teamPath" component={TeamHomePage} />
           <Route exact path="/collections" component={AllCollectionsPage} />

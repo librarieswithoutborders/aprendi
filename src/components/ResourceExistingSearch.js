@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SvgIcon from './SvgIcon'
 import Autosuggest from 'react-autosuggest';
+const dateFormat = require('dateformat');
 
 class ResourceExistingSearch extends Component {
 	constructor(props) {
@@ -18,7 +19,11 @@ class ResourceExistingSearch extends Component {
 		// if (nextProps.resources && this.props.resources && nextProps.resources !== this.props.resources) {
 			this.setState({
 				value: '',
-				suggestions: nextProps.resources
+				suggestions: nextProps.resources.sort((a, b) => {
+					if(a.title < b.title) return -1;
+					if(a.title > b.title) return 1;
+					return 0;
+				})
 			})
 		// }
 	}
@@ -110,7 +115,7 @@ class ResourceExistingSearch extends Component {
       <div className="search__results-list__item">
 				<SvgIcon name={iconName} />
         <h5 className="search__results-list__item__title">{title}</h5>
-				<h5 className="search__results-list__item__subheading">{"Last Updated: " + updatedAt}</h5>
+				<h5 className="search__results-list__item__subheading">{"Last Updated: " + dateFormat(updatedAt, "m/d/yy - h:MM TT")}</h5>
       </div>
     )
 

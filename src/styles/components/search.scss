@@ -42,6 +42,44 @@
         fill: colors(grey);
         stroke: colors(grey);
       }
+
+      &__extended-view {
+        max-height: 0px;
+        transition: max-height 500ms ease-in;
+
+        .extended & {
+          max-height: 1000px;
+        }
+
+        &__contents {
+          background-color: colors(blue-10);
+          margin-top: 10px;
+          padding: 10px;
+        }
+
+        &__field {
+          padding: 4px 0px;
+
+          &__label, &__value {
+            display: inline-block;
+          }
+
+          &__label {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+
+          &__value {
+            font-weight: normal;
+          }
+        }
+
+        &__button {
+          margin-top: 10px;
+
+        }
+
+      }
     }
   }
 }

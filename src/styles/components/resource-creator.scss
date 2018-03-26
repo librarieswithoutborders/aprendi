@@ -4,35 +4,54 @@
     padding: 0px;
     width: 100%;
     border-collapse: collapse;
+    position: relative;
   }
 
   &__tab {
     display: table-cell;
     width: 50%;
-    background-color: colors(blue-10);
+    background-color: rgba(0,0,0,.05);
     padding: 15px;
     cursor: pointer;
-    border: 1px solid colors(grey);
+    color: colors(black);
+    font-weight: bold;
+    transition: background-color 250ms ease-in-out;
+    text-align: center;
+    font-size: 15px;
 
     &.active {
       background-color: colors(white);
       cursor: auto;
       pointer-events: none;
+      color: colors(black);
       // box-shadow: standard-shadow(blue);
       z-index: 20;
       border-bottom: none;
+      box-shadow: 0px 0px 7px -1px colors(grey);
     }
 
     &:hover {
-      background-color: colors(blue);
+      background-color: colors(blue-10);
     }
   }
 
   &__tab-contents {
     padding: 20px 10px;
     z-index: 5;
-    border: 1px solid colors(grey);
-    border-top: none;
+    box-shadow: standard-shadow(grey);
+    position: relative;
+    // border: 1px solid colors(grey);
+    // border-top: none;
+  }
+
+  &__tab-mask {
+    background: colors(white);
+    position: absolute;
+    width: calc(50% - 2px);
+    height: 20px;
+    // left: 0;
+    bottom: -10px;
+    z-index: 10;
   }
 
 }

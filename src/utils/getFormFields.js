@@ -1,6 +1,7 @@
 import React from 'react'
 import { Form, Text, Radio, RadioGroup, Select, Checkbox, TextArea } from 'react-form'
 import { languageOptions, zoomOptions, resourceTypeOptions, videoProviderOptions } from '../constants'
+import ExternalWebsiteField from '../components/ExternalWebsiteField'
 import FileUploadField from '../components/FileUploadField'
 import RichTextField from '../components/RichTextField'
 
@@ -80,12 +81,18 @@ const subcollectionFields = (action) => (
   </div>
 )
 
-const resourceFields = (resourceType, action) => (
+const resourceFields = (resourceType, action, isCoreAdmin) => (
   <div className="form__contents">
     <div className= "form__field">
       <label className="form__field__label" htmlFor="title">Title</label>
       <Text field="title" id="title" />
     </div>
+    {isCoreAdmin &&
+      <div className= "form__field">
+        <label className="form__field__label" htmlFor="shared">Share Resource Across Teams</label>
+        <Checkbox field="shared" id="shared" />
+      </div>
+    }
     {resourceType === "video" &&
       <div className= "form__field">
         <label className="form__field__label" htmlFor="resource_url">Video Url</label>
@@ -101,7 +108,7 @@ const resourceFields = (resourceType, action) => (
     {resourceType === "website" &&
       <div className= "form__field">
         <label className="form__field__label" htmlFor="resource_url">External Website Url</label>
-        <Text field="resource_url" id="resource_url" />
+        <ExternalWebsiteField field="resource_url" />
       </div>
     }
     {resourceType === "rich_text" &&
@@ -130,7 +137,7 @@ const resourceFields = (resourceType, action) => (
   </div>
 )
 
-const getFormFields = (type, values, action, resourceType) => {
+const getFormFields = (type, values, action, resourceType, isCoreAdmin) => {
   console.log(values)
 
   switch(type) {
@@ -141,7 +148,7 @@ const getFormFields = (type, values, action, resourceType) => {
     case "subcollection":
       return subcollectionFields(action)
     case "resource":
-      return resourceFields(resourceType || values.resource_type, action)
+      return resourceFields(resourceType || values.resource_type, action, isCoreAdmin)
   }
 }
 

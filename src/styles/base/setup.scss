@@ -10,9 +10,15 @@ body {
   margin: 0px;
   font-family: 'Roboto-Medium', sans-serif;
   font-weight: normal;
+  box-sizing: border-box;
+
 }
 h1, h2, h3, h4, h5 {
   margin: 0px;
+}
+
+div {
+  box-sizing: border-box;
 }
 
 a:link, a:visited    {
@@ -35,7 +41,9 @@ ul {
 
 input, textarea {
   padding: 10px;
-  border: 1px solid colors(grey);
+  border: 1px solid colors(light-grey);
+  border-radius: 3px;
+
 
   &:focus {
     outline-color: colors(blue-20);

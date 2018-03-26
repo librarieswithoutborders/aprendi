@@ -31,23 +31,28 @@ export const zoomOptions = [
 export const resourceTypeOptions = [
   {
     label: 'Video',
-    value: 'video'
+    value: 'video',
+    icon: 'video'
   },
   {
     label: 'PDF',
-    value: 'pdf'
+    value: 'pdf',
+    icon: 'document'
   },
   {
     label: 'Image',
-    value: 'image'
+    value: 'image',
+    icon: 'document'
   },
   {
     label: 'Text Entry',
-    value: 'rich_text'
+    value: 'rich_text',
+    icon: 'text'
   },
   {
     label: 'External Website',
-    value: 'website'
+    value: 'website',
+    icon: 'document'
   }
 ]
 

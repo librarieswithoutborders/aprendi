@@ -6,7 +6,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
   const {title, description, image_url, byline, created_by} = contents
   let styleObject = {}
   if (image_url) {
-    styleObject.backgroundImage = 'url(' + image_url + ')'
+    styleObject.backgroundImage = 'url("' + image_url + '")'
   }
 
   let editButtonText, deleteButtonText;
@@ -49,10 +49,14 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
                     </div>
                   }
                   <div className="page-header__created-by__text">
-                    <h5 className="page-header__created-by__text__sub">Created by</h5>
-                    <h5 className="page-header__created-by__text__main">{created_by.name}</h5>
-                    <h5 className="page-header__created-by__text__sub">Contact</h5>
-                    <h5 className="page-header__created-by__text__main">{created_by.email}</h5>
+                    <div className="page-header__created-by__text__elem">
+                      <h5 className="page-header__created-by__text__sub">Created by</h5>
+                      <h5 className="page-header__created-by__text__main">{created_by.name}</h5>
+                    </div>
+                    <div className="page-header__created-by__text__elem">
+                      <h5 className="page-header__created-by__text__sub">Contact</h5>
+                      <h5 className="page-header__created-by__text__main">{created_by.email}</h5>
+                    </div>
                   </div>
                 </div>
               </div>

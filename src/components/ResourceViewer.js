@@ -3,6 +3,7 @@ import { setCurrResourceIndex, invalidateCurrCollection, deleteResource, showAdm
 import { connect } from 'react-redux'
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
+import canUserEdit from '../utils/canUserEdit'
 
 class ResourceViewer extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ResourceViewer extends Component {
   }
 
   render() {
-    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection} = this.props
+    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode} = this.props
 
     let nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
@@ -38,9 +39,9 @@ class ResourceViewer extends Component {
         <div className="resource-viewer__content">
           <Resource
             content={resourceList[currIndex]}
-            removeResource={parent ? (id) => removeResourceFromCollection(id, parent) : null}
-            deleteResource={(data) => deleteResource(data)}
-            updateResource={(data) => updateResource(data)}/>
+            removeResource={(editingMode && parent) ? (id) => removeResourceFromCollection(id, parent) : null}
+            deleteResource={editingMode ? (data) => deleteResource(data) : null}
+            updateResource={editingMode ? (data) => updateResource(data) : null}/>
         </div>
       </div>
     )
@@ -48,10 +49,14 @@ class ResourceViewer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let canEdit = canUserEdit(state.currUser, state.currCollection, "collection")
+  console.log("CAN EDDDITTTT")
+  console.log(canEdit)
   return {
     parent: state.resourceViewerContent.parent,
     resourceList: state.resourceViewerContent.resourceList,
     currIndex: state.resourceViewerContent.currIndex,
+    editingMode: canEdit
   }
 }
 

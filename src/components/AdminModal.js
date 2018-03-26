@@ -54,7 +54,7 @@ class AdminModal extends Component {
   }
 
   setContent() {
-    const {type, data, action, updateStatus, showExisting, submit} = this.props
+    const {type, data, action, updateStatus, showExisting, submit, isCoreAdmin} = this.props
     const {resourceType} = this.state
 
     console.log(type, action, resourceType)
@@ -72,7 +72,7 @@ class AdminModal extends Component {
           defaultValues={this.props.data} >
           { formApi => (
             <form onSubmit={formApi.submitForm} id="form">
-              {getFormFields(type, formApi.values, action, resourceType)}
+              {getFormFields(type, formApi.values, action, resourceType, isCoreAdmin)}
               <div className="form__submit-container">
                 <button type="submit" className="mb-4 btn btn-primary button form__submit">Submit</button>
               </div>
@@ -159,7 +159,7 @@ class AdminModalContainer extends Component {
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus}/>
+    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus} isCoreAdmin={this.props.isCoreAdmin}/>
   }
 }
 
@@ -167,7 +167,8 @@ const mapStateToProps = (state) => {
   console.log(state)
   return {
     modalProps: state.adminModalContent,
-    updateStatus: state.updateStatus
+    updateStatus: state.updateStatus,
+    isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
   }
 }
 

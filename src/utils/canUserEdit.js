@@ -1,7 +1,11 @@
 const canUserEdit = (user, item, type) => {
   console.log('checking user', user, item, type)
 
-  // only requirement is that user is logged in
+  if (user && user.permissions.core_admin) {
+    return true
+  }
+
+  // if only requirement is that user is logged in
   if (user && !item) {
     return true
   }
