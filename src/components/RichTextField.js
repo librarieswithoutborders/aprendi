@@ -1,13 +1,13 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
-import { FormField } from 'react-form';
+import { Field } from 'react-form';
 import richTextToolbarConfig from '../utils/richTextToolbarConfig'
 
-class RichTextFieldContent extends React.Component {
+class RichTextField extends React.Component {
   constructor(props) {
     super(props)
-    const { getValue } = props.fieldApi;
-    let currValue = getValue()
+
+    let currValue = props.fieldApi.value
     this.state = {
       content: RichTextEditor.createValueFromString(currValue ? currValue : "", 'html'),
       active: false
@@ -45,8 +45,15 @@ class RichTextFieldContent extends React.Component {
   }
 }
 
+const RichTextFieldContainer = ({field}) => {
+  return (
+    <Field field={field}>
+      {fieldApi =>
+        <RichTextField fieldApi={fieldApi} />
+      }
+    </Field>
+  )
 
-// Use the form field and your custom input together to create your very own input!
-const RichTextField = FormField(RichTextFieldContent);
+}
 
-export default RichTextField
+export default RichTextFieldContainer

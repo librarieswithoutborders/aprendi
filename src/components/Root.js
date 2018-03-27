@@ -7,6 +7,7 @@ import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
 import { connect } from 'react-redux'
 import { hideAdminModal, hideResourceViewer, getUserTeam } from '../actions/actions.js';
+import UpdateStatusBar from './UpdateStatusBar'
 
 class Root extends Component {
   // componentWillReceiveProps(nextProps) {
@@ -15,7 +16,7 @@ class Root extends Component {
   // }
 
   render() {
-    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo } = this.props;
+    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus } = this.props;
     console.log(history)
     window.loginCallback = getUserTeam
     let showOverlay = adminModalContent || resourceViewerContent
@@ -27,6 +28,9 @@ class Root extends Component {
           {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
           {resourceViewerContent && <ResourceViewer />}
           <div className={showOverlay ? "content fixed" : "content"}>
+            {updateStatus &&
+              <UpdateStatusBar statusObject={updateStatus} />
+            }
             <TopNav />
             <div className="content-container">
               {routes}
@@ -42,7 +46,8 @@ class Root extends Component {
 const mapStateToProps = (state) => {
   return {
     adminModalContent: state.adminModalContent,
-    resourceViewerContent: state.resourceViewerContent
+    resourceViewerContent: state.resourceViewerContent,
+    updateStatus: state.updateStatus,
   }
 }
 

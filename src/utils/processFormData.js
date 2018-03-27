@@ -39,6 +39,7 @@ const processVideoUrl = (url) => {
 
 const processFormData = (data, action, resourceTypeOverride) => {
   console.log("processing form data")
+  console.log(data)
   let retObject = {}
   Object.assign(retObject, data)
 

@@ -20,19 +20,19 @@ function teamList(state = null, action) {
         return action.data
       }
     case "CREATE_TEAM":
-      if (action.status === "SUCCESS") {
+      if (action.status === "SUCCESS" && state) {
         console.log("success!")
         console.log([...state, ...[action.data]])
         return [...state, ...[action.data]]
       }
     case "UPDATE_TEAM":
-      if (action.status === "SUCCESS") {
+      if (action.status === "SUCCESS" && state) {
         let updatedIndex = state.indexOf(action.data)
         state.splice(updatedIndex, 1, action.data)
         return [...state]
       }
     case "DELETE_TEAM":
-      if (action.status === "SUCCESS") {
+      if (action.status === "SUCCESS" && state) {
         let deletedIndex = state.indexOf(action.data)
         state.splice(deletedIndex, 1)
         return [...state]
@@ -45,9 +45,7 @@ function teamList(state = null, action) {
 function updateStatus(state = null, action) {
   let splitPieces = action.type.split("_")
   if (splitPieces[0] === "CREATE" || splitPieces[0] === "UPDATE" || splitPieces[0] === "DELETE") {
-    return action.status
-  } else if (action.type === "HIDE_ADMIN_MODAL"){
-    return null
+    return action
   } else {
     return state
   }

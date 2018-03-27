@@ -1,0 +1,40 @@
+.update-status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 1s ease-in-out, max-height 1s ease-in-out;
+  max-height: 1000px;
+  box-sizing: content-box;
+  overflow-y: hidden;
+
+  &.green {
+    background-color: colors(green);
+  }
+
+  &.red {
+    background-color: colors(red);
+  }
+
+  &.blue {
+    background-color: colors(blue);
+  }
+
+  &.hidden {
+    max-height: 0px;
+  }
+
+  &__content {
+    padding: 15px 20px;
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: normal;
+    color: colors(white);
+  }
+
+
+
+}

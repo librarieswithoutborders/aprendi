@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import getFormFields from '../utils/getFormFields'
 import processFormData from '../utils/processFormData'
-import { Form } from 'react-form'
 import ResourceCreator from './ResourceCreator'
 import Search from './Search'
+import AdminForm from './AdminForm'
 import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection, addUserToTeam} from '../actions/actions.js'
 
 class AdminModal extends Component {
@@ -54,7 +53,7 @@ class AdminModal extends Component {
   }
 
   setContent() {
-    const {type, data, action, updateStatus, showExisting, submit, isCoreAdmin} = this.props
+    const {type, data, action, updateStatus, showExisting, submit} = this.props
     const {resourceType} = this.state
 
     console.log(type, action, resourceType)
@@ -66,19 +65,7 @@ class AdminModal extends Component {
       return <Search type="team" />
     } else {
       return (
-        <Form
-          onSubmit={(submittedValues) => this.submitForm(submittedValues)}
-          onSubmitFailure={(err) => this.submitFormFailure(err)}
-          defaultValues={this.props.data} >
-          { formApi => (
-            <form onSubmit={formApi.submitForm} id="form">
-              {getFormFields(type, formApi.values, action, resourceType, isCoreAdmin)}
-              <div className="form__submit-container">
-                <button type="submit" className="mb-4 btn btn-primary button form__submit">Submit</button>
-              </div>
-            </form>
-          )}
-        </Form>
+        <AdminForm type={type} data={data} submit={submit} action={action} resourceType={resourceType} />
       )
     }
   }
@@ -159,7 +146,7 @@ class AdminModalContainer extends Component {
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus} isCoreAdmin={this.props.isCoreAdmin}/>
+    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus} />
   }
 }
 
@@ -167,8 +154,8 @@ const mapStateToProps = (state) => {
   console.log(state)
   return {
     modalProps: state.adminModalContent,
-    updateStatus: state.updateStatus,
-    isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
+    // updateStatus: state.updateStatus,
+    // isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
   }
 }
 
