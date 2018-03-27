@@ -14,7 +14,7 @@
     &__item {
       border: 1px solid colors(blue-20);
       border-bottom: none;
-
+      position: relative;
       padding: 10px 10px;
       cursor: pointer;
 
@@ -35,6 +35,13 @@
         font-weight: normal;
         color: colors(grey);
         padding-left: 10px;
+
+        &.right {
+          position: absolute;
+          right: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
       }
 
       .icon {

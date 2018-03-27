@@ -11,10 +11,11 @@ $border-radius: 5px;
       cursor: pointer;
       &:hover {
         box-shadow: standard-hover-shadow(grey);
-      }
-    }
 
-    &.item-type-collection {
+        .grid__item__image {
+          opacity: .8;
+        }
+      }
     }
 
     &__image {
@@ -25,6 +26,7 @@ $border-radius: 5px;
       height: 150px;
       text-align: center;
       position: relative;
+      transition: opacity 200ms ease-in-out;
 
       .item-type-collection & {
         height: grid-item-height(collection);
@@ -73,6 +75,11 @@ $border-radius: 5px;
         background-color: rgba(0,0,0,.3);
         height: grid-item-height(collection);
         border-radius: $border-radius;
+        transition: background-color 200ms ease-in-out;
+
+        &:hover {
+          background-color: rgba(0,0,0,0);
+        }
       }
 
       .item-type-subcollection & {

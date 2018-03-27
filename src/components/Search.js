@@ -83,6 +83,12 @@ class Search extends Component {
 
 		if (this.props.onSelect) {
     	this.props.onSelect(suggestion, this.props.parent)
+
+			this.setState({
+				value: '',
+				suggestions: this.props.data
+			})
+
 		} else {
 			this.setState({
 				extendedView: extendedView === suggestion ? null : suggestion
@@ -115,7 +121,7 @@ class Search extends Component {
 	}
 
   renderSuggestion(item) {
-		const {type, changeUserPermissions} = this.props
+		const {type, changeUserPermissions, showAll} = this.props
 		const {extendedView} = this.state
 
 		if (type === "user") {
@@ -165,8 +171,8 @@ class Search extends Component {
 					<div className="search__results-list__item__listing">
 						<SvgIcon name="folder" />
 		        <h5 className="search__results-list__item__title">{item.title}</h5>
-						<h5 className="search__results-list__item__subheading">{"/" + item.path}</h5>
-						<h5 className="search__results-list__item__subheading">{item.team && item.team.map((d, i) => i > 0 ? ', ' + d.team_name : d.team_name)}</h5>
+						<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
+						<h5 className="search__results-list__item__subheading right">{"/" + item.path}</h5>
 					</div>
 				</div>
     	)
@@ -184,6 +190,9 @@ class Search extends Component {
 					<div className="search__results-list__item__listing">
 						<SvgIcon name={iconName} />
 		        <h5 className="search__results-list__item__title">{item.title}</h5>
+						{showAll && item.team && item.team.team_name &&
+							<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
+						}
 					</div>
 				</div>
     	)
