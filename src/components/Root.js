@@ -17,7 +17,7 @@ import { isLoggedIn } from '../utils/AuthService';
 class Root extends Component {
   componentWillMount() {
     console.log("user logged in", isLoggedIn())
-    sendUserInfoRequest()
+    this.props.sendUserInfoRequest()
   }
 
   render() {

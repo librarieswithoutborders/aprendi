@@ -114,12 +114,14 @@ export async function getUserByHash(hash) {
 }
 
 export async function getCurrUser() {
-  if (!isLoggedIn()) { return null; }
+  console.log("in getCurrUser")
+  return new Promise((resolve, reject) => {
+    if (!isLoggedIn()) { resolve(null) }
 
-  let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
-  console.log(accessToken)
-  return new Promise((resolve) => {
+    let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+    console.log(accessToken)
     auth.client.userInfo(accessToken, function(err, user) {
+      console.log(err)
       // Now you have the user's information
       console.log(user)
       resolve(user);

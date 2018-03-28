@@ -115,6 +115,9 @@ class Collection extends Component {
               </div>
             </div>
           }
+          {(!editingMode && (!data.subcollections || data.subcollections.length === 0) && (!data.resources || data.resources.length === 0)) &&
+            <h5 className="collection__placeholder-text">This collection does not have any content yet.</h5>
+          }
           {data.disclaimer_message &&
             <div className="collection__disclaimer">
               <div className="collection__disclaimer__content" dangerouslySetInnerHTML={{__html:data.disclaimer_message}} />

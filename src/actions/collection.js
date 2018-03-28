@@ -1,4 +1,4 @@
-import {setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
+import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
 
 export function createCollection(collectionInfo) {
   console.log(collectionInfo)

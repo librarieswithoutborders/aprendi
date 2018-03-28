@@ -7,6 +7,7 @@ import AdminForm from './AdminForm'
 import {hideAdminModal} from '../actions/index'
 import {createTeam, updateTeam, invalidateCurrTeam} from '../actions/team'
 import {createCollection, updateCollection, invalidateCurrCollection} from '../actions/collection'
+import {createSubcollection, updateSubcollection} from '../actions/subcollection'
 import {createResource, updateResource} from '../actions/resource'
 import {addUserToTeam} from '../actions/user'
 

@@ -59,7 +59,7 @@ class Grid extends React.Component {
   generateDOM() {
     const { data, clickHandler, createNew, type, editingMode, showTeam } = this.props;
 
-    let fullList = editingMode ? [...data, ...[{}]] : data
+    let fullList = editingMode && createNew ? [...data, ...[{}]] : data
 
     let gridItems = fullList.map((d, i) => {
       if (i === data.length) {
@@ -81,13 +81,13 @@ class Grid extends React.Component {
   }
 
   generateLayout(idList) {
-    const {editingMode} = this.props
+    const {editingMode, createNew} = this.props
     let layouts = {};
 
     for (let key in columns) {
       let numColumns = columns[key]
 
-      let fullList = editingMode ? [...idList, ...["Create"]] : idList
+      let fullList = editingMode && createNew ? [...idList, ...["Create"]] : idList
 
       layouts[key] = fullList.map((d, i) => {
         return {

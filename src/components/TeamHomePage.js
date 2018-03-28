@@ -41,8 +41,10 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               createNewText="Create New Collection"
             />
           }
+          {!teamInfo.collections &&
+            <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " has not created any collections yet."}</h5>
+          }
         </div>
-        <hr className="team-home-page__section-divider" />
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
           {editingMode && <div className="button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
@@ -53,8 +55,10 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
                 onSelect={resource => showResourceViewer(resource)}/>
             </div>
           }
+          {!teamInfo.resources || teamInfo.resources.length === 0 &&
+            <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " has not added any resources yet."}</h5>
+          }
         </div>
-        {editingMode && <hr className="team-home-page__section-divider" /> }
         {editingMode &&
           <div className="team-home-page__section">
             <h5 className="team-home-page__section-title">Users</h5>
@@ -72,6 +76,9 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
                 editingMode={editingMode}
                 createNewText="Add User to Team"
               />
+            }
+            {!teamInfo.users &&
+              <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " currently has no team members."}</h5>
             }
           </div>
         }

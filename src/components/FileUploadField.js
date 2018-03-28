@@ -69,7 +69,7 @@ class FileUploadFieldContent extends React.Component {
     console.log(fileName)
 
     let fullFileName = type === "pdf" ? "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/" + fileName : "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + fileName
-
+    setValue(fullFileName)
     this.setState({
       currValue: fullFileName
     })

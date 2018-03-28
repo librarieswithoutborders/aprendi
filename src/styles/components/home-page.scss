@@ -20,7 +20,7 @@
       background-image: url('../static/images/home_page_background.jpg');
       background-size: cover;
       background-position: 50% 50%;
-      z-index: 50;
+      z-index: 10;
 
       * {
         color: white;
@@ -30,7 +30,7 @@
 
     &__content-container {
       position: relative;
-      z-index: 100;
+      z-index: 20;
       padding: 30px 50px;
 
       .title-section & {

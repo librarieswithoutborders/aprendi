@@ -33,4 +33,12 @@
     color: colors(black);
     padding: 20px;
   }
+
+  &__placeholder-text {
+    font-size: 14px;
+    font-weight: normal;
+    color: colors(grey);
+    padding: 20px 20px;
+    font-style: italic;
+  }
 }

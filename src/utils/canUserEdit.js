@@ -1,7 +1,7 @@
 const canUserEdit = (user, item, type) => {
   console.log('checking user', user, item, type)
 
-  if (user && user.permissions.core_admin) {
+  if (user && user.permissions && user.permissions.core_admin) {
     return true
   }
 

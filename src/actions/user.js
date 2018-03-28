@@ -1,27 +1,32 @@
 import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
 
+import { getCurrUser } from '../utils/AuthService'
+
 export function sendUserInfoRequest() {
-  console.log("getting user info")
+  console.log("in sendUserInfoRequest, getting user info")
   return (dispatch) => {
-    getCurrUser().then(user => {
-      console.log(user)
-      if (user) {
-        dispatch(getUserTeam(user))
-      } else {
-        dispatch(setUserInfo(null))
-      }
-    })
+    dispatch(setUserInfo("fetching"))
+    getCurrUser()
+      .then(user => {
+        console.log("getCurrUser result", user)
+        if (user) {
+          dispatch(setUserInfo({userInfo: user}))
+          dispatch(fetchUserPermissions(user))
+        } else {
+          dispatch(setUserInfo(null))
+        }
+      })
   }
 }
 
-export function getUserTeam(user) {
-  console.log(user)
+export function fetchUserPermissions(user) {
+  console.log("in getUserPermissions, user is", user)
   return (dispatch) => {
     console.log(dispatch)
-    dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"INITIATED"}))
+    dispatch(setRequestStatus({type:"FETCH_USER_PERMISSIONS", status:"INITIATED"}))
 
     return fetch(
-      dbPath + '/user-get-upsert',
+      dbPath + '/user-find-by-auth0id',
       {
         method: "PUT",
         headers: {
@@ -34,10 +39,10 @@ export function getUserTeam(user) {
       .then(json => {
         console.log(json, user)
         if (json) {
-          dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"SUCCESS", data:json}))
+          dispatch(setRequestStatus({type:"FETCH_USER_PERMISSIONS", status:"SUCCESS", data:json}))
           dispatch(setUserInfo({userInfo: user, permissions: json}))
         } else {
-          dispatch(setRequestStatus({type:"FETCH_USER_TEAM", status:"FAILURE"}))
+          dispatch(setRequestStatus({type:"FETCH_USER_PERMISSIONS", status:"FAILURE"}))
           dispatch(setUserInfo({userInfo: user}))
         }
       })

@@ -4,12 +4,13 @@
   }
 
   &__section-title {
-    font-size: 26px;
-    display: inline-block;
-    padding: 35px 15px;
-    margin: 0px;
-    vertical-align: middle;
-
+    margin: $standard-padding $standard-padding 0px;
+    padding-bottom: 5px;
+    color: colors(blue-70);
+    font-weight: normal;
+    // text-transform: uppercase;
+    font-size: 16px;
+    border-bottom: 1px solid colors(blue-50);
   }
 
   &__section {
@@ -24,5 +25,30 @@
 
   &__resource-search {
     padding: 15px 15px 0px;
+  }
+
+  &__text {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 15px 10px;
+
+    &__link {
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: colors(blue);
+      }
+    }
+  }
+
+  &__placeholder-text {
+    font-size: 14px;
+    font-weight: normal;
+    color: colors(grey);
+    padding: 20px 20px;
+    font-style: italic;
+
   }
 }
