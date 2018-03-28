@@ -4,6 +4,7 @@ import { teamFieldSettings, collectionFieldSettings, subcollectionFieldSettings,
 import processFormData from '../utils/processFormData'
 import { Form } from 'react-form'
 import AdminFormField from './AdminFormField'
+import { takeWebScreenshot, checkExternalSiteHeaders } from '../actions/index'
 
 
 class AdminForm extends Component {
@@ -29,19 +30,34 @@ class AdminForm extends Component {
     }
   }
 
-  submitForm(data) {
+  submitForm(formData, a, formApi) {
     console.log(data)
-    const { action, team } = this.props
+
+    const { data, action, team, resourceType, takeWebScreenshot } = this.props
 
     let values = {}
-    Object.assign(values, data)
+    Object.assign(values, formData)
     if (team) {
       values.team = team
     }
 
-    console.log("SUCCESS", values, this.props)
+    if (resourceType) {
+      values.resource_type = resourceType
+    }
 
-    this.props.submit(processFormData(values, action))
+    if (values.resource_type === "website" && data.resource_url != formData.resource_url) {
+      console.log("website!!")
+
+      takeWebScreenshot(formData.resource_url, d => {
+        console.log("took screenshot")
+        console.log(d)
+        values.image_url = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d
+        this.props.submit(processFormData(values, action))
+      })
+
+    } else {
+      this.props.submit(processFormData(values, action))
+    }
   }
 
   submitFormFailure(err) {
@@ -49,14 +65,13 @@ class AdminForm extends Component {
   }
 
   renderFormFields(formApi) {
-    const { errors } = formApi
+    const { errors, values } = formApi
     const { isCoreAdmin, action, resourceType } = this.props
 
-    console.log(errors)
     let fields = []
 
     this.fieldSettings.forEach(settings => {
-      if (!settings.showOnly || (settings.showOnly && settings.showOnly({isCoreAdmin: isCoreAdmin, action: action, resourceType: resourceType}))) {
+      if (!settings.showOnly || (settings.showOnly && settings.showOnly({isCoreAdmin: isCoreAdmin, action: action, resourceType: resourceType || values.resource_type}))) {
         fields.push(<AdminFormField key={settings.dbField} settings={settings} error={errors ? errors[settings.dbField] : null}/>)
       }
     })
@@ -73,7 +88,7 @@ class AdminForm extends Component {
 
     return (
       <Form
-        onSubmit={(submittedValues) => this.submitForm(submittedValues)}
+        onSubmit={(submittedValues, a, formApi) => this.submitForm(submittedValues, a, formApi)}
         defaultValues={data} >
         { formApi => {
             console.log(formApi)
@@ -97,4 +112,15 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(AdminForm)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    takeWebScreenshot: (url, callback) => {
+      dispatch(takeWebScreenshot(url, callback))
+    },
+
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminForm)

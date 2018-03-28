@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchCollection} from '../actions/actions.js'
+import { fetchCollection } from '../actions/collection'
 import { connect } from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
 import LoadingIcon from './LoadingIcon'
@@ -7,11 +7,9 @@ import LoadingIcon from './LoadingIcon'
 class CollectionDataContainer extends Component {
   constructor() {
     super()
-    console.log("in collection")
   }
 
   componentWillMount() {
-    console.log(this.props)
     const {collectionPath, currCollection, fetchCollection} = this.props;
     if (!currCollection || typeof currCollection != 'object') {
       fetchCollection(collectionPath)
@@ -19,9 +17,6 @@ class CollectionDataContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("CHANGEDDDDDDDD")
-    console.log(this.props, nextProps);
-    console.log("receiving props")
     const {history} = this.props;
 
     if (nextProps.currCollection === "Not Found") {
@@ -34,30 +29,24 @@ class CollectionDataContainer extends Component {
 
     // collection path was edited
     if (this.props.currCollection && nextProps.currCollection && this.props.currCollection.path && nextProps.currCollection.path && this.props.currCollection.path !== nextProps.currCollection.path) {
-      console.log("new path!!")
-
       history.replace("/" + nextProps.currCollection.path)
     }
 
     // collection was deleted
     // if (this.props.currCollection && !nextProps.currCollection) {
-    //   console.log("collection deleted!!")
-    //   console.log(this.props, nextProps)
+
     //   history.replace('/teams/' + nextProps.currTeam.path)
     // }
 
     // subcollection was changed, refetching collection
     if (nextProps.currCollection === "Invalid") {
-      console.log("collection invalid!!")
       const {collectionPath, fetchCollection} = nextProps;
       fetchCollection(collectionPath)
     }
   }
 
   render() {
-    console.log(this.props)
     const {collectionPath, currCollection, fetchCollection, match} = this.props;
-    console.log(currCollection, collectionPath)
     if (currCollection && currCollection != "Fetching" && currCollection != "Not Found" && currCollection != "Invalid") {
       return <CollectionInternalRouter data={currCollection} match={match} />
     } else {
@@ -67,7 +56,6 @@ class CollectionDataContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps)
   let path = ownProps.match.params.collectionPath
   return {
     collectionPath: path,

@@ -1,3 +1,5 @@
+const validUrl = require('valid-url');
+
 export const maxLength = (maxLen) => {
   return (input) => {
     return input && input.length > maxLen ? "Input is greater than maximum length (" + maxLen + " characters)" : null
@@ -19,4 +21,18 @@ export const isValidEmail = (input) => {
   const emailRe = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
   return input && emailRe.test(input) ? null : "Please Enter a Valid Email"
+}
+
+export const isValidUrl = (input) => {
+  let testInput = input
+
+  console.log(testInput.slice(0, 7))
+
+  if (testInput.slice(0, 7) !== "http://" || testInput.slice(0, 8) !== "https://") {
+    testInput = "http://" + testInput
+  }
+
+  console.log("checking", testInput)
+
+  return validUrl.isWebUri(testInput) ? null : "Please Enter a Valid Url"
 }

@@ -16,6 +16,9 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
     case "rich_text":
       renderedContent = renderRichText(content)
       break
+    case "embed":
+      renderedContent = renderEmbed(content)
+      break
     case "website":
       renderedContent = renderWebsite(content)
       break
@@ -83,21 +86,32 @@ const renderVideo = ({video_provider, resource_url}) => {
     )
   }
   return (
-    <div className="resource__video">
+    <div className="resource__content__video">
       {videoContent}
     </div>
   )
 }
 
 const renderRichText = ({rich_text}) => {
-  return <div className="resource__richtext" dangerouslySetInnerHTML={{__html: rich_text}} />
+  return <div className="resource__content__richtext" dangerouslySetInnerHTML={{__html: rich_text}} />
 }
 
 const renderPdf = ({resource_url}) => {
   return <PdfViewer url={resource_url} />
 }
 
-const renderWebsite = ({resource_url}) => {
+const renderWebsite = ({resource_url, image_url}) => {
+
+  return (
+    <div className="resource__content__website">
+      <a target="_blank" href={resource_url} className="resource__content__website__image-link">
+        <div className="resource__content__website__screenshot" style={{backgroundImage: "url('" + image_url + "')"}} />
+      </a>
+    </div>
+  )
+}
+
+const renderEmbed = ({resource_url}) => {
 
   return <iframe src={resource_url} height="500px" width="500px"/>
 }

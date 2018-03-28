@@ -1,4 +1,4 @@
-import {maxLength, isValidPath, isValidEmail} from '../utils/formValidation'
+import {maxLength, isValidPath, isValidEmail, isValidUrl} from '../utils/formValidation'
 
 export const teamFieldSettings = [
   {
@@ -159,10 +159,11 @@ export const resourceFieldSettings = [
   {
     dbField: "resource_url",
     label: "External Website Url",
-    type: "ExternalWebsite",
+    type: "Text",
     required: true,
     helpText: null,
-    showOnly: ({resourceType}) => resourceType === "website"
+    validate: isValidUrl,
+    showOnly: ({resourceType}) => resourceType === "website",
   },
   {
     dbField: "image_url",

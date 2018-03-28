@@ -1,5 +1,8 @@
 import React from 'react';
-import { showAdminModal, deleteTeam, fetchTeamList, showResourceViewer } from '../actions/actions.js';
+import {showAdminModal} from '../actions/index'
+import {deleteTeam, fetchTeamList} from '../actions/team'
+import {showResourceViewer} from '../actions/resource'
+
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'

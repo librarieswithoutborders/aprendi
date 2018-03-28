@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { setCurrResourceIndex, invalidateCurrCollection, deleteResource, showAdminModal, collectionRemoveResource, subcollectionRemoveResource, hideResourceViewer} from '../actions/actions.js'
+import {showAdminModal} from '../actions/index'
+import {invalidateCurrCollection, collectionRemoveResource} from '../actions/collection'
+import {subcollectionRemoveResource} from '../actions/subcollection'
+import {setCurrResourceIndex, deleteResource, hideResourceViewer} from '../actions/resource'
+
 import { connect } from 'react-redux'
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'

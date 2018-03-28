@@ -6,19 +6,24 @@ import TopNav from './TopNav'
 import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
 import { connect } from 'react-redux'
-import { hideAdminModal, hideResourceViewer, getUserTeam } from '../actions/actions.js';
+import { hideAdminModal } from '../actions/index'
+import { sendUserInfoRequest } from '../actions/user'
+import { hideResourceViewer} from '../actions/resource'
+
 import UpdateStatusBar from './UpdateStatusBar'
+import { isLoggedIn } from '../utils/AuthService';
+
 
 class Root extends Component {
-  // componentWillReceiveProps(nextProps) {
-  //   if (window.location.hash)
-  //
-  // }
+  componentWillMount() {
+    console.log("user logged in", isLoggedIn())
+    sendUserInfoRequest()
+  }
 
   render() {
-    const { store, history, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus } = this.props;
-    console.log(history)
-    window.loginCallback = getUserTeam
+    const { store, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus } = this.props;
+    console.log("Root props", this.props)
+    // window.loginCallback = getUserTeam
     let showOverlay = adminModalContent || resourceViewerContent
     return (
       <Provider store={store}>
@@ -59,8 +64,8 @@ const mapDispatchToProps = (dispatch) => {
     hideResourceViewer: () => {
       dispatch(hideResourceViewer())
     },
-    getUserTeam: (userInfo) => {
-      dispatch(getUserTeam(userInfo))
+    sendUserInfoRequest: () => {
+      dispatch(sendUserInfoRequest())
     }
   }
 }

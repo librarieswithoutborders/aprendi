@@ -4,7 +4,11 @@ import processFormData from '../utils/processFormData'
 import ResourceCreator from './ResourceCreator'
 import Search from './Search'
 import AdminForm from './AdminForm'
-import {createTeam, updateTeam, createCollection, updateCollection, createSubcollection, updateSubcollection, createResource, updateResource, hideAdminModal, invalidateCurrTeam, invalidateCurrCollection, addUserToTeam} from '../actions/actions.js'
+import {hideAdminModal} from '../actions/index'
+import {createTeam, updateTeam, invalidateCurrTeam} from '../actions/team'
+import {createCollection, updateCollection, invalidateCurrCollection} from '../actions/collection'
+import {createResource, updateResource} from '../actions/resource'
+import {addUserToTeam} from '../actions/user'
 
 class AdminModal extends Component {
   constructor() {

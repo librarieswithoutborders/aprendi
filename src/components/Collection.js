@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showAdminModal, deleteCollection, deleteSubcollection, invalidateCurrCollection, showResourceViewer, hideResourceViewer, updateCollection, updateSubcollection, collectionReorderChildren, subcollectionReorderChildren } from '../actions/actions.js'
+
+import {showAdminModal} from '../actions/index'
+import {deleteCollection, updateCollection, invalidateCurrCollection,collectionReorderChildren} from '../actions/collection'
+import {deleteSubcollection, updateSubcollection, subcollectionReorderChildren} from '../actions/subcollection'
+import {showResourceViewer, hideResourceViewer} from '../actions/resource'
+
 import canUserEdit from '../utils/canUserEdit'
 
 import PageHeader from './PageHeader'
@@ -13,7 +18,6 @@ class Collection extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props)
     const {data, history, location} = this.props
 
     // subcollection does not exist -> redirect to one level up heirarchy
@@ -28,7 +32,6 @@ class Collection extends Component {
     }
 
     if (location.hash != "") {
-      console.log("there is a hash, it is: ", location.hash)
       this.renderResourceFromHash(location.hash.replace("#", ""))
     }
   }
@@ -66,8 +69,6 @@ class Collection extends Component {
     const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
 
-    console.log(data.disclaimer_message)
-
     const headerContents = {
       title: data.title,
       byline: type === "collection" ? {label: data.team.team_name, path: "/teams/" + data.team.path} : null,
@@ -88,7 +89,7 @@ class Collection extends Component {
                   data={data.subcollections}
                   type="subcollection"
                   createNew={() => createSubcollection({parentId:data._id, parentType:type})}
-                  clickHandler={(itemList, clickedIndex) => { console.log(itemList, clickedIndex); return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
+                  clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
                   isDraggable={true}
                   editingMode={editingMode}
@@ -126,7 +127,6 @@ class Collection extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(canUserEdit)
   let canEdit = canUserEdit(state.currUser, state.currCollection, "collection")
   return {
     resourceViewerContent: state.resourceViewerContent,
@@ -138,18 +138,15 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createSubcollection: (parent) => {
-      console.log(parent)
       dispatch(showAdminModal({action:"create", type:"subcollection", parent: parent}))
     },
     createResource: (parent, teamId) => {
-      console.log(parent)
       dispatch(showAdminModal({action:"create", type:"resource", parent: parent, showExisting: true, team: teamId}))
     },
     updateCollection: ({data, type}) => {
       dispatch(showAdminModal({action:"update", type:type, data: data}))
     },
     deleteCollection: ({data, type, parent, parentType, history}) => {
-      console.log(data)
       if (type === "collection") {
         dispatch(deleteCollection(data))
       } else {
@@ -172,7 +169,6 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     setResourceViewerContent: (parent, resourceList, i) => {
-      console.log(resourceList, i)
       dispatch(showResourceViewer({parent: parent, resourceList: resourceList, currIndex: i}))
     },
     hideResourceViewer: () => dispatch(hideResourceViewer())
@@ -182,10 +178,8 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(mapStateToProps, mapDispatchToProps)(Collection)
 
 const deleteCallback = (response, dispatch, history) => {
-  console.log(response.payload)
   if (response.payload.status === 200) {
     dispatch(invalidateCurrCollection())
-    console.log("DELETED!!!!", history.location.pathname.match(/.*\/(?!$)/))
     history.push(history.location.pathname.match(/.*\/(?!$)/)[0])
   }
 }

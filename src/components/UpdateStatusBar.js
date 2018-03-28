@@ -17,10 +17,10 @@ class UpdateStatusBar extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.statusObject != this.props.statusObject) {
-			this.state = {
-				showBar: true
-			}
 			window.setTimeout(() => this.hide(), appearanceTime)
+			this.setState({
+				showBar: true
+			})
 		}
 	}
 

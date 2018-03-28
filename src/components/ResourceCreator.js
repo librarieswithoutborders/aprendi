@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchResourceList, collectionAddExistingResource, subcollectionAddExistingResource, hideAdminModal, invalidateCurrCollection } from '../actions/actions.js'
+import {hideAdminModal} from '../actions/index'
+import {collectionAddExistingResource, invalidateCurrCollection} from '../actions/collection'
+import {subcollectionAddExistingResource} from '../actions/subcollection'
+import {fetchResourceList} from '../actions/resource'
 import ResourceTypeSelector from './ResourceTypeSelector'
 import ResourceExistingSearch from './ResourceExistingSearch'
 

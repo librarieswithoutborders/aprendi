@@ -47,7 +47,7 @@ class AdminFormField extends Component {
       case "RichText":
         return <RichTextField field={dbField}/>
 
-      case "RichText":
+      case "ExternalWebsite":
         return <ExternalWebsiteField field={dbField} />
     }
   }

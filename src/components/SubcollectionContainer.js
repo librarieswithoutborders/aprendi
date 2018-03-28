@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { showAdminModal, fetchCollection } from '../actions/actions.js';
+import { showAdminModal } from '../actions/index'
+import { fetchCollection } from '../actions/collection'
+
 import { connect } from 'react-redux'
 import Grid from './Grid'
 import { PropsRoute } from '../utils/propsRoute'

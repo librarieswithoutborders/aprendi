@@ -5,8 +5,6 @@ import thunkMiddleware from 'redux-thunk'
 
 const loggerMiddleware = createLogger()
 
-console.log(process.env)
-
 const store = createStore(
 	rootReducer,
 	applyMiddleware(

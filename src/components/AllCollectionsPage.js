@@ -1,5 +1,7 @@
 import React from 'react';
-import { showAdminModal, deleteTeam, fetchCollectionList } from '../actions/actions.js';
+import {showAdminModal} from '../actions/index'
+import {deleteTeam} from '../actions/team'
+import {fetchCollectionList} from '../actions/collection'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import Grid from './Grid'

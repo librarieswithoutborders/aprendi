@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { login, logout, isLoggedIn } from '../utils/AuthService';
 import { connect } from 'react-redux'
-import { sendUserInfoRequest, setUserInfo } from '../actions/actions.js';
+import { sendUserInfoRequest, setUserInfo } from '../actions/user';
 import SvgIcon from './SvgIcon'
 
 class TopNav extends Component {
@@ -14,14 +14,14 @@ class TopNav extends Component {
     }
   }
 
-  componentWillMount() {
-    const { currUser, sendUserInfoRequest } = this.props
-    console.log("component mounting")
-    console.log(currUser)
-    if (!currUser) {
-      sendUserInfoRequest()
-    }
-  }
+  // componentWillMount() {
+  //   const { currUser, sendUserInfoRequest } = this.props
+  //   console.log("component mounting")
+  //   console.log(currUser)
+  //   if (!currUser) {
+  //     sendUserInfoRequest()
+  //   }
+  // }
 
   toggleMenuExpansion() {
     this.setState({
@@ -31,12 +31,12 @@ class TopNav extends Component {
 
   render() {
     console.log(this.props)
-    const { history, clearUserInfo } = this.props
+    const { currUser, history, clearUserInfo } = this.props
     const { dropdownExpanded } = this.state
     return (
       <div className="top-nav">
         {
-          (isLoggedIn() && this.props.currUser) ?
+          (currUser) ?
           (
             <div className="top-nav__contents">
               <div className={dropdownExpanded ? "top-nav__button dropdown-expanded" : "top-nav__button"} onClick={() => this.toggleMenuExpansion()}>
@@ -73,9 +73,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendUserInfoRequest: () => {
-      dispatch(sendUserInfoRequest())
-    },
     clearUserInfo: () => {
       dispatch(setUserInfo())
     },

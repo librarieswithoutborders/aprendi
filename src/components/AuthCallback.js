@@ -3,7 +3,7 @@
 import { Component } from 'react';
 import { setIdToken, setAccessToken, getUserByHash } from '../utils/AuthService';
 import { connect } from 'react-redux'
-import { setUserInfo } from '../actions/actions.js';
+import { setUserInfo } from '../actions/user';
 // import {withRouter} from "react-router-dom";
 
 class AuthCallback extends Component {

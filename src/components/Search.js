@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import SvgIcon from './SvgIcon'
 import Autosuggest from 'react-autosuggest';
 import { connect } from 'react-redux'
-import { fetchUserList, fetchTeamList, fetchCollectionList, fetchResourceList, addUserToTeam, updateUser } from '../actions/actions.js';
+
+import {fetchTeamList} from '../actions/team'
+import {fetchCollectionList} from '../actions/collection'
+import {fetchResourceList} from '../actions/resource'
+import {fetchUserList, addUserToTeam, updateUser} from '../actions/user'
 
 
 class Search extends Component {

@@ -109,9 +109,6 @@ class Grid extends React.Component {
   }
 
   onLayoutChange(layout, layouts) {
-    console.log("in on layout change")
-    console.log(layout, layouts)
-
     if (this.itemDragged) {
       let currDataOrder = [...layout].filter(d => d.i !== "Create").sort((a, b) => {
         if (a.y < b.y) {

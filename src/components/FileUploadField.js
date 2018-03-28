@@ -1,6 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone'
-import { uploadFile } from '../actions/actions.js'
+import { uploadFile } from '../actions/index'
 import { connect } from 'react-redux'
 import { Form, Text, Field } from 'react-form';
 import PdfViewer from './PdfViewer'

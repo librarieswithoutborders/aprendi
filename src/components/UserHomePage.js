@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import PageHeader from './PageHeader'
 import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
-import { showAdminModal, removeUserFromTeam } from '../actions/actions.js';
+import { showAdminModal } from '../actions/index'
+import { removeUserFromTeam } from '../actions/user'
 import HomePage from './HomePage'
 import CoreAdminPortal from './CoreAdminPortal'
 

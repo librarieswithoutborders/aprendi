@@ -37,15 +37,15 @@ const processVideoUrl = (url) => {
 }
 
 
-const processFormData = (data, action, resourceTypeOverride) => {
+const processFormData = (data, action) => {
   console.log("processing form data")
   console.log(data)
   let retObject = {}
   Object.assign(retObject, data)
 
-  if (resourceTypeOverride) {
-    retObject.resource_type = resourceTypeOverride
-  }
+  // if (resourceTypeOverride) {
+  //   retObject.resource_type = resourceTypeOverride
+  // }
 
   if (action === "create" && !retObject.path) {
     retObject.path = convertToUrlPath(data.title || data.team_name)

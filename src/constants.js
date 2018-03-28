@@ -42,7 +42,7 @@ export const resourceTypeOptions = [
   {
     label: 'Image',
     value: 'image',
-    icon: 'document'
+    icon: 'image'
   },
   {
     label: 'Text Entry',
@@ -52,7 +52,12 @@ export const resourceTypeOptions = [
   {
     label: 'External Website',
     value: 'website',
-    icon: 'document'
+    icon: 'website'
+  },
+  {
+    label: 'Embed',
+    value: 'embed',
+    icon: 'embed'
   }
 ]
 

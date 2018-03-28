@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { fetchTeam, deleteTeam, updateTeam, resetCurrTeam, showAdminModal, fetchResourceList, showResourceViewer, removeUserFromTeam, resetCurrCollection} from '../actions/actions.js';
+import {showAdminModal} from '../actions/index'
+import {fetchTeam, deleteTeam, updateTeam, resetCurrTeam} from '../actions/team'
+import {resetCurrCollection} from '../actions/collection'
+import {fetchResourceList, showResourceViewer} from '../actions/resource'
+import {removeUserFromTeam} from '../actions/user'
+
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Grid from './Grid'

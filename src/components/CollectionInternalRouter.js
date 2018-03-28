@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { showAdminModal, fetchCollection } from '../actions/actions.js'
+import { showAdminModal } from '../actions/index'
+import { fetchCollection } from '../actions/collection'
 import { connect } from 'react-redux'
 import Grid from './Grid'
 import { Route, Switch } from 'react-router-dom'
@@ -8,8 +9,6 @@ import Collection from './Collection'
 
 const RecursiveRouter = ({match, breadcrumbs, parent, parentType}) => {
   const {subPath} = match.params
-  console.log("rendering ", subPath)
-  console.log(breadcrumbs)
 
   let data = parent.subcollections
 
@@ -23,7 +22,6 @@ const RecursiveRouter = ({match, breadcrumbs, parent, parentType}) => {
 
   if (subcollectionData) {
     breadcrumbs.push({ title: subcollectionData.title, path: subcollectionData.path });
-    console.log(breadcrumbs)
     return (
       <div>
         <PropsRoute exact path={match.path + "/"} component={Collection} breadcrumbs={breadcrumbs} parent={parent} parentType={parentType} data={subcollectionData} />
@@ -40,7 +38,6 @@ const RecursiveRouter = ({match, breadcrumbs, parent, parentType}) => {
 }
 
 const CollectionInternalRouter = ({match, data}) => {
-  console.log(match, data)
   let breadcrumbs = [{ title: data.title, path: data.path }]
   return (
     <div>
