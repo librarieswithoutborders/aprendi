@@ -39,7 +39,7 @@ ul {
   list-style: none;
 }
 
-input, textarea {
+input:not([type='checkbox']), textarea {
   padding: 10px;
   border: 1px solid colors(light-grey);
   border-radius: 3px;

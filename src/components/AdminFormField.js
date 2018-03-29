@@ -36,7 +36,7 @@ class AdminFormField extends Component {
         return <TextArea field={dbField} id={dbField} validate={validationWrapper}/>
 
       case "Checkbox":
-        return <Checkbox field={dbField} id={dbField} validate={validationWrapper} />
+        return <Checkbox field={dbField} id={dbField} />
 
       case "Image":
         return <FileUploadField type="image" field={dbField}/>

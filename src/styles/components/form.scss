@@ -40,7 +40,7 @@
     // }
 
 
-    .form__image-upload, .form__field__rich-text, input, textarea {
+    .form__image-upload, .form__field__rich-text, input:not([type='checkbox']), textarea {
       width: 75%;
       display: table-cell;
       vertical-align: middle;

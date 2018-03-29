@@ -4,7 +4,6 @@ const processFileName = (file, addDateHash) => {
   console.log(file)
   let matched = file.name.match(/(.+?)(\.[^.]*$|$)/)
   let placeholder, withoutExtension, extension
-  console.log(withoutExtension)
 
   if (matched) {
     [placeholder, withoutExtension, extension] = matched
@@ -12,9 +11,10 @@ const processFileName = (file, addDateHash) => {
     withoutExtension = "user-uploaded-image"
   }
 
-  console.log(withoutExtension, extension)
 
-  withoutExtension = sanitize(withoutExtension.replace(" ", "-"))
+
+  withoutExtension = sanitize(withoutExtension.replace(new RegExp(" ", 'g'), "-"))
+  console.log(withoutExtension, extension)
 
   if (addDateHash) {
     withoutExtension = withoutExtension + '_' + +new Date()

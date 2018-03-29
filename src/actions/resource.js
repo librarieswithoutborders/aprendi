@@ -112,3 +112,22 @@ export function fetchResourceList() {
       })
   }
 }
+
+export function fetchSharedResourceList() {
+  console.log("fetching shared resources")
+  return (dispatch) => {
+    dispatch(setRequestStatus({type:"FETCH_SHARED_RESOURCES", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + '/resources?just_shared=true',
+      {
+        method: "GET"
+      })
+      .then(response => { return response.json()})
+      .then(json => {
+        console.log(json)
+
+        dispatch(setRequestStatus({type:"FETCH_SHARED_RESOURCES", status:"SUCCESS", data:json}))
+      })
+  }
+}

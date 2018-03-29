@@ -18,7 +18,7 @@ class FileUploadFieldContent extends React.Component {
     const {type} = this.props
     console.log(files)
 
-    this.props.uploadFile(files[0], true, this.uploadCallback.bind(this))
+    this.props.uploadFile({file: files[0], addHash: true, callback: this.uploadCallback.bind(this)})
   }
 
   clearValue() {
@@ -33,7 +33,7 @@ class FileUploadFieldContent extends React.Component {
     console.log("UPLOADING", newFileUrl)
     canvasElem.toBlob(blob => {
       let file = new File([blob], newFileUrl, {type: 'image/png'})
-      this.props.uploadFile(file, false, null)
+      this.props.uploadFile({file: file, addHash: false, callback: null})
     })
   }
 
@@ -122,7 +122,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    uploadFile: (file, addHash, callback) => {
+    uploadFile: ({file, addHash, callback}) => {
       dispatch(uploadFile(file, addHash, callback))
     }
   }

@@ -10,6 +10,9 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
     case "pdf":
       renderedContent = renderPdf(content)
       break
+    case "image":
+      renderedContent = renderImage(content)
+      break
     case "video":
       renderedContent = renderVideo(content)
       break
@@ -92,12 +95,20 @@ const renderVideo = ({video_provider, resource_url}) => {
   )
 }
 
-const renderRichText = ({rich_text}) => {
-  return <div className="resource__content__richtext" dangerouslySetInnerHTML={{__html: rich_text}} />
+const renderRichText = ({rich_text_content}) => {
+  return <div className="resource__content__richtext" dangerouslySetInnerHTML={{__html: rich_text_content}} />
 }
 
 const renderPdf = ({resource_url}) => {
   return <PdfViewer url={resource_url} />
+}
+
+const renderImage = ({image_url}) => {
+  return (
+    <div className="resource__content__image">
+      <img className="resource__content__image__image-container" src={image_url} />
+    </div>
+  )
 }
 
 const renderWebsite = ({resource_url, image_url}) => {

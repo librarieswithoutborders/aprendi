@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {showAdminModal} from '../actions/index'
-import {fetchTeam, deleteTeam, updateTeam, resetCurrTeam} from '../actions/team'
+import {fetchTeam, deleteTeam, updateTeam} from '../actions/team'
 import {resetCurrCollection} from '../actions/collection'
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
 import {removeUserFromTeam} from '../actions/user'
@@ -47,7 +47,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         </div>
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
-          {editingMode && <div className="button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
+          {editingMode && <div className=" team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
           {teamInfo.resources && teamInfo.resources.length > 0 &&
             <div className="team-home-page__resource-search" >
               <ResourceExistingSearch
@@ -110,10 +110,9 @@ class TeamHomePageContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     console.log(this.props)
-    const {history, resetCurrTeam} = this.props;
+    const {history} = this.props;
 
     if (nextProps.teamInfo === "Not Found") {
-      resetCurrTeam()
       history.push("/teams/")
     }
 
@@ -161,9 +160,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateTeam: (teamInfo) => {
       dispatch(showAdminModal({action:"update", type:"team", data:teamInfo}))
-    },
-    resetCurrTeam: () => {
-      dispatch(resetCurrTeam())
     },
     addUserToTeam: (teamInfo) => {
       dispatch(showAdminModal({action:"add_user", type:"team", data:teamInfo}))

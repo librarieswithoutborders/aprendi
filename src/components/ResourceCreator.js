@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {hideAdminModal} from '../actions/index'
 import {collectionAddExistingResource, invalidateCurrCollection} from '../actions/collection'
 import {subcollectionAddExistingResource} from '../actions/subcollection'
-import {fetchResourceList} from '../actions/resource'
+import {fetchSharedResourceList} from '../actions/resource'
 import ResourceTypeSelector from './ResourceTypeSelector'
 import ResourceExistingSearch from './ResourceExistingSearch'
 
@@ -14,6 +14,14 @@ class ResourceCreator extends Component {
 
     this.state = {
       activeTab: 0
+    }
+  }
+
+  componentWillMount() {
+    const {sharedResourceList, fetchSharedResourceList} = this.props
+
+    if (!sharedResourceList) {
+      fetchSharedResourceList()
     }
   }
 
@@ -32,10 +40,16 @@ class ResourceCreator extends Component {
   }
 
   render() {
-    const {setResourceType, showExisting, currTeam, parent} = this.props
+    const {setResourceType, showExisting, currTeam, parent, sharedResourceList} = this.props
     const {activeTab} = this.state
 
     let currResourceList = currTeam.resources
+
+    if (sharedResourceList) {
+      let dedupedSharedList = sharedResourceList.filter(d => !d.team || d.team._id !== currTeam._id )
+      currResourceList = [...currResourceList, ...dedupedSharedList]
+    }
+
     if (parent && parent.parentResources) {
       currResourceList = currResourceList.filter(d => parent.parentResources.indexOf(d._id) < 0)
     }
@@ -75,7 +89,8 @@ class ResourceCreator extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     currTeam: state.currTeam,
-    parent: state.adminModalContent.parent
+    parent: state.adminModalContent.parent,
+    sharedResourceList: state.sharedResourceList
   }
 }
 
@@ -87,6 +102,9 @@ const mapDispatchToProps = (dispatch) => {
       } else {
         dispatch(subcollectionAddExistingResource(resource, parent.parentId))
       }
+    },
+    fetchSharedResourceList: () => {
+      dispatch(fetchSharedResourceList())
     }
   }
 }

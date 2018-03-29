@@ -157,6 +157,14 @@ export const resourceFieldSettings = [
     showOnly: ({resourceType}) => resourceType === "pdf"
   },
   {
+    dbField: "image_url",
+    label: "Image",
+    type: "Image",
+    required: true,
+    helpText: null,
+    showOnly: ({resourceType}) => resourceType === "image"
+  },
+  {
     dbField: "resource_url",
     label: "External Website Url",
     type: "Text",
@@ -166,12 +174,20 @@ export const resourceFieldSettings = [
     showOnly: ({resourceType}) => resourceType === "website",
   },
   {
+    dbField: "rich_text_content",
+    label: "Text Content",
+    type: "RichText",
+    required: true,
+    helpText: null,
+    showOnly: ({resourceType}) => resourceType === "rich_text",
+  },
+  {
     dbField: "image_url",
     label: "Cover Image",
     type: "Image",
     required: false,
     helpText: null,
-    showOnly: ({action}) => action !== "create"
+    showOnly: ({action, resourceType}) => resourceType === "rich_text" || (action !== "create" && resourceType != "image")
   },
   {
     dbField: "more_info",

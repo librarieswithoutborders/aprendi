@@ -12,7 +12,7 @@ const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 const rowHeight = {
   collection: 200,
   subcollection: 200,
-  resource: 320,
+  resource: 270,
   user: 270,
   team: 260,
 }

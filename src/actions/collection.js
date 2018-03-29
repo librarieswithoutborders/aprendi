@@ -1,5 +1,8 @@
 import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
 
+// maybe find away to call this somewhere else
+import {fetchTeam} from './team'
+
 export function createCollection(collectionInfo) {
   console.log(collectionInfo)
   return (dispatch) => {

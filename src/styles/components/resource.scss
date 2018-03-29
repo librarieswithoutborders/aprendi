@@ -118,6 +118,16 @@
       background-color: colors(white);
     }
 
+    &__image {
+      width: 100%;
+      overflow-x: hidden;
+      &__image-container {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+
     &__website {
       width: 100%;
       padding: 25px;

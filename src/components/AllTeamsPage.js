@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Grid from './Grid'
 import PageHeader from './PageHeader'
 import canUserEdit from '../utils/canUserEdit'
+import LoadingIcon from './LoadingIcon'
 
 
 const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, currUser}) => {
@@ -46,7 +47,7 @@ class AllTeamsPageContainer extends React.Component {
     if (teams) {
       return <AllTeamsPage {...this.props} />
     } else {
-      return <h5>Loading Teams</h5>
+      return <LoadingIcon />
     }
 
   }

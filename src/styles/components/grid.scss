@@ -18,6 +18,10 @@ $border-radius: 5px;
       }
     }
 
+    &.item-type-resource {
+      height: grid-item-height(resource);
+    }
+
     &__image {
       background-color: colors(offwhite);
       background-position: 50% 50%;
@@ -34,17 +38,19 @@ $border-radius: 5px;
       }
 
       .item-type-subcollection & {
-        height: grid-item-height(subcollection)/2;
-        border-top-left-radius: $border-radius;
-        border-top-right-radius: $border-radius;
+        height: grid-item-height(subcollection);
+        border-radius: $border-radius;
       }
 
       .item-type-resource & {
-        // transform: translateY(grid-item-height(resource)/3);
+        transform: translateY(grid-item-height(resource)/3);
         height: 2*grid-item-height(resource)/3;
+
         box-shadow: inset 0px 6px 25px -10px colors(black);
-        border-top-left-radius: $border-radius;
-        border-top-right-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+
+        background-position: 50% 0%;
       }
 
       .item-type-team & {
@@ -83,21 +89,28 @@ $border-radius: 5px;
       }
 
       .item-type-subcollection & {
-        background-color: none;
-        background: linear-gradient(0deg, colors(white), rgba(0,0,0,0));
-        height: grid-item-height(subcollection)/2;
-        border-bottom-left-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
+        position: absolute;
+        top: 0;
+        background-color: rgba(0,0,0,.6);
+        height: grid-item-height(subcollection);
+        border-radius: $border-radius;
+        transition: background-color 200ms ease-in-out;
+
+        &:hover {
+          background-color: rgba(0,0,0,.3);
+        }
       }
 
       .item-type-resource & {
-        transform: translateY(grid-item-height(resource)/3);
+        // transform: translateY(2*grid-item-height(resource)/3);
         height: grid-item-height(resource)/3;
         // border-bottom: 1px solid colors(grey);
+        // background-color: none;
+        // background: linear-gradient(0deg, colors(white), rgba(255,255,255,.8) 30%, rgba(255,255,255,0));
+        position: absolute;
+        top: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
-
-        z-index: 1000;
       }
 
       .item-type-team & {
@@ -124,7 +137,7 @@ $border-radius: 5px;
         }
 
         .item-type-subcollection & {
-
+          color: colors(white);
         }
 
         .item-type-team & {
@@ -152,7 +165,7 @@ $border-radius: 5px;
         margin-bottom: 3px;
 
         .item-type-subcollection & {
-
+          fill: colors(white);
         }
       }
     }

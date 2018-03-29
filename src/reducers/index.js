@@ -285,6 +285,17 @@ function resourceList(state = null, action) {
   }
 }
 
+function sharedResourceList(state = null, action) {
+  switch (action.type) {
+    case "FETCH_SHARED_RESOURCES":
+      if (action.status === "SUCCESS") {
+        return action.data
+      }
+    default:
+      return state
+  }
+}
+
 function resourceViewerContent(state = null, action) {
   switch (action.type) {
     case "HIDE_RESOURCE_VIEWER":
@@ -338,6 +349,7 @@ const rootReducer = combineReducers({
   collectionList,
   currCollection,
   resourceList,
+  sharedResourceList,
   updateStatus,
   resourceViewerContent,
   fileUploadStatus,
