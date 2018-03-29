@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { teamFieldSettings, collectionFieldSettings, subcollectionFieldSettings, resourceFieldSettings } from '../utils/formFieldSettings'
 import processFormData from '../utils/processFormData'
+import processExternalSiteUrl from '../utils/processExternalSiteUrl'
 import { Form } from 'react-form'
 import AdminFormField from './AdminFormField'
 import { takeWebScreenshot, checkExternalSiteHeaders } from '../actions/index'
@@ -31,9 +32,11 @@ class AdminForm extends Component {
   }
 
   submitForm(formData, a, formApi) {
-    console.log(data)
-
     const { data, action, team, resourceType, takeWebScreenshot } = this.props
+
+    console.log(formData)
+    console.log(data)
+    console.log(resourceType)
 
     let values = {}
     Object.assign(values, formData)
@@ -45,10 +48,10 @@ class AdminForm extends Component {
       values.resource_type = resourceType
     }
 
-    if (values.resource_type === "website" && data.resource_url != formData.resource_url) {
+    if ((values.resource_type === "website" || values.resource_type === "embed") && (!data || data.resource_url != formData.resource_url)) {
       console.log("website!!")
 
-      takeWebScreenshot(formData.resource_url, d => {
+      takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
         console.log("took screenshot")
         console.log(d)
         values.image_url = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d

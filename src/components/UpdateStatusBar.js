@@ -12,7 +12,10 @@ class UpdateStatusBar extends React.Component {
 	}
 
 	componentDidMount() {
-		window.setTimeout(() => this.hide(), appearanceTime)
+		const { status } = this.props.statusObject
+		if (status && status === "SUCCESS") {
+			window.setTimeout(() => this.hide(), appearanceTime)
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {

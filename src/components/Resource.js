@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PdfViewer from './PdfViewer'
+import ResponsiveEmbed from 'react-responsive-embed'
 const $ = require('jquery')
 
 const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource, toggleShared}) => {
@@ -72,20 +73,11 @@ const renderVideo = ({video_provider, resource_url}) => {
   let videoContent;
   if (video_provider == "youtube") {
     videoContent = (
-      <iframe
-        src={resource_url}
-        frameborder="0"
-        allow="autoplay; encrypted-media">
-      </iframe>
+      <ResponsiveEmbed src={resource_url} frameborder="0" allow="autoplay; encrypted-media" />
     )
   } else {
     videoContent = (
-      <iframe
-        src={resource_url}
-        width="640"
-        height="360"
-        frameborder="0">
-      </iframe>
+      <ResponsiveEmbed src={resource_url} frameborder="0" allow="autoplay; encrypted-media" />
     )
   }
   return (
@@ -116,7 +108,7 @@ const renderWebsite = ({resource_url, image_url}) => {
   return (
     <div className="resource__content__website">
       <a target="_blank" href={resource_url} className="resource__content__website__image-link">
-        <div className="resource__content__website__screenshot" style={{backgroundImage: "url('" + image_url + "')"}} />
+        <img className="resource__content__website__screenshot" src={image_url} />
       </a>
     </div>
   )
@@ -124,7 +116,7 @@ const renderWebsite = ({resource_url, image_url}) => {
 
 const renderEmbed = ({resource_url}) => {
 
-  return <iframe src={resource_url} height="500px" width="500px"/>
+  return <ResponsiveEmbed src={resource_url} allowfullscreen />
 }
 
 export default Resource

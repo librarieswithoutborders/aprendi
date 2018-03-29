@@ -46,7 +46,7 @@ function updateStatus(state = null, action) {
   let splitPieces = action.type.split("_")
   if (splitPieces[0] === "CREATE" || splitPieces[0] === "UPDATE" || splitPieces[0] === "DELETE") {
     return action
-  } else if (action.type === "UPLOAD_FILE") {
+  } else if (action.type === "FILE_UPLOAD") {
     return action
   } else {
     return state

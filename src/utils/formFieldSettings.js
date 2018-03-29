@@ -174,6 +174,15 @@ export const resourceFieldSettings = [
     showOnly: ({resourceType}) => resourceType === "website",
   },
   {
+    dbField: "resource_url",
+    label: "Embed Url",
+    type: "Text",
+    required: true,
+    helpText: null,
+    validate: isValidUrl,
+    showOnly: ({resourceType}) => resourceType === "embed",
+  },
+  {
     dbField: "rich_text_content",
     label: "Text Content",
     type: "RichText",
