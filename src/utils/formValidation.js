@@ -1,5 +1,5 @@
 const validUrl = require('valid-url');
-import {isCollectionPathTaken} from '../actions/collection'
+// import {isCollectionPathTaken} from '../actions/collection'
 
 export const maxLength = (maxLen) => {
   return (input) => {
@@ -38,14 +38,14 @@ export const isValidUrl = (input) => {
   return validUrl.isWebUri(testInput) ? null : "Please Enter a Valid Url"
 }
 
-export const isPathTaken = (path) => {
-  return new Promise((resolve, reject) => {
-    console.log(path)
-    if (!path || path.length === 0) { resolve(false); return; }
-    isCollectionPathTaken(path).then(isTaken => {
-      console.log(isTaken)
-
-      resolve(isTaken ? "Path has already been taken, please try a different path" : null)
-    })
-  })
+// export const isPathTaken = (path) => {
+//   return new Promise((resolve, reject) => {
+//     console.log(path)
+//     if (!path || path.length === 0) { resolve(false); return; }
+//     isCollectionPathTaken(path).then(isTaken => {
+//       console.log(isTaken)
+//
+//       resolve(isTaken ? "Path has already been taken, please try a different path" : null)
+//     })
+//   })
 }

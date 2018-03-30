@@ -32,10 +32,10 @@ class Root extends Component {
           {adminModalContent && <AdminModal />}
           {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
           {resourceViewerContent && <ResourceViewer />}
+          {updateStatus &&
+            <UpdateStatusBar statusObject={updateStatus} />
+          }
           <div className={showOverlay ? "content fixed" : "content"}>
-            {updateStatus &&
-              <UpdateStatusBar statusObject={updateStatus} />
-            }
             <TopNav />
             <div className="content-container">
               {routes}

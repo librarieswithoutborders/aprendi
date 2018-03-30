@@ -35,9 +35,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
 
 
               {description &&
-                <div className="page-header__description">
-                    <p className="page-header__description__contents">{description}</p>
-                </div>
+                <div className="page-header__description" dangerouslySetInnerHTML={{'__html': description}} />
               }
             </div>
             {created_by &&

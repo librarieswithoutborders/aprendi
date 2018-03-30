@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   z-index: 10000;
-  transition: background-color 1s ease-in-out, max-height 1s ease-in-out;
+  transition: background-color 500ms ease-in-out, max-height 1s ease-in-out;
   max-height: 1000px;
   box-sizing: content-box;
   overflow-y: hidden;

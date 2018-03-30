@@ -204,19 +204,19 @@ export function resetCurrCollection() {
   }
 }
 
-export function isCollectionPathTaken(path) {
-  return fetch(
-    dbPath + "/collection-is-path-taken?path=" + path,
-    {
-      method: "GET",
-    })
-    .then(response => response.json())
-    .then(json => {
-      console.log(json)
-      if (json.error) {
-        return false
-      } else {
-        return json
-      }
-    })
-}
+// export function isCollectionPathTaken(path) {
+//   return fetch(
+//     dbPath + "/collection-is-path-taken?path=" + path,
+//     {
+//       method: "GET",
+//     })
+//     .then(response => response.json())
+//     .then(json => {
+//       console.log(json)
+//       if (json.error) {
+//         return false
+//       } else {
+//         return json
+//       }
+//     })
+// }
