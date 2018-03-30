@@ -43,8 +43,8 @@ $border-radius: 5px;
       }
 
       .item-type-resource & {
-        transform: translateY(grid-item-height(resource)/3);
-        height: 2*grid-item-height(resource)/3;
+        transform: translateY(2*grid-item-height(resource)/5);
+        height: 3*grid-item-height(resource)/5;
 
         box-shadow: inset 0px 6px 25px -10px colors(black);
         border-bottom-left-radius: $border-radius;
@@ -103,7 +103,7 @@ $border-radius: 5px;
 
       .item-type-resource & {
         // transform: translateY(2*grid-item-height(resource)/3);
-        height: grid-item-height(resource)/3;
+        height: 2*grid-item-height(resource)/5;
         // border-bottom: 1px solid colors(grey);
         // background-color: none;
         // background: linear-gradient(0deg, colors(white), rgba(255,255,255,.8) 30%, rgba(255,255,255,0));

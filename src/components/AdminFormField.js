@@ -17,15 +17,35 @@ class AdminFormField extends Component {
   }
 
   renderFieldContent() {
-    const { dbField, type, validate, required } = this.props.settings
+    const { checkLocallyUnique, checkGloballyUnique } = this.props
+    const { dbField, type, validate, asyncValidate, required, locallyUnique, globallyUnique } = this.props.settings
 
     const validationWrapper = (input) => {
       if (required && (!input || input === '')) {
         return "Required Field"
       }
       if (validate) {
-        return validate(input)
+        let validateResult = validate(input)
+        if (validateResult) {
+          return validateResult
+        }
       }
+
+      if (locallyUnique) {
+        let checkUniqueResult = checkLocallyUnique({field: dbField, value: input})
+        if (checkUniqueResult) {
+          return checkUniqueResult
+        }
+      }
+
+      if (globallyUnique) {
+        let checkUniqueResult = checkGloballyUnique({field: dbField, value: input})
+        if (checkUniqueResult) {
+          return checkUniqueResult
+        }
+      }
+
+      return null
     }
 
     switch(type) {
@@ -54,19 +74,17 @@ class AdminFormField extends Component {
 
 
   render() {
-    const { settings, error } = this.props
+    const { settings, error, asyncError } = this.props
     const { dbField, type, label, required} = settings
 
     const fieldContent = this.renderFieldContent()
 
-
-
     return (
-      <div className={error ? "form__field field-error" : "form__field"} onFocus={() => this.showHelpText()}>
+      <div className={(error || asyncError) ? "form__field field-error" : "form__field"} onFocus={() => this.showHelpText()}>
         <label className={required ? "form__field__label required" : "form__field__label"} htmlFor={dbField}>{required ? label + "*" : label}</label>
         {fieldContent}
-        {error &&
-          <h5 className="form__field__error">{error}</h5>
+        {(error || asyncError) &&
+          <h5 className="form__field__error">{error || asyncError}</h5>
         }
       </div>
     )

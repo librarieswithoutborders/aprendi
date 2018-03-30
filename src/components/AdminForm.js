@@ -6,6 +6,10 @@ import processExternalSiteUrl from '../utils/processExternalSiteUrl'
 import { Form } from 'react-form'
 import AdminFormField from './AdminFormField'
 import { takeWebScreenshot, checkExternalSiteHeaders } from '../actions/index'
+import {fetchTeamList} from '../actions/team'
+import {fetchCollectionList} from '../actions/collection'
+import {fetchResourceList, fetchSharedResourceList} from '../actions/resource'
+import convertToUrlPath from '../utils/convertToUrlPath'
 
 
 class AdminForm extends Component {
@@ -31,12 +35,41 @@ class AdminForm extends Component {
     }
   }
 
+  componentWillMount() {
+    const { checkLocallyUniqueList, fetchCheckLocallyUniqueList, checkGloballyUniqueList, fetchCheckGloballyUniqueList, forceFetchLocallyUniqueList } = this.props
+
+    if (forceFetchLocallyUniqueList || (fetchCheckLocallyUniqueList && !checkLocallyUniqueList)) {
+      fetchCheckLocallyUniqueList()
+    }
+
+    if (fetchCheckGloballyUniqueList && !checkGloballyUniqueList) {
+      fetchCheckGloballyUniqueList()
+    }
+  }
+
+  checkUnique(level, field, value) {
+    const { checkLocallyUniqueList, checkGloballyUniqueList } = this.props
+    let checkUniqueList = level === "local" ? checkLocallyUniqueList : checkGloballyUniqueList
+
+    if (!checkUniqueList) {
+      return "Server Error: Unable to validate " + field
+    }
+
+    let foundVal = checkUniqueList.find(d => {console.log(d[field], value, d[field] === value); return d[field] === value})
+
+    return foundVal ? "This " + field + " is already taken.  Please try a different value" : null
+  }
+
+  checkSharedValuePath(formApi, value) {
+    if (value && formApi.values.shared) {
+      return this.checkUnique("global", "path", value)
+    }
+
+    return null
+  }
+
   submitForm(formData, a, formApi) {
     const { data, action, team, resourceType, takeWebScreenshot } = this.props
-
-    console.log(formData)
-    console.log(data)
-    console.log(resourceType)
 
     let values = {}
     Object.assign(values, formData)
@@ -49,11 +82,8 @@ class AdminForm extends Component {
     }
 
     if ((values.resource_type === "website" || values.resource_type === "embed") && (!data || data.resource_url != formData.resource_url)) {
-      console.log("website!!")
 
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
-        console.log("took screenshot")
-        console.log(d)
         values.image_url = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d
         this.props.submit(processFormData(values, action))
       })
@@ -67,15 +97,36 @@ class AdminForm extends Component {
     console.log(err)
   }
 
+  populatePath(values) {
+    console.log("POPULATING PATH")
+    console.log(values)
+
+    if (!values.path) {
+      values.path = convertToUrlPath(values.title || values.team_name)
+    }
+
+    console.log(values)
+
+    return values
+  }
+
   renderFormFields(formApi) {
-    const { errors, values } = formApi
-    const { isCoreAdmin, action, resourceType } = this.props
+    const { errors, values, asyncErrors } = formApi
+    const { isCoreAdmin, action, resourceType, type } = this.props
 
     let fields = []
 
     this.fieldSettings.forEach(settings => {
       if (!settings.showOnly || (settings.showOnly && settings.showOnly({isCoreAdmin: isCoreAdmin, action: action, resourceType: resourceType || values.resource_type}))) {
-        fields.push(<AdminFormField key={settings.dbField} settings={settings} error={errors ? errors[settings.dbField] : null}/>)
+        fields.push(
+          <AdminFormField
+            key={settings.dbField}
+            settings={settings}
+            error={errors ? errors[settings.dbField] : null}
+            asyncError={asyncErrors ? asyncErrors[settings.dbField] : null}
+            checkLocallyUnique={({field, value}) => this.checkUnique("local", field, value)}
+            checkGloballyUnique={type === "resource" && settings.dbField === "path" ? ({value}) => this.checkSharedValuePath(formApi, value) : ({field, value}) => this.checkUnique("global", field, value)}/>
+        )
       }
     })
 
@@ -92,14 +143,16 @@ class AdminForm extends Component {
     return (
       <Form
         onSubmit={(submittedValues, a, formApi) => this.submitForm(submittedValues, a, formApi)}
-        defaultValues={data} >
+        defaultValues={data}
+        preSubmit={(values) => this.populatePath(values)}>
         { formApi => {
-            console.log(formApi)
+            const {errors, asyncErrors} = formApi
+
             return (
               <form id="form" onSubmit={formApi.submitForm}>
                 {this.renderFormFields(formApi)}
                 <div className="form__submit-container">
-                  <button type="submit" className="mb-4 btn btn-primary button form__submit">Submit</button>
+                  <button type="submit" className="button form__submit">Submit</button>
                 </div>
               </form>
             )}
@@ -109,18 +162,62 @@ class AdminForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const {type, data} = ownProps
+  const {currUser, currTeam, adminModalContent, currCollection, collectionList, resourceList, teamList, sharedResourceList} = state
+  let checkLocallyUniqueList, checkGloballyUniqueList;
+
+  if (type === "team") {
+    checkGloballyUniqueList = teamList
+  } else if (type === "collection") {
+    checkGloballyUniqueList = collectionList
+    checkLocallyUniqueList = collectionList ? collectionList.filter(d => d.team && d.team._id === currTeam._id ) : null
+  } else if (type === "subcollection") {
+    if (adminModalContent.parent && adminModalContent.parent.parentData) {
+      checkLocallyUniqueList = adminModalContent.parent.parentData.subcollections
+    }
+  } else if (type === "resource") {
+    checkLocallyUniqueList = currTeam && currTeam.resources ? currTeam.resources : null
+    checkLocallyUniqueList = sharedResourceList ? [...sharedResourceList, ...checkLocallyUniqueList] : checkLocallyUniqueList
+    checkGloballyUniqueList = resourceList
+  }
+
+  // in order to ensure that the check unique list does not contain the element itself
+  if (data) {
+    checkLocallyUniqueList = checkLocallyUniqueList ? checkLocallyUniqueList.filter(d => d._id !== data._id) : null
+    checkGloballyUniqueList = checkGloballyUniqueList ? checkGloballyUniqueList.filter(d => d._id !== data._id) : null
+  }
+
   return {
-    isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
+    isCoreAdmin: currUser && currUser.permissions && currUser.permissions.core_admin,
+    checkLocallyUniqueList: checkLocallyUniqueList,
+    checkGloballyUniqueList: checkGloballyUniqueList,
+    // to ensure that the share resource list is loaded when checking resources
+    forceFetchLocallyUniqueList: type === "resource" && (!sharedResourceList || sharedResourceList.length === 0) ? true : false
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  const {type} = ownProps
+  let fetchCheckLocallyUniqueList, fetchCheckGloballyUniqueList, checkUnique;
+
+  if (type === "team") {
+    fetchCheckGloballyUniqueList = () => dispatch(fetchTeamList())
+  } else if (type === "collection") {
+    fetchCheckLocallyUniqueList = () => dispatch(fetchCollectionList())
+    fetchCheckGloballyUniqueList = () => dispatch(fetchCollectionList())
+  } else if (type === "subcollection") {
+  } else if (type === "resource") {
+    fetchCheckLocallyUniqueList = () => dispatch(fetchSharedResourceList())
+    fetchCheckGloballyUniqueList = () => dispatch(fetchResourceList())
+  }
+
   return {
     takeWebScreenshot: (url, callback) => {
       dispatch(takeWebScreenshot(url, callback))
     },
-
+    fetchCheckLocallyUniqueList: fetchCheckLocallyUniqueList,
+    fetchCheckGloballyUniqueList: fetchCheckGloballyUniqueList,
   }
 }
 

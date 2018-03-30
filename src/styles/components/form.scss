@@ -10,6 +10,11 @@
     text-align: center;
   }
 
+  &__submit.disabled {
+    pointer-events: none;
+    opacity: .4 !important;
+  }
+
   &__field {
     display: table-row;
     margin: 10px 0px;
@@ -49,13 +54,13 @@
 
     &.field-error {
       & > input {
-        background-color: red !important;
+        background-color: colors(red) !important;
       }
     }
 
     &__error {
       font-size: 12px;
-      color: red;
+      color: colors(red);
       font-weight: normal;
     }
 

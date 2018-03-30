@@ -47,9 +47,9 @@ const processFormData = (data, action) => {
   //   retObject.resource_type = resourceTypeOverride
   // }
 
-  if (action === "create" && !retObject.path) {
-    retObject.path = convertToUrlPath(data.title || data.team_name)
-  }
+  // if (action === "create" && !retObject.path) {
+  //   retObject.path = convertToUrlPath(data.title || data.team_name)
+  // }
 
   if (retObject.resource_type === "video") {
     let results = processVideoUrl(data.resource_url)

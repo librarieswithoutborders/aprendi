@@ -1,4 +1,4 @@
-import {maxLength, isValidPath, isValidEmail, isValidUrl} from '../utils/formValidation'
+import {maxLength, isValidPath, isValidEmail, isValidUrl, isPathTaken} from '../utils/formValidation'
 
 export const teamFieldSettings = [
   {
@@ -7,7 +7,8 @@ export const teamFieldSettings = [
     type: "Text",
     required: true,
     validate: maxLength(150),
-    helpText: null
+    helpText: null,
+    globallyUnique: true,
   },
   {
     dbField: "description",
@@ -29,7 +30,8 @@ export const teamFieldSettings = [
     type: "Text",
     required: false,
     validate: isValidPath,
-    helpText: null
+    helpText: null,
+    globallyUnique: true,
   },
 ]
 
@@ -40,7 +42,8 @@ export const collectionFieldSettings = [
     type: "Text",
     required: true,
     validate: maxLength(150),
-    helpText: null
+    helpText: null,
+    locallyUnique: true,
   },
   {
     dbField: "image_url",
@@ -85,7 +88,9 @@ export const collectionFieldSettings = [
     type: "Text",
     required: false,
     validate: isValidPath,
-    helpText: null
+    asyncValidate: isPathTaken,
+    helpText: null,
+    globallyUnique: true,
   },
 ]
 
@@ -96,7 +101,8 @@ export const subcollectionFieldSettings = [
     type: "Text",
     required: true,
     validate: maxLength(150),
-    helpText: null
+    helpText: null,
+    locallyUnique: true,
   },
   {
     dbField: "image_url",
@@ -118,7 +124,8 @@ export const subcollectionFieldSettings = [
     type: "Text",
     required: false,
     validate: isValidPath,
-    helpText: null
+    helpText: null,
+    locallyUnique: true,
   },
 ]
 
@@ -129,7 +136,8 @@ export const resourceFieldSettings = [
     type: "Text",
     required: true,
     validate: maxLength(150),
-    helpText: null
+    helpText: null,
+    locallyUnique: true,
   },
   {
     dbField: "shared",
@@ -219,6 +227,8 @@ export const resourceFieldSettings = [
     type: "Text",
     required: false,
     validate: isValidPath,
-    helpText: null
+    helpText: null,
+    locallyUnique: true,
+    globallyUnique: true
   },
 ]

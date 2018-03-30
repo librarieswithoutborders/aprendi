@@ -78,7 +78,12 @@ class Collection extends Component {
 
     return (
       <div className="collection">
-        <PageHeader contents={headerContents} type={type} editingMode={editingMode} editFunc={() => updateCollection({data: data, type: type})} deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
+        <PageHeader
+          contents={headerContents}
+          type={type}
+          editingMode={editingMode}
+          editFunc={() => updateCollection({data: data, type: type, parent: {parentData:parent}})}
+          deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
         {type == "subcollection" && <Breadcrumbs data={breadcrumbs} /> }
         <div className="collection__contents">
           {(editingMode || (data.subcollections && data.subcollections.length > 0)) &&
@@ -88,7 +93,7 @@ class Collection extends Component {
                 <Grid
                   data={data.subcollections}
                   type="subcollection"
-                  createNew={() => createSubcollection({parentId:data._id, parentType:type})}
+                  createNew={() => createSubcollection({parentData:data, parentType:type})}
                   clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
                   isDraggable={true}
@@ -146,8 +151,8 @@ const mapDispatchToProps = (dispatch) => {
     createResource: (parent, teamId) => {
       dispatch(showAdminModal({action:"create", type:"resource", parent: parent, showExisting: true, team: teamId}))
     },
-    updateCollection: ({data, type}) => {
-      dispatch(showAdminModal({action:"update", type:type, data: data}))
+    updateCollection: ({data, type, parent}) => {
+      dispatch(showAdminModal({action:"update", type: type, data: data, parent: parent}))
     },
     deleteCollection: ({data, type, parent, parentType, history}) => {
       if (type === "collection") {
