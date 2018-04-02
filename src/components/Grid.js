@@ -12,7 +12,7 @@ const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 const rowHeight = {
   collection: 200,
   subcollection: 200,
-  resource: 230,
+  resource: 280,
   user: 270,
   team: 260,
 }
@@ -142,7 +142,7 @@ class Grid extends React.Component {
     return (
       <ResponsiveReactGridLayout
         layouts={this.state.layouts}
-        margin= {[20, 40]}
+        margin= {[20, 20]}
         containerPadding= {[20, 20]}
         isResizable={false}
         isDraggable={editingMode && isDraggable}

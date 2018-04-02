@@ -14,6 +14,7 @@ class FileUploadFieldContent extends React.Component {
       currValue: props.fieldApi.value
     }
   }
+
   onDrop(files) {
     const {type} = this.props
     console.log(files)

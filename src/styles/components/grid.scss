@@ -44,11 +44,13 @@ $border-radius: 5px;
 
       .item-type-resource & {
         transform: translateY(2*grid-item-height(resource)/5);
-        height: 3*grid-item-height(resource)/5;
+        height: calc(3*grid-item-height(resource)/5 - 7px);
 
-        box-shadow: inset 0px 6px 25px -10px colors(black);
-        border-bottom-left-radius: $border-radius;
-        border-bottom-right-radius: $border-radius;
+        box-shadow: inset 0px 3px 25px -7px colors(grey);
+        // border-bottom-left-radius: $border-radius;
+        // border-bottom-right-radius: $border-radius;
+        width: 87%;
+        margin: auto;
 
         background-position: 50% 0%;
       }
