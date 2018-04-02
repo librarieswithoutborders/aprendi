@@ -19,33 +19,56 @@ class ResourceViewer extends Component {
   render() {
     const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode} = this.props
 
+    let content = resourceList[currIndex]
+
     let nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
       prev: currIndex !== 0 ? () => decrementCurrIndex(currIndex) : null
     }
 
+    let editingFunctions = {
+      removeResource: (editingMode && parent) ? (id) => removeResourceFromCollection(id, parent) : null,
+      deleteResource: editingMode ? (data) => deleteResource(data) : null,
+      updateResource: editingMode ? (data) => updateResource(data) : null
+    }
+
+
     return (
       <div className="resource-viewer">
-        {nextPrevFunctions.prev &&
-          <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
-            <div className="resource-viewer__next-prev__arrow-container" >
-              <SvgIcon name="arrow" />
+        <div className="resource-viewer__header">
+          <div className="resource-viewer__header__content">
+            {nextPrevFunctions.prev &&
+              <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
+                <div className="resource-viewer__next-prev__arrow-container" >
+                  <SvgIcon name="arrow" />
+                </div>
+              </div>
+            }
+            <h1 className="resource-viewer__header__text">{content.title}</h1>
+            <div className="resource-viewer__header__button-container">
+              {editingFunctions.updateResource &&
+                <h5 className="resource-viewer__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
+              }
+              {editingFunctions.removeResource &&
+                <h5 className="resource-viewer__header__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
+              }
+              {editingFunctions.deleteResource &&
+                <h5 className="resource-viewer__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+              }
             </div>
+            {nextPrevFunctions.next &&
+              <div className="resource-viewer__next-prev next" onClick={nextPrevFunctions.next}>
+                <div className="resource-viewer__next-prev__arrow-container" >
+                  <SvgIcon name="arrow" />
+                </div>
+              </div>
+            }
           </div>
-        }
-        {nextPrevFunctions.next &&
-          <div className="resource-viewer__next-prev next" onClick={nextPrevFunctions.next}>
-            <div className="resource-viewer__next-prev__arrow-container" >
-              <SvgIcon name="arrow" />
-            </div>
-          </div>
-        }
+        </div>
         <div className="resource-viewer__content">
           <Resource
-            content={resourceList[currIndex]}
-            removeResource={(editingMode && parent) ? (id) => removeResourceFromCollection(id, parent) : null}
-            deleteResource={editingMode ? (data) => deleteResource(data) : null}
-            updateResource={editingMode ? (data) => updateResource(data) : null}/>
+            content={content} />
+
         </div>
       </div>
     )

@@ -30,22 +30,6 @@ const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, u
 
   return (
     <div className="resource">
-      <div className="resource__header">
-        <div className="resource__header__content">
-          <h1 className="resource__header__text">{content.title}</h1>
-          <div className="resource__header__button-container">
-            {updateResource &&
-              <h5 className="resource__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
-            }
-            {removeResource &&
-              <h5 className="resource__header__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
-            }
-            {deleteResource &&
-              <h5 className="resource__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
-            }
-          </div>
-        </div>
-      </div>
       <div className="resource__content">
         {renderedContent}
         {(content.disclaimer_message || content.more_info) &&

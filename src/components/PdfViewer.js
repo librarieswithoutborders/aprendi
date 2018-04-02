@@ -1,6 +1,7 @@
 import React from 'react';
 import { Document, Page } from 'react-pdf/build/entry.webpack';
 import $ from 'jquery';
+import LoadingIcon from './LoadingIcon'
 
 
 class PdfViewer extends React.Component {
@@ -77,8 +78,12 @@ class PdfViewer extends React.Component {
 
       return (
         <div ref="documentContainer">
-          <Document inputRef={(ref) => { this.documentRef = ref; }} file={url} onLoadSuccess={props => this.onDocumentLoad(props)}>
-            {singlePage ? this.renderSinglePageContent() : this.renderMultiPageContent()}
+          <Document
+            inputRef={(ref) => { this.documentRef = ref; }}
+            file={url}
+            onLoadSuccess={props => this.onDocumentLoad(props)}
+            loading={<LoadingIcon />}>
+              {singlePage ? this.renderSinglePageContent() : this.renderMultiPageContent()}
           </Document>
         </div>
       )
