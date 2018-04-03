@@ -4,47 +4,7 @@
     // padding: 15px;
   }
 
-  &__header {
-    background-color: colors(white);
-    box-shadow: 0 5px 20px -10px colors(grey);
-    z-index: 2;
-    position: fixed;
-    transform: translateX(-1px);
-    width: calc(100% - 48px);
 
-    &__content {
-      position: relative;
-      padding: 14px 7px;
-      text-align: center;
-    }
-
-    &__text {
-      position: relative;
-      font-size: 16px;
-      display: inline-block;
-      padding-right: 20px;
-      vertical-align: middle;
-      color: colors(black);
-      font-weight: bold;
-    }
-
-    &__button-container {
-      display: inline-block;
-      position: relative;
-      float: right;
-    }
-
-    &__button {
-      color: colors(blue);
-      display: inline-block;
-      font-weight: normal;
-      cursor: pointer;
-      padding: 0px 7px;
-
-      &:hover {
-        color: colors(grey);
-      }
-    }
 
     // &__arrow {
     //   position: absolute;
@@ -70,12 +30,12 @@
     //
     //   }
     // }
-  }
+  // }
 
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
-    padding: 30px $standard-padding 10px;
+    padding: 50px $standard-padding 50px;
 
     .ReactPDF {
       &__Document {

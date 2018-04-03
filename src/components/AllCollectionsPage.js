@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 import Grid from './Grid'
 import PageHeader from './PageHeader'
 import canUserEdit from '../utils/canUserEdit'
+import LoadingIcon from './LoadingIcon'
 
-
-const AllCollectionsPage = ({collections, createTeam, deleteTeam, history, editingMode, currUser}) => {
-  console.log(collections)
+const AllCollectionsPage = ({collections, createTeam, deleteTeam, history, editingMode, currUser, notFoundRedirected}) => {
+  console.log(notFoundRedirected)
 
   let headerContents = {
-    title: "Collections"
+    title: notFoundRedirected ? "Collection at Path /" + notFoundRedirected + " Not Found" : "Collections",
+    description: notFoundRedirected ? "Browse Other Collections Below:" : null
   }
 
   return (
@@ -48,18 +49,20 @@ class AllCollectionsPageContainer extends React.Component {
     if (collections) {
       return <AllCollectionsPage {...this.props} />
     } else {
-      return <h5>Loading Collections</h5>
+      return <LoadingIcon />
     }
 
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(ownProps)
   let canEdit = canUserEdit(state.currUser, null, null)
   return {
     collections: state.collectionList,
     editingMode: canEdit,
-    currUser: state.currUser
+    currUser: state.currUser,
+    notFoundRedirected: ownProps.history.location.search === "" ? null : ownProps.history.location.search.replace("?not_found=", "")
   }
 }
 

@@ -32,44 +32,53 @@ class ResourceViewer extends Component {
       updateResource: editingMode ? (data) => updateResource(data) : null
     }
 
-
     return (
       <div className="resource-viewer">
         <div className="resource-viewer__header">
-          <div className="resource-viewer__header__content">
-            {nextPrevFunctions.prev &&
-              <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
-                <div className="resource-viewer__next-prev__arrow-container" >
-                  <SvgIcon name="arrow" />
-                </div>
+          {nextPrevFunctions.prev &&
+            <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
+              <div className="resource-viewer__next-prev__arrow-container" >
+                <SvgIcon name="arrow" />
               </div>
-            }
-            <h1 className="resource-viewer__header__text">{content.title}</h1>
-            <div className="resource-viewer__header__button-container">
-              {editingFunctions.updateResource &&
-                <h5 className="resource-viewer__header__button" onClick={() => updateResource(content)}>Edit Resource</h5>
-              }
-              {editingFunctions.removeResource &&
-                <h5 className="resource-viewer__header__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
-              }
-              {editingFunctions.deleteResource &&
-                <h5 className="resource-viewer__header__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
-              }
             </div>
-            {nextPrevFunctions.next &&
-              <div className="resource-viewer__next-prev next" onClick={nextPrevFunctions.next}>
-                <div className="resource-viewer__next-prev__arrow-container" >
-                  <SvgIcon name="arrow" />
-                </div>
-              </div>
-            }
+          }
+          <div className="resource-viewer__header__content">
+            {resourceList.map((d, i) => {
+              const leftOffset = ((2*(i - currIndex) + 1) * 50) + "%"
+              console.log(i, leftOffset)
+              return (
+                <h1 key={i} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
+              )
+            })}
           </div>
+          {nextPrevFunctions.next &&
+            <div className="resource-viewer__next-prev next" onClick={nextPrevFunctions.next}>
+              <div className="resource-viewer__next-prev__arrow-container" >
+                <SvgIcon name="arrow" />
+              </div>
+            </div>
+          }
         </div>
         <div className="resource-viewer__content">
-          <Resource
-            content={content} />
-
+          <Resource content={content} />
         </div>
+        {editingMode &&
+          <div className="resource-viewer__footer">
+            <div className="resource-viewer__footer__content">
+              <div className="resource-viewer__footer__button-container">
+                {editingFunctions.updateResource &&
+                  <h5 className="resource-viewer__footer__button" onClick={() => updateResource(content)}>Edit Resource</h5>
+                }
+                {editingFunctions.removeResource &&
+                  <h5 className="resource-viewer__footer__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
+                }
+                {editingFunctions.deleteResource &&
+                  <h5 className="resource-viewer__footer__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+                }
+              </div>
+            </div>
+          </div>
+        }
       </div>
     )
   }

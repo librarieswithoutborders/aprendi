@@ -17,14 +17,12 @@ class CollectionDataContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {history} = this.props;
+    const {collectionPath, history} = this.props;
+
+    console.log(history)
 
     if (nextProps.currCollection === "Not Found") {
-      if (nextProps.currTeam) {
-        history.push("/teams/" + nextProps.currTeam.path)
-      } else {
-        history.push("/")
-      }
+      history.push("/collections/?not_found=" + collectionPath)
     }
 
     // collection path was edited

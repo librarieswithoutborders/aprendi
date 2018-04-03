@@ -9,11 +9,12 @@ import canUserEdit from '../utils/canUserEdit'
 import LoadingIcon from './LoadingIcon'
 
 
-const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, currUser}) => {
-  console.log(teams)
+const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, currUser, notFoundRedirected}) => {
+  console.log(notFoundRedirected)
 
   let headerContents = {
-    title: "Teams"
+    title: notFoundRedirected ? "Team at Path /" + notFoundRedirected + " Not Found" : "Teams",
+    description: notFoundRedirected ? "Browse Other Teams Below:" : null
   }
 
   return (
@@ -58,7 +59,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     teams: state.teamList,
     editingMode: canEdit,
-    currUser: state.currUser
+    currUser: state.currUser,
+    notFoundRedirected: ownProps.history.location.search === "" ? null : ownProps.history.location.search.replace("?not_found=", "")
   }
 }
 

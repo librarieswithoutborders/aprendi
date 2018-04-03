@@ -110,10 +110,11 @@ class TeamHomePageContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     console.log(this.props)
-    const {history} = this.props;
+    const {history, match} = this.props;
+    const {teamPath} = match.params
 
     if (nextProps.teamInfo === "Not Found") {
-      history.push("/teams/")
+      history.push("/teams/?not_found=" + teamPath)
     }
 
     // team path edited

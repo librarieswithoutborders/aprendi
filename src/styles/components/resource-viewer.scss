@@ -26,18 +26,24 @@
 
     &__content {
       position: relative;
-      padding: 14px 7px;
+      margin: 0px 30px;
+      height: 50px;
+      overflow-x: hidden;
       text-align: center;
     }
 
     &__text {
-      position: relative;
+      position: absolute;
       font-size: 16px;
       display: inline-block;
-      padding-right: 20px;
+      // padding-right: 20px;
       vertical-align: middle;
       color: colors(black);
       font-weight: bold;
+      width: 100%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
+      transition: all 700ms linear;
     }
 
     &__button-container {
@@ -96,6 +102,47 @@
         .prev & {
           transform: rotate(180deg);
         }
+      }
+    }
+  }
+
+  &__footer {
+    background-color: colors(white);
+    box-shadow: 0 -5px 20px -10px colors(grey);
+    z-index: 2;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    // transform: translateX(-1px);
+    // width: calc(100% - 48px);
+
+    &__content {
+      padding: 7px 0px;
+    }
+
+    &__button-container {
+      // position: relative;
+      text-align: center;
+      width: 100%;
+      // top: 50%;
+      // transform: translateY(-50%);
+    }
+
+    &__button {
+      color: colors(blue);
+      display: inline-block;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0px 3%;
+      transition: color 100ms ease-in-out;
+      border-right: 1px solid colors(grey);
+
+      &:last-child {
+        border: none;
+      }
+
+      &:hover {
+        color: colors(black);
       }
     }
   }
