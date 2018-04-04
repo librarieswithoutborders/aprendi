@@ -43,10 +43,10 @@ class ResourceCreator extends Component {
     const {setResourceType, showExisting, currTeam, parent, sharedResourceList} = this.props
     const {activeTab} = this.state
 
-    let currResourceList = currTeam.resources
+    let currResourceList = currTeam ? currTeam.resources : []
 
     if (sharedResourceList) {
-      let dedupedSharedList = sharedResourceList.filter(d => !d.team || d.team._id !== currTeam._id )
+      let dedupedSharedList = currTeam ? sharedResourceList.filter(d => !d.team || d.team._id !== currTeam._id ) : sharedResourceList
       currResourceList = [...currResourceList, ...dedupedSharedList]
     }
 

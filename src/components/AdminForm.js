@@ -176,10 +176,12 @@ const mapStateToProps = (state, ownProps) => {
       checkLocallyUniqueList = adminModalContent.parent.parentData.subcollections
     }
   } else if (type === "resource") {
-    checkLocallyUniqueList = currTeam && currTeam.resources ? currTeam.resources : null
+    checkLocallyUniqueList = currTeam && currTeam.resources ? currTeam.resources : []
     checkLocallyUniqueList = sharedResourceList ? [...sharedResourceList, ...checkLocallyUniqueList] : checkLocallyUniqueList
     checkGloballyUniqueList = resourceList
   }
+
+  console.log("got to here!")
 
   // in order to ensure that the check unique list does not contain the element itself
   if (data) {

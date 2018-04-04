@@ -8,11 +8,23 @@
   z-index: 40;
   border-radius: 7px;
   border: 2px solid colors(white);
+  overflow: hidden;
+
 
   &__content {
     height: 90vh;
+    transition: all 4s ease-in-out 2s;
     overflow: scroll;
     margin: 0px;
+
+    // .invisible & {
+    //   max-height: 0px;
+    //   overflow: hidden;
+    // }
+    //
+    // .visible & {
+    //   max-height: none;
+    // }
   }
 
   &__header {

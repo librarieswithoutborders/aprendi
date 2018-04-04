@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Search from './Search'
+import LoadingIcon from './LoadingIcon'
 
 const CoreAdminPortal = ({teams, createTeam, deleteTeam, history, createResource, showResourceViewer}) => {
   console.log(teams)
@@ -66,7 +67,7 @@ class CoreAdminPortalContainer extends React.Component {
     if (teams) {
       return <CoreAdminPortal {...this.props} />
     } else {
-      return <h5>Loading Teams</h5>
+      return <LoadingIcon />
     }
 
   }

@@ -117,8 +117,10 @@ function currTeam(state = null, action) {
       if (action.status === "SUCCESS") {
         let newState = {}
         Object.assign(newState, state)
-        newState.resources.push(action.data)
-        return newState
+        if (state && state.resources) {
+          newState.resources.push(action.data)
+          return newState
+        }
       }
     case "UPDATE_RESOURCE":
       if (action.status === "SUCCESS") {

@@ -10,6 +10,7 @@ export function sendUserInfoRequest() {
       .then(user => {
         console.log("getCurrUser result", user)
         if (user) {
+          dataLayer.push({'userId': user._id})
           dispatch(setUserInfo({userInfo: user}))
           dispatch(fetchUserPermissions(user))
         } else {

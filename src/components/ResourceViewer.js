@@ -14,6 +14,20 @@ class ResourceViewer extends Component {
     super(props)
 
     this.numResources = props.resourceList.length
+
+    // this.state = {
+    //   transitionState: "invisible"
+    // }
+  }
+  componentDidMount() {
+    // this.setState({
+    //   transitionState: "visible"
+    // })
+
+  }
+
+  show() {
+
   }
 
   render() {
