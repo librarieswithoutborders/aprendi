@@ -132,9 +132,13 @@ class Search extends Component {
 	    return (
 	      <div className={extendedView && extendedView._id === item._id ? "search__results-list__item extended" : "search__results-list__item"}>
 					<div className="search__results-list__item__listing">
-						<SvgIcon name="user" />
-		        <h5 className="search__results-list__item__title">{item.name}</h5>
-						<h5 className="search__results-list__item__subheading">{item.email}</h5>
+						<div className="search__results-list__item__listing__left">
+							<SvgIcon name="user" />
+						</div>
+						<div className="search__results-list__item__listing__right">
+			        <h5 className="search__results-list__item__title">{item.name}</h5>
+							<h5 className="search__results-list__item__subheading">{item.email}</h5>
+						</div>
 					</div>
 					<div className="search__results-list__item__extended-view">
 						{extendedView && extendedView._id === item._id &&
@@ -163,9 +167,13 @@ class Search extends Component {
 			return (
 	      <div className="search__results-list__item">
 					<div className="search__results-list__item__listing">
-						<SvgIcon name="team" />
-		        <h5 className="search__results-list__item__title">{item.team_name}</h5>
-						<h5 className="search__results-list__item__subheading">{item.users && item.users.length + " Members"}</h5>
+						<div className="search__results-list__item__listing__left">
+							<SvgIcon name="team" />
+						</div>
+						<div className="search__results-list__item__listing__right">
+			        <h5 className="search__results-list__item__title">{item.team_name}</h5>
+							<h5 className="search__results-list__item__subheading">{item.users && item.users.length + " Members"}</h5>
+						</div>
 					</div>
 				</div>
     	)
@@ -173,10 +181,14 @@ class Search extends Component {
 			return (
 	      <div className="search__results-list__item">
 					<div className="search__results-list__item__listing">
-						<SvgIcon name="folder" />
-		        <h5 className="search__results-list__item__title">{item.title}</h5>
-						<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
-						<h5 className="search__results-list__item__subheading right">{"/" + item.path}</h5>
+						<div className="search__results-list__item__listing__left">
+							<SvgIcon name="folder" />
+						</div>
+						<div className="search__results-list__item__listing__right">
+			        <h5 className="search__results-list__item__title">{item.title}</h5>
+							<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
+							<h5 className="search__results-list__item__subheading right">{"/" + item.path}</h5>
+						</div>
 					</div>
 				</div>
     	)
@@ -192,11 +204,15 @@ class Search extends Component {
 			return (
 	      <div className="search__results-list__item">
 					<div className="search__results-list__item__listing">
-						<SvgIcon name={iconName} />
-		        <h5 className="search__results-list__item__title">{item.title}</h5>
-						{showAll && item.team && item.team.team_name &&
-							<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
-						}
+						<div className="search__results-list__item__listing__left">
+							<SvgIcon name={iconName} />
+						</div>
+						<div className="search__results-list__item__listing__left">
+			        <h5 className="search__results-list__item__title">{item.title}</h5>
+							{showAll && item.team && item.team.team_name &&
+								<h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
+							}
+						</div>
 					</div>
 				</div>
     	)
@@ -231,7 +247,7 @@ class SearchContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	console.log(ownProps)
-	const {type} = ownProps
+	const {type, itemList} = ownProps
 
 	if (type === 'user') {
 		return {
@@ -251,7 +267,7 @@ const mapStateToProps = (state, ownProps) => {
 	} else {
 		return {
 			parent: null,
-	    data: state.resourceList
+	    data: itemList ? itemList : state.resourceList
 	  }
 	}
 }

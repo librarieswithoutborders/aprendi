@@ -13,7 +13,7 @@ const rowHeight = {
   collection: 200,
   subcollection: 200,
   resource: 280,
-  user: 270,
+  user: 250,
   team: 260,
 }
 

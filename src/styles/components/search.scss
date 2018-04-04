@@ -1,7 +1,12 @@
 .search {
   input {
-    width: 33%;
+    width: 100%;
     margin-bottom: 15px;
+    box-sizing: border-box;
+
+    @include medium {
+      width: 50%;
+    }
   }
 
   .react-autosuggest__suggestions-container {
@@ -20,6 +25,14 @@
 
       &:hover {
         background-color: colors(blue-20);
+      }
+
+      &__listing {
+        display: table;
+        &__left, &__right {
+          display: table-cell;
+          vertical-align: middle;
+        }
       }
 
       &__title, &__subheading {

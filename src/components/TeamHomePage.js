@@ -9,7 +9,7 @@ import {removeUserFromTeam} from '../actions/user'
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Grid from './Grid'
-import ResourceExistingSearch from './ResourceExistingSearch'
+import Search from './Search'
 import LoadingIcon from './LoadingIcon'
 import canUserEdit from '../utils/canUserEdit'
 
@@ -50,8 +50,9 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
           {editingMode && <div className=" team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
           {teamInfo.resources && teamInfo.resources.length > 0 &&
             <div className="team-home-page__resource-search" >
-              <ResourceExistingSearch
-                resources={teamInfo.resources}
+              <Search
+                type="resource"
+                itemList={teamInfo.resources}
                 onSelect={resource => showResourceViewer(resource)}/>
             </div>
           }
