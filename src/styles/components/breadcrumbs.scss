@@ -26,11 +26,11 @@ $breadcrumbs-height: 45px;
 
     &__contents {
       display: table;
-    }
 
-    &__link, &__arrow {
-      display: table-cell;
-      vertical-align: middle;
+      &__left, &__right {
+        display: table-cell;
+        vertical-align: middle;
+      }
     }
 
     &__link {
@@ -51,6 +51,7 @@ $breadcrumbs-height: 45px;
     &__text {
       font-style: bold;
       color: colors(black);
+      text-align: center;
     }
   }
 

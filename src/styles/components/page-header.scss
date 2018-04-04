@@ -173,29 +173,38 @@ $created-by-width: 200px;
       }
 
       &__elem {
-        display: inline-block;
+        display: block;
+        padding: 0px;
 
-        &:first-child {
-          padding-right: 15px;
-          border-right: 1px solid colors(grey);
-          margin-right: 15px;
-
-          @include medium {
-            border-right: none;
-
-            padding-right: 0px;
-            margin-right: 0px;
-            padding-bottom: 7px;
-
-          }
+        @include small {
+          display: inline-block;
         }
 
         @include medium {
           display: block;
           padding: 0px;
-
         }
 
+        &:first-child {
+          border-right: none;
+          padding-right: 0px;
+          margin-right: 0px;
+          padding-bottom: 7px;
+
+          @include small {
+            padding-right: 15px;
+            border-right: 1px solid colors(grey);
+            margin-right: 15px;
+            padding-bottom: 0px;
+          }
+
+          @include medium {
+            border-right: none;
+            padding-right: 0px;
+            margin-right: 0px;
+            padding-bottom: 7px;
+          }
+        }
       }
 
       &__sub {

@@ -25,10 +25,14 @@ const Breadcrumbs = ({data}) => {
             return (
               <div className="breadcrumbs__list-item" key={i} >
                 <div className="breadcrumbs__list-item__contents">
-                  <Link className="breadcrumbs__list-item__link" to={linkPrefix + d.path}>
-                    <span className="breadcrumbs__list-item__text">{d.title}</span>
-                  </Link>
-                  <SvgIcon className="breadcrumbs__list-item__arrow" name="arrow" />
+                  <div className="breadcrumbs__list-item__contents__left">
+                    <Link className="breadcrumbs__list-item__link" to={linkPrefix + d.path}>
+                      <span className="breadcrumbs__list-item__text">{d.title}</span>
+                    </Link>
+                  </div>
+                  <div className="breadcrumbs__list-item__contents__right">
+                    <SvgIcon className="breadcrumbs__list-item__arrow" name="arrow" />
+                  </div>
                 </div>
               </div>
             )
