@@ -1,5 +1,6 @@
 import decode from 'jwt-decode';
 import auth0 from 'auth0-js';
+import {sendUserInfoRequest} from '../actions/user'
 const ID_TOKEN_KEY = 'id_token';
 const ACCESS_TOKEN_KEY = 'access_token';
 
@@ -8,6 +9,8 @@ const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN;
 // const CLIENT_DOMAIN = 'librarieswithoutborders.auth0.com'
 const REDIRECT = process.env.CALLBACK_URL;
 const AUDIENCE = process.env.API_AUDIENCE;
+
+
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
@@ -21,6 +24,9 @@ export function login() {
     audience: AUDIENCE,
     scope: 'openid profile email read:users user_id id',
     connection: 'google-oauth2'
+  },
+  () => {
+    window.location.reload()
   });
 }
 
