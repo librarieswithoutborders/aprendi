@@ -71,12 +71,15 @@ export function getParameterByName(name) {
 
 // Get and store access_token in local storage
 export function setAccessToken() {
+  console.log("setting access token")
   let accessToken = getParameterByName('access_token');
   window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
 // Get and store id_token in local storage
 export function setIdToken() {
+  console.log("setting id token")
+
   let idToken = getParameterByName('id_token');
   window.localStorage.setItem(ID_TOKEN_KEY, idToken);
 }

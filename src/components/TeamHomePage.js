@@ -102,10 +102,6 @@ class TeamHomePageContainer extends React.Component {
     if (!teamInfo || teamInfo.path !== teamPath) {
       fetchTeam(teamPath);
     }
-
-    if (currCollection) {
-      resetCurrCollection()
-    }
   }
 
   componentWillReceiveProps(nextProps) {

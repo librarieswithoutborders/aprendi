@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchCollection } from '../actions/collection'
+import { fetchCollection, resetCurrCollection } from '../actions/collection'
 import { connect } from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
 import LoadingIcon from './LoadingIcon'
@@ -14,6 +14,11 @@ class CollectionDataContainer extends Component {
     if (!currCollection || typeof currCollection != 'object') {
       fetchCollection(collectionPath)
     }
+  }
+
+  componentWillUnmount() {
+    console.log("UNMOUNTING!!!")
+    this.props.resetCurrCollection()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,6 +71,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCollection: (id) => {
       dispatch(fetchCollection(id))
+    },
+    resetCurrCollection: () => {
+      dispatch(resetCurrCollection())
     },
     showAdminModal: (props) => {
       dispatch(showAdminModal(props))
