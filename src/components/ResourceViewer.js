@@ -8,32 +8,22 @@ import { connect } from 'react-redux'
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
 import canUserEdit from '../utils/canUserEdit'
+const $ = require('jquery')
 
 class ResourceViewer extends Component {
   constructor(props) {
     super(props)
 
     this.numResources = props.resourceList.length
-
-    // this.state = {
-    //   transitionState: "invisible"
-    // }
-  }
-  componentDidMount() {
-    // this.setState({
-    //   transitionState: "visible"
-    // })
-
-  }
-
-  show() {
-
   }
 
   render() {
     const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode} = this.props
 
     let content = resourceList[currIndex]
+    let headerHeight = 36;
+
+    console.log(parent)
 
     let nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
@@ -46,6 +36,11 @@ class ResourceViewer extends Component {
       updateResource: editingMode ? (data) => updateResource(data) : null
     }
 
+    if (this.refs.currText) {
+      console.log(this.refs.currText.clientHeight)
+      headerHeight = (this.refs.currText.clientHeight + 15)
+    }
+
     return (
       <div className="resource-viewer">
         <div className="resource-viewer__header">
@@ -56,12 +51,12 @@ class ResourceViewer extends Component {
               </div>
             </div>
           }
-          <div className="resource-viewer__header__content">
+          <div className="resource-viewer__header__content" style={{"height": headerHeight}}>
             {resourceList.map((d, i) => {
               const leftOffset = ((2*(i - currIndex) + 1) * 50) + "%"
               console.log(i, leftOffset)
               return (
-                <h1 key={i} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
+                <h1 key={i} ref={i === currIndex ? "currText" : null} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
               )
             })}
           </div>
@@ -73,7 +68,7 @@ class ResourceViewer extends Component {
             </div>
           }
         </div>
-        <div className="resource-viewer__content">
+        <div className="resource-viewer__content" style={{"transform": "translateY(" + headerHeight + "px)"}} >
           <Resource content={content} />
         </div>
         {editingMode &&

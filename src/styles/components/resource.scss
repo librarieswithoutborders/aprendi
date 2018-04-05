@@ -35,7 +35,7 @@
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
-    padding: 50px $standard-padding 50px;
+    padding: $standard-padding $standard-padding 50px;
 
     .ReactPDF {
       &__Document {
@@ -50,6 +50,10 @@
         //   max-width: 100% !important;
         //   overflow-x: hidden;
         // }
+
+        &:first-child {
+          padding-top: 0px;
+        }
 
         &__canvas {
           margin: auto;

@@ -39,10 +39,18 @@ class GridItem extends React.Component {
     const {type} = this.props
     if (this.data.image_url) {
       let styleObject = {}
-      console.log(this.data.image_url.replace('/images/', '/thumbnail-images/'))
-      styleObject.backgroundImage = 'url("' + this.data.image_url.replace('/images/', '/thumbnail-images/') + '")'
+      let imageUrl;
 
-      return <div className="grid__item__image" style={styleObject} ></div>
+      // temporary conditional while issue of pdf thumbnail creation persists
+      if (type === "resource" && this.data.resource_type === "pdf") {
+        imageUrl = this.data.image_url
+      } else {
+        imageUrl = this.data.image_url.replace('/images/', '/thumbnail-images/')
+      }
+
+      styleObject.backgroundImage = 'url("' + imageUrl + '")'
+
+      return <div className="grid__item__image" style={styleObject} onError={(d) => { console.log("LOADED", d); }}></div>
     } else {
       return  <div className="grid__item__image"><SvgIcon name={typeToIconMapping(type, this.data)} /></div>
     }

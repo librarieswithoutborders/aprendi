@@ -43,7 +43,7 @@ class Collection extends Component {
     data.resources.forEach((d, i) => {
       if (d.path === hash) {
         hashFound = true
-        setResourceViewerContent({parentType: type, parentId: data._id}, data.resources, i)
+        setResourceViewerContent({parentType: type, parentId: data._id, parentTitle: data.title}, data.resources, i)
         return
       }
     })
@@ -65,9 +65,24 @@ class Collection extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("IN SHOULD COMPONENT UPDATE")
+    for(let key in nextProps) {
+      console.log(key)
+      console.log(nextProps[key], this.props[key])
+      console.log(nextProps[key] === this.props[key])
+      console.log("-----------")
+    }
+    return true
+  }
+
   render() {
     const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
+
+    console.log("RENDERING")
+    console.log(this.props)
+    console.log(this.state)
 
     const headerContents = {
       title: data.title,
@@ -98,7 +113,7 @@ class Collection extends Component {
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
                   isDraggable={true}
                   editingMode={editingMode}
-                  createNewText="Create New Collection"
+                  createNewText="Create New Subcollection"
                 />
               </div>
             </div>

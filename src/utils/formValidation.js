@@ -1,4 +1,6 @@
 const validUrl = require('valid-url');
+const $ = require('jquery')
+
 // import {isCollectionPathTaken} from '../actions/collection'
 
 export const maxLength = (maxLen) => {
@@ -36,6 +38,23 @@ export const isValidUrl = (input) => {
   console.log("checking", testInput)
 
   return validUrl.isWebUri(testInput) ? null : "Please Enter a Valid Url"
+}
+
+export const isValidEmbed = (input) => {
+  // return new Promise(resolve, reject) {
+  //   let retVal = isValidUrl(input)
+  //   console.log(retVal)
+  //   // url returned an error message
+  //   if (retVal) {
+  //     resolve(retVal)
+  //   } else {
+  //     $.get("//" + input).done(function () {
+  //       resolve(null)
+  //     }).fail(function () {
+  //       resolve("Url does not allow embedding")
+  //     })
+  //   }
+  // }
 }
 
 // export const isPathTaken = (path) => {

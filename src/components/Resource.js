@@ -99,7 +99,6 @@ const renderWebsite = ({resource_url, image_url}) => {
 }
 
 const renderEmbed = ({resource_url}) => {
-
   return <ResponsiveEmbed src={resource_url} allowfullscreen />
 }
 

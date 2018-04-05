@@ -17,7 +17,7 @@
 
   &__content {
     height: 100vh;
-    transition: all 4s ease-in-out 2s;
+    // transition: all 4s ease-in-out 2s;
     overflow: scroll;
     margin: 0px;
 
@@ -47,9 +47,11 @@
     &__content {
       position: relative;
       margin: 0px 30px;
-      height: 50px;
+      background-color: colors(white);
+      z-index: 3;
       overflow-x: hidden;
       text-align: center;
+      transition: all 500ms ease-in-out;
     }
 
     &__text {
@@ -100,14 +102,14 @@
     }
 
     &.prev {
-      left: 10px;
+      left: 7px;
       // border-right: 2px solid colors(offwhite);
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
     }
 
     &.next {
-      right: 10px;
+      right: 7px;
       // border-left: 2px solid colors(offwhite);
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
