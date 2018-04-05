@@ -38,23 +38,23 @@ export function requireAuth(nextState, replace) {
 }
 
 export function getIdToken() {
-  if (localStorage && localStorage.getItem(ID_TOKEN_KEY)) {
-    return localStorage.getItem(ID_TOKEN_KEY);
+  if (window.localStorage && window.localStorage.getItem(ID_TOKEN_KEY)) {
+    return window.localStorage.getItem(ID_TOKEN_KEY);
   } else {
     return null;
   }
 }
 
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
+  return window.localStorage.getItem(ACCESS_TOKEN_KEY);
 }
 
 function clearIdToken() {
-  localStorage.removeItem(ID_TOKEN_KEY);
+  window.localStorage.removeItem(ID_TOKEN_KEY);
 }
 
 function clearAccessToken() {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  window.localStorage.removeItem(ACCESS_TOKEN_KEY);
 }
 
 // Helper function that will allow us to extract the access_token and id_token
@@ -66,13 +66,13 @@ export function getParameterByName(name) {
 // Get and store access_token in local storage
 export function setAccessToken() {
   let accessToken = getParameterByName('access_token');
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
 // Get and store id_token in local storage
 export function setIdToken() {
   let idToken = getParameterByName('id_token');
-  localStorage.setItem(ID_TOKEN_KEY, idToken);
+  window.localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
 
 export function isLoggedIn() {
@@ -118,7 +118,7 @@ export async function getCurrUser() {
   return new Promise((resolve, reject) => {
     if (!isLoggedIn()) { resolve(null) }
 
-    let accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+    let accessToken = window.localStorage.getItem(ACCESS_TOKEN_KEY)
     console.log(accessToken)
     auth.client.userInfo(accessToken, function(err, user) {
       console.log(err)

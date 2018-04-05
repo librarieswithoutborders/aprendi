@@ -59,6 +59,10 @@ $border-radius: 5px;
         height: grid-item-height(team)/2;
       }
 
+      .item-type-user & {
+        height: grid-item-height(team)/2;
+      }
+
       .icon {
         height: 100px;
         top: 50%;
@@ -119,6 +123,10 @@ $border-radius: 5px;
         height: grid-item-height(team)/2;
       }
 
+      .item-type-user & {
+        height: grid-item-height(team)/2;
+      }
+
     }
 
     &__text {
@@ -133,6 +141,7 @@ $border-radius: 5px;
         font-size: 16px;
         line-height: 1.4;
         z-index: 20;
+        @include handleLongText();
 
         .item-type-collection & {
           color: colors(white);
@@ -154,6 +163,7 @@ $border-radius: 5px;
         padding: 0px 10px;
         font-size: 15px;
         padding-bottom: 10px;
+        @include handleLongText();
 
         .item-type-collection & {
           color: colors(blue-20);

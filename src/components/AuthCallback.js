@@ -15,7 +15,6 @@ class AuthCallback extends React.Component {
   componentWillMount() {
     console.log("component mounted")
     console.log(localStorage)
-    console.log(window.opener)
     setAccessToken();
     setIdToken();
 
@@ -30,6 +29,7 @@ class AuthCallback extends React.Component {
   }
 
   render() {
+    console.log()
     return (
       <div>
         <h5>Access Token Callback Results</h5>
@@ -83,37 +83,6 @@ class AuthCallback extends React.Component {
               <p>Window Indexed Local Storage on this device contains:</p>
               <p>{"access_token: " + window.localStorage.access_token}</p>
               <p>{"id_token: " + window.localStorage.id_token}</p>
-            </div>
-          )
-        }
-        <br />
-        <br />
-        <h5>Window Location Results</h5>
-        {(!window || !window.opener) &&
-          (
-            <div>
-              <p>No Window Opener Access found on this device</p>
-            </div>
-          )
-        }
-        {(window && window.opener) &&
-          (
-            <div>
-              <p>Window Opener was found</p>
-            </div>
-          )
-        }
-        {(window && window.opener && window.opener.location) &&
-          (
-            <div>
-              <p>Window Opener Location was found</p>
-            </div>
-          )
-        }
-        {(window && window.opener && window.opener.location && window.opener.location.reload) &&
-          (
-            <div>
-              <p>Window Opener Location Reload Function was found</p>
             </div>
           )
         }
