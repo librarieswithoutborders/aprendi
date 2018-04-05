@@ -74,16 +74,21 @@ class UserHomePageContainer extends React.Component {
 
     console.log(this.props)
 
-    if (user && user != "fetching") {
-      return (
-        <UserHomePage {...this.props} />
-      );
-    } else {
-      return (
-        <LoadingIcon />
-      );
+    if (user) {
+      if (user === "Logged out") {
+        return (
+          <HomePage />
+        )
+      } else if (user != "fetching") {
+        return (
+          <UserHomePage {...this.props} />
+        );
+      }
     }
 
+    return (
+      <LoadingIcon />
+    );
   }
 }
 

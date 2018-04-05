@@ -37,7 +37,7 @@ class TopNav extends Component {
 
     if (currUser === "fetching") {
       return null
-    } else if (currUser) {
+    } else if (currUser && currUser !== "Logged out") {
       return (
         <div className="top-nav">
           <div className="top-nav__contents">
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     clearUserInfo: () => {
-      dispatch(setUserInfo())
+      dispatch(setUserInfo("Logged out"))
     },
   }
 }
