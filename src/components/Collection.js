@@ -103,7 +103,6 @@ class Collection extends Component {
         <div className="collection__contents">
           {(editingMode || (data.subcollections && data.subcollections.length > 0)) &&
             <div className="collection__section">
-              <h5 className="collection__section-title">Subcollections</h5>
               <div className="collection__section-contents">
                 <Grid
                   data={data.subcollections}
@@ -118,9 +117,11 @@ class Collection extends Component {
               </div>
             </div>
           }
+          {(editingMode || (data.subcollections && data.subcollections.length > 0 && data.resources && data.resources.length > 0)) &&
+            <hr className="collection__divider" />
+          }
           {(editingMode || (data.resources && data.resources.length > 0)) &&
             <div className="collection__section">
-              <h5 className="collection__section-title">Resources</h5>
               <div className="collection__section-contents">
                 <Grid
                   data={data.resources}

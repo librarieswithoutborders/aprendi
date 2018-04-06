@@ -34,7 +34,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
               }
 
 
-              {description &&
+              {description && description != "<p><br></p>" &&
                 <div className="page-header__description" dangerouslySetInnerHTML={{'__html': description}} />
               }
             </div>

@@ -14,7 +14,7 @@ class AuthCallback extends React.Component {
   componentWillMount() {
     setAccessToken()
     setIdToken()
-    // window.close()
+    window.close()
   }
 
   render() {

@@ -8,14 +8,14 @@
   }
 
   &__divider {
-    margin: 0px 30px;
+    margin: 0px 20px;
     border: 0;
-    border-top: 1px solid rgba(0,0,0,.2);
+    border-top: 1px solid colors(blue-50);
   }
 
   &__section-contents {
     position: relative;
-    padding: $standard-padding 0px;
+    padding: 0px;
   }
 
   &__section-title {
