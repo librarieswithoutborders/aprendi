@@ -145,6 +145,17 @@ $created-by-width: 200px;
     max-width: $max-text-width;
     // border: 1px solid colors(white);
     // padding: 15px;
+
+    a {
+      &:hover {
+        color: colors(blue) !important;
+      }
+
+      .with-image & {
+        color: colors(white);
+        text-decoration: underline;
+      }
+    }
     &__contents {
       margin: 0px;
     }

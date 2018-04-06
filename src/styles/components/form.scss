@@ -76,7 +76,7 @@
 
       .EditorToolbar__root___3_Aqz {
         max-height: 0px;
-        overflow-y: hidden;
+        // overflow-y: hidden;
         padding: 0px;
         margin: 0px;
         border: none;
@@ -109,6 +109,14 @@
         // border-right: 1px solid colors(blue-20);
       }
 
+      .Button__root___1gz0c {
+        border: none !important;
+      }
+
+      .ButtonWrap__root___1EO_R {
+        position: static;
+      }
+
       .IconButton__root___3tqZW {
         border-left: none;
         border-right: 1px solid colors(light-grey);
@@ -128,10 +136,28 @@
 
       .InputPopover__root___3Hpj9 {
         border: none;
+        background: none;
+        background-color: colors(blue-20);
+        z-index: 20;
+        width: 100%;
+        top: 100%;
       }
 
       .InputPopover__input___264Za {
         border: none;
+        margin: 0px 60px 0px 0px !important;
+        display: inline-block;
+      }
+
+      .InputPopover__root___3Hpj9:after, .InputPopover__root___3Hpj9:before {
+        display: none;
+      }
+
+      .RichTextEditor__block___2Vs_D {
+        a, a > * {
+          color: colors(blue);
+          text-decoration: underline;
+        }
       }
 
     }
