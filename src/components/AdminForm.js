@@ -85,11 +85,12 @@ class AdminForm extends Component {
 
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
         values.image_url = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d
-        this.props.submit(processFormData(values, action))
+        processFormData(values, action).then(result => {console.log(result); this.props.submit(result)})
+
       })
 
     } else {
-      this.props.submit(processFormData(values, action))
+      processFormData(values, action).then(result => {console.log(result); this.props.submit(result)})
     }
   }
 

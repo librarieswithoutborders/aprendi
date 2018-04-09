@@ -30,7 +30,7 @@ class AdminModal extends Component {
 
     console.log(values, this.props)
 
-    this.props.submit(processFormData(values, action, resourceType))
+    processFormData(values, action, resourceType).then(result => this.props.submit(result))
   }
 
   submitFormFailure(err) {
@@ -134,8 +134,9 @@ class AdminModalContainer extends Component {
           update: data => updateSubcollection({data})
         }
       case "resource":
+
         return {
-          create: data => createResource({data, parent, team}),
+          create: data => {console.log("CREATING RESOURCE", data); return createResource({data, parent, team})},
           update: data => updateResource({data})
         }
       case "user":

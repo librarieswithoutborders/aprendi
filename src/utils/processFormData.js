@@ -1,5 +1,7 @@
 import convertToUrlPath from "./convertToUrlPath"
 
+const $ = require('jquery')
+
 const youtubeGetId = (url) => {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   var match = url.match(regExp);
@@ -36,35 +38,81 @@ const processVideoUrl = (url) => {
   }
 }
 
+function promisedResult(id) {
+  console.log("in promise")
+  return new Promise((resolve, reject) => {
+    console.log("really in the promise")
+    $.get("http://vimeo.com/api/v2/video/" + id + ".json?callback=showThumb", (results, err) => {
+      console.log(results)
+      console.log("-----")
+      console.log(results.substring(15, results.length - 2))
+      console.log("-----")
+      console.log(JSON.parse(results.substring(15, results.length - 2)))
+
+      resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
+    })
+  })
+}
+
+const getVimeoScreenshot = (id) =>  {
+  console.log("getting vimeo screenshot")
+
+  return new Promise((resolve, reject) => {
+    $.get("http://vimeo.com/api/v2/video/" + id + ".json?callback=showThumb", (results, err) => {
+      console.log(results)
+      console.log("-----")
+      console.log(results.substring(15, results.length - 2))
+      console.log("-----")
+      console.log(JSON.parse(results.substring(15, results.length - 2)))
+
+      resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
+    })
+  })
+
+}
+
 
 const processFormData = (data, action) => {
-  console.log("processing form data")
-  console.log(data)
-  let retObject = {}
-  Object.assign(retObject, data)
+  return new Promise(resolve => {
+    console.log("processing form data")
+    console.log(data)
+    let retObject = {}
+    Object.assign(retObject, data)
 
-  // if (resourceTypeOverride) {
-  //   retObject.resource_type = resourceTypeOverride
-  // }
+    // if (resourceTypeOverride) {
+    //   retObject.resource_type = resourceTypeOverride
+    // }
 
-  // if (action === "create" && !retObject.path) {
-  //   retObject.path = convertToUrlPath(data.title || data.team_name)
-  // }
+    // if (action === "create" && !retObject.path) {
+    //   retObject.path = convertToUrlPath(data.title || data.team_name)
+    // }
+    switch(retObject.resource_type) {
+      case "video":
+        let results = processVideoUrl(data.resource_url)
+        retObject.video_provider = results.video_provider
+        retObject.resource_url = results.resource_url
 
-  if (retObject.resource_type === "video") {
-    let results = processVideoUrl(data.resource_url)
-    retObject.video_provider = results.video_provider
-    retObject.resource_url = results.resource_url
-    retObject.image_url = results.video_provider === "youtube" ? "https://img.youtube.com/vi/" + results.resource_id + "/0.jpg" : null
-  }
+        if (results.video_provider === "youtube") {
+          retObject.image_url = "https://img.youtube.com/vi/" + results.resource_id + "/0.jpg"
+          resolve(retObject)
+        } else {
+          getVimeoScreenshot(results.resource_id).then(url => {
+            retObject.image_url = url
+            resolve(retObject)
+          })
+        }
+        return;
 
-  if (retObject.resource_type === "pdf") {
-    retObject.image_url = retObject.resource_url.replace("/pdf/", "/images/").replace(".pdf", ".png")
-  }
+      case "pdf":
+        retObject.image_url = retObject.resource_url.replace("/pdf/", "/images/").replace(".pdf", ".png")
+        resolve(retObject)
+        return
 
-  console.log(retObject)
-
-  return retObject
+      default:
+        resolve(retObject)
+        return
+    }
+  })
 }
 
 export default processFormData

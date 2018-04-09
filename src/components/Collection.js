@@ -66,12 +66,12 @@ class Collection extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log("IN SHOULD COMPONENT UPDATE")
+    // console.log("IN SHOULD COMPONENT UPDATE")
     for(let key in nextProps) {
-      console.log(key)
-      console.log(nextProps[key], this.props[key])
-      console.log(nextProps[key] === this.props[key])
-      console.log("-----------")
+      // console.log(key)
+      // console.log(nextProps[key], this.props[key])
+      // console.log(nextProps[key] === this.props[key])
+      // console.log("-----------")
     }
     return true
   }
@@ -79,10 +79,10 @@ class Collection extends Component {
   render() {
     const { data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode } = this.props
     const type = breadcrumbs.length > 1 ? "subcollection" : "collection"
-
-    console.log("RENDERING")
-    console.log(this.props)
-    console.log(this.state)
+    //
+    // console.log("RENDERING")
+    // console.log(this.props)
+    // console.log(this.state)
 
     const headerContents = {
       title: data.title,
