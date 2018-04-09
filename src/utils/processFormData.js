@@ -2,7 +2,7 @@ import convertToUrlPath from "./convertToUrlPath"
 
 const $ = require('jquery')
 
-const youtubeGetId = (url) => {
+export const youtubeGetId = (url) => {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   var match = url.match(regExp);
 
@@ -13,7 +13,7 @@ const youtubeGetId = (url) => {
   }
 }
 
-const vimeoGetId = (url) => {
+export const vimeoGetId = (url) => {
   var regExp = /(www\.)?vimeo.com\/(\d+)($|\/)/;
   var match = url.match(regExp);
 

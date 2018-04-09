@@ -58,7 +58,7 @@ class AdminModal extends Component {
   }
 
   setContent() {
-    const {type, data, action, updateStatus, showExisting, submit} = this.props
+    const {type, data, action, showExisting, submit} = this.props
     const {resourceType} = this.state
 
     console.log(type, action, resourceType)
@@ -83,13 +83,12 @@ class AdminModal extends Component {
   }
 
   render() {
-    const {type, data, action, updateStatus} = this.props
+    const {type, data, action} = this.props
     return (
       <div className="admin-modal">
         <div className="admin-modal__header">
           <h1 className="admin-modal__header__text">{this.setTitle()}</h1>
         </div>
-        <div className="admin-modal__status">{updateStatus}</div>
         <div className="admin-modal__contents">
           {this.setContent()}
         </div>
@@ -152,7 +151,7 @@ class AdminModalContainer extends Component {
 
     console.log(submitFunc, action)
 
-    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} updateStatus={this.props.updateStatus} />
+    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} />
   }
 }
 
@@ -160,7 +159,6 @@ const mapStateToProps = (state) => {
   console.log(state)
   return {
     modalProps: state.adminModalContent,
-    // updateStatus: state.updateStatus,
     // isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
   }
 }

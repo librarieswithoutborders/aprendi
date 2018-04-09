@@ -101,10 +101,17 @@
       padding: 25px;
       overflow-x: hidden;
 
+      &__text-link__text {
+        text-decoration: underline;
+        padding-bottom: $standard-padding;
+        display: inline-block;
+      }
+
       &__screenshot {
         display: block;
         width: 100%;
         height: auto;
+        overflow: hidden;
 
         &:hover {
           opacity: .8;

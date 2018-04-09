@@ -50,25 +50,47 @@ class AdminFormField extends Component {
 
     switch(type) {
       case "Text":
-        return <Text field={dbField} id={dbField} validate={validationWrapper} autoComplete="off"/>
-
+        return (
+          <div className="form__field__value">
+            <Text field={dbField} id={dbField} validate={validationWrapper} autoComplete="off"/>
+          </div>
+        )
       case "TextArea":
-        return <TextArea field={dbField} id={dbField} validate={validationWrapper}/>
-
+        return (
+          <div className="form__field__value">
+            <TextArea field={dbField} id={dbField} validate={validationWrapper}/>
+          </div>
+        )
       case "Checkbox":
-        return <Checkbox field={dbField} id={dbField} />
-
+        return (
+          <div className="form__field__value">
+            <Checkbox field={dbField} id={dbField} />
+          </div>
+        )
       case "Image":
-        return <FileUploadField type="image" field={dbField}/>
-
+        return (
+          <div className="form__field__value">
+            <FileUploadField type="image" field={dbField}/>
+          </div>
+        )
       case "PDF":
-        return <FileUploadField type="pdf" field={dbField}/>
-
+        return (
+          <div className="form__field__value">
+            <FileUploadField type="pdf" field={dbField}/>
+          </div>
+        )
       case "RichText":
-        return <RichTextField field={dbField}/>
-
+        return (
+          <div className="form__field__value">
+            <RichTextField field={dbField}/>
+          </div>
+        )
       case "ExternalWebsite":
-        return <ExternalWebsiteField field={dbField} />
+        return (
+          <div className="form__field__value">
+            <ExternalWebsiteField field={dbField} />
+          </div>
+        )
     }
   }
 

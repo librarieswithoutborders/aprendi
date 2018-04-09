@@ -96,7 +96,7 @@ class Grid extends React.Component {
           w: 1,
           h: 1,
           i: d,
-          static: editingMode && createNew && i === fullList.length - 1
+          isDraggable: !(editingMode && createNew && i === fullList.length - 1)
         }
       })
     }

@@ -1,4 +1,4 @@
-import {maxLength, isValidPath, isValidEmail, isValidUrl, isValidEmbed, isPathTaken} from '../utils/formValidation'
+import {maxLength, isValidPath, isValidEmail, isValidUrl, isValidVideoUrl, isValidEmbed, isPathTaken} from '../utils/formValidation'
 
 export const teamFieldSettings = [
   {
@@ -152,7 +152,7 @@ export const resourceFieldSettings = [
     label: "Video Url",
     type: "Text",
     required: true,
-    validate: maxLength(150),
+    validate: isValidVideoUrl,
     helpText: null,
     showOnly: ({resourceType}) => resourceType === "video"
   },

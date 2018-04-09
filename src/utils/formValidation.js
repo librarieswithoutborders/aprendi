@@ -1,6 +1,8 @@
 const validUrl = require('valid-url');
 const $ = require('jquery')
 
+import {youtubeGetId, vimeoGetId} from './processFormData'
+
 // import {isCollectionPathTaken} from '../actions/collection'
 
 export const maxLength = (maxLen) => {
@@ -38,6 +40,18 @@ export const isValidUrl = (input) => {
   console.log("checking", testInput)
 
   return validUrl.isWebUri(testInput) ? null : "Please Enter a Valid Url"
+}
+
+export const isValidVideoUrl = (input) => {
+  let urlInvalid = isValidUrl(input)
+
+  if (urlInvalid) { return urlInvalid}
+
+  console.log(youtubeGetId(input), vimeoGetId(input))
+
+  if (youtubeGetId(input) === "error" && vimeoGetId(input) === "error") {
+    return "Please Enter a Valid Youtube or Vimeo URL"
+  }
 }
 
 export const isValidEmbed = (input) => {
