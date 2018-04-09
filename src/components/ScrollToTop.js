@@ -4,16 +4,12 @@ import { withRouter } from 'react-router'
 
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
-    console.log("UPDATINGG")
-    console.log(this.props.location, prevProps.location)
-    if (this.props.location !== prevProps.location) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
       window.scrollTo(0, 0)
     }
   }
 
   render() {
-    console.log("SCROLLINGGGGG")
-    console.log(this.props)
     return this.props.children
   }
 }

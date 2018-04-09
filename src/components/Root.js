@@ -6,10 +6,9 @@ import TopNav from './TopNav'
 import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
 import ScrollToTop from './ScrollToTop'
+import ContentOverlay from './ContentOverlay'
 import { connect } from 'react-redux'
-import { hideAdminModal } from '../actions/index'
 import { sendUserInfoRequest } from '../actions/user'
-import { hideResourceViewer} from '../actions/resource'
 
 import UpdateStatusBar from './UpdateStatusBar'
 import { isLoggedIn } from '../utils/AuthService';
@@ -30,7 +29,7 @@ class Root extends Component {
         <ScrollToTop>
           <div>
             {adminModalContent && <AdminModal />}
-            {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
+            {showOverlay && <ContentOverlay />}
             {resourceViewerContent && <ResourceViewer />}
             {updateStatus &&
               <UpdateStatusBar statusObject={updateStatus} />
@@ -59,12 +58,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hideAdminModal: () => {
-      dispatch(hideAdminModal())
-    },
-    hideResourceViewer: () => {
-      dispatch(hideResourceViewer())
-    },
     sendUserInfoRequest: () => {
       dispatch(sendUserInfoRequest())
     }

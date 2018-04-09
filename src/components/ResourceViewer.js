@@ -5,6 +5,8 @@ import {subcollectionRemoveResource} from '../actions/subcollection'
 import {setCurrResourceIndex, deleteResource, hideResourceViewer} from '../actions/resource'
 
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
 import canUserEdit from '../utils/canUserEdit'
@@ -18,7 +20,7 @@ class ResourceViewer extends Component {
   }
 
   render() {
-    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode} = this.props
+    const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode, hideResourceViewer} = this.props
 
     let content = resourceList[currIndex]
     let headerHeight = 36;
@@ -44,6 +46,9 @@ class ResourceViewer extends Component {
     return (
       <div className="resource-viewer">
         <div className="resource-viewer__header">
+          <div className="resource-viewer__close" onClick={() => {this.props.history.replace(this.props.location.pathname); hideResourceViewer(); }}>
+            <SvgIcon name="close" />
+          </div>
           {nextPrevFunctions.prev &&
             <div className="resource-viewer__next-prev prev" onClick={nextPrevFunctions.prev}>
               <div className="resource-viewer__next-prev__arrow-container" >
@@ -128,7 +133,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(hideResourceViewer())
       dispatch(showAdminModal({action:"update", type:"resource", data: data}))
     },
+    hideResourceViewer: () => {
+      dispatch(hideResourceViewer())
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceViewer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceViewer))
