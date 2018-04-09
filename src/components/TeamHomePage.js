@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import {showAdminModal} from '../actions/index'
-import {fetchTeam, deleteTeam, updateTeam} from '../actions/team'
+import {fetchTeam, deleteTeam, updateTeam, teamApproveUserRequest} from '../actions/team'
 import {resetCurrCollection} from '../actions/collection'
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
-import {removeUserFromTeam} from '../actions/user'
+import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 
 import { Link } from 'react-router-dom';
 import PageHeader from './PageHeader'
@@ -14,16 +14,47 @@ import LoadingIcon from './LoadingIcon'
 import canUserEdit from '../utils/canUserEdit'
 
 
-const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode}) => {
+const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUser, userJoinTeamRequest}) => {
   let headerContents = {
     title: teamInfo.team_name,
     image_url: teamInfo.image_url,
-    description: teamInfo.description
+    description: teamInfo.description,
   }
+
   return (
     <div className="team-home-page">
-      <PageHeader contents={headerContents} type="team" editingMode={editingMode} editFunc={() => updateTeam(teamInfo)} deleteFunc={() => deleteTeam(teamInfo)}/>
+      <PageHeader
+        contents={headerContents}
+        type="team"
+        editingMode={editingMode}
+        editFunc={() => updateTeam(teamInfo)}
+        deleteFunc={() => deleteTeam(teamInfo)}
+        joinFunc={currUser && currUser.permissions && !editingMode ? () => userJoinTeamRequest(currUser.permissions, teamInfo) : null}/>
+
       <div className="team-home-page__contents">
+        {editingMode && teamInfo.pending_users && teamInfo.pending_users.length > 0 &&
+          <div className="team-home-page__section">
+            <h5 className="team-home-page__section-title">Pending User Requests</h5>
+            {teamInfo.pending_users &&
+              <Grid
+                data={teamInfo.pending_users.sort((a, b) => {
+                  if(a.name < b.name) return -1;
+                  if(a.name > b.name) return 1;
+                  return 0;
+                })}
+                type="user"
+                buttonClickHandler={{
+                  func: (user) => approveUserRequest(user, teamInfo),
+                  text: "Approve User Join Request",
+                  onlyAllowCurrUser: false
+                }}
+                isDraggable={false}
+                editingMode={editingMode}
+                createNewText="Add User to Team"
+              />
+            }
+          </div>
+        }
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Collections</h5>
           {teamInfo.collections &&
@@ -47,9 +78,9 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         </div>
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Resources</h5>
-          {editingMode && <div className=" team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
+          {editingMode && <div className="team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
           {teamInfo.resources && teamInfo.resources.length > 0 &&
-            <div className="team-home-page__resource-search" >
+            <div className="team-home-page__search" >
               <Search
                 type="resource"
                 itemList={teamInfo.resources}
@@ -72,7 +103,11 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
                 })}
                 type="user"
                 createNew={() => addUserToTeam(teamInfo)}
-                buttonClickHandler={(user) => removeUserFromTeam(user, teamInfo)}
+                buttonClickHandler={{
+                  func: (user) => removeUserFromTeam(user, teamInfo),
+                  text: isCoreAdmin ? "Remove User From Team" : "Leave this Team",
+                  onlyAllowCurrUser: true
+                }}
                 isDraggable={false}
                 editingMode={editingMode}
                 createNewText="Add User to Team"
@@ -140,11 +175,13 @@ class TeamHomePageContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
+  let editingMode = canUserEdit(state.currUser, state.currTeam, "team")
   return {
     teamInfo: state.currTeam,
-    editingMode: canUserEdit(state.currUser, state.currTeam, "team"),
-    currCollection: state.currCollection
+    editingMode: editingMode,
+    currUser: state.currUser,
+    currCollection: state.currCollection,
+    isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
   }
 }
 
@@ -161,6 +198,12 @@ const mapDispatchToProps = (dispatch) => {
     },
     addUserToTeam: (teamInfo) => {
       dispatch(showAdminModal({action:"add_user", type:"team", data:teamInfo}))
+    },
+    userJoinTeamRequest: (user, team) => {
+      dispatch(addUserToTeam(user, team, "pending"))
+    },
+    approveUserRequest: (user, teamInfo) => {
+      dispatch(teamApproveUserRequest(user, teamInfo))
     },
     removeUserFromTeam: (user, teamInfo) => {
       dispatch(removeUserFromTeam(user, teamInfo))

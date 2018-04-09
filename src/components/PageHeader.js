@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 
-const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
+const PageHeader = ({contents, type, editFunc, deleteFunc, joinFunc, editingMode}) => {
   const {title, description, image_url, byline, created_by} = contents
   let styleObject = {}
   if (image_url) {
@@ -10,6 +10,8 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
   }
 
   let editButtonText, deleteButtonText;
+
+  console.log(joinFunc)
 
   return (
       <div className="page-header-container">
@@ -31,6 +33,9 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, editingMode}) => {
                     <div className="button button-transparent" onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</div>
                   }
                 </div>
+              }
+              {joinFunc &&
+                <div className="button button-transparent" onClick={joinFunc}>Request to Join Team</div>
               }
 
 

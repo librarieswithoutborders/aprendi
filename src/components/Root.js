@@ -5,6 +5,7 @@ import routes from '../routes'
 import TopNav from './TopNav'
 import AdminModal from './AdminModal'
 import ResourceViewer from './ResourceViewer'
+import ScrollToTop from './ScrollToTop'
 import { connect } from 'react-redux'
 import { hideAdminModal } from '../actions/index'
 import { sendUserInfoRequest } from '../actions/user'
@@ -16,32 +17,32 @@ import { isLoggedIn } from '../utils/AuthService';
 
 class Root extends Component {
   componentWillMount() {
-    console.log("user logged in", isLoggedIn())
     if (isLoggedIn()) {this.props.sendUserInfoRequest()}
   }
 
   render() {
     const { store, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus } = this.props;
-    console.log("Root props", this.props)
-    // window.loginCallback = getUserTeam
+
     let showOverlay = adminModalContent || resourceViewerContent
     return (
       <Provider store={store}>
       <Router>
-        <div>
-          {adminModalContent && <AdminModal />}
-          {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
-          {resourceViewerContent && <ResourceViewer />}
-          {updateStatus &&
-            <UpdateStatusBar statusObject={updateStatus} />
-          }
-          <div className={showOverlay ? "content fixed" : "content"}>
-            <TopNav />
-            <div className="content-container">
-              {routes}
+        <ScrollToTop>
+          <div>
+            {adminModalContent && <AdminModal />}
+            {showOverlay && <div className="content-overlay" onClick={() => {hideAdminModal(); hideResourceViewer(); window.location.hash = "";}}></div>}
+            {resourceViewerContent && <ResourceViewer />}
+            {updateStatus &&
+              <UpdateStatusBar statusObject={updateStatus} />
+            }
+            <div className={showOverlay ? "content fixed" : "content"}>
+              <TopNav />
+              <div className="content-container">
+                {routes}
+              </div>
             </div>
           </div>
-        </div>
+        </ScrollToTop>
       </Router>
       </Provider>
     );

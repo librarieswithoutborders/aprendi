@@ -36,4 +36,27 @@
     margin-bottom: 25px;
     font-size: 12px;
   }
+
+  &__request {
+    &__text, &__button {
+      display: inline-block;
+    }
+
+    &__text {
+      // font-weight: normal;
+    }
+
+    &__button {
+      padding-left: 10px;
+      color: colors(blue);
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: colors(grey);
+      }
+    }
+  }
 }

@@ -112,3 +112,31 @@ export function fetchTeamList() {
       })
   }
 }
+
+export function teamApproveUserRequest(user, team) {
+  console.log("adding", user, team)
+  return (dispatch) => {
+    dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", status:"INITIATED"}))
+
+    return fetch(
+      dbPath + "/team_approve_user_request",
+      {
+        method: "PUT",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId: user._id, teamId: team._id})
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json)
+        if (json.error) {
+          dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", message:json.error.message, status:"FAILED"}))
+        } else {
+          dispatch(hideAdminModal())
+          dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", status:"SUCCESS", data: user}))
+        }
+      })
+  }
+}

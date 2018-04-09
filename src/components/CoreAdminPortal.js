@@ -1,6 +1,6 @@
 import React from 'react';
 import {showAdminModal} from '../actions/index'
-import {deleteTeam, fetchTeamList} from '../actions/team'
+import {deleteTeam, fetchTeamList, teamApproveUserRequest} from '../actions/team'
 import {showResourceViewer} from '../actions/resource'
 
 import { connect } from 'react-redux'
@@ -9,12 +9,30 @@ import PageHeader from './PageHeader'
 import Search from './Search'
 import LoadingIcon from './LoadingIcon'
 
-const CoreAdminPortal = ({teams, createTeam, deleteTeam, history, createResource, showResourceViewer}) => {
+const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest}) => {
   console.log(teams)
+
+  console.log("PENDING REQUESTS!")
+  console.log(pendingRequests)
 
   return (
     <div className="core-admin-portal">
       <div className="core-admin-portal__contents">
+        <div className="core-admin-portal__section">
+          <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
+          <div className="core-admin-portal__section-contents">
+            { pendingRequests.map(d => {
+              return (
+                <div className="core-admin-portal__request">
+                  <h5 className="core-admin-portal__request__text">
+                    {d.user.name + " wants to join " + d.team.team_name}
+                  </h5>
+                  <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
         <div className="core-admin-portal__section">
           <h5 className="core-admin-portal__section-title">View Analytics</h5>
           <div className="core-admin-portal__section-contents">
@@ -62,10 +80,31 @@ class CoreAdminPortalContainer extends React.Component {
     }
   }
 
+  getPendingRequests() {
+    const {teams} = this.props;
+
+    let fullList = []
+
+    if (teams && teams.length > 0) {
+      teams.forEach(team => {
+        console.log(team)
+        if (team.pending_users.length > 0) {
+          let thisTeamsList = team.pending_users.map(d => {
+            return {"team": team, "user": d}
+          })
+          fullList = [...fullList, ...thisTeamsList]
+        }
+      })
+    }
+
+    return fullList
+  }
+
   render() {
     const {teams} = this.props;
+
     if (teams) {
-      return <CoreAdminPortal {...this.props} />
+      return <CoreAdminPortal pendingRequests={this.getPendingRequests()} {...this.props} />
     } else {
       return <LoadingIcon />
     }
@@ -89,6 +128,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteTeam: (teamInfo) => {
       dispatch(deleteTeam(teamInfo))
+    },
+    approveUserRequest: (user, teamInfo) => {
+      dispatch(teamApproveUserRequest(user, teamInfo))
     },
     createResource: () => {
       dispatch(showAdminModal({action:"create", type:"resource", team:null, parent: null, showExisting: false}))

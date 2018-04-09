@@ -5,11 +5,12 @@ import PageHeader from './PageHeader'
 import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
 import { showAdminModal } from '../actions/index'
-import { removeUserFromTeam } from '../actions/user'
+import { removeUserFromTeam, addUserToTeam } from '../actions/user'
 import HomePage from './HomePage'
 import CoreAdminPortal from './CoreAdminPortal'
+import Search from './Search'
 
-const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editingMode, createTeam}) => {
+const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, editingMode, createTeam}) => {
   console.log(user)
   let mainContent;
   let title = 'Welcome '
@@ -30,12 +31,12 @@ const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editing
         </div>
       </div>
     )
-  } else if (user.permissions.teams && user.permissions.teams.length > 0) {
+  } else {
     mainContent = (
       <div className="team-home-page__contents">
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">My Teams</h5>
-          <div className="button" onClick={() => createTeam(user)}>+ Create New Team</div>
+          <div className="team-home-page__button button" onClick={() => createTeam(user)}>+ Create New Team</div>
             <Grid
               data={user.permissions.teams}
               type="team"
@@ -44,15 +45,35 @@ const UserHomePage = ({user, history, removeUserFromTeam, addUserToTeam, editing
               editingMode={editingMode}
             />
         </div>
-      </div>
-    )
-  } else {
-    mainContent = (
-      <div className="team-home-page__contents">
-        <h5 className="team-home-page__text">Get started by <span className="team-home-page__text__link" onClick={() => createTeam(user) }>creating a new team</span> or asking a team administrator to add you to their team.</h5>
+        <div className="team-home-page__section">
+          <h5 className="team-home-page__section-title">Pending Requests</h5>
+          <Grid
+            data={user.permissions.pending_teams}
+            type="team"
+            clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
+            isDraggable={false}
+            editingMode={false}
+          />
+        </div>
+        <div className="team-home-page__section">
+          <h5 className="team-home-page__section-title">Join Existing Teams</h5>
+          <div className="team-home-page__search" >
+            <Search
+              type="team"
+              showAll={false}
+              onSelect={item => userJoinTeamRequest(user.permissions, item)}/>
+          </div>
+        </div>
       </div>
     )
   }
+  // } else {
+  //   mainContent = (
+  //     <div className="team-home-page__contents">
+  //       <h5 className="team-home-page__text">Get started by <span className="team-home-page__text__link" onClick={() => createTeam(user) }>creating a new team</span> or asking a team administrator to add you to their team.</h5>
+  //     </div>
+  //   )
+  // }
 
 
 
@@ -68,6 +89,14 @@ class UserHomePageContainer extends React.Component {
   constructor() {
     super()
   }
+
+  // componentWillMount() {
+  //   const {teamList, fetchTeamList} = this.props;
+  //
+  //   if (!teamList) {
+  //     fetchTeamList();
+  //   }
+  // }
 
   render() {
     const {user} = this.props
@@ -93,16 +122,18 @@ class UserHomePageContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
   return {
     user: state.currUser,
-    editingMode: true
+    editingMode: true,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addUserToTeam: (userInfo) => {
-      dispatch(showAdminModal({action:"add_team", type:"user", data:userInfo}))
+    userJoinTeamRequest: (user, team) => {
+      console.log(user, team)
+      dispatch(addUserToTeam(user, team, "pending"))
     },
     removeUserFromTeam: (user, teamInfo) => {
       dispatch(removeUserFromTeam(user, teamInfo))

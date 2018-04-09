@@ -1,6 +1,6 @@
 import React from 'react';
 
-const appearanceTime = 2700
+const appearanceTime = 3000
 
 class UpdateStatusBar extends React.Component {
 	constructor() {
@@ -35,8 +35,17 @@ class UpdateStatusBar extends React.Component {
 
 	getContent() {
 			const { type, status, message } = this.props.statusObject
-			let retVal = ""
+
+			if (type === "TEAM_APPROVE_USER_REQUEST") {
+				return "Successfully Added User"
+			}
+
+			if (type === "TEAM_JOIN_REQUEST") {
+				return "Successfully applied to join team.  Please wait for a team admin to approve request"
+			}
+
 			let [actionType, contentType] = type.split("_")
+			let retVal = ""
 
 			console.log(actionType, contentType)
 			if (status === "SUCCESS") {

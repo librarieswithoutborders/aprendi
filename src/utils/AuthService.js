@@ -71,23 +71,18 @@ export function getParameterByName(name) {
 
 // Get and store access_token in local storage
 export function setAccessToken() {
-  console.log("setting access token")
   let accessToken = getParameterByName('access_token');
   window.localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
 }
 
 // Get and store id_token in local storage
 export function setIdToken() {
-  console.log("setting id token")
-
   let idToken = getParameterByName('id_token');
   window.localStorage.setItem(ID_TOKEN_KEY, idToken);
 }
 
 export function isLoggedIn() {
-  console.log("calling is logged in")
   const idToken = getIdToken();
-  console.log(!!idToken && !isTokenExpired(idToken))
   return !!idToken && !isTokenExpired(idToken);
 }
 
@@ -107,15 +102,11 @@ function isTokenExpired(token) {
 }
 
 export async function getUserByHash(hash) {
-  console.log(hash)
   return new Promise((resolve) => {
-    // let userInfo;
     auth.parseHash({ hash: hash }, function(err, authResult) {
       if (err) { return console.log(err); }
 
       auth.client.userInfo(authResult.accessToken, function(err, user) {
-        // Now you have the user's information
-        console.log(user)
         resolve(user);
       });
     });
@@ -123,16 +114,11 @@ export async function getUserByHash(hash) {
 }
 
 export async function getCurrUser() {
-  console.log("in getCurrUser")
   return new Promise((resolve, reject) => {
     if (!isLoggedIn()) { resolve(null) }
 
     let accessToken = window.localStorage.getItem(ACCESS_TOKEN_KEY)
-    console.log(accessToken)
     auth.client.userInfo(accessToken, function(err, user) {
-      console.log(err)
-      // Now you have the user's information
-      console.log(user)
       resolve(user);
     });
   })

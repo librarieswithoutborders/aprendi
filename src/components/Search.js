@@ -21,8 +21,6 @@ class Search extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log("receiving new PROPSSSSS")
-		console.log(nextProps.data, this.props.data)
 		// if (nextProps.data && this.props.data && nextProps.data !== this.props.data) {
 			this.setState({
 				value: '',
@@ -33,13 +31,6 @@ class Search extends Component {
 
 	render() {
 		const { value, suggestions, extendedView } = this.state;
-
-		console.log(suggestions)
-
-		console.log(this.props.data)
-
-		console.log(extendedView)
-
 		const inputProps = {
   		placeholder: 'Search',
   		value,
@@ -64,7 +55,6 @@ class Search extends Component {
 	}
 
 	onChange(event, { newValue, method }) {
-    console.log("on change", event, newValue, method)
 		if (method !== "click") {
 			this.setState({
 	      value: newValue
@@ -74,15 +64,12 @@ class Search extends Component {
 
 	// Autosuggest will call this function every time you need to update suggestions.
 	onSuggestionsFetchRequested({value}) {
-		console.log("updating suggestions", value)
-
     this.setState({
       	suggestions: this.getSuggestions(value),
     });
 	}
 
   onSuggestionSelected(event, {suggestion}) {
-    console.log("selected", suggestion, event)
 		const { extendedView } = this.state
 
 		if (this.props.onSelect) {
@@ -101,7 +88,6 @@ class Search extends Component {
 	}
 
 	getSuggestions(value) {
-    console.log("getting suggestions", value)
     const {data, type} = this.props
     if (!value) { return data }
 
@@ -120,7 +106,6 @@ class Search extends Component {
 	}
 
 	getSuggestionValue(value) {
-    console.log("getting suggestion value", value)
     return value.title
 	}
 
@@ -228,7 +213,6 @@ class SearchContainer extends Component {
 
 	componentWillMount() {
 		const {type, data, fetchItemList} = this.props
-		console.log(data)
 		if (!data) {
 			fetchItemList()
 		}
@@ -246,7 +230,6 @@ class SearchContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	console.log(ownProps)
 	const {type, itemList} = ownProps
 
 	if (type === 'user') {
@@ -257,7 +240,7 @@ const mapStateToProps = (state, ownProps) => {
 	} else if (type === 'team') {
 		return {
 			parent: state.currUser ? state.currUser.permissions : null,
-	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(d => d.users && d.users.indexOf(state.currUser.permissions._id) < 0) : state.teamList
+	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(d => d.users && d.users.indexOf(state.currUser.permissions._id) < 0 && d.pending_users.indexOf(state.currUser.permissions._id) < 0) : state.teamList
 	  }
 	} else if (type === 'collection') {
 		return {
@@ -273,7 +256,6 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	console.log(ownProps)
 	const {type} = ownProps
 
 	if (type === 'user') {

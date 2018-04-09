@@ -48,6 +48,10 @@ function updateStatus(state = null, action) {
     return action
   } else if (action.type === "FILE_UPLOAD") {
     return action
+  } else if (action.type === "TEAM_APPROVE_USER_REQUEST") {
+    return action
+  } else if (action.type === "TEAM_JOIN_REQUEST") {
+    return action
   } else {
     return state
   }
@@ -85,6 +89,15 @@ function currTeam(state = null, action) {
         Object.assign(newState, state)
         let deletedIndex = state.users.indexOf(action.data)
         newState.users.splice(deletedIndex, 1)
+        return newState
+      }
+    case "TEAM_APPROVE_USER_REQUEST":
+      if (action.status === "SUCCESS" && state) {
+        let newState = {}
+        Object.assign(newState, state)
+        let deletedIndex = state.pending_users.indexOf(action.data)
+        newState.pending_users.splice(deletedIndex, 1)
+        newState.users.push(action.data)
         return newState
       }
     case "CREATE_COLLECTION":

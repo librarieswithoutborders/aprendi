@@ -56,12 +56,18 @@ class GridItem extends React.Component {
     }
   }
 
-  canUserEdit() {
-    const {currUserId} = this.props
-    if (!currUserId) { return false }
+  canUserEdit(onlyAllowCurrUser) {
+    const {currUserId, isCoreAdmin, editingMode} = this.props
+    if (!editingMode) { return false }
+    if (isCoreAdmin) { return true }
 
-    console.log(this.data)
-    return currUserId === this.data.auth0id
+    if (onlyAllowCurrUser) {
+      if (!currUserId) { return false }
+      console.log(this.data)
+      return currUserId === this.data.auth0id
+    } else {
+      return true
+    }
   }
 
   renderContent() {
@@ -94,7 +100,9 @@ class GridItem extends React.Component {
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.team_name}</h5>
             {editingMode && <h5 className="grid__item__text__sub">{this.data.users.length === 1 ? this.data.users.length + " Member" : this.data.users.length + " Members"}</h5>}
-            {editingMode && buttonClickHandler && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>}
+            {editingMode && buttonClickHandler &&
+              <div className="button button-white" onClick={() => buttonClickHandler.func(this.data)}>{buttonClickHandler.text}</div>
+            }
           </div>
         )
       case "user":
@@ -102,7 +110,10 @@ class GridItem extends React.Component {
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.name}</h5>
             <h5 className="grid__item__text__sub">{this.data.email}</h5>
-            {editingMode && this.canUserEdit() && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>}
+            {/*editingMode && this.canUserEdit() && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>*/}
+            {buttonClickHandler && this.canUserEdit(buttonClickHandler.onlyAllowCurrUser) &&
+              <div className="button button-white" onClick={() => buttonClickHandler.func(this.data)}>{buttonClickHandler.text}</div>
+            }
           </div>
         )
     }
@@ -158,7 +169,8 @@ class GridItem extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   if (state.currUser && state.currUser.permissions) {
     return {
-      currUserId: state.currUser.permissions.auth0id
+      currUserId: state.currUser.permissions.auth0id,
+      isCoreAdmin: state.currUser.permissions.core_admin
     }
   } else {
     return {}

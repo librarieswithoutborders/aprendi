@@ -3,12 +3,10 @@ import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModa
 import { getCurrUser } from '../utils/AuthService'
 
 export function sendUserInfoRequest() {
-  console.log("in sendUserInfoRequest, getting user info")
   return (dispatch) => {
     dispatch(setUserInfo("fetching"))
     getCurrUser()
       .then(user => {
-        console.log("getCurrUser result", user)
         if (user) {
           dataLayer.push({'userId': user._id})
           dispatch(setUserInfo({userInfo: user}))
@@ -21,9 +19,7 @@ export function sendUserInfoRequest() {
 }
 
 export function fetchUserPermissions(user) {
-  console.log("in getUserPermissions, user is", user)
   return (dispatch) => {
-    console.log(dispatch)
     dispatch(setRequestStatus({type:"FETCH_USER_PERMISSIONS", status:"INITIATED"}))
 
     return fetch(
@@ -38,7 +34,6 @@ export function fetchUserPermissions(user) {
       })
       .then(response => { return response.json()})
       .then(json => {
-        console.log(json, user)
         if (json) {
           dispatch(setRequestStatus({type:"FETCH_USER_PERMISSIONS", status:"SUCCESS", data:json}))
           dispatch(setUserInfo({userInfo: user, permissions: json}))
@@ -57,10 +52,9 @@ export function setUserInfo(user) {
   }
 }
 
-export function addUserToTeam(user, team) {
-  console.log("adding", user, team)
+export function addUserToTeam(user, team, approvalStatus) {
   return (dispatch) => {
-    dispatch(setUpdateStatus({type:"TEAM_ADD_USER", status:"INITIATED"}))
+    dispatch(setUpdateStatus({type: approvalStatus === "pending" ? "TEAM_JOIN_REQUEST" : "TEAM_ADD_USER", status:"INITIATED"}))
 
     return fetch(
       dbPath + "/team_add_user",
@@ -70,16 +64,15 @@ export function addUserToTeam(user, team) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({userId: user._id, teamId: team._id})
+        body: JSON.stringify({userId: user._id, teamId: team._id, approvalStatus: approvalStatus})
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
-          dispatch(setUpdateStatus({type:"TEAM_ADD_USER", message:json.error.message, status:"FAILED"}))
+          dispatch(setUpdateStatus({type: approvalStatus === "pending" ? "TEAM_JOIN_REQUEST" : "TEAM_ADD_USER", message:json.error.message, status:"FAILED"}))
         } else {
           dispatch(hideAdminModal())
-          dispatch(setUpdateStatus({type:"TEAM_ADD_USER", status:"SUCCESS", data: user}))
+          dispatch(setUpdateStatus({type: approvalStatus === "pending" ? "TEAM_JOIN_REQUEST" : "TEAM_ADD_USER", status:"SUCCESS", data: user}))
         }
       })
   }
@@ -101,7 +94,6 @@ export function removeUserFromTeam(user, team) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type:"TEAM_REMOVE_USER", message:json.error.message, status:"FAILED"}))
         } else {
@@ -127,7 +119,6 @@ export function updateUser(userInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type:"UPDATE_USER", message:json.error.message, status:"FAILED"}))
         } else {
@@ -148,8 +139,6 @@ export function fetchUserList() {
       })
       .then(response => { return response.json()})
       .then(json => {
-        console.log(json)
-
         dispatch(setRequestStatus({type:"FETCH_USERS", status:"SUCCESS", data:json}))
       })
   }
