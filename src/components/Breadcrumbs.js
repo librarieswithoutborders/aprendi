@@ -8,6 +8,20 @@ const Breadcrumbs = ({data}) => {
   return (
     <div className="breadcrumbs">
       <div className="breadcrumbs__list">
+        {data.length > 2 &&
+          <div className="breadcrumbs__list-item mobile-placeholder" >
+            <div className="breadcrumbs__list-item__contents">
+              <div className="breadcrumbs__list-item__contents__left">
+                <Link className="breadcrumbs__list-item__link" to={"../../" + data[data.length - 3].path}>
+                  <span>...</span>
+                </Link>
+              </div>
+              <div className="breadcrumbs__list-item__contents__right">
+                <SvgIcon className="breadcrumbs__list-item__arrow" name="arrow" />
+              </div>
+            </div>
+          </div>
+        }
         {data.map((d, i) => {
           let linkPrefix = ""
 

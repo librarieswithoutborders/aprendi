@@ -3,21 +3,38 @@ $breadcrumbs-height: 45px;
 .breadcrumbs {
   background-color: colors(offwhite);
   width: 100%;
-  height: $breadcrumbs-height;
+  // height: $breadcrumbs-height;
   font-size: 14px;
 
   &__list {
     list-style-type: none;
     padding: 10px 20px;
     display: table;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    // position: relative;
+    // top: 50%;
+    // transform: translateY(-50%);
   }
 
   &__list-item {
-    display: table-cell;
+    display: none;
     vertical-align: middle;
+
+    &:last-child, &:nth-last-child(2) {
+      display: table-cell;
+    }
+
+    @include medium {
+      display: table-cell;
+    }
+
+    &.mobile-placeholder {
+      display: table-cell;
+
+      @include medium {
+        display: none;
+      }
+    }
+
     .icon {
       height: 20px;
       fill: colors(grey);
