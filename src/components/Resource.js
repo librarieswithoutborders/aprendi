@@ -91,10 +91,10 @@ const renderWebsite = ({resource_url, image_url}) => {
 
   return (
     <div className="resource__content__website">
-      <a target="_blank" href={resource_url} className="resource__content__website__text-link">
-        <h5 className="resource__content__website__text-link__text">{"Visit " + resource_url}</h5> 
+      <a target="_blank" href={resource_url.substring(0,4) != "http" ? "//" + resource_url : resource_url} className="resource__content__website__text-link">
+        <h5 className="resource__content__website__text-link__text">{"Visit " + resource_url}</h5>
       </a>
-      <a target="_blank" href={resource_url} className="resource__content__website__image-link">
+      <a target="_blank" href={resource_url.substring(0,4) != "http" ? "//" + resource_url : resource_url} className="resource__content__website__image-link">
         <img className="resource__content__website__screenshot" src={image_url} />
       </a>
     </div>

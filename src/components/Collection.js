@@ -108,7 +108,12 @@ class Collection extends Component {
                   data={data.subcollections}
                   type="subcollection"
                   createNew={() => createSubcollection({parentData:data, parentType:type})}
-                  clickHandler={(itemList, clickedIndex) => { return history.push(location.pathname + "/" + itemList[clickedIndex].path); }}
+                  clickHandler={(itemList, clickedIndex) => {
+                    let newUrl = location.pathname
+                    newUrl += location.pathname.charAt(location.pathname.length - 1) === "/" ? "" : "/"
+                    newUrl += itemList[clickedIndex].path
+                    return history.push(newUrl);
+                  }}
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "subcollection"})}
                   isDraggable={true}
                   editingMode={editingMode}
@@ -127,7 +132,13 @@ class Collection extends Component {
                   data={data.resources}
                   type="resource"
                   createNew={() => createResource({parentId:data._id, parentType:type, parentResources:data.resources.map(d => d._id)}, currTeam._id)}
-                  clickHandler={(elem, i) => {history.push(location.pathname + "#" + elem[i].path); setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)}}
+                  clickHandler={(elem, i) => {
+                    let newUrl = location.pathname
+                    newUrl += location.pathname.charAt(location.pathname.length - 1) === "#" ? "" : "#"
+                    newUrl += elem[i].path
+                    history.push(newUrl); 
+                    setResourceViewerContent({parentType: type, parentId:data._id}, data.resources, i)
+                  }}
                   reOrderHandler={(newOrder) => updateOrder({data:data, newOrder:newOrder, parentType:type, childType: "resource"})}
                   isDraggable={true}
                   editingMode={editingMode}

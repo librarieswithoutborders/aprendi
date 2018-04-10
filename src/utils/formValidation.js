@@ -12,9 +12,17 @@ export const maxLength = (maxLen) => {
 
 }
 
+const reservedPaths = [
+  "collection", "collections", "team", "teams", "resource", "resources", "subcollection", "subcollections", "admin", "callback", "mylibraryguide", "my-library-guide", "my_library_guide", "_", "-", "?", "!", "#"
+]
+
 export const isValidPath = (input) => {
   console.log(input)
   console.log("validating url")
+
+  if (reservedPaths.includes(input)) {
+    return "Path is Reserved.  Please Enter a Different Path"
+  }
 
   return !input || /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input) ? null : "Please Enter a Valid Url Path"
 }

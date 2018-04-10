@@ -70,14 +70,19 @@ class HomePage extends React.Component {
         <div className="home-page__section blue">
           <h1 className="home-page__section__title">Starting Guide</h1>
           <div className="home-page__section__content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis augue non lorem tempor elementum. Vivamus mollis non sapien eget efficitur. Integer eget metus ut mauris iaculis consectetur eu eget libero. Sed risus lorem, rutrum eget velit eu, fermentum tincidunt magna. Morbi ac pulvinar massa, et mollis nisi. Suspendisse dictum et ligula quis ultricies. Sed nec elit iaculis, auctor orci ut, ullamcorper nibh.</p>
+            <h5 className="home-page__text__main">My Library Guide allows you to find and explore resources that have been collected by members of your community to answer common questions you might have.</h5>
+            <p className="home-page__text__sub">Here are some example resource collections to get you started:</p>
+            <p className="home-page__text__sub">Feel free to explore all of the collections that have been created here.</p>
+            <h5 className="home-page__text__main">Want to create resource collections of your own?</h5>
+
           </div>
         </div>
         <div className="home-page__section white">
           <h1 className="home-page__section__title">Contact</h1>
           <div className="home-page__section__content">
-            <p>For questions, concerns, feedback please contact...</p>
-            <p>My Library Guide is an open source project - link to github repo</p>
+            <p>For questions, concerns, or feedback please contact <a className="home-page__text__link" href="mailto:adam.echelman@librarieswithoutborders.org">adam.echelman@librarieswithoutborders.org</a></p>
+            <p>My Library Guide is an open source project initiated by Libraries without Borders</p>
+            <div className="button button-white"><a href="https://github.com/librarieswithoutborders/mylibraryguide">View the Github Repo</a></div>
           </div>
         </div>
       </div>
