@@ -9,10 +9,10 @@ import path from 'path';
 const GLOBALS = {
   'process.env': {
     NODE_ENV: JSON.stringify('production'),
-    AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN ),
-    API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE ),
-    AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID ),
-    CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL )
+    AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN),
+    API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE),
+    AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID),
+    CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL)
   },
   __DEV__: false
 };
@@ -65,7 +65,7 @@ export default {
     }),
 
     // Minify JS
-    new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+    new webpack.optimize.UglifyJsPlugin({sourceMap: true})
   ],
   module: {
     rules: [
@@ -115,7 +115,7 @@ export default {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
-            loader: 'svg-react-loader',
+            loader: 'svg-react-loader'
           }
         ]
       },

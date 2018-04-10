@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {showAdminModal} from '../actions/index'
 import {invalidateCurrCollection, collectionRemoveResource} from '../actions/collection'
 import {subcollectionRemoveResource} from '../actions/subcollection'
 import {setCurrResourceIndex, deleteResource, hideResourceViewer} from '../actions/resource'
 
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
@@ -22,20 +22,20 @@ class ResourceViewer extends Component {
   render() {
     const {decrementCurrIndex, incrementCurrIndex, resourceList, parent, currIndex, deleteResource, updateResource, removeResourceFromCollection, editingMode, hideResourceViewer} = this.props
 
-    let content = resourceList[currIndex]
+    const content = resourceList[currIndex]
     let headerHeight = 36;
 
     console.log(parent)
 
-    let nextPrevFunctions = {
+    const nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
       prev: currIndex !== 0 ? () => decrementCurrIndex(currIndex) : null
     }
 
-    let editingFunctions = {
-      removeResource: (editingMode && parent) ? (id) => removeResourceFromCollection(id, parent) : null,
-      deleteResource: editingMode ? (data) => deleteResource(data) : null,
-      updateResource: editingMode ? (data) => updateResource(data) : null
+    const editingFunctions = {
+      removeResource: (editingMode && parent) ? id => removeResourceFromCollection(id, parent) : null,
+      deleteResource: editingMode ? data => deleteResource(data) : null,
+      updateResource: editingMode ? data => updateResource(data) : null
     }
 
     if (this.refs.currText) {
@@ -46,7 +46,9 @@ class ResourceViewer extends Component {
     return (
       <div className="resource-viewer">
         <div className="resource-viewer__header">
-          <div className="resource-viewer__close" onClick={() => {this.props.history.replace(this.props.location.pathname); hideResourceViewer(); }}>
+          <div className="resource-viewer__close" onClick={() => {
+            this.props.history.replace(this.props.location.pathname); hideResourceViewer();
+          }}>
             <SvgIcon name="close" />
           </div>
           {nextPrevFunctions.prev &&
@@ -56,12 +58,12 @@ class ResourceViewer extends Component {
               </div>
             </div>
           }
-          <div className="resource-viewer__header__content" style={{"height": headerHeight}}>
+          <div className="resource-viewer__header__content" style={{height: headerHeight}}>
             {resourceList.map((d, i) => {
-              const leftOffset = ((2*(i - currIndex) + 1) * 50) + "%"
+              const leftOffset = `${(2 * (i - currIndex) + 1) * 50}%`
               console.log(i, leftOffset)
               return (
-                <h1 key={i} ref={i === currIndex ? "currText" : null} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
+                <h1 key={i} ref={i === currIndex ? 'currText' : null} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
               )
             })}
           </div>
@@ -73,7 +75,7 @@ class ResourceViewer extends Component {
             </div>
           }
         </div>
-        <div className="resource-viewer__content" style={{"transform": "translateY(" + headerHeight + "px)"}} >
+        <div className="resource-viewer__content" style={{transform: `translateY(${headerHeight}px)`}} >
           <Resource content={content} />
         </div>
         {editingMode &&
@@ -99,8 +101,8 @@ class ResourceViewer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let canEdit = canUserEdit(state.currUser, state.currCollection, "collection")
-  console.log("CAN EDDDITTTT")
+  const canEdit = canUserEdit(state.currUser, state.currCollection, 'collection')
+  console.log('CAN EDDDITTTT')
   console.log(canEdit)
   return {
     parent: state.resourceViewerContent.parent,
@@ -110,33 +112,31 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    incrementCurrIndex: (currIndex) => {
-      console.log(currIndex)
-      dispatch(setCurrResourceIndex(currIndex + 1))
-    },
-    decrementCurrIndex: (currIndex) => {
-      dispatch(setCurrResourceIndex(currIndex - 1))
-    },
-    removeResourceFromCollection: (resource, parent) => {
-      if (parent.parentType === "collection") {
-        dispatch(collectionRemoveResource(resource, parent.parentId))
-      } else {
-        dispatch(subcollectionRemoveResource(resource, parent.parentId))
-      }
-    },
-    deleteResource: (resourceInfo) => {
-      dispatch(deleteResource(resourceInfo))
-    },
-    updateResource: (data) => {
-      dispatch(hideResourceViewer())
-      dispatch(showAdminModal({action:"update", type:"resource", data: data}))
-    },
-    hideResourceViewer: () => {
-      dispatch(hideResourceViewer())
-    },
+const mapDispatchToProps = dispatch => ({
+  incrementCurrIndex: currIndex => {
+    console.log(currIndex)
+    dispatch(setCurrResourceIndex(currIndex + 1))
+  },
+  decrementCurrIndex: currIndex => {
+    dispatch(setCurrResourceIndex(currIndex - 1))
+  },
+  removeResourceFromCollection: (resource, parent) => {
+    if (parent.parentType === 'collection') {
+      dispatch(collectionRemoveResource(resource, parent.parentId))
+    } else {
+      dispatch(subcollectionRemoveResource(resource, parent.parentId))
+    }
+  },
+  deleteResource: resourceInfo => {
+    dispatch(deleteResource(resourceInfo))
+  },
+  updateResource: data => {
+    dispatch(hideResourceViewer())
+    dispatch(showAdminModal({action: 'update', type: 'resource', data: data}))
+  },
+  hideResourceViewer: () => {
+    dispatch(hideResourceViewer())
   }
-}
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceViewer))

@@ -8,21 +8,21 @@ import NotFoundPage from './components/NotFoundPage';
 import AuthCallback from './components/AuthCallback';
 import CollectionDataContainer from './components/CollectionDataContainer';
 
-import { Route, Switch } from 'react-router-dom';
-import { isLoggedIn } from './utils/AuthService'
+import {Route, Switch} from 'react-router-dom';
+import {isLoggedIn} from './utils/AuthService'
 
 const routes = (
-    <div>
-        <Switch>
-          <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />
-          <Route path="/callback" component={AuthCallback} />
-          <Route exact path="/teams" component={AllTeamsPage} />
-          <Route path="/teams/:teamPath" component={TeamHomePage} />
-          <Route path="/collections" component={AllCollectionsPage} />
-          <Route path="/:collectionPath" component={CollectionDataContainer} />
-          <Route component={NotFoundPage} />
-        </Switch>
-    </div>
+  <div>
+    <Switch>
+      <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />
+      <Route path="/callback" component={AuthCallback} />
+      <Route exact path="/teams" component={AllTeamsPage} />
+      <Route path="/teams/:teamPath" component={TeamHomePage} />
+      <Route path="/collections" component={AllCollectionsPage} />
+      <Route path="/:collectionPath" component={CollectionDataContainer} />
+      <Route component={NotFoundPage} />
+    </Switch>
+  </div>
 
 )
 

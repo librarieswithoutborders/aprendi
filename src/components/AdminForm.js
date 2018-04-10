@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { teamFieldSettings, collectionFieldSettings, subcollectionFieldSettings, resourceFieldSettings } from '../utils/formFieldSettings'
+import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {teamFieldSettings, collectionFieldSettings, subcollectionFieldSettings, resourceFieldSettings} from '../utils/formFieldSettings'
 import processFormData from '../utils/processFormData'
 import processExternalSiteUrl from '../utils/processExternalSiteUrl'
-import { Form } from 'react-form'
+import {Form} from 'react-form'
 import AdminFormField from './AdminFormField'
-import { takeWebScreenshot, checkExternalSiteHeaders } from '../actions/index'
+import {takeWebScreenshot, checkExternalSiteHeaders} from '../actions/index'
 import {fetchTeamList} from '../actions/team'
 import {fetchCollectionList} from '../actions/collection'
 import {fetchResourceList, fetchSharedResourceList} from '../actions/resource'
@@ -16,17 +16,17 @@ class AdminForm extends Component {
   constructor(props) {
     super(props)
 
-    switch(props.type) {
-      case "team":
+    switch (props.type) {
+      case 'team':
         this.fieldSettings = teamFieldSettings
         break;
-      case "collection":
+      case 'collection':
         this.fieldSettings = collectionFieldSettings
         break;
-      case "subcollection":
+      case 'subcollection':
         this.fieldSettings = subcollectionFieldSettings
         break;
-      case "resource":
+      case 'resource':
         this.fieldSettings = resourceFieldSettings
         break;
     }
@@ -36,7 +36,7 @@ class AdminForm extends Component {
   }
 
   componentWillMount() {
-    const { checkLocallyUniqueList, fetchCheckLocallyUniqueList, checkGloballyUniqueList, fetchCheckGloballyUniqueList, forceFetchLocallyUniqueList } = this.props
+    const {checkLocallyUniqueList, fetchCheckLocallyUniqueList, checkGloballyUniqueList, fetchCheckGloballyUniqueList, forceFetchLocallyUniqueList} = this.props
 
     if (forceFetchLocallyUniqueList || (fetchCheckLocallyUniqueList && !checkLocallyUniqueList)) {
       fetchCheckLocallyUniqueList()
@@ -48,30 +48,32 @@ class AdminForm extends Component {
   }
 
   checkUnique(level, field, value) {
-    const { checkLocallyUniqueList, checkGloballyUniqueList } = this.props
-    let checkUniqueList = level === "local" ? checkLocallyUniqueList : checkGloballyUniqueList
+    const {checkLocallyUniqueList, checkGloballyUniqueList} = this.props
+    const checkUniqueList = level === 'local' ? checkLocallyUniqueList : checkGloballyUniqueList
 
     if (!checkUniqueList) {
-      return "Server Error: Unable to validate " + field
+      return `Server Error: Unable to validate ${field}`
     }
 
-    let foundVal = checkUniqueList.find(d => {console.log(d[field], value, d[field] === value); return d[field] === value})
+    const foundVal = checkUniqueList.find(d => {
+      console.log(d[field], value, d[field] === value); return d[field] === value
+    })
 
-    return foundVal ? "This " + field + " is already taken.  Please try a different value" : null
+    return foundVal ? `This ${field} is already taken.  Please try a different value` : null
   }
 
   checkSharedValuePath(formApi, value) {
     if (value && formApi.values.shared) {
-      return this.checkUnique("global", "path", value)
+      return this.checkUnique('global', 'path', value)
     }
 
     return null
   }
 
   submitForm(formData, a, formApi) {
-    const { data, action, team, resourceType, takeWebScreenshot } = this.props
+    const {data, action, team, resourceType, takeWebScreenshot} = this.props
 
-    let values = {}
+    const values = {}
     Object.assign(values, formData)
     if (team) {
       values.team = team
@@ -81,16 +83,17 @@ class AdminForm extends Component {
       values.resource_type = resourceType
     }
 
-    if ((values.resource_type === "website" || values.resource_type === "embed") && (!data || data.resource_url != formData.resource_url)) {
-
+    if ((values.resource_type === 'website' || values.resource_type === 'embed') && (!data || data.resource_url != formData.resource_url)) {
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
-        values.image_url = "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + d
-        processFormData(values, action).then(result => {console.log(result); this.props.submit(result)})
-
+        values.image_url = `https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/${d}`
+        processFormData(values, action).then(result => {
+          console.log(result); this.props.submit(result)
+        })
       })
-
     } else {
-      processFormData(values, action).then(result => {console.log(result); this.props.submit(result)})
+      processFormData(values, action).then(result => {
+        console.log(result); this.props.submit(result)
+      })
     }
   }
 
@@ -99,7 +102,7 @@ class AdminForm extends Component {
   }
 
   populatePath(values) {
-    console.log("POPULATING PATH")
+    console.log('POPULATING PATH')
     console.log(values)
 
     if (!values.path) {
@@ -112,10 +115,10 @@ class AdminForm extends Component {
   }
 
   renderFormFields(formApi) {
-    const { errors, values} = formApi
-    const { isCoreAdmin, action, resourceType, type } = this.props
+    const {errors, values} = formApi
+    const {isCoreAdmin, action, resourceType, type} = this.props
 
-    let fields = []
+    const fields = []
 
     this.fieldSettings.forEach(settings => {
       if (!settings.showOnly || (settings.showOnly && settings.showOnly({isCoreAdmin: isCoreAdmin, action: action, resourceType: resourceType || values.resource_type}))) {
@@ -124,8 +127,8 @@ class AdminForm extends Component {
             key={settings.dbField}
             settings={settings}
             error={errors ? errors[settings.dbField] : null}
-            checkLocallyUnique={({field, value}) => this.checkUnique("local", field, value)}
-            checkGloballyUnique={type === "resource" && settings.dbField === "path" ? ({value}) => this.checkSharedValuePath(formApi, value) : ({field, value}) => this.checkUnique("global", field, value)}/>
+            checkLocallyUnique={({field, value}) => this.checkUnique('local', field, value)}
+            checkGloballyUnique={type === 'resource' && settings.dbField === 'path' ? ({value}) => this.checkSharedValuePath(formApi, value) : ({field, value}) => this.checkUnique('global', field, value)}/>
         )
       }
     })
@@ -144,18 +147,19 @@ class AdminForm extends Component {
       <Form
         onSubmit={(submittedValues, a, formApi) => this.submitForm(submittedValues, a, formApi)}
         defaultValues={data}
-        preSubmit={(values) => this.populatePath(values)}>
+        preSubmit={values => this.populatePath(values)}>
         { formApi => {
-            const {errors} = formApi
+          const {errors} = formApi
 
-            return (
-              <form id="form" onSubmit={formApi.submitForm}>
-                {this.renderFormFields(formApi)}
-                <div className="form__submit-container">
-                  <button type="submit" className="button button-blue form__submit">Submit</button>
-                </div>
-              </form>
-            )}
+          return (
+            <form id="form" onSubmit={formApi.submitForm}>
+              {this.renderFormFields(formApi)}
+              <div className="form__submit-container">
+                <button type="submit" className="button button-blue form__submit">Submit</button>
+              </div>
+            </form>
+          )
+        }
         }
       </Form>
     )
@@ -167,22 +171,22 @@ const mapStateToProps = (state, ownProps) => {
   const {currUser, currTeam, adminModalContent, currCollection, collectionList, resourceList, teamList, sharedResourceList} = state
   let checkLocallyUniqueList, checkGloballyUniqueList;
 
-  if (type === "team") {
+  if (type === 'team') {
     checkGloballyUniqueList = teamList
-  } else if (type === "collection") {
+  } else if (type === 'collection') {
     checkGloballyUniqueList = collectionList
-    checkLocallyUniqueList = collectionList ? collectionList.filter(d => d.team && d.team._id === currTeam._id ) : null
-  } else if (type === "subcollection") {
+    checkLocallyUniqueList = collectionList ? collectionList.filter(d => d.team && d.team._id === currTeam._id) : null
+  } else if (type === 'subcollection') {
     if (adminModalContent.parent && adminModalContent.parent.parentData) {
       checkLocallyUniqueList = adminModalContent.parent.parentData.subcollections
     }
-  } else if (type === "resource") {
+  } else if (type === 'resource') {
     checkLocallyUniqueList = currTeam && currTeam.resources ? currTeam.resources : []
     checkLocallyUniqueList = sharedResourceList ? [...sharedResourceList, ...checkLocallyUniqueList] : checkLocallyUniqueList
     checkGloballyUniqueList = resourceList
   }
 
-  console.log("got to here!")
+  console.log('got to here!')
 
   // in order to ensure that the check unique list does not contain the element itself
   if (data) {
@@ -195,7 +199,7 @@ const mapStateToProps = (state, ownProps) => {
     checkLocallyUniqueList: checkLocallyUniqueList,
     checkGloballyUniqueList: checkGloballyUniqueList,
     // to ensure that the share resource list is loaded when checking resources
-    forceFetchLocallyUniqueList: type === "resource" && (!sharedResourceList || sharedResourceList.length === 0) ? true : false
+    forceFetchLocallyUniqueList: type === 'resource' && (!sharedResourceList || sharedResourceList.length === 0) ? true : false
   }
 }
 
@@ -203,13 +207,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {type} = ownProps
   let fetchCheckLocallyUniqueList, fetchCheckGloballyUniqueList, checkUnique;
 
-  if (type === "team") {
+  if (type === 'team') {
     fetchCheckGloballyUniqueList = () => dispatch(fetchTeamList())
-  } else if (type === "collection") {
+  } else if (type === 'collection') {
     fetchCheckLocallyUniqueList = () => dispatch(fetchCollectionList())
     fetchCheckGloballyUniqueList = () => dispatch(fetchCollectionList())
-  } else if (type === "subcollection") {
-  } else if (type === "resource") {
+  } else if (type === 'subcollection') {
+  } else if (type === 'resource') {
     fetchCheckLocallyUniqueList = () => dispatch(fetchSharedResourceList())
     fetchCheckGloballyUniqueList = () => dispatch(fetchResourceList())
   }
@@ -219,10 +223,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(takeWebScreenshot(url, callback))
     },
     fetchCheckLocallyUniqueList: fetchCheckLocallyUniqueList,
-    fetchCheckGloballyUniqueList: fetchCheckGloballyUniqueList,
+    fetchCheckGloballyUniqueList: fetchCheckGloballyUniqueList
   }
 }
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminForm)

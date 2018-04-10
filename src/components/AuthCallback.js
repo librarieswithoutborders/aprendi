@@ -1,9 +1,9 @@
-"use strict";
+
 
 import React from 'react'
-import { setIdToken, setAccessToken, getUserByHash, getParameterByName, isLoggedIn } from '../utils/AuthService';
-import { connect } from 'react-redux'
-import { sendUserInfoRequest } from '../actions/user';
+import {setIdToken, setAccessToken, getUserByHash, getParameterByName, isLoggedIn} from '../utils/AuthService';
+import {connect} from 'react-redux'
+import {sendUserInfoRequest} from '../actions/user';
 // import {withRouter} from "react-router-dom";
 
 class AuthCallback extends React.Component {
@@ -22,18 +22,14 @@ class AuthCallback extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
-  return {
+const mapStateToProps = () => ({
 
-  }
-}
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // setUserInfo: (user) => {
-    //   dispatch(setUserInfo(user))
-    // },
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  // setUserInfo: (user) => {
+  //   dispatch(setUserInfo(user))
+  // },
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthCallback)

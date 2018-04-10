@@ -1,8 +1,8 @@
 const checkIframeHeaders = (url, callback) => {
-  var req = new XMLHttpRequest();
+  const req = new XMLHttpRequest();
   req.open('GET', url, false);
   req.send(null);
-  var headers = req.getAllResponseHeaders().toLowerCase();
+  const headers = req.getAllResponseHeaders().toLowerCase();
   console.log(headers);
   return headers
 }
