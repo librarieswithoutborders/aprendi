@@ -70,7 +70,7 @@ class HomePage extends React.Component {
         <div className="home-page__section blue">
           <h1 className="home-page__section__title">Starting Guide</h1>
           <div className="home-page__section__content">
-            <h5 className="home-page__text__main">My Library Guide allows you to find and explore resources that have been collected by members of your community to answer common questions you might have.</h5>
+            <h5 className="home-page__text__main">My Library Guide allows you to find and explore resources collected by members of your community to answer common questions you might have.</h5>
             <p className="home-page__text__sub">Here are some example resource collections to get you started:</p>
             <p className="home-page__text__sub">Feel free to explore all of the collections that have been created here.</p>
             <h5 className="home-page__text__main">Want to create resource collections of your own?</h5>

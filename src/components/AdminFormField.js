@@ -17,7 +17,7 @@ class AdminFormField extends Component {
   }
 
   renderFieldContent() {
-    const { checkLocallyUnique, checkGloballyUnique } = this.props
+    const { checkLocallyUnique, checkGloballyUnique, error, asyncError } = this.props
     const { dbField, type, validate, asyncValidate, required, locallyUnique, globallyUnique } = this.props.settings
 
     const validationWrapper = (input) => {
@@ -53,42 +53,63 @@ class AdminFormField extends Component {
         return (
           <div className="form__field__value">
             <Text field={dbField} id={dbField} validate={validationWrapper} autoComplete="off"/>
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "TextArea":
         return (
           <div className="form__field__value">
             <TextArea field={dbField} id={dbField} validate={validationWrapper}/>
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "Checkbox":
         return (
           <div className="form__field__value">
             <Checkbox field={dbField} id={dbField} />
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "Image":
         return (
           <div className="form__field__value">
             <FileUploadField type="image" field={dbField}/>
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "PDF":
         return (
           <div className="form__field__value">
             <FileUploadField type="pdf" field={dbField}/>
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "RichText":
         return (
           <div className="form__field__value">
             <RichTextField field={dbField}/>
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
       case "ExternalWebsite":
         return (
           <div className="form__field__value">
             <ExternalWebsiteField field={dbField} />
+            {(error || asyncError) &&
+              <h5 className="form__field__error">{error || asyncError}</h5>
+            }
           </div>
         )
     }
@@ -105,9 +126,6 @@ class AdminFormField extends Component {
       <div className={(error || asyncError) ? "form__field field-error" : "form__field"} onFocus={() => this.showHelpText()}>
         <label className={required ? "form__field__label required" : "form__field__label"} htmlFor={dbField}>{required ? label + "*" : label}</label>
         {fieldContent}
-        {(error || asyncError) &&
-          <h5 className="form__field__error">{error || asyncError}</h5>
-        }
       </div>
     )
   }
