@@ -27,7 +27,7 @@ class CollectionDataContainer extends Component {
     console.log(history)
 
     if (nextProps.currCollection === "Not Found") {
-      history.push("/collections/?not_found=" + collectionPath)
+      history.replace("/collections/?not_found=" + collectionPath)
     }
 
     // collection path was edited
