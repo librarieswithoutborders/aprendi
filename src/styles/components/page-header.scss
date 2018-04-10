@@ -28,6 +28,10 @@ $created-by-width: 200px;
     display: table;
     width: 100%;
 
+    @include medium {
+      padding-right: 0px;
+    }
+
     .with-image & {
       color: white;
       background-color: rgba(0,0,0,.4);
@@ -90,27 +94,6 @@ $created-by-width: 200px;
 
     .button {
       margin: 10px 5px;
-      vertical-align: middle;
-      color: colors(grey);
-      border: none;
-      background-color: white;
-      box-shadow: standard-shadow(grey);
-
-      &:first-child {
-        margin-left: 0px;
-      }
-
-      .with-image & {
-        color: colors(white);
-        border: 1px solid colors(white);
-        background-color: rgba(0,0,0,0);
-        box-shadow: none;
-
-        &:hover {
-          background-color: colors(white);
-          color: colors(black);
-        }
-      }
     }
   }
 

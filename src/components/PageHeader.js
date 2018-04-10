@@ -27,10 +27,10 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, joinFunc, editingMode
               {editingMode &&
                 <div className="page-header__button-container">
                   {editFunc &&
-                    <div className="button button-transparent" onClick={editFunc}>{"Edit " + getButtonLabel(type)}</div>
+                    <div className={image_url ? "button button-transparent" : "button button-transparent-black"} onClick={editFunc}>{"Edit " + getButtonLabel(type)}</div>
                   }
                   {deleteFunc &&
-                    <div className="button button-transparent" onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</div>
+                    <div className={image_url ? "button button-transparent" : "button button-transparent-black"} onClick={deleteFunc}>{"Delete " + getButtonLabel(type)}</div>
                   }
                 </div>
               }

@@ -65,12 +65,12 @@
 
     &__button-container {
       padding-top: 5px;
-      & > .button {
+
+      .button {
         margin: 7px auto;
         display: block;
         width: 75%;
         max-width: 200px;
-
 
         @include medium {
           display: inline-block;

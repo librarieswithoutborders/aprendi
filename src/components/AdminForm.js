@@ -152,7 +152,7 @@ class AdminForm extends Component {
               <form id="form" onSubmit={formApi.submitForm}>
                 {this.renderFormFields(formApi)}
                 <div className="form__submit-container">
-                  <button type="submit" className="button form__submit">Submit</button>
+                  <button type="submit" className="button button-blue form__submit">Submit</button>
                 </div>
               </form>
             )}

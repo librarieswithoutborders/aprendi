@@ -49,8 +49,8 @@ class HomePage extends React.Component {
               <div className="home-page__section__content">
                 <p>My Library Guide is a tool developed by Libraries Without Borders to enable people to curate and add content Lorem Ipsum</p>
                 <div className="home-page__section__button-container">
-                  <div className="button button-transparent"><Link to="/collections/">Browse Collections</Link></div>
-                  <div className="button button-transparent"><Link to="/teams/">Browse Teams</Link></div>
+                  <Link to="/collections/"><div className="button button-transparent">Browse Collections</div></Link>
+                  <Link to="/teams/"><div className="button button-transparent">Browse Teams</div></Link>
                   <div className="button button-transparent" onClick={() => login()}>Admin Log in</div>
                 </div>
               </div>
