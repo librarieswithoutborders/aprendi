@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import PageHeader from './PageHeader'
 import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
-import { showAdminModal } from '../actions/index'
-import { removeUserFromTeam, addUserToTeam } from '../actions/user'
+import {showAdminModal} from '../actions/index'
+import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 import HomePage from './HomePage'
 import CoreAdminPortal from './CoreAdminPortal'
 import Search from './Search'
@@ -14,10 +14,10 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
   console.log(user)
   let mainContent;
   let title = 'Welcome '
-  title += user.permissions && user.permissions.teams && user.permissions.teams.length > 0 ? "Back " : ""
+  title += user.permissions && user.permissions.teams && user.permissions.teams.length > 0 ? 'Back ' : ''
   title += user.userInfo.given_name
 
-  let headerContents = {
+  const headerContents = {
     title: title
   }
 
@@ -37,20 +37,20 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">My Teams</h5>
           <div className="team-home-page__button button" onClick={() => createTeam(user)}>+ Create New Team</div>
-            <Grid
-              data={user.permissions.teams}
-              type="team"
-              clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
-              isDraggable={false}
-              editingMode={editingMode}
-            />
+          <Grid
+            data={user.permissions.teams}
+            type="team"
+            clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
+            isDraggable={false}
+            editingMode={editingMode}
+          />
         </div>
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Pending Requests</h5>
           <Grid
             data={user.permissions.pending_teams}
             type="team"
-            clickHandler={(teams, index) => history.push('/teams/' + teams[index].path)}
+            clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
             isDraggable={false}
             editingMode={false}
           />
@@ -74,7 +74,6 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
   //     </div>
   //   )
   // }
-
 
 
   return (
@@ -104,11 +103,11 @@ class UserHomePageContainer extends React.Component {
     console.log(this.props)
 
     if (user) {
-      if (user === "Logged out") {
+      if (user === 'Logged out') {
         return (
           <HomePage />
         )
-      } else if (user != "fetching") {
+      } else if (user != 'fetching') {
         return (
           <UserHomePage {...this.props} />
         );
@@ -121,27 +120,22 @@ class UserHomePageContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => ({
+  user: state.currUser,
+  editingMode: true
+})
 
-  return {
-    user: state.currUser,
-    editingMode: true,
+const mapDispatchToProps = dispatch => ({
+  userJoinTeamRequest: (user, team) => {
+    console.log(user, team)
+    dispatch(addUserToTeam(user, team, 'pending'))
+  },
+  removeUserFromTeam: (user, teamInfo) => {
+    dispatch(removeUserFromTeam(user, teamInfo))
+  },
+  createTeam: user => {
+    dispatch(showAdminModal({action: 'create', type: 'team', user: user}))
   }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    userJoinTeamRequest: (user, team) => {
-      console.log(user, team)
-      dispatch(addUserToTeam(user, team, "pending"))
-    },
-    removeUserFromTeam: (user, teamInfo) => {
-      dispatch(removeUserFromTeam(user, teamInfo))
-    },
-    createTeam: (user) => {
-      dispatch(showAdminModal({action:"create", type:"team", user: user}))
-    },
-  }
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserHomePageContainer)

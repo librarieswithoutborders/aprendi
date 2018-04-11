@@ -36,24 +36,28 @@ const filesToCreate = [
 
 function removePath(path, callback) {
   rimraf(path, error => {
-    if (error) throw new Error(error);
+    if (error) {
+      throw new Error(error);
+    }
     callback();
   });
 }
 
 function createFile(file) {
   fs.writeFile(file.path, file.content, error => {
-    if (error) throw new Error(error);
+    if (error) {
+      throw new Error(error);
+    }
   });
 }
 
 function removePackageJsonScriptEntry(scriptName) {
   const packageJsonPath = './package.json';
-  let fileData = fs.readFileSync(packageJsonPath);
-  let content = JSON.parse(fileData);
+  const fileData = fs.readFileSync(packageJsonPath);
+  const content = JSON.parse(fileData);
   delete content.scripts[scriptName];
   fs.writeFileSync(packageJsonPath,
-    JSON.stringify(content, null, 2) + '\n');
+    `${JSON.stringify(content, null, 2)}\n`);
 }
 
 let numPathsRemoved = 0;

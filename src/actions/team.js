@@ -2,15 +2,15 @@ import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModa
 
 export function createTeam(teamInfo) {
   console.log(teamInfo)
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"CREATE_TEAM", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'CREATE_TEAM', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + "/team",
+      `${dbPath}/team`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(teamInfo)
@@ -19,10 +19,10 @@ export function createTeam(teamInfo) {
       .then(json => {
         console.log(json)
         if (json.error) {
-          dispatch(setUpdateStatus({type:"CREATE_TEAM", status:"FAILED"}))
+          dispatch(setUpdateStatus({type: 'CREATE_TEAM', status: 'FAILED'}))
         } else {
           dispatch(hideAdminModal())
-          dispatch(setUpdateStatus({type:"CREATE_TEAM", status:"SUCCESS", data: json}))
+          dispatch(setUpdateStatus({type: 'CREATE_TEAM', status: 'SUCCESS', data: json}))
         }
       })
   }
@@ -30,15 +30,15 @@ export function createTeam(teamInfo) {
 
 export function updateTeam(teamInfo) {
   console.log(teamInfo)
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"UPDATE_TEAM", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'UPDATE_TEAM', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + "/team",
+      `${dbPath}/team`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(teamInfo)
@@ -47,83 +47,83 @@ export function updateTeam(teamInfo) {
       .then(json => {
         console.log(json)
         if (json.error) {
-          dispatch(setUpdateStatus({type:"UPDATE_TEAM", message:json.error.message, status:"FAILED"}))
+          dispatch(setUpdateStatus({type: 'UPDATE_TEAM', message: json.error.message, status: 'FAILED'}))
         } else {
           dispatch(hideAdminModal())
-          dispatch(setUpdateStatus({type:"UPDATE_TEAM", status:"SUCCESS", data:teamInfo.data}))
+          dispatch(setUpdateStatus({type: 'UPDATE_TEAM', status: 'SUCCESS', data: teamInfo.data}))
         }
       })
   }
 }
 
 export function deleteTeam(teamInfo) {
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"DELETE_TEAM", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'DELETE_TEAM', status: 'INITIATED'}))
     return fetch(
-      dbPath + '/team/?_id=' + teamInfo._id,
+      `${dbPath}/team/?_id=${teamInfo._id}`,
       {
-        method: "DELETE"
+        method: 'DELETE'
       })
-      .then(response => { return response.json()})
+      .then(response => response.json())
       .then(json => {
         console.log(json)
 
-        dispatch(setUpdateStatus({type:"DELETE_TEAM", status:"SUCCESS", data: teamInfo}))
+        dispatch(setUpdateStatus({type: 'DELETE_TEAM', status: 'SUCCESS', data: teamInfo}))
       })
   }
 }
 
 export function fetchTeam(path) {
-  console.log("get team info for ", path)
-  return (dispatch) => {
-    dispatch(setRequestStatus({type:"FETCH_TEAM", status:"INITIATED"}))
+  console.log('get team info for ', path)
+  return dispatch => {
+    dispatch(setRequestStatus({type: 'FETCH_TEAM', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + '/team/?path=' + path,
+      `${dbPath}/team/?path=${path}`,
       {
-        method: "GET"
+        method: 'GET'
       })
-      .then(response => { return response.json()})
+      .then(response => response.json())
       .then(json => {
         console.log(json)
         if (json) {
-          dispatch(setRequestStatus({type:"FETCH_TEAM", status:"SUCCESS", data:json}))
+          dispatch(setRequestStatus({type: 'FETCH_TEAM', status: 'SUCCESS', data: json}))
         } else {
-          dispatch(setRequestStatus({type:"FETCH_TEAM", status:"FAILURE"}))
+          dispatch(setRequestStatus({type: 'FETCH_TEAM', status: 'FAILURE'}))
         }
       })
   }
 }
 
 export function fetchTeamList() {
-  return (dispatch) => {
-    dispatch(setRequestStatus({type:"FETCH_TEAMS", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setRequestStatus({type: 'FETCH_TEAMS', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + '/teams',
+      `${dbPath}/teams`,
       {
-        method: "GET"
+        method: 'GET'
       })
-      .then(response => { return response.json()})
+      .then(response => response.json())
       .then(json => {
         console.log(json)
 
-        dispatch(setRequestStatus({type:"FETCH_TEAMS", status:"SUCCESS", data:json}))
+        dispatch(setRequestStatus({type: 'FETCH_TEAMS', status: 'SUCCESS', data: json}))
       })
   }
 }
 
 export function teamApproveUserRequest(user, team) {
-  console.log("adding", user, team)
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", status:"INITIATED"}))
+  console.log('adding', user, team)
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'TEAM_APPROVE_USER_REQUEST', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + "/team_approve_user_request",
+      `${dbPath}/team_approve_user_request`,
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({userId: user._id, teamId: team._id})
@@ -132,10 +132,10 @@ export function teamApproveUserRequest(user, team) {
       .then(json => {
         console.log(json)
         if (json.error) {
-          dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", message:json.error.message, status:"FAILED"}))
+          dispatch(setUpdateStatus({type: 'TEAM_APPROVE_USER_REQUEST', message: json.error.message, status: 'FAILED'}))
         } else {
           dispatch(hideAdminModal())
-          dispatch(setUpdateStatus({type:"TEAM_APPROVE_USER_REQUEST", status:"SUCCESS", data: user}))
+          dispatch(setUpdateStatus({type: 'TEAM_APPROVE_USER_REQUEST', status: 'SUCCESS', data: user}))
         }
       })
   }

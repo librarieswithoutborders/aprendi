@@ -1,12 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {showAdminModal} from '../actions/index'
 import {fetchTeam, deleteTeam, updateTeam, teamApproveUserRequest} from '../actions/team'
 import {resetCurrCollection} from '../actions/collection'
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
 import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import PageHeader from './PageHeader'
 import Grid from './Grid'
 import Search from './Search'
@@ -15,10 +15,10 @@ import canUserEdit from '../utils/canUserEdit'
 
 
 const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUser, userJoinTeamRequest}) => {
-  let headerContents = {
+  const headerContents = {
     title: teamInfo.team_name,
     image_url: teamInfo.image_url,
-    description: teamInfo.description,
+    description: teamInfo.description
   }
 
   return (
@@ -38,14 +38,18 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             {teamInfo.pending_users &&
               <Grid
                 data={teamInfo.pending_users.sort((a, b) => {
-                  if(a.name < b.name) return -1;
-                  if(a.name > b.name) return 1;
+                  if (a.name < b.name) {
+                    return -1;
+                  }
+                  if (a.name > b.name) {
+                    return 1;
+                  }
                   return 0;
                 })}
                 type="user"
                 buttonClickHandler={{
-                  func: (user) => approveUserRequest(user, teamInfo),
-                  text: "Approve User Join Request",
+                  func: user => approveUserRequest(user, teamInfo),
+                  text: 'Approve User Join Request',
                   onlyAllowCurrUser: false
                 }}
                 isDraggable={false}
@@ -60,20 +64,26 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
           {teamInfo.collections &&
             <Grid
               data={teamInfo.collections.sort((a, b) => {
-                if(a.title < b.title) return -1;
-                if(a.title > b.title) return 1;
+                if (a.title < b.title) {
+                  return -1;
+                }
+                if (a.title > b.title) {
+                  return 1;
+                }
                 return 0;
               })}
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
-              clickHandler={(data, i) => { console.log(data, i); history.push("/" + data[i].path)}}
+              clickHandler={(data, i) => {
+                console.log(data, i); history.push(`/${data[i].path}`)
+              }}
               isDraggable={false}
               editingMode={editingMode}
               createNewText="Create New Collection"
             />
           }
           {!teamInfo.collections &&
-            <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " has not created any collections yet."}</h5>
+            <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not created any collections yet.`}</h5>
           }
         </div>
         <div className="team-home-page__section">
@@ -88,7 +98,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             </div>
           }
           {!teamInfo.resources || teamInfo.resources.length === 0 &&
-            <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " has not added any resources yet."}</h5>
+            <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not added any resources yet.`}</h5>
           }
         </div>
         {editingMode &&
@@ -97,15 +107,19 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             {teamInfo.users &&
               <Grid
                 data={teamInfo.users.sort((a, b) => {
-                  if(a.name < b.name) return -1;
-                  if(a.name > b.name) return 1;
+                  if (a.name < b.name) {
+                    return -1;
+                  }
+                  if (a.name > b.name) {
+                    return 1;
+                  }
                   return 0;
                 })}
                 type="user"
                 createNew={() => addUserToTeam(teamInfo)}
                 buttonClickHandler={{
-                  func: (user) => removeUserFromTeam(user, teamInfo),
-                  text: isCoreAdmin ? "Remove User From Team" : "Leave this Team",
+                  func: user => removeUserFromTeam(user, teamInfo),
+                  text: isCoreAdmin ? 'Remove User From Team' : 'Leave this Team',
                   onlyAllowCurrUser: true
                 }}
                 isDraggable={false}
@@ -114,7 +128,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               />
             }
             {!teamInfo.users &&
-              <h5 className="team-home-page__placeholder-text">{teamInfo.team_name + " currently has no team members."}</h5>
+              <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} currently has no team members.`}</h5>
             }
           </div>
         }
@@ -145,13 +159,13 @@ class TeamHomePageContainer extends React.Component {
     const {history, match} = this.props;
     const {teamPath} = match.params
 
-    if (nextProps.teamInfo === "Not Found") {
-      history.replace("/teams/?not_found=" + teamPath)
+    if (nextProps.teamInfo === 'Not Found') {
+      history.replace(`/teams/?not_found=${teamPath}`)
     }
 
     // team path edited
     if (this.props.teamInfo && nextProps.teamInfo && this.props.teamInfo.path !== nextProps.teamInfo.path) {
-      history.replace("/teams/" + nextProps.teamInfo.path)
+      history.replace(`/teams/${nextProps.teamInfo.path}`)
     }
 
     // team was deleted
@@ -167,15 +181,13 @@ class TeamHomePageContainer extends React.Component {
       return (
         <TeamHomePage {...this.props} />
       );
-    } else {
-      return <LoadingIcon />
     }
-
+    return <LoadingIcon />
   }
 }
 
-const mapStateToProps = (state) => {
-  let editingMode = canUserEdit(state.currUser, state.currTeam, "team")
+const mapStateToProps = state => {
+  const editingMode = canUserEdit(state.currUser, state.currTeam, 'team')
   return {
     teamInfo: state.currTeam,
     editingMode: editingMode,
@@ -185,43 +197,41 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchTeam: (teamPath) => {
-      dispatch(fetchTeam(teamPath))
-    },
-    deleteTeam: (teamInfo) => {
-      dispatch(deleteTeam(teamInfo))
-    },
-    updateTeam: (teamInfo) => {
-      dispatch(showAdminModal({action:"update", type:"team", data:teamInfo}))
-    },
-    addUserToTeam: (teamInfo) => {
-      dispatch(showAdminModal({action:"add_user", type:"team", data:teamInfo}))
-    },
-    userJoinTeamRequest: (user, team) => {
-      dispatch(addUserToTeam(user, team, "pending"))
-    },
-    approveUserRequest: (user, teamInfo) => {
-      dispatch(teamApproveUserRequest(user, teamInfo))
-    },
-    removeUserFromTeam: (user, teamInfo) => {
-      dispatch(removeUserFromTeam(user, teamInfo))
-    },
-    createNewCollection: (teamId) => {
-      dispatch(showAdminModal({action:"create", type:"collection", team:teamId}))
-    },
-    resetCurrCollection: () => {
-      dispatch(resetCurrCollection())
-    },
-    createNewResource: (teamId) => {
-      dispatch(showAdminModal({action:"create", type:"resource", team:teamId, parent: null, showExisting: false}))
-    },
-    fetchResourceList: () => dispatch(fetchResourceList("all")),
-    showResourceViewer: (resource) => {
-      dispatch(showResourceViewer({parent: null, resourceList: [resource], currIndex: 0}))
-    },
+const mapDispatchToProps = dispatch => ({
+  fetchTeam: teamPath => {
+    dispatch(fetchTeam(teamPath))
+  },
+  deleteTeam: teamInfo => {
+    dispatch(deleteTeam(teamInfo))
+  },
+  updateTeam: teamInfo => {
+    dispatch(showAdminModal({action: 'update', type: 'team', data: teamInfo}))
+  },
+  addUserToTeam: teamInfo => {
+    dispatch(showAdminModal({action: 'add_user', type: 'team', data: teamInfo}))
+  },
+  userJoinTeamRequest: (user, team) => {
+    dispatch(addUserToTeam(user, team, 'pending'))
+  },
+  approveUserRequest: (user, teamInfo) => {
+    dispatch(teamApproveUserRequest(user, teamInfo))
+  },
+  removeUserFromTeam: (user, teamInfo) => {
+    dispatch(removeUserFromTeam(user, teamInfo))
+  },
+  createNewCollection: teamId => {
+    dispatch(showAdminModal({action: 'create', type: 'collection', team: teamId}))
+  },
+  resetCurrCollection: () => {
+    dispatch(resetCurrCollection())
+  },
+  createNewResource: teamId => {
+    dispatch(showAdminModal({action: 'create', type: 'resource', team: teamId, parent: null, showExisting: false}))
+  },
+  fetchResourceList: () => dispatch(fetchResourceList('all')),
+  showResourceViewer: resource => {
+    dispatch(showResourceViewer({parent: null, resourceList: [resource], currIndex: 0}))
   }
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(TeamHomePageContainer)

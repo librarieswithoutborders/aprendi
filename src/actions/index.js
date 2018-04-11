@@ -1,4 +1,4 @@
-export const dbPath = process.env.NODE_ENV === "production" ? 'https://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
+export const dbPath = process.env.NODE_ENV === 'production' ? 'https://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
 
 import processFileName from '../utils/processFileName'
 
@@ -21,86 +21,85 @@ export function setRequestStatus({type, status, data}) {
 
 export function showAdminModal(content) {
   return {
-    type: "SHOW_ADMIN_MODAL",
+    type: 'SHOW_ADMIN_MODAL',
     content
   }
 }
 
 export function hideAdminModal() {
   return {
-    type: "HIDE_ADMIN_MODAL",
+    type: 'HIDE_ADMIN_MODAL'
   }
 }
 
 export function uploadFile(file, addHash, callback) {
-  let newFile = processFileName(file, addHash)
+  const newFile = processFileName(file, addHash)
 
   // let reader = new FileReader()
   // console.log(reader.readAsDataURL(newFile))
 
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'INITIATED'}))
 
     return getS3SignedRequest(newFile, response => {
       console.log(response)
       if (!response || !response.signedUrl) {
-        dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"FAILED"}))
+        dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'FAILED'}))
         return
-      } else {
-        return fetch(
-          response.signedUrl,
-          {
-            method: "PUT",
-            body: newFile
-          }
-        )
+      }
+      return fetch(
+        response.signedUrl,
+        {
+          method: 'PUT',
+          body: newFile
+        }
+      )
         .then(response => {
           console.log(response)
           if (response.status == 200) {
-            dispatch(setUpdateStatus({type:"UPLOAD_FILE", status:"SUCCESS"}))
+            dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'SUCCESS'}))
             callback ? callback(newFile.name) : null
           }
         })
-      }
     })
   }
 }
 
 export function takeWebScreenshot(url, callback) {
-  return (dispatch) => {
-    dispatch(setUpdateStatus({type:"FILE_UPLOAD", status:"INITIATED"}))
+  return dispatch => {
+    dispatch(setUpdateStatus({type: 'FILE_UPLOAD', status: 'INITIATED'}))
 
     return fetch(
-      dbPath + '/take-web-screenshot?url=' + url,
+      `${dbPath}/take-web-screenshot?url=${url}`,
       {
-        method: "GET"
+        method: 'GET'
       }
     ).then(response => response.json())
-    .then((d) => {
-      console.log(d)
-      callback(d)
-      dispatch(setUpdateStatus({type:"FILE_UPLOAD", status:"SUCCESS", data: d}))
-    })
+      .then(d => {
+        console.log(d)
+        callback(d)
+        dispatch(setUpdateStatus({type: 'FILE_UPLOAD', status: 'SUCCESS', data: d}))
+      })
   }
 }
 
 function getS3SignedRequest(file, callback) {
   return fetch(
-    dbPath + '/sign-s3?file-name=' + file.name + '&file-type=' + file.type,
+    `${dbPath}/sign-s3?file-name=${file.name}&file-type=${file.type}`,
     {
-      method: "GET"
+      method: 'GET'
     }
   ).then(response => response.json())
-  .then(callback)
+    .then(callback)
 }
 
 export function checkExternalSiteHeaders(url, callback) {
   return fetch(
     url,
     {
-      method: "GET",
+      method: 'GET',
       mode: 'no-cors'
     }
   ).then(response => console.log(response))
-  .then(callback)
+    .then(callback)
 }

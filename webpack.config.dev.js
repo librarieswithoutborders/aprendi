@@ -25,16 +25,16 @@ export default {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
-        AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN ),
-        API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE ),
-        AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID ),
-        CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL )
+        AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN),
+        API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE),
+        AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID),
+        CALLBACK_URL: JSON.stringify(process.env.CALLBACK_URL)
       },
       __DEV__: true
     }),
     new webpack.HotModuleReplacementPlugin(),
     // new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({     // Create HTML file that includes references to bundled CSS and JS.
+    new HtmlWebpackPlugin({ // Create HTML file that includes references to bundled CSS and JS.
       template: 'src/index.ejs',
       minify: {
         removeComments: true,
@@ -82,7 +82,7 @@ export default {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
-            loader: 'svg-react-loader',
+            loader: 'svg-react-loader'
           }
         ]
       },

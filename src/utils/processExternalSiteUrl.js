@@ -1,12 +1,12 @@
 function processExternalSiteUrl(url) {
-  let retVal = ""
+  let retVal = ''
 
-  if (url.slice(0,8) === "https://") {
+  if (url.slice(0, 8) === 'https://') {
     retVal = url
-  } else if (url.slice(0,7) === "http://") {
-    retVal = "https://" + url.slice(7)
+  } else if (url.slice(0, 7) === 'http://') {
+    retVal = `https://${url.slice(7)}`
   } else {
-    retVal = "https://" + url
+    retVal = `https://${url}`
   }
 
   console.log(retVal)

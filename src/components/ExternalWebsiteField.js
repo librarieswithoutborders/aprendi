@@ -1,8 +1,8 @@
 import React from 'react';
 import Dropzone from 'react-dropzone'
-import { uploadFile, takeWebScreenshot } from '../actions/index'
-import { connect } from 'react-redux'
-import { Form, Text, Field } from 'react-form';
+import {uploadFile, takeWebScreenshot} from '../actions/index'
+import {connect} from 'react-redux'
+import {Form, Text, Field} from 'react-form';
 import PdfViewer from './PdfViewer'
 const validUrl = require('valid-url');
 
@@ -22,11 +22,10 @@ class ExternalWebsiteFieldContent extends React.Component {
   }
 
   onFocusOut() {
-    let value = this.props.fieldApi.value
+    const value = this.props.fieldApi.value
     console.log(value)
 
-    if (validUrl.isUri(value)){
-
+    if (validUrl.isUri(value)) {
       this.initiateScreenshot(value)
       this.setState({
         currValue: value,
@@ -38,24 +37,23 @@ class ExternalWebsiteFieldContent extends React.Component {
         error: true
       })
     }
-
   }
 
   initiateScreenshot(value) {
-    const { takeWebScreenshot } = this.props
+    const {takeWebScreenshot} = this.props
 
     takeWebScreenshot(value)
   }
 
   generatePreview(fileUrl) {
-    const { fileUploadStatus } = this.props
+    const {fileUploadStatus} = this.props
     // const { setValue } = fieldApi;
 
-    const { currValue } = this.state
+    const {currValue} = this.state
 
     return (
       <div className="form__external-website__preview-container">
-        <div className="form__external-website__preview" style={{ backgroundImage: "url('https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + fileUploadStatus + "')" }} />
+        <div className="form__external-website__preview" style={{backgroundImage: `url('https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/${fileUploadStatus}')`}} />
       </div>
     )
   }
@@ -68,14 +66,14 @@ class ExternalWebsiteFieldContent extends React.Component {
 
   render() {
     console.log(this.props)
-    const { type, fieldApi, fileUploadStatus } = this.props
-    const { currValue, error} = this.state
+    const {type, fieldApi, fileUploadStatus} = this.props
+    const {currValue, error} = this.state
 
     console.log(fieldApi)
-    const { getError, getWarning, getSuccess, setTouched, setValue } = fieldApi;
+    const {getError, getWarning, getSuccess, setTouched, setValue} = fieldApi;
 
-    let preview = fileUploadStatus ? this.generatePreview() : null
-    let errorMessage = error ? this.generateErrorMessage() : null
+    const preview = fileUploadStatus ? this.generatePreview() : null
+    const errorMessage = error ? this.generateErrorMessage() : null
 
     return (
       <div className="form__external-website">
@@ -99,26 +97,21 @@ class ExternalWebsiteField extends React.Component {
         }}
       </Field>
     )
-
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    fileUploadStatus: state.fileUploadStatus
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  fileUploadStatus: state.fileUploadStatus
+})
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    takeWebScreenshot: (url, callback) => {
-      console.log(url)
-      dispatch(takeWebScreenshot(url, callback))
-    },
-    uploadFile: (file, addHash, callback) => {
-      dispatch(uploadFile(file, addHash, callback))
-    }
+const mapDispatchToProps = dispatch => ({
+  takeWebScreenshot: (url, callback) => {
+    console.log(url)
+    dispatch(takeWebScreenshot(url, callback))
+  },
+  uploadFile: (file, addHash, callback) => {
+    dispatch(uploadFile(file, addHash, callback))
   }
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExternalWebsiteField)

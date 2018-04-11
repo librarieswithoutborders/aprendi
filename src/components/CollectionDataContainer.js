@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { fetchCollection, resetCurrCollection } from '../actions/collection'
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import {fetchCollection, resetCurrCollection} from '../actions/collection'
+import {connect} from 'react-redux'
 import CollectionInternalRouter from './CollectionInternalRouter'
 import LoadingIcon from './LoadingIcon'
 
@@ -11,13 +11,13 @@ class CollectionDataContainer extends Component {
 
   componentWillMount() {
     const {collectionPath, currCollection, fetchCollection} = this.props;
-    if (!currCollection || typeof currCollection != 'object') {
+    if (!currCollection || typeof currCollection !== 'object') {
       fetchCollection(collectionPath)
     }
   }
 
   componentWillUnmount() {
-    console.log("UNMOUNTING!!!")
+    console.log('UNMOUNTING!!!')
     this.props.resetCurrCollection()
   }
 
@@ -26,13 +26,13 @@ class CollectionDataContainer extends Component {
 
     console.log(history)
 
-    if (nextProps.currCollection === "Not Found") {
-      history.replace("/collections/?not_found=" + collectionPath)
+    if (nextProps.currCollection === 'Not Found') {
+      history.replace(`/collections/?not_found=${collectionPath}`)
     }
 
     // collection path was edited
     if (this.props.currCollection && nextProps.currCollection && this.props.currCollection.path && nextProps.currCollection.path && this.props.currCollection.path !== nextProps.currCollection.path) {
-      history.replace("/" + nextProps.currCollection.path)
+      history.replace(`/${nextProps.currCollection.path}`)
     }
 
     // collection was deleted
@@ -42,7 +42,7 @@ class CollectionDataContainer extends Component {
     // }
 
     // subcollection was changed, refetching collection
-    if (nextProps.currCollection === "Invalid") {
+    if (nextProps.currCollection === 'Invalid') {
       const {collectionPath, fetchCollection} = nextProps;
       fetchCollection(collectionPath)
     }
@@ -50,16 +50,15 @@ class CollectionDataContainer extends Component {
 
   render() {
     const {collectionPath, currCollection, fetchCollection, match} = this.props;
-    if (currCollection && currCollection != "Fetching" && currCollection != "Not Found" && currCollection != "Invalid") {
+    if (currCollection && currCollection != 'Fetching' && currCollection != 'Not Found' && currCollection != 'Invalid') {
       return <CollectionInternalRouter data={currCollection} match={match} />
-    } else {
-      return <LoadingIcon />
     }
+    return <LoadingIcon />
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let path = ownProps.match.params.collectionPath
+  const path = ownProps.match.params.collectionPath
   return {
     collectionPath: path,
     currCollection: state.currCollection,
@@ -67,18 +66,16 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchCollection: (id) => {
-      dispatch(fetchCollection(id))
-    },
-    resetCurrCollection: () => {
-      dispatch(resetCurrCollection())
-    },
-    showAdminModal: (props) => {
-      dispatch(showAdminModal(props))
-    },
+const mapDispatchToProps = dispatch => ({
+  fetchCollection: id => {
+    dispatch(fetchCollection(id))
+  },
+  resetCurrCollection: () => {
+    dispatch(resetCurrCollection())
+  },
+  showAdminModal: props => {
+    dispatch(showAdminModal(props))
   }
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionDataContainer)

@@ -1,26 +1,25 @@
 import React from 'react';
 import RichTextEditor from 'react-rte';
-import { Field } from 'react-form';
+import {Field} from 'react-form';
 import richTextToolbarConfig from '../utils/richTextToolbarConfig'
 
 class RichTextField extends React.Component {
   constructor(props) {
     super(props)
 
-    let currValue = props.fieldApi.value
+    const currValue = props.fieldApi.value
     this.state = {
-      content: RichTextEditor.createValueFromString(currValue ? currValue : "", 'html'),
+      content: RichTextEditor.createValueFromString(currValue ? currValue : '', 'html'),
       active: false
     }
   }
 
   onChange(value) {
-    let formattedValue = value.toString('html')
+    const formattedValue = value.toString('html')
     this.props.fieldApi.setValue(formattedValue)
     this.setState({
       content: value
     });
-
   }
 
   setActive() {
@@ -32,12 +31,12 @@ class RichTextField extends React.Component {
   }
 
   render() {
-    const { active, content } = this.state
-    return(
-      <div className={active ? "form__field__rich-text active" : "form__field__rich-text"} tabIndex="0" onClick={() => this.setActive()}>
+    const {active, content} = this.state
+    return (
+      <div className={active ? 'form__field__rich-text active' : 'form__field__rich-text'} tabIndex="0" onClick={() => this.setActive()}>
         <RichTextEditor
           value={content}
-          onChange={(value) => this.onChange(value)}
+          onChange={value => this.onChange(value)}
           toolbarConfig={richTextToolbarConfig}
         />
       </div>
@@ -45,15 +44,12 @@ class RichTextField extends React.Component {
   }
 }
 
-const RichTextFieldContainer = ({field}) => {
-  return (
-    <Field field={field}>
-      {fieldApi =>
-        <RichTextField fieldApi={fieldApi} />
-      }
-    </Field>
-  )
-
-}
+const RichTextFieldContainer = ({field}) => (
+  <Field field={field}>
+    {fieldApi =>
+      <RichTextField fieldApi={fieldApi} />
+    }
+  </Field>
+)
 
 export default RichTextFieldContainer

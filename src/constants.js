@@ -69,5 +69,5 @@ export const videoProviderOptions = [
   {
     label: 'Vimeo',
     value: 'vimeo'
-  },
+  }
 ]
