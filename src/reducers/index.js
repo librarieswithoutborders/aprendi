@@ -13,6 +13,17 @@ function adminModalContent(state = null, action) {
   }
 }
 
+function warningModalContent(state = null, action) {
+  switch (action.type) {
+    case 'HIDE_WARNING_MODAL':
+      return null
+    case 'SHOW_WARNING_MODAL':
+      return action.content
+    default:
+      return state
+  }
+}
+
 function teamList(state = null, action) {
   switch (action.type) {
     case 'FETCH_TEAMS':
@@ -37,6 +48,10 @@ function teamList(state = null, action) {
         state.splice(deletedIndex, 1)
         return [...state]
       }
+    case 'TEAM_APPROVE_USER_REQUEST':
+      if (action.status === 'SUCCESS' && state) {
+        return 'Invalid'
+      }
     default:
       return state
   }
@@ -58,6 +73,9 @@ function updateStatus(state = null, action) {
 
 function currTeam(state = null, action) {
   switch (action.type) {
+    case 'RESET_CURR_TEAM':
+      return null
+
     case 'FETCH_TEAM':
       if (action.status === 'SUCCESS') {
         return action.data
@@ -91,7 +109,8 @@ function currTeam(state = null, action) {
         return newState
       }
     case 'TEAM_APPROVE_USER_REQUEST':
-      if (action.status === 'SUCCESS' && state) {
+      console.log(state, action.data)
+      if (action.status === 'SUCCESS' && state && state != {}) {
         const newState = {}
         Object.assign(newState, state)
         const deletedIndex = state.pending_users.indexOf(action.data)
@@ -103,7 +122,7 @@ function currTeam(state = null, action) {
       if (action.status === 'SUCCESS') {
         const newState = {}
         Object.assign(newState, state)
-        newState.collections.push(action.data)
+        newState.collections ? newState.collections.push(action.data) : null
         return newState
       }
     case 'UPDATE_COLLECTION':
@@ -283,6 +302,21 @@ function currUser(state = null, action) {
         newState.permissions.teams.push(action.data)
         return newState
       }
+    case 'TEAM_REMOVE_USER':
+      if (action.status === 'SUCCESS' && state && state.permissions && action.data._id === state.permissions._id) {
+        const newState = {}
+        Object.assign(newState, state)
+        newState.permissions = 'Invalid'
+        return newState
+      }
+    case 'TEAM_JOIN_REQUEST':
+      if (action.status === 'SUCCESS') {
+        const newState = {}
+        Object.assign(newState, state)
+        newState.permissions = 'Invalid'
+        return newState
+      }
+
     default:
       return state
   }
@@ -355,6 +389,7 @@ function fileUploadStatus(state = null, action) {
 
 const rootReducer = combineReducers({
   adminModalContent,
+  warningModalContent,
   teamList,
   currTeam,
   userList,

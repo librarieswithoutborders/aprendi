@@ -99,10 +99,33 @@ textarea {
     }
   }
 
+  &.button-grey {
+    background-color: colors(grey);
+    color: colors(white);
+    box-shadow: none;
+    border: none;
+
+    a {
+      color: colors(white);
+    }
+
+    &:hover {
+      // background-color: colors(blue);
+      // border-color: colors(blue);
+      // color: colors(white);
+      opacity: .7;
+
+      // a {
+      //   color: colors(white);
+      // }
+    }
+  }
+
   &.button-blue {
     background-color: colors(blue);
     color: colors(white);
     box-shadow: none;
+    border: none;
     // border: 1px solid colors(blue);
 
     a {
@@ -110,8 +133,8 @@ textarea {
     }
 
     &:hover {
-      background-color: colors(blue-70);
-      opacity: 1;
+      // background-color: colors(blue-70);
+      opacity: .7;
 
       a {
       }

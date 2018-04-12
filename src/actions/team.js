@@ -140,3 +140,9 @@ export function teamApproveUserRequest(user, team) {
       })
   }
 }
+
+export function resetCurrTeam() {
+  return {
+    type: 'RESET_CURR_TEAM'
+  }
+}

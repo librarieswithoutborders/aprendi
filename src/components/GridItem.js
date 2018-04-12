@@ -42,11 +42,11 @@ class GridItem extends React.Component {
       let imageUrl;
 
       // temporary conditional while issue of pdf thumbnail creation persists
-      if (type === "resource" && this.data.resource_type === "pdf") {
+      // if (type === "resource" && this.data.resource_type === "pdf") {
         imageUrl = this.data.image_url
-      } else {
-        imageUrl = this.data.image_url.replace('/images/', '/thumbnail-images/')
-      }
+      // } else {
+      //   imageUrl = this.data.image_url.replace('/images/', '/thumbnail-images/')
+      // }
 
       styleObject.backgroundImage = 'url("' + imageUrl + '")'
 

@@ -1,8 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {showAdminModal} from '../actions/index'
+import {showAdminModal, showWarningModal} from '../actions/index'
 import {fetchTeam, deleteTeam, updateTeam, teamApproveUserRequest} from '../actions/team'
-import {resetCurrCollection} from '../actions/collection'
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
 import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 
@@ -143,7 +142,7 @@ class TeamHomePageContainer extends React.Component {
   }
 
   componentWillMount() {
-    const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList, currCollection, resetCurrCollection} = this.props
+    const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList, currCollection} = this.props
     const {teamPath} = match.params
 
     console.log(teamInfo)
@@ -202,7 +201,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchTeam(teamPath))
   },
   deleteTeam: teamInfo => {
-    dispatch(deleteTeam(teamInfo))
+    dispatch(showWarningModal({
+      message: `Are you sure you would like to permanently delete team ${teamInfo.team_name} ?`,
+      options: [
+        {text: 'Yes', action: () => dispatch(deleteTeam(teamInfo))}
+      ]
+    }))
   },
   updateTeam: teamInfo => {
     dispatch(showAdminModal({action: 'update', type: 'team', data: teamInfo}))
@@ -217,13 +221,15 @@ const mapDispatchToProps = dispatch => ({
     dispatch(teamApproveUserRequest(user, teamInfo))
   },
   removeUserFromTeam: (user, teamInfo) => {
-    dispatch(removeUserFromTeam(user, teamInfo))
+    dispatch(showWarningModal({
+      message: `Are you sure you would like to remove ${user.name} from ${teamInfo.team_name} ?`,
+      options: [
+        {text: 'Yes', action: () => dispatch(removeUserFromTeam(user, teamInfo))}
+      ]
+    }))
   },
   createNewCollection: teamId => {
     dispatch(showAdminModal({action: 'create', type: 'collection', team: teamId}))
-  },
-  resetCurrCollection: () => {
-    dispatch(resetCurrCollection())
   },
   createNewResource: teamId => {
     dispatch(showAdminModal({action: 'create', type: 'resource', team: teamId, parent: null, showExisting: false}))

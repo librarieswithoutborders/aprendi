@@ -238,7 +238,17 @@ const mapStateToProps = (state, ownProps) => {
   } else if (type === 'team') {
     return {
       parent: state.currUser ? state.currUser.permissions : null,
-	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(d => d.users && d.users.indexOf(state.currUser.permissions._id) < 0 && d.pending_users.indexOf(state.currUser.permissions._id) < 0) : state.teamList
+	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(team => {
+        const userId = state.currUser.permissions._id
+        if (team.users && team.users.indexOf(userId) >= 0) {
+          return false
+        }
+        if (team.pending_users && team.pending_users.find(d => d._id === userId)) {
+          return false
+        }
+        return true
+      })
+        : state.teamList
 	  }
   } else if (type === 'collection') {
     return {

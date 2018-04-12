@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {showAdminModal} from '../actions/index'
+import {showAdminModal, showWarningModal} from '../actions/index'
 import {invalidateCurrCollection, collectionRemoveResource} from '../actions/collection'
 import {subcollectionRemoveResource} from '../actions/subcollection'
 import {setCurrResourceIndex, deleteResource, hideResourceViewer} from '../actions/resource'
@@ -34,7 +34,7 @@ class ResourceViewer extends Component {
 
     const editingFunctions = {
       removeResource: (editingMode && parent) ? id => removeResourceFromCollection(id, parent) : null,
-      deleteResource: editingMode ? data => deleteResource(data) : null,
+      deleteResource: editingMode ? data => deleteResource(data, parent) : null,
       updateResource: editingMode ? data => updateResource(data) : null
     }
 
@@ -83,13 +83,13 @@ class ResourceViewer extends Component {
             <div className="resource-viewer__footer__content">
               <div className="resource-viewer__footer__button-container">
                 {editingFunctions.updateResource &&
-                  <h5 className="resource-viewer__footer__button" onClick={() => updateResource(content)}>Edit Resource</h5>
+                  <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.updateResource(content)}>Edit Resource</h5>
                 }
                 {editingFunctions.removeResource &&
-                  <h5 className="resource-viewer__footer__button" onClick={() => removeResource(content)}>Remove Resource From Collection</h5>
+                  <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.removeResource(content)}>Remove Resource From Collection</h5>
                 }
                 {editingFunctions.deleteResource &&
-                  <h5 className="resource-viewer__footer__button" onClick={() => deleteResource(content)}>Delete Resource</h5>
+                  <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.deleteResource(content)}>Delete Resource</h5>
                 }
               </div>
             </div>
@@ -121,14 +121,40 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setCurrResourceIndex(currIndex - 1))
   },
   removeResourceFromCollection: (resource, parent) => {
+    let confirmFunc;
     if (parent.parentType === 'collection') {
-      dispatch(collectionRemoveResource(resource, parent.parentId))
+      confirmFunc = () => dispatch(collectionRemoveResource(resource, parent.parentId))
     } else {
-      dispatch(subcollectionRemoveResource(resource, parent.parentId))
+      confirmFunc = () => dispatch(subcollectionRemoveResource(resource, parent.parentId))
     }
+
+    dispatch(showWarningModal({
+      message: `Are you sure you would like to remove resource ${resource.title} from ${parent.parentTitle}?`,
+      options: [{text: 'Remove', action: confirmFunc}]
+    }))
   },
-  deleteResource: resourceInfo => {
-    dispatch(deleteResource(resourceInfo))
+  deleteResource: (resourceInfo, parent) => {
+    const options = []
+
+    console.log(parent)
+
+    if (parent) {
+      let alternateFunc
+      if (parent.parentType === 'collection') {
+        alternateFunc = () => dispatch(collectionRemoveResource(resourceInfo._id, parent.parentId))
+      } else {
+        alternateFunc = () => dispatch(subcollectionRemoveResource(resourceInfo._id, parent.parentId))
+      }
+      options.push({text: 'Just Remove from this Collection', action: alternateFunc})
+    }
+
+    options.push({text: 'Permanently Delete', action: () => dispatch(deleteResource(resourceInfo))})
+
+    dispatch(showWarningModal({
+      message: `Are you sure you would like to permanently delete resource ${resourceInfo.title}?`,
+      submessage: 'If this resource is part of other collectons, it will be deleted from wherever it appears.',
+      options: options
+    }))
   },
   updateResource: data => {
     dispatch(hideResourceViewer())

@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 import PageHeader from './PageHeader'
 import Grid from './Grid'
 import LoadingIcon from './LoadingIcon'
-import {showAdminModal} from '../actions/index'
-import {removeUserFromTeam, addUserToTeam} from '../actions/user'
+import {showAdminModal, showWarningModal} from '../actions/index'
+import {removeUserFromTeam, addUserToTeam, sendUserInfoRequest} from '../actions/user'
 import HomePage from './HomePage'
 import CoreAdminPortal from './CoreAdminPortal'
 import Search from './Search'
@@ -21,7 +21,7 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
     title: title
   }
 
-  if (!user.permissions) {
+  if (!user.permissions || user.permissions === 'Invalid') {
     mainContent = <LoadingIcon />
   } else if (user.permissions.core_admin) {
     mainContent = (
@@ -34,34 +34,46 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
   } else {
     mainContent = (
       <div className="team-home-page__contents">
+        {user.permissions.teams.length === 0 &&
+          <div className="team-home-page__section">
+            <div className="team-home-page__section__text-container">
+              <p className="team-home-page__section__text">To get started adding and editing content, you must first join a team.</p>
+              <p className="team-home-page__section__text">Using the options below, choose whether you would like to create a new team or request to join an existing one.</p>
+            </div>
+          </div>
+        }
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">My Teams</h5>
-          <div className="team-home-page__button button" onClick={() => createTeam(user)}>+ Create New Team</div>
           <Grid
             data={user.permissions.teams}
             type="team"
+            createNew={() => createTeam(user)}
             clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
             isDraggable={false}
             editingMode={editingMode}
+            createNewText="Create New Team"
           />
         </div>
-        <div className="team-home-page__section">
-          <h5 className="team-home-page__section-title">Pending Requests</h5>
-          <Grid
-            data={user.permissions.pending_teams}
-            type="team"
-            clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
-            isDraggable={false}
-            editingMode={false}
-          />
-        </div>
+        {user.permissions && user.permissions.pending_teams && user.permissions.pending_teams.length > 0 &&
+          <div className="team-home-page__section">
+            <h5 className="team-home-page__section-title">Pending Requests</h5>
+            <Grid
+              data={user.permissions.pending_teams}
+              type="team"
+              clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
+              isDraggable={false}
+              editingMode={false}
+            />
+          </div>
+        }
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">Join Existing Teams</h5>
           <div className="team-home-page__search" >
             <Search
               type="team"
               showAll={false}
-              onSelect={item => userJoinTeamRequest(user.permissions, item)}/>
+              onSelect={item => userJoinTeamRequest(user.permissions, item)}
+              filterList={d => user.permissions}/>
           </div>
         </div>
       </div>
@@ -97,6 +109,20 @@ class UserHomePageContainer extends React.Component {
   //   }
   // }
 
+  componentWillMount() {
+    const {user} = this.props
+
+    if (user && user.permissions === 'Invalid') {
+      this.props.sendUserInfoRequest()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.permissions === 'Invalid') {
+      this.props.sendUserInfoRequest()
+    }
+  }
+
   render() {
     const {user} = this.props
 
@@ -128,13 +154,21 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   userJoinTeamRequest: (user, team) => {
     console.log(user, team)
-    dispatch(addUserToTeam(user, team, 'pending'))
+    dispatch(showWarningModal({
+      message: `Request permission to join ${team.team_name}?`,
+      options: [
+        {text: 'Yes', action: () => dispatch(addUserToTeam(user, team, 'pending'))}
+      ]
+    }))
   },
   removeUserFromTeam: (user, teamInfo) => {
     dispatch(removeUserFromTeam(user, teamInfo))
   },
   createTeam: user => {
     dispatch(showAdminModal({action: 'create', type: 'team', user: user}))
+  },
+  sendUserInfoRequest: () => {
+    dispatch(sendUserInfoRequest())
   }
 })
 

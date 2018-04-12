@@ -72,7 +72,7 @@ export function addUserToTeam(user, team, approvalStatus) {
           dispatch(setUpdateStatus({type: approvalStatus === 'pending' ? 'TEAM_JOIN_REQUEST' : 'TEAM_ADD_USER', message: json.error.message, status: 'FAILED'}))
         } else {
           dispatch(hideAdminModal())
-          dispatch(setUpdateStatus({type: approvalStatus === 'pending' ? 'TEAM_JOIN_REQUEST' : 'TEAM_ADD_USER', status: 'SUCCESS', data: user}))
+          dispatch(setUpdateStatus({type: approvalStatus === 'pending' ? 'TEAM_JOIN_REQUEST' : 'TEAM_ADD_USER', status: 'SUCCESS', data: json}))
         }
       })
   }
@@ -97,7 +97,7 @@ export function removeUserFromTeam(user, team) {
         if (json.error) {
           dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', message: json.error.message, status: 'FAILED'}))
         } else {
-          dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', status: 'SUCCESS', data: user}))
+          dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', status: 'SUCCESS', data: json}))
         }
       })
   }

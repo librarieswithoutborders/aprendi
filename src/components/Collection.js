@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 
-import {showAdminModal} from '../actions/index'
+import {showAdminModal, showWarningModal} from '../actions/index'
 import {deleteCollection, updateCollection, invalidateCurrCollection, collectionReorderChildren} from '../actions/collection'
 import {deleteSubcollection, updateSubcollection, subcollectionReorderChildren} from '../actions/subcollection'
 import {showResourceViewer, hideResourceViewer} from '../actions/resource'
@@ -181,11 +181,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(showAdminModal({action: 'update', type: type, data: data, parent: parent}))
   },
   deleteCollection: ({data, type, parent, parentType, history}) => {
-    if (type === 'collection') {
-      dispatch(deleteCollection(data))
-    } else {
-      dispatch(deleteSubcollection({subcollectionInfo: data, parentId: parent._id, parentType: parentType}))
-    }
+    const confirmFunc = type === 'collection' ? () => dispatch(deleteCollection(data)) : () => dispatch(deleteSubcollection({subcollectionInfo: data, parentId: parent._id, parentType: parentType}))
+
+    dispatch(showWarningModal({
+      message: `Are you sure you would like to permanently delete collection ${data.title} ?`,
+      options: [
+        {text: 'Yes', action: confirmFunc}
+      ]
+    }))
   },
   updateOrder: ({data, parentType, childType, newOrder}) => {
     const newData = {}

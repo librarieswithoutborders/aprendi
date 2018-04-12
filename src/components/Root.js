@@ -4,6 +4,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import routes from '../routes'
 import TopNav from './TopNav'
 import AdminModal from './AdminModal'
+import WarningModal from './WarningModal'
 import ResourceViewer from './ResourceViewer'
 import ScrollToTop from './ScrollToTop'
 import ContentOverlay from './ContentOverlay'
@@ -22,14 +23,15 @@ class Root extends Component {
   }
 
   render() {
-    const {store, adminModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus} = this.props;
+    const {store, adminModalContent, warningModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus} = this.props;
 
-    const showOverlay = adminModalContent || resourceViewerContent
+    const showOverlay = adminModalContent || warningModalContent || resourceViewerContent
     return (
       <Provider store={store}>
         <Router>
           <ScrollToTop>
             <div>
+              {warningModalContent && <WarningModal />}
               {adminModalContent && <AdminModal />}
               {showOverlay && <ContentOverlay />}
               {resourceViewerContent && <ResourceViewer />}
@@ -52,6 +54,7 @@ class Root extends Component {
 
 const mapStateToProps = state => ({
   adminModalContent: state.adminModalContent,
+  warningModalContent: state.warningModalContent,
   resourceViewerContent: state.resourceViewerContent,
   updateStatus: state.updateStatus
 })

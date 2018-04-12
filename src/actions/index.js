@@ -32,6 +32,19 @@ export function hideAdminModal() {
   }
 }
 
+export function showWarningModal(content) {
+  return {
+    type: 'SHOW_WARNING_MODAL',
+    content
+  }
+}
+
+export function hideWarningModal() {
+  return {
+    type: 'HIDE_WARNING_MODAL'
+  }
+}
+
 export function uploadFile(file, addHash, callback) {
   const newFile = processFileName(file, addHash)
 

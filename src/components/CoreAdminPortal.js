@@ -1,6 +1,6 @@
 import React from 'react';
 import {showAdminModal} from '../actions/index'
-import {deleteTeam, fetchTeamList, teamApproveUserRequest} from '../actions/team'
+import {deleteTeam, fetchTeamList, teamApproveUserRequest, resetCurrTeam} from '../actions/team'
 import {showResourceViewer} from '../actions/resource'
 
 import {connect} from 'react-redux'
@@ -20,16 +20,18 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
       <div className="core-admin-portal__contents">
         <div className="core-admin-portal__section">
           <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
-          <div className="core-admin-portal__section-contents">
-            { pendingRequests.map(d => (
-              <div className="core-admin-portal__request">
-                <h5 className="core-admin-portal__request__text">
-                  {`${d.user.name} wants to join ${d.team.team_name}`}
-                </h5>
-                <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
-              </div>
-            ))}
-          </div>
+          { pendingRequests && pendingRequests.length > 0 &&
+            <div className="core-admin-portal__section-contents">
+              { pendingRequests.map(d => (
+                <div className="core-admin-portal__request">
+                  <h5 className="core-admin-portal__request__text">
+                    {`${d.user.name} wants to join ${d.team.team_name}`}
+                  </h5>
+                  <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
+                </div>
+              ))}
+            </div>
+          }
         </div>
         <div className="core-admin-portal__section">
           <h5 className="core-admin-portal__section-title">View Analytics</h5>
@@ -70,15 +72,27 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
 
 class CoreAdminPortalContainer extends React.Component {
   componentWillMount() {
-    const {teams, fetchTeamList} = this.props;
+    const {teams, fetchTeamList, currTeam, resetCurrTeam} = this.props
 
     if (!teams) {
+      fetchTeamList()
+    }
+
+    if (currTeam) {
+      resetCurrTeam()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {teams, fetchTeamList} = this.props
+
+    if (nextProps.teams === 'Invalid' && teams != 'Invalid') {
       fetchTeamList();
     }
   }
 
-  getPendingRequests() {
-    const {teams} = this.props;
+  getPendingRequests(propsObject) {
+    const {teams} = propsObject
 
     let fullList = []
 
@@ -98,18 +112,22 @@ class CoreAdminPortalContainer extends React.Component {
   render() {
     const {teams} = this.props;
 
-    if (teams) {
-      return <CoreAdminPortal pendingRequests={this.getPendingRequests()} {...this.props} />
+    if (teams && teams != 'Invalid') {
+      return <CoreAdminPortal pendingRequests={this.getPendingRequests(this.props)} {...this.props} />
     }
     return <LoadingIcon />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  teams: state.teamList
+  teams: state.teamList,
+  currTeam: state.currTeam
 })
 
 const mapDispatchToProps = dispatch => ({
+  resetCurrTeam: () => {
+    dispatch(resetCurrTeam())
+  },
   fetchTeamList: () => {
     dispatch(fetchTeamList())
   },
