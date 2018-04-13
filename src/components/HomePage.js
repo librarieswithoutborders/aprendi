@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Transition from 'react-transition-group/Transition';
-import ScrollAnimation from 'react-animate-on-scroll';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Transition from 'react-transition-group/Transition'
+import ScrollAnimation from 'react-animate-on-scroll'
+import {isMobile} from 'react-device-detect'
 
-import { login } from '../utils/AuthService';
+import { login } from '../utils/AuthService'
 
 const FadeIn = ({children, duration, delay}) => {
   const defaultStyle = {
@@ -51,7 +52,7 @@ class HomePage extends React.Component {
                 <div className="home-page__section__button-container">
                   <Link to="/collections/"><div className="button button-transparent">Browse Collections</div></Link>
                   <Link to="/teams/"><div className="button button-transparent">Browse Teams</div></Link>
-                  <div className="button button-transparent" onClick={() => login()}>Admin Log in</div>
+                  {!isMobile && <div className="button button-transparent" onClick={() => login()}>Admin Log in</div>}
                 </div>
               </div>
             </FadeIn>

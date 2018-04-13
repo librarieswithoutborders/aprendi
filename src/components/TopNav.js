@@ -4,6 +4,7 @@ import {login, logout, isLoggedIn} from '../utils/AuthService';
 import {connect} from 'react-redux'
 import {sendUserInfoRequest, setUserInfo} from '../actions/user';
 import SvgIcon from './SvgIcon'
+import {isMobile} from 'react-device-detect';
 
 class TopNav extends Component {
   constructor() {
@@ -35,6 +36,8 @@ class TopNav extends Component {
 
     console.log('in TopNav, currUser is', currUser)
 
+    console.log('MOBILE', isMobile)
+
     if (currUser === 'fetching') {
       return null
     } else if (currUser && currUser !== 'Logged out') {
@@ -62,11 +65,13 @@ class TopNav extends Component {
     }
     return (
       <div className="top-nav">
-        <div className="top-nav__contents">
-          <div className="top-nav__button" onClick={() => login()}>
-            <h5 className="top-nav__button__text" >Admin Log In</h5>
+        {!isMobile &&
+          <div className="top-nav__contents">
+            <div className="top-nav__button" onClick={() => login()}>
+              <h5 className="top-nav__button__text" >Admin Log In</h5>
+            </div>
           </div>
-        </div>
+        }
       </div>
     )
   }

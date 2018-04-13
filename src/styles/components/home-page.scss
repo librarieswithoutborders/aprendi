@@ -1,8 +1,12 @@
 .home-page {
   &__section {
-    padding: 130px 15px;
+    padding: 20px 15px;
     text-align: center;
     position: relative;
+
+    @include medium {
+      padding: 130px 15px;
+    }
 
     &.blue {
       background-color: colors(blue-10);
@@ -54,7 +58,11 @@
 
     &__title {
       font-size: 42px;
-      padding-bottom: 35px;
+      padding: 35px 0px;
+
+      @include medium {
+        padding-top: 0px;
+      }
     }
 
     &__content {
