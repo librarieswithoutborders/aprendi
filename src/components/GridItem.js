@@ -30,7 +30,7 @@ class GridItem extends React.Component {
   renderBackground() {
     const {type} = this.props
 
-    if (type != "user") { return null }
+    if (type === "user") { return null }
 
     if (this.data.image_url) {
       let styleObject = {}

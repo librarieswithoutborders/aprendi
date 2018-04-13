@@ -63,7 +63,7 @@ const renderVideo = ({video_provider, resource_url}) => {
     )
   } else {
     videoContent = (
-      <ResponsiveEmbed src={resource_url} frameborder="0" allow="autoplay; encrypted-media" />
+      <ResponsiveEmbed src={resource_url} allow="autoplay; encrypted-media" />
     )
   }
   return (
