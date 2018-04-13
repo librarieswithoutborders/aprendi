@@ -65,7 +65,15 @@ class AdminModal extends Component {
     if (type === "resource" && action === "create" && !resourceType ) {
       return <ResourceCreator showExisting={showExisting} setResourceType={(type) => this.setResourceType(type)}/>
     } else if (type === "team" && action === "add_user") {
-      return <Search type="user" onSelect={submit} />
+      return (
+        <div className="admin-modal__contents__inner-container">
+          <div className="admin-modal__subheading-container">
+            <p className="admin-modal__subheading">Click on a user below to add them to your team.</p>
+            <p className="admin-modal__subheading">Only users who have created accounts already can be added through this portal. Please ask any users who do not have an account to create one first.</p>
+          </div>
+          <Search type="user" onSelect={submit} />
+        </div>
+      )
     } else if (type === "user" && action === "add_team") {
       return <Search type="team" />
     } else {
