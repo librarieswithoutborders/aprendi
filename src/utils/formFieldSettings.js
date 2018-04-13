@@ -30,7 +30,7 @@ export const teamFieldSettings = [
     type: 'Text',
     required: false,
     validate: isValidPath,
-    helpText: null,
+    helpText: 'This is the text that will go at the end of the unique URL generated for this team.',
     globallyUnique: true
   }
 ]
@@ -89,7 +89,7 @@ export const collectionFieldSettings = [
     required: false,
     validate: isValidPath,
     asyncValidate: isPathTaken,
-    helpText: null,
+    helpText: 'This is the text that will go at the end of the unique URL generated for this collection.',
     globallyUnique: true
   }
 ]
@@ -124,7 +124,7 @@ export const subcollectionFieldSettings = [
     type: 'Text',
     required: false,
     validate: isValidPath,
-    helpText: null,
+    helpText: 'This is the text that will go at the end of the unique URL generated for this subcollection.',
     locallyUnique: true
   }
 ]
@@ -227,7 +227,7 @@ export const resourceFieldSettings = [
     type: 'Text',
     required: false,
     validate: isValidPath,
-    helpText: null,
+    helpText: 'This is the text that will go at the end of the unique URL generated for this resource.',
     locallyUnique: true,
     globallyUnique: true
   }

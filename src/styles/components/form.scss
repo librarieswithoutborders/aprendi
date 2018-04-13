@@ -43,6 +43,11 @@
         font-weight: bold;
         color: colors(black);
       }
+
+      &__help-text {
+        font-weight: normal;
+        color: colors(grey);
+      }
     }
 
     &__value {

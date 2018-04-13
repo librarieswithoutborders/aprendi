@@ -60,7 +60,7 @@ $border-radius: 5px;
       }
 
       .item-type-user & {
-        height: grid-item-height(team)/2;
+        display: none;
       }
 
       .icon {
@@ -109,12 +109,10 @@ $border-radius: 5px;
 
       .item-type-resource & {
         // transform: translateY(2*grid-item-height(resource)/3);
-        height: 2*grid-item-height(resource)/5;
+        height: grid-item-height(resource);
         // border-bottom: 1px solid colors(grey);
         // background-color: none;
         // background: linear-gradient(0deg, colors(white), rgba(255,255,255,.8) 30%, rgba(255,255,255,0));
-        position: absolute;
-        top: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
       }
@@ -124,7 +122,7 @@ $border-radius: 5px;
       }
 
       .item-type-user & {
-        height: grid-item-height(team)/2;
+        height: grid-item-height(user);
       }
 
     }

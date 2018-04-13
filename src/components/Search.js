@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SvgIcon from './SvgIcon'
 import Autosuggest from 'react-autosuggest';
 import {connect} from 'react-redux'
+import LoadingIcon from './LoadingIcon'
 
 import {fetchTeamList} from '../actions/team'
 import {fetchCollectionList} from '../actions/collection'
@@ -228,7 +229,7 @@ class SearchContainer extends Component {
     if (data) {
       return <Search {...this.props} />
     }
-    return <h5>Loading Users</h5>
+    return <LoadingIcon />
   }
 }
 

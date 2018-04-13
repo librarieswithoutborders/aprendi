@@ -8,14 +8,6 @@ import { connect } from 'react-redux'
 
 const columns = { lg: 5, md: 4, sm: 3, xs: 2, xxs: 1 }
 
-const rowHeight = {
-  collection: 200,
-  subcollection: 200,
-  resource: 320,
-  user: 300,
-  team: 260,
-}
-
 const transitionDuration = 700;
 
 const defaultStyle = {
@@ -37,6 +29,9 @@ class GridItem extends React.Component {
 
   renderBackground() {
     const {type} = this.props
+
+    if (type != "user") { return null }
+
     if (this.data.image_url) {
       let styleObject = {}
       let imageUrl;
@@ -110,7 +105,6 @@ class GridItem extends React.Component {
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.name}</h5>
             <h5 className="grid__item__text__sub">{this.data.email}</h5>
-            {/*editingMode && this.canUserEdit() && <div className="button button-white" onClick={() => buttonClickHandler(this.data)}>Leave This Team</div>*/}
             {buttonClickHandler && this.canUserEdit(buttonClickHandler.onlyAllowCurrUser) &&
               <div className="button button-white" onClick={() => buttonClickHandler.func(this.data)}>{buttonClickHandler.text}</div>
             }

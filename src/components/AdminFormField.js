@@ -118,13 +118,18 @@ class AdminFormField extends Component {
 
   render() {
     const {settings, error, asyncError} = this.props
-    const {dbField, type, label, required} = settings
+    const {dbField, type, label, required, helpText} = settings
 
     const fieldContent = this.renderFieldContent()
 
     return (
       <div className={(error || asyncError) ? 'form__field field-error' : 'form__field'} onFocus={() => this.showHelpText()}>
-        <label className={required ? 'form__field__label required' : 'form__field__label'} htmlFor={dbField}>{required ? `${label}*` : label}</label>
+        <div className={required ? 'form__field__label required' : 'form__field__label'}>
+          <label className='form__field__label__text' htmlFor={dbField}>{required ? `${label}*` : label}</label>
+          {helpText &&
+            <h5 className='form__field__label__help-text'>{helpText}</h5>
+          }
+        </div>
         {fieldContent}
       </div>
     )
