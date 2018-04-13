@@ -103,12 +103,12 @@ export function removeUserFromTeam(user, team) {
   }
 }
 
-export function updateUser(userInfo) {
+export function makeUserCoreAdmin(userInfo) {
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPDATE_USER', status: 'INITIATED'}))
 
     return fetch(
-      `${dbPath}/user`,
+      `${dbPath}/user-make-core-admin`,
       {
         method: 'PUT',
         headers: {
@@ -122,7 +122,7 @@ export function updateUser(userInfo) {
         if (json.error) {
           dispatch(setUpdateStatus({type: 'UPDATE_USER', message: json.error.message, status: 'FAILED'}))
         } else {
-          dispatch(setUpdateStatus({type: 'UPDATE_USER', status: 'SUCCESS', data: json}))
+          dispatch(setUpdateStatus({type: 'UPDATE_USER', status: 'SUCCESS', data: userInfo}))
         }
       })
   }

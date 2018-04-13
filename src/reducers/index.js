@@ -52,6 +52,10 @@ function teamList(state = null, action) {
       if (action.status === 'SUCCESS' && state) {
         return 'Invalid'
       }
+    case 'TEAM_DENY_USER_REQUEST':
+      if (action.status === 'SUCCESS' && state) {
+        return 'Invalid'
+      }
     default:
       return state
   }
@@ -64,6 +68,8 @@ function updateStatus(state = null, action) {
   } else if (action.type === 'FILE_UPLOAD') {
     return action
   } else if (action.type === 'TEAM_APPROVE_USER_REQUEST') {
+    return action
+  } else if (action.type === 'TEAM_DENY_USER_REQUEST') {
     return action
   } else if (action.type === 'TEAM_JOIN_REQUEST') {
     return action

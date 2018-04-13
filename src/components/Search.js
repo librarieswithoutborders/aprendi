@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {fetchTeamList} from '../actions/team'
 import {fetchCollectionList} from '../actions/collection'
 import {fetchResourceList} from '../actions/resource'
-import {fetchUserList, addUserToTeam, updateUser} from '../actions/user'
+import {fetchUserList, addUserToTeam, makeUserCoreAdmin} from '../actions/user'
 
 
 class Search extends Component {
@@ -140,10 +140,15 @@ class Search extends Component {
            <h5 className="search__results-list__item__extended-view__field__label">Core Admin:</h5>
            <h5 className="search__results-list__item__extended-view__field__value">{String(item.core_admin)}</h5>
          </div>
+         {item.core_admin &&
+           <div className="search__results-list__item__extended-view__button button" onClick={() => {
+             changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
+           }} >Remove Core Admin Permissions</div>
+         }
          {!item.core_admin &&
-         <div className="search__results-list__item__extended-view__button button" onClick={() => {
-           changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
-         }} >Give Core Admin Permissions</div>
+           <div className="search__results-list__item__extended-view__button button" onClick={() => {
+             changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
+           }} >Give Core Admin Permissions</div>
          }
        </div>
             }
@@ -233,7 +238,7 @@ const mapStateToProps = (state, ownProps) => {
   if (type === 'user') {
     return {
       parent: state.currTeam,
-	    data: state.userList && !ownProps.showAll ? state.userList.filter(d => d.teams && d.teams.findIndex(team => team._id === state.currTeam._id) < 0) : state.userList
+	    data: state.userList && !ownProps.showAll ? state.userList.filter(d => !d.core_admin && (d.teams && d.teams.findIndex(team => team._id === state.currTeam._id) < 0)) : state.userList
 	  }
   } else if (type === 'team') {
     return {
@@ -271,7 +276,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	      dispatch(fetchUserList())
 	    },
       changeUserPermissions: userInfo => {
-        dispatch(updateUser({data: userInfo}))
+        dispatch(makeUserCoreAdmin({data: userInfo}))
       }
       // onSelect: (user, team) => {
       // 	dispatch(addUserToTeam(user, team))

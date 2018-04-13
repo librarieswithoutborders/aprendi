@@ -1,6 +1,6 @@
 import React from 'react';
 import {showAdminModal} from '../actions/index'
-import {deleteTeam, fetchTeamList, teamApproveUserRequest, resetCurrTeam} from '../actions/team'
+import {deleteTeam, fetchTeamList, teamApproveUserRequest, teamDenyUserRequest, resetCurrTeam} from '../actions/team'
 import {showResourceViewer} from '../actions/resource'
 
 import {connect} from 'react-redux'
@@ -9,7 +9,7 @@ import PageHeader from './PageHeader'
 import Search from './Search'
 import LoadingIcon from './LoadingIcon'
 
-const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest}) => {
+const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest, denyUserRequest}) => {
   console.log(teams)
 
   console.log('PENDING REQUESTS!')
@@ -28,6 +28,7 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
                     {`${d.user.name} wants to join ${d.team.team_name}`}
                   </h5>
                   <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
+                  <div className="core-admin-portal__request__button" onClick={() => denyUserRequest(d.user, d.team)}>Deny Request</div>
                 </div>
               ))}
             </div>
@@ -61,7 +62,7 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
         <div className="core-admin-portal__section">
           <h5 className="core-admin-portal__section-title">All Resources</h5>
           <div className="core-admin-portal__section-contents">
-            <div className="core-admin-portal__button button button-white" onClick={() => createResource()}>Create New Shared Resource</div>
+            <div className="core-admin-portal__button button button-white" onClick={() => createResource()}>Create New Resource</div>
             <Search type="resource" showAll={true} onSelect={resource => showResourceViewer(resource)}/>
           </div>
         </div>
@@ -139,6 +140,9 @@ const mapDispatchToProps = dispatch => ({
   },
   approveUserRequest: (user, teamInfo) => {
     dispatch(teamApproveUserRequest(user, teamInfo))
+  },
+  denyUserRequest: (user, teamInfo) => {
+    dispatch(teamDenyUserRequest(user, teamInfo))
   },
   createResource: () => {
     dispatch(showAdminModal({action: 'create', type: 'resource', team: null, parent: null, showExisting: false}))

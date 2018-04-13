@@ -40,6 +40,10 @@ class UpdateStatusBar extends React.Component {
       return 'Successfully Added User'
     }
 
+    if (type === 'TEAM_DENY_USER_REQUEST') {
+      return 'Successfully Denied Request'
+    }
+
     if (type === 'TEAM_JOIN_REQUEST') {
       return 'Successfully applied to join team.  Please wait for a team admin to approve request'
     }
