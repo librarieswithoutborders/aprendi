@@ -1,21 +1,21 @@
-import React from 'react';
-import HomePage from './components/HomePage';
-import UserHomePage from './components/UserHomePage';
-import TeamHomePage from './components/TeamHomePage';
-import AllTeamsPage from './components/AllTeamsPage';
-import AllCollectionsPage from './components/AllCollectionsPage';
-import NotFoundPage from './components/NotFoundPage';
-import AuthCallback from './components/AuthCallback';
-import CollectionDataContainer from './components/CollectionDataContainer';
-
-import {Route, Switch} from 'react-router-dom';
+import React from 'react'
+import {Route, Switch} from 'react-router-dom'
 import {isLoggedIn} from './utils/AuthService'
+
+import HomePage from './pages/HomePage'
+import UserHomePage from './pages/UserHomePage'
+import TeamHomePage from './pages/TeamHomePage'
+import AllTeamsPage from './pages/AllTeamsPage'
+import AllCollectionsPage from './pages/AllCollectionsPage'
+import NotFoundPage from './pages/NotFoundPage'
+import AuthCallbackPage from './pages/AuthCallbackPage'
+import CollectionDataContainer from './pages/CollectionDataContainer'
 
 const routes = (
   <div>
     <Switch>
       <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />
-      <Route path="/callback" component={AuthCallback} />
+      <Route path="/callback" component={AuthCallbackPage} />
       <Route exact path="/teams" component={AllTeamsPage} />
       <Route path="/teams/:teamPath" component={TeamHomePage} />
       <Route path="/collections" component={AllCollectionsPage} />
@@ -26,4 +26,4 @@ const routes = (
 
 )
 
-export default routes;
+export default routes

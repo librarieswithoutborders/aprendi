@@ -1,33 +1,3 @@
-export const languageOptions = [
-  {
-    label: 'English',
-    value: 'english'
-  },
-  {
-    label: 'French',
-    value: 'french'
-  },
-  {
-    label: 'Chinese',
-    value: 'chinese'
-  }
-]
-
-export const zoomOptions = [
-  {
-    label: 'Small',
-    value: 'small'
-  },
-  {
-    label: 'Medium',
-    value: 'medium'
-  },
-  {
-    label: 'Large',
-    value: 'large'
-  }
-]
-
 export const resourceTypeOptions = [
   {
     label: 'Video',
@@ -60,6 +30,23 @@ export const resourceTypeOptions = [
     icon: 'embed'
   }
 ]
+
+const richTextToolbarConfig = {
+  display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
+  INLINE_STYLE_BUTTONS: [
+    {label: 'Bold', style: 'BOLD', className: 'custom-css-class'},
+    {label: 'Italic', style: 'ITALIC'},
+    {label: 'Underline', style: 'UNDERLINE'}
+  ],
+  BLOCK_TYPE_DROPDOWN: [
+    {label: 'Normal', style: 'unstyled'},
+    {label: 'Heading', style: 'header'}
+  ],
+  BLOCK_TYPE_BUTTONS: [
+    {label: 'UL', style: 'unordered-list-item'},
+    {label: 'OL', style: 'ordered-list-item'}
+  ]
+}
 
 export const videoProviderOptions = [
   {
