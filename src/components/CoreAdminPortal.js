@@ -19,8 +19,14 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
     <div className="core-admin-portal">
       <div className="core-admin-portal__contents">
         <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
-          { pendingRequests && pendingRequests.length > 0 &&
+          <div className="core-admin-portal__section-contents">
+            <a href="https://analytics.google.com/analytics/web/#/embed/report-home/a111215204w165837051p166348924" target="_blank"><div className="button button-white">View Analytics Dashboard</div></a>
+          </div>
+        </div>
+        { pendingRequests && pendingRequests.length > 0 &&
+          <div className="core-admin-portal__section">
+            <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
+
             <div className="core-admin-portal__section-contents">
               { pendingRequests.map(d => (
                 <div className="core-admin-portal__request">
@@ -32,14 +38,9 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
                 </div>
               ))}
             </div>
-          }
-        </div>
-        <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">View Analytics</h5>
-          <div className="core-admin-portal__section-contents">
-            <h5>Link to Google Analytics Dashboard</h5>
           </div>
-        </div>
+        }
+
         <div className="core-admin-portal__section">
           <h5 className="core-admin-portal__section-title">All Teams</h5>
           <div className="core-admin-portal__section-contents">

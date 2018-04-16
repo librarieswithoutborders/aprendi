@@ -22,6 +22,11 @@
     padding: $standard-padding 0px;
   }
 
+  &__primary-link {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
   &__section-title {
     margin: 0px;
     padding-bottom: 5px;
