@@ -14,6 +14,8 @@ const typeToIconMapping = (type, data) => {
 
     case 'team':
       return 'team'
+    default:
+      return 'folder'
   }
 }
 

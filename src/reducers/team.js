@@ -1,4 +1,3 @@
-
 export const teamList = (state = null, action) => {
   switch (action.type) {
     case 'FETCH_TEAMS':

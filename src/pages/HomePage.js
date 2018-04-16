@@ -17,8 +17,6 @@ const FadeIn = ({children, duration, delay}) => {
     entered:  { opacity: 1 },
   }
 
-  console.log(children, duration, delay)
-
   return (
     <Transition in={true} appear={true} timeout={duration}>
       {(state) => {

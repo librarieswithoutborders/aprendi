@@ -1,12 +1,10 @@
-import convertToUrlPath from './convertToUrlPath'
-
 const $ = require('jquery')
 
 export const youtubeGetId = url => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
   const match = url.match(regExp);
 
-  if (match && match[2].length == 11) {
+  if (match && match[2].length === 11) {
     return match[2];
   }
   return 'error';
@@ -33,6 +31,8 @@ const processVideoUrl = url => {
 
     return {video_provider: 'vimeo', resource_url: `https://player.vimeo.com/video/${id}`, resource_id: id}
   }
+
+  return null
 }
 
 function promisedResult(id) {
