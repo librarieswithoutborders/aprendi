@@ -52,7 +52,7 @@ class HomePage extends React.Component {
                 <div className="home-page__section__button-container">
                   <Link to="/collections/"><div className="button button-transparent">Browse Collections</div></Link>
                   <Link to="/teams/"><div className="button button-transparent">Browse Teams</div></Link>
-                  {!isMobile && <div className="button button-transparent" onClick={() => login()}>Admin Log in</div>}
+                  {!isMobile && <div className="button button-transparent" onClick={() => login()}>Admin</div>}
                 </div>
               </div>
             </FadeIn>

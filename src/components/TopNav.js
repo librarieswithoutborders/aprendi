@@ -15,15 +15,6 @@ class TopNav extends Component {
     }
   }
 
-  // componentWillMount() {
-  //   const { currUser, sendUserInfoRequest } = this.props
-  //   console.log("component mounting")
-  //   console.log(currUser)
-  //   if (!currUser) {
-  //     sendUserInfoRequest()
-  //   }
-  // }
-
   toggleMenuExpansion() {
     this.setState({
       dropdownExpanded: !this.state.dropdownExpanded
@@ -33,10 +24,6 @@ class TopNav extends Component {
   render() {
     const {currUser, history, clearUserInfo} = this.props
     const {dropdownExpanded} = this.state
-
-    console.log('in TopNav, currUser is', currUser)
-
-    console.log('MOBILE', isMobile)
 
     if (currUser === 'fetching') {
       return null
@@ -68,7 +55,7 @@ class TopNav extends Component {
         {!isMobile &&
           <div className="top-nav__contents">
             <div className="top-nav__button" onClick={() => login()}>
-              <h5 className="top-nav__button__text" >Admin Log In</h5>
+              <h5 className="top-nav__button__text" >Admin</h5>
             </div>
           </div>
         }
