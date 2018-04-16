@@ -35,7 +35,8 @@
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
-    padding: $standard-padding $standard-padding 50px;
+    padding: $standard-padding;
+    margin-bottom: 15vh;
 
     .ReactPDF {
       &__Document {

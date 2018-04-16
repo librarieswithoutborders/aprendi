@@ -67,7 +67,7 @@ const renderVideo = ({video_provider, resource_url}) => {
     )
   }
   return (
-    <div className="resource__content__video">
+    <div className="resource__content__video" style={{paddingBottom: '56.25%'}}>
       {videoContent}
     </div>
   )

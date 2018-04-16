@@ -12,7 +12,7 @@ export function sendUserInfoRequest() {
           dispatch(setUserInfo({userInfo: user}))
           dispatch(fetchUserPermissions(user))
         } else {
-          dispatch(setUserInfo(null))
+          dispatch(setUserInfo('Logged out'))
         }
       })
   }

@@ -112,7 +112,7 @@ class UserHomePageContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.permissions === 'Invalid') {
+    if (nextProps.user && nextProps.user.permissions === 'Invalid') {
       this.props.sendUserInfoRequest()
     }
   }
