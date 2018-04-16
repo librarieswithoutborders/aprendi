@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-// @font-face {
-//   font-family: "BebasNeue-Book";
-//   src: url("../../static/fonts/bebas_neue/BebasNeue-Book.otf") format("otf"),
-// }
-
-
 body {
   margin: 0px;
   font-family: 'Roboto-Medium', sans-serif;
@@ -110,14 +104,7 @@ textarea {
     }
 
     &:hover {
-      // background-color: colors(blue);
-      // border-color: colors(blue);
-      // color: colors(white);
       opacity: .7;
-
-      // a {
-      //   color: colors(white);
-      // }
     }
   }
 
@@ -176,10 +163,6 @@ textarea {
       background-color: colors(white);
       // border-color: colors(blue);
       box-shadow: standard-shadow(grey);
-
-      * {
-        // color: colors(black);
-      }
     }
   }
 }

@@ -1,9 +1,6 @@
 const validUrl = require('valid-url');
-const $ = require('jquery')
 
 import {youtubeGetId, vimeoGetId} from './processFormData'
-
-// import {isCollectionPathTaken} from '../actions/collection'
 
 export const maxLength = maxLen => input => input && input.length > maxLen ? `Input is greater than maximum length (${maxLen} characters)` : null
 

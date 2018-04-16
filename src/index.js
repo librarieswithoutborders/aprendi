@@ -3,7 +3,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
-import Root from './components/Root';
+
+import Root from './pages/Root';
 import store from './store'
 import './styles/index.scss';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
@@ -16,8 +17,8 @@ render(
 );
 
 if (module.hot) {
-  module.hot.accept('./components/Root', () => {
-    const NewRoot = require('./components/Root').default;
+  module.hot.accept('./pages/Root', () => {
+    const NewRoot = require('./pages/Root').default;
     render(
       <AppContainer>
         <NewRoot store={store} />

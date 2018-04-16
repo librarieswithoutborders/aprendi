@@ -1,4 +1,3 @@
-
 const convertToUrlPath = input => {
   console.log('converting to url path')
   const spaceRegex = new RegExp(' ', 'g')
