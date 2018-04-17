@@ -30,13 +30,15 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
 
             <div className="core-admin-portal__section-contents">
               { pendingRequests.map(d => (
-                <div className="core-admin-portal__request">
-                  <h5 className="core-admin-portal__request__text">
-                    {`${d.user.name} wants to join ${d.team.team_name}`}
-                  </h5>
-                  <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
-                  <div className="core-admin-portal__request__button" onClick={() => denyUserRequest(d.user, d.team)}>Deny Request</div>
-                </div>
+                {d.user &&
+                  <div className="core-admin-portal__request">
+                    <h5 className="core-admin-portal__request__text">
+                      {`${d.user.name} wants to join ${d.team.team_name}`}
+                    </h5>
+                    <div className="core-admin-portal__request__button" onClick={() => approveUserRequest(d.user, d.team)}>Approve Request</div>
+                    <div className="core-admin-portal__request__button" onClick={() => denyUserRequest(d.user, d.team)}>Deny Request</div>
+                  </div>
+                }
               ))}
             </div>
           </div>
