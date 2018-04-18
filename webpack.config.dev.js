@@ -1,8 +1,8 @@
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
 
-module.exports = {
+export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
