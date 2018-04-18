@@ -2,14 +2,16 @@
 // Allowing console calls below since this is a build file.
 /* eslint-disable no-console */
 import webpack from 'webpack';
+import devConfig from '../webpack.config.dev'
+import prodConfig from '../webpack.config.prod'
 // import {chalkError, chalkSuccess, chalkWarning, chalkProcessing} from './chalkConfig';
 
 // process.env.NODE_ENV = 'production'; // this assures React is built in prod mode and that the Babel dev config doesn't apply.
 let config
 if (process.env.NODE_ENV === 'production') {
-  config = require('../webpack.config.prod')
+  config = prodConfig
 } else {
-  config = require('../webpack.config.dev')
+  config = devConfig
 }
 
 

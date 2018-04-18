@@ -11,9 +11,9 @@
     "open:dist": "babel-node tools/distServer.js",
     "lint:watch": "npm run lint -- --watch",
     "lint": "esw webpack.config.* src tools --color --fix",
-    "build": "babel-node tools/build.js && npm run open:dist",
-    "heroku-postbuild": "babel-node tools/build.js",
-    "start": "node server.js"
+    "build": "NODE_ENV=production babel-node tools/build.js && npm run open:dist",
+    "heroku-postbuild": "NODE_ENV=production babel-node tools/build.js",
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "MIT",
