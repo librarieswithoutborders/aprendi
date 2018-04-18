@@ -34,13 +34,8 @@ class GridItem extends React.Component {
       let styleObject = {}
       let imageUrl;
 
-      // temporary conditional while issue of pdf thumbnail creation persists
-      // if (type === "resource" && this.data.resource_type === "pdf") {
-        imageUrl = this.data.image_url
-      // } else {
-      //   imageUrl = this.data.image_url.replace('/images/', '/thumbnail-images/')
-      // }
-
+      imageUrl = this.data.image_url
+      
       styleObject.backgroundImage = 'url("' + imageUrl + '")'
 
       return <div className="grid__item__image" style={styleObject} onError={(d) => { console.log("LOADED", d); }}></div>

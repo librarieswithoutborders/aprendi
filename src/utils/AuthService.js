@@ -6,11 +6,8 @@ const ACCESS_TOKEN_KEY = 'access_token';
 
 const CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN;
-// const CLIENT_DOMAIN = 'librarieswithoutborders.auth0.com'
 const REDIRECT = process.env.CALLBACK_URL;
 const AUDIENCE = process.env.API_AUDIENCE;
-
-
 
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,

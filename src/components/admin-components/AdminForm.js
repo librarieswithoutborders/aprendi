@@ -76,6 +76,9 @@ class AdminForm extends Component {
   submitForm(formData, a, formApi) {
     const {data, action, team, resourceType, takeWebScreenshot} = this.props
 
+    console.log('THIS IS THE FORM DATA')
+    console.log(formData)
+
     const values = {}
     Object.assign(values, formData)
     if (team) {

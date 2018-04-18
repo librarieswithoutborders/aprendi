@@ -30,7 +30,9 @@ class FileUploadFieldContent extends React.Component {
   }
 
   getSnapshotOfPdf(canvasElem, fileUrl) {
-    let newFileUrl = fileUrl.replace("https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/", "").replace('.pdf', '.png')
+    console.log(fileUrl)
+    let splitPieces = fileUrl.split("/")
+    let newFileUrl = splitPieces[splitPieces.length - 1].replace(".pdf", ".png")
     console.log("UPLOADING", newFileUrl)
     canvasElem.toBlob(blob => {
       let file = new File([blob], newFileUrl, {type: 'image/png'})
@@ -48,8 +50,6 @@ class FileUploadFieldContent extends React.Component {
       previewContent = <PdfViewer singlePage={true} renderCallback={(canvasElem) => this.getSnapshotOfPdf(canvasElem, currValue)} url={currValue} />
     } else {
       let styleObject = {backgroundImage: 'url("' + currValue + '")'}
-
-      console.log(styleObject)
 
       previewContent = <div className="form__image-upload__preview" style={styleObject} />
     }
@@ -69,10 +69,9 @@ class FileUploadFieldContent extends React.Component {
 
     console.log(fileName)
 
-    let fullFileName = type === "pdf" ? "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/pdf/" + fileName : "https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/" + fileName
-    setValue(fullFileName)
+    setValue(fileName)
     this.setState({
-      currValue: fullFileName
+      currValue: fileName
     })
   }
 

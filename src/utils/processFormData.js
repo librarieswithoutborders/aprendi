@@ -99,7 +99,7 @@ const processFormData = (data, action) => new Promise(resolve => {
       return;
 
     case 'pdf':
-      retObject.image_url = retObject.resource_url.replace('/pdf/', '/images/').replace('.pdf', '.png')
+      retObject.image_url = retObject.resource_url.replace('/pdf/', '/thumbnail-images/').replace('.pdf', '.png')
       resolve(retObject)
       return
 

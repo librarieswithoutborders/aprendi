@@ -1,4 +1,11 @@
-export const dbPath = process.env.NODE_ENV === 'production' ? 'https://mylibraryguide-server.herokuapp.com' : 'http://localhost:3333'
+export let dbPath
+if (process.env.NODE_ENV === 'production') {
+  dbPath = 'https://aprendiserver.herokuapp.com'
+} else if (process.env.NODE_ENV === 'staging') {
+  dbPath = 'https://aprendiserver-staging.herokuapp.com'
+} else {
+  dbPath = 'http://localhost:3333'
+}
 
 import processFileName from '../utils/processFileName'
 
@@ -48,9 +55,6 @@ export function hideWarningModal() {
 export function uploadFile(file, addHash, callback) {
   const newFile = processFileName(file, addHash)
 
-  // let reader = new FileReader()
-  // console.log(reader.readAsDataURL(newFile))
-
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'INITIATED'}))
 
@@ -60,6 +64,8 @@ export function uploadFile(file, addHash, callback) {
         dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'FAILED'}))
         return
       }
+      const finalUploadedUrl = response.signedUrl.split('?')[0]
+
       return fetch(
         response.signedUrl,
         {
@@ -71,7 +77,8 @@ export function uploadFile(file, addHash, callback) {
           console.log(response)
           if (response.status == 200) {
             dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'SUCCESS'}))
-            callback ? callback(newFile.name) : null
+
+            callback ? callback(finalUploadedUrl) : null
           }
         })
     })
