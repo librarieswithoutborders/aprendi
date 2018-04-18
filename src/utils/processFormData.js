@@ -104,6 +104,7 @@ const processFormData = (data, action) => new Promise(resolve => {
       return
 
     default:
+      retObject.thumbnail_image_url = retObject.image_url ? retObject.image_url.replace('/images/', '/thumbnail-images') : null
       resolve(retObject)
       return
   }

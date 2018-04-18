@@ -22,6 +22,7 @@ export default {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
+        BACKEND_URL: JSON.stringify(process.env.BACKEND_URL),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN),
         API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE),

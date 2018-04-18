@@ -1,13 +1,6 @@
-export let dbPath
-if (process.env.NODE_ENV === 'production') {
-  dbPath = 'https://aprendiserver.herokuapp.com'
-} else if (process.env.NODE_ENV === 'staging') {
-  dbPath = 'https://aprendiserver-staging.herokuapp.com'
-} else {
-  dbPath = 'http://localhost:3333'
-}
-
 import processFileName from '../utils/processFileName'
+
+export const dbPath = process.env.BACKEND_URL
 
 export function setUpdateStatus({type, message, status, data}) {
   return {

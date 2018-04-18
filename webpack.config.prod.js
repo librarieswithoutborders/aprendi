@@ -8,6 +8,7 @@ import path from 'path';
 
 const GLOBALS = {
   'process.env': {
+    BACKEND_URL: JSON.stringify(process.env.BACKEND_URL),
     NODE_ENV: JSON.stringify('production'),
     AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN),
     API_AUDIENCE: JSON.stringify(process.env.API_AUDIENCE),

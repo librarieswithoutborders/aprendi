@@ -10,9 +10,7 @@ import './styles/index.scss';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 
 render(
-  <AppContainer>
-    <Root store={store}/>
-  </AppContainer>,
+  <Root store={store}/>,
   document.getElementById('app')
 );
 
