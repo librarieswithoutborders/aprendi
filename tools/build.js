@@ -8,12 +8,11 @@ const prodConfig = require('../webpack.config.prod')
 
 // process.env.NODE_ENV = 'production'; // this assures React is built in prod mode and that the Babel dev config doesn't apply.
 let config
-if (process.env.NODE_ENV === 'production') {
-  config = prodConfig
-} else {
+if (process.env.NODE_ENV === 'development') {
   config = devConfig
+} else {
+  config = prodConfig
 }
-
 
 webpack(config).run(() => {
   // if we got this far, the build succeeded.
