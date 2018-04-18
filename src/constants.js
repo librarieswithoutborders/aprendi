@@ -48,6 +48,7 @@ const richTextToolbarConfig = {
   ]
 }
 
+
 export const videoProviderOptions = [
   {
     label: 'YouTube',
