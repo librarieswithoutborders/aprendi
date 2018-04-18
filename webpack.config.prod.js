@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const WebpackMd5Hash = require('webpack-md5-hash');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const GLOBALS = {
   'process.env': {
