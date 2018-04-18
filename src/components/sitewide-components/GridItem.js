@@ -30,12 +30,12 @@ class GridItem extends React.Component {
 
     if (type === "user") { return null }
 
-    if (this.data.image_url) {
+    if (this.data.thumbnail_image_url || this.data.image_url) {
       let styleObject = {}
       let imageUrl;
 
-      imageUrl = this.data.image_url
-      
+      imageUrl = this.data.thumbnail_image_url || this.data.image_url
+
       styleObject.backgroundImage = 'url("' + imageUrl + '")'
 
       return <div className="grid__item__image" style={styleObject} onError={(d) => { console.log("LOADED", d); }}></div>
