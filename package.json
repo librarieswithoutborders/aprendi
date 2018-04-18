@@ -11,7 +11,7 @@
     "open:dist": "babel-node tools/distServer.js",
     "lint:watch": "npm run lint -- --watch",
     "lint": "esw webpack.config.* src tools --color --fix",
-    "build": "NODE_ENV=production babel-node tools/build.js",
+    "build": "NODE_ENV=production babel-node tools/build.js && npm run open:dist",
     "heroku-postbuild": "NODE_ENV=production babel-node tools/build.js",
     "start": "NODE_ENV=production node server.js"
   },
@@ -80,7 +80,6 @@
     "babel-preset-stage-0": "6.24.1",
     "babel-preset-stage-1": "6.24.1",
     "browser-sync": "2.18.12",
-    "compression-webpack-plugin": "1.1.11",
     "concurrently": "3.5.0",
     "connect-history-api-fallback": "1.3.0",
     "coveralls": "2.13.1",

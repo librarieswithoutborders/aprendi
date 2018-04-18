@@ -10,13 +10,12 @@ import './styles/index.scss';
 require('./favicon.ico'); // Tell webpack to load favicon.ico
 
 render(
-  <AppContainer>
-    <Root store={store}/>
-  </AppContainer>,
+  <Root store={store}/>,
   document.getElementById('app')
 );
 
 if (module.hot) {
+  console.log('MODULE HOT!')
   module.hot.accept('./pages/Root', () => {
     const NewRoot = require('./pages/Root').default;
     render(
