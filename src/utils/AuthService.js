@@ -9,6 +9,8 @@ const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN;
 const REDIRECT = process.env.CALLBACK_URL;
 const AUDIENCE = process.env.API_AUDIENCE;
 
+console.log(process.env)
+
 var auth = new auth0.WebAuth({
   clientID: CLIENT_ID,
   domain: CLIENT_DOMAIN
