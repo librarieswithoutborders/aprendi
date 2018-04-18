@@ -1,6 +1,6 @@
 import processFileName from '../utils/processFileName'
 
-let dbPath
+export let dbPath
 if (process.env.NODE_ENV === 'production') {
   dbPath = 'https://aprendiserver.herokuapp.com'
 } else if (process.env.NODE_ENV === 'staging') {
@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   dbPath = 'http://localhost:3333'
 }
-export dbPath
 
 export function setUpdateStatus({type, message, status, data}) {
   return {
