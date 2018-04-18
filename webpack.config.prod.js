@@ -5,6 +5,10 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+
 
 const GLOBALS = {
   'process.env': {
@@ -18,13 +22,11 @@ const GLOBALS = {
   __DEV__: false
 };
 
-console.log('ENV IS!', process.env)
-
 export default {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
-  devtool: 'source-map', // more info:https://webpack.js.org/guides/production/#source-mapping and https://webpack.js.org/configuration/devtool/
+  devtool: 'eval-source-map', // more info:https://webpack.js.org/guides/production/#source-mapping and https://webpack.js.org/configuration/devtool/
   entry: [
     'babel-polyfill',
     path.resolve(__dirname, 'src/index')
@@ -40,6 +42,20 @@ export default {
     new WebpackMd5Hash(),
 
     new webpack.DefinePlugin(GLOBALS),
+    new UglifyJsPlugin({
+      mangle: true,
+      compress: {
+        warnings: false, // Suppress uglification warnings
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true
+      },
+      output: {
+        comments: false
+      },
+      exclude: [/\.min\.js$/gi] // skip pre-minified libs
+    }),
 
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].[contenthash].css'),
@@ -65,9 +81,16 @@ export default {
       // To track JavaScript errors via TrackJS, sign up for a free trial at TrackJS.com and enter your token below.
       trackJSToken: ''
     }),
-
-    // Minify JS
-    new webpack.optimize.UglifyJsPlugin({sourceMap: true})
+    new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+    new webpack.NoErrorsPlugin(),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0
+    })
+    // new BundleAnalyzerPlugin()
   ],
   module: {
     rules: [
