@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 
 webpack(config).run(() => {
   // if we got this far, the build succeeded.
-  console.log('Your app is compiled in production mode in /dist. It\'s ready to roll!');
+  console.log(`Your app is compiled in ${process.env.NODE_ENV} mode`);
 
   return 0;
 });

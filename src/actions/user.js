@@ -3,6 +3,7 @@ import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModa
 import {getCurrUser} from '../utils/AuthService'
 
 export function sendUserInfoRequest() {
+  console.log('MODE IS', process.env)
   return dispatch => {
     dispatch(setUserInfo('fetching'))
     getCurrUser()

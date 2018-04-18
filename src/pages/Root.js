@@ -27,6 +27,8 @@ class Root extends Component {
     const {store, adminModalContent, warningModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus} = this.props;
 
     const showOverlay = adminModalContent || warningModalContent || resourceViewerContent
+
+    console.log('MODEEE IS', process.env)
     return (
       <Provider store={store}>
         <Router>

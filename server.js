@@ -10,4 +10,5 @@ app.get('*', function(req, res){
 app.listen(process.env.PORT || 3000, function () {
     var port = process.env.PORT || 3000;
     console.log("App now running on port", port);
+    console.log("App running in ", process.env.NODE_ENV)
 });
