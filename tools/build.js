@@ -5,7 +5,14 @@ import webpack from 'webpack';
 import config from '../webpack.config.prod';
 // import {chalkError, chalkSuccess, chalkWarning, chalkProcessing} from './chalkConfig';
 
-process.env.NODE_ENV = 'production'; // this assures React is built in prod mode and that the Babel dev config doesn't apply.
+// process.env.NODE_ENV = 'production'; // this assures React is built in prod mode and that the Babel dev config doesn't apply.
+let config
+if (process.env.NODE_ENV === "production") {
+  config = require('../webpack.config.prod')
+} else {
+  config = require('../webpack.config.dev')
+}
+
 
 webpack(config).run(() => {
   // if we got this far, the build succeeded.
