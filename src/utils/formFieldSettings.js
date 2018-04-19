@@ -186,7 +186,7 @@ export const resourceFieldSettings = [
     label: 'Embed Url',
     type: 'Text',
     required: true,
-    helpText: null,
+    helpText: 'Note: some urls do not allow embedding',
     validate: input => isValidEmbed(input),
     showOnly: ({resourceType}) => resourceType === 'embed'
   },
