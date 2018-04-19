@@ -24,6 +24,10 @@ class PdfViewer extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    $(window).off("resize", this.resizeFunc);
+  }
+
   resize() {
     this.setState({
       docContainerWidth: this.refs.documentContainer.clientWidth
