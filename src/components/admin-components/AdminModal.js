@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import ResourceCreator from './ResourceCreator'
 import AdminForm from './AdminForm'
 import Search from '../sitewide-components/Search'
+import SvgIcon from '../sitewide-components/SvgIcon'
 
-import {hideAdminModal} from '../../actions/index'
+import {hideAdminModal, showWarningModal} from '../../actions/index'
 import {createTeam, updateTeam, invalidateCurrTeam} from '../../actions/team'
 import {createCollection, updateCollection, invalidateCurrCollection} from '../../actions/collection'
 import {createSubcollection, updateSubcollection} from '../../actions/subcollection'
@@ -93,11 +94,14 @@ class AdminModal extends Component {
   }
 
   render() {
-    const {type, data, action} = this.props
+    const {type, data, action, hideAdminModal} = this.props
     return (
       <div className="admin-modal">
         <div className="admin-modal__header">
           <h1 className="admin-modal__header__text">{this.setTitle()}</h1>
+          <div className="admin-modal__header__close" onClick={() => hideAdminModal()}>
+            <SvgIcon name="close" />
+          </div>
         </div>
         <div className="admin-modal__contents">
           {this.setContent()}
@@ -154,11 +158,11 @@ class AdminModalContainer extends Component {
   }
 
   render() {
-    const {action, data, type, team, showExisting} = this.props.modalProps
+    const {action} = this.props.modalProps
 
     const submitFunc = this.setSubmitFunction()[action]
 
-    return <AdminModal data={data} type={type} team={team} submit={submitFunc} action={action} showExisting={showExisting} />
+    return <AdminModal submit={submitFunc} hideAdminModal={this.props.hideAdminModal} {...this.props.modalProps} />
   }
 }
 
@@ -180,6 +184,13 @@ const mapDispatchToProps = (dispatch) => {
     updateSubcollection: (data) => dispatch(updateSubcollection(data)),
     createResource: (data) => dispatch(createResource(data)),
     updateResource: (data) => dispatch(updateResource(data)),
+    hideAdminModal: () => {
+      dispatch(showWarningModal({
+        message: 'Are you sure you want to leave?',
+        submessage: 'Changes will not be saved.',
+        options: [{text: 'Leave Editor', action: () => dispatch(hideAdminModal())}]
+      }))
+    },
   }
 }
 
