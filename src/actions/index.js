@@ -45,13 +45,13 @@ export function hideWarningModal() {
   }
 }
 
-export function uploadFile(file, addHash, callback) {
+export function uploadFile(file, folder, addHash, callback) {
   const newFile = processFileName(file, addHash)
 
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'INITIATED'}))
 
-    return getS3SignedRequest(newFile, response => {
+    return getS3SignedRequest(newFile, folder, response => {
       console.log(response)
       if (!response || !response.signedUrl) {
         dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'FAILED'}))
@@ -96,9 +96,9 @@ export function takeWebScreenshot(url, callback) {
   }
 }
 
-function getS3SignedRequest(file, callback) {
+function getS3SignedRequest(file, folder, callback) {
   return fetch(
-    `${dbPath}/sign-s3?file-name=${file.name}&file-type=${file.type}`,
+    `${dbPath}/sign-s3?file-name=${file.name}&file-type=${file.type}&folder=${folder}`,
     {
       method: 'GET'
     }

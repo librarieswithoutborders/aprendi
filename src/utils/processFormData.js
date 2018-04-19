@@ -88,23 +88,25 @@ const processFormData = (data, action) => new Promise(resolve => {
       retObject.resource_url = results.resource_url
 
       if (results.video_provider === 'youtube') {
-        retObject.image_url = `https://img.youtube.com/vi/${results.resource_id}/0.jpg`
+        retObject.thumbnail_image_url = `https://img.youtube.com/vi/${results.resource_id}/0.jpg`
         resolve(retObject)
       } else {
         getVimeoScreenshot(results.resource_id).then(url => {
-          retObject.image_url = url
+          retObject.thumbnail_image_url = url
           resolve(retObject)
         })
       }
       return;
 
     case 'pdf':
-      retObject.image_url = retObject.resource_url.replace('/pdf/', '/thumbnail-images/').replace('.pdf', '.png')
+      retObject.thumbnail_image_url = retObject.resource_url.replace('/pdf/', '/thumbnail-images/').replace('.pdf', '.png')
       resolve(retObject)
       return
 
     default:
-      retObject.thumbnail_image_url = retObject.image_url ? retObject.image_url.replace('/images/', '/thumbnail-images') : null
+      console.log(retObject)
+      retObject.thumbnail_image_url = retObject.image_url ? retObject.image_url.replace('/images/', '/thumbnail-images/') : null
+      console.log(retObject)
       resolve(retObject)
       return
   }
