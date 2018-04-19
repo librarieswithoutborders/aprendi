@@ -10,7 +10,7 @@ import ResourceViewer from '../components/sitewide-components/ResourceViewer'
 import ScrollToTop from '../components/sitewide-components/ScrollToTop'
 import ContentOverlay from '../components/sitewide-components/ContentOverlay'
 
-import {sendUserInfoRequest} from '../actions/user'
+import {sendUserInfoRequest, fetchUserPermissions} from '../actions/user'
 import {isLoggedIn} from '../utils/AuthService';
 
 import routes from '../routes'
@@ -20,6 +20,13 @@ class Root extends Component {
   componentWillMount() {
     if (isLoggedIn()) {
       this.props.sendUserInfoRequest()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {currUser} = nextProps
+    if (currUser && currUser.permissions && currUser.permissions === 'Invalid') {
+      this.props.fetchUserPermissions(currUser.userInfo)
     }
   }
 
@@ -57,12 +64,16 @@ const mapStateToProps = state => ({
   adminModalContent: state.adminModalContent,
   warningModalContent: state.warningModalContent,
   resourceViewerContent: state.resourceViewerContent,
-  updateStatus: state.updateStatus
+  updateStatus: state.updateStatus,
+  currUser: state.currUser
 })
 
 const mapDispatchToProps = dispatch => ({
   sendUserInfoRequest: () => {
     dispatch(sendUserInfoRequest())
+  },
+  fetchUserPermissions: () => {
+    dispatch(fetchUserPermissions())
   }
 })
 

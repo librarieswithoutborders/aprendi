@@ -12,9 +12,10 @@ import {fetchTeam, deleteTeam, updateTeam, teamApproveUserRequest} from '../acti
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
 import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 import canUserEdit from '../utils/canUserEdit'
+import canUserJoin from '../utils/canUserJoin'
 
 
-const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUser, userJoinTeamRequest}) => {
+const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUser, userJoinTeamRequest, userCanJoin}) => {
   const headerContents = {
     title: teamInfo.team_name,
     image_url: teamInfo.image_url,
@@ -29,7 +30,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         editingMode={editingMode}
         editFunc={() => updateTeam(teamInfo)}
         deleteFunc={() => deleteTeam(teamInfo)}
-        joinFunc={currUser && currUser.permissions && !editingMode ? () => userJoinTeamRequest(currUser.permissions, teamInfo) : null}/>
+        joinFunc={userCanJoin ? () => userJoinTeamRequest(currUser.permissions, teamInfo) : null}/>
 
       <div className="team-home-page__contents">
         {editingMode && teamInfo.pending_users && teamInfo.pending_users.length > 0 &&
@@ -188,9 +189,11 @@ class TeamHomePageContainer extends React.Component {
 
 const mapStateToProps = state => {
   const editingMode = canUserEdit(state.currUser, state.currTeam, 'team')
+  const userCanJoin = canUserJoin(state.currUser, state.currTeam)
   return {
     teamInfo: state.currTeam,
     editingMode: editingMode,
+    userCanJoin: userCanJoin,
     currUser: state.currUser,
     currCollection: state.currCollection,
     isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin

@@ -30,7 +30,7 @@ class TopNav extends Component {
 
     if (currUser === 'fetching') {
       return null
-    } else if (currUser && currUser !== 'Logged out') {
+    } else if (currUser && currUser !== 'Logged out' && currUser.userInfo) {
       return (
         <div className="top-nav">
           <div className="top-nav__contents">

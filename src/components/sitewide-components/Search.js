@@ -245,7 +245,7 @@ const mapStateToProps = (state, ownProps) => {
   } else if (type === 'team') {
     return {
       parent: state.currUser ? state.currUser.permissions : null,
-	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(team => {
+	    data: state.teamList && state.teamList != 'Invalid' && !ownProps.showAll ? state.teamList.filter(team => {
         const userId = state.currUser.permissions._id
         if (team.users && team.users.indexOf(userId) >= 0) {
           return false

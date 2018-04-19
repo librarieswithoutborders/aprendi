@@ -41,7 +41,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, joinFunc, editingMode
                 </div>
             }
             {joinFunc &&
-                <div className="button button-transparent" onClick={joinFunc}>Request to Join Team</div>
+                <div className={image_url ? 'button button-transparent' : 'button button-transparent-black'} onClick={joinFunc}>Request to Join Team</div>
             }
 
 

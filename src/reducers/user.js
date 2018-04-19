@@ -17,6 +17,7 @@ export const currUser = (state = null, action) => {
   switch (action.type) {
     case 'SET_USER_INFO':
       return action.user || null
+
     case 'CREATE_TEAM':
       if (action.status === 'SUCCESS') {
         const newState = {}
@@ -36,6 +37,14 @@ export const currUser = (state = null, action) => {
         const newState = {}
         Object.assign(newState, state)
         newState.permissions = 'Invalid'
+        return newState
+      }
+
+    case 'FETCH_USER_PERMISSIONS':
+      if (action.status === 'SUCCESS') {
+        const newState = {}
+        Object.assign(newState, state)
+        newState.permissions = action.data
         return newState
       }
 

@@ -22,7 +22,8 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
   const headerContents = {
     title: title
   }
-
+  console.log('USER', user)
+  console.log(!user.permissions || user.permissions === 'Invalid')
   if (!user.permissions || user.permissions === 'Invalid') {
     mainContent = <LoadingIcon />
   } else if (user.permissions.core_admin) {
@@ -34,9 +35,10 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
       </div>
     )
   } else {
+    console.log('IN ELSE, ', user)
     mainContent = (
       <div className="team-home-page__contents">
-        {user.permissions.teams.length === 0 &&
+        {user.permissions.teams && user.permissions.teams.length === 0 &&
           <div className="team-home-page__section">
             <div className="team-home-page__section__text-container">
               <p className="team-home-page__section__text">To get started adding and editing content, you must first join a team.</p>
@@ -46,15 +48,17 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
         }
         <div className="team-home-page__section">
           <h5 className="team-home-page__section-title">My Teams</h5>
-          <Grid
-            data={user.permissions.teams}
-            type="team"
-            createNew={() => createTeam(user)}
-            clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
-            isDraggable={false}
-            editingMode={editingMode}
-            createNewText="Create New Team"
-          />
+          {user.permissions.teams &&
+            <Grid
+              data={user.permissions.teams}
+              type="team"
+              createNew={() => createTeam(user)}
+              clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
+              isDraggable={false}
+              editingMode={editingMode}
+              createNewText="Create New Team"
+            />
+          }
         </div>
         {user.permissions && user.permissions.pending_teams && user.permissions.pending_teams.length > 0 &&
           <div className="team-home-page__section">

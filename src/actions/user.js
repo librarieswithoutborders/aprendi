@@ -8,7 +8,7 @@ export function sendUserInfoRequest() {
     getCurrUser()
       .then(user => {
         if (user) {
-          dataLayer.push({userId: user._id})
+          // dataLayer.push({userId: user._id})
           dispatch(setUserInfo({userInfo: user}))
           dispatch(fetchUserPermissions(user))
         } else {
@@ -36,10 +36,8 @@ export function fetchUserPermissions(user) {
       .then(json => {
         if (json) {
           dispatch(setRequestStatus({type: 'FETCH_USER_PERMISSIONS', status: 'SUCCESS', data: json}))
-          dispatch(setUserInfo({userInfo: user, permissions: json}))
         } else {
           dispatch(setRequestStatus({type: 'FETCH_USER_PERMISSIONS', status: 'FAILURE'}))
-          dispatch(setUserInfo({userInfo: user}))
         }
       })
   }
@@ -68,7 +66,9 @@ export function addUserToTeam(user, team, approvalStatus) {
       })
       .then(response => response.json())
       .then(json => {
-        if (json.error) {
+        if (!json) {
+          dispatch(setUpdateStatus({type: approvalStatus === 'pending' ? 'TEAM_JOIN_REQUEST' : 'TEAM_ADD_USER', message: 'Join Failed', status: 'FAILED'}))
+        } else if (json.error) {
           dispatch(setUpdateStatus({type: approvalStatus === 'pending' ? 'TEAM_JOIN_REQUEST' : 'TEAM_ADD_USER', message: json.error.message, status: 'FAILED'}))
         } else {
           dispatch(hideAdminModal())
