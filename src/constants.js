@@ -32,7 +32,7 @@ export const resourceTypeOptions = [
 ]
 
 
-const richTextToolbarConfig = {
+export const richTextToolbarConfig = {
   display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'HISTORY_BUTTONS'],
   INLINE_STYLE_BUTTONS: [
     {label: 'Bold', style: 'BOLD', className: 'custom-css-class'},
