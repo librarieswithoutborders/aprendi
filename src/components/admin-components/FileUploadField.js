@@ -12,14 +12,31 @@ class FileUploadFieldContent extends React.Component {
     super(props)
 
     this.state = {
-      currValue: props.fieldApi.value
+      currValue: props.fieldApi.value,
+      errorMessage: null
     }
   }
 
-  onDrop(files) {
+  onDropAccepted(files) {
     const {type} = this.props
 
     this.props.uploadFile({file: files[0], folder: type === 'pdf' ? 'pdf' : 'images', addHash: true, callback: this.uploadCallback.bind(this)})
+
+    if (this.state.errorMessage) {
+      this.setState({
+        errorMessage: null
+      })
+    }
+  }
+
+  onDropRejected(files) {
+    const {type} = this.props
+
+    console.log("rejected", files)
+
+    this.setState({
+      errorMessage: "File Upload Rejected. The minimum file size is 17KB and the accepted file types are png, jpg, jpeg, and pdf"
+    })
   }
 
   clearValue() {
@@ -79,6 +96,7 @@ class FileUploadFieldContent extends React.Component {
     console.log(this.props)
     const { type, fieldApi, ...rest } = this.props
     const { value, setValue } = fieldApi
+    const { errorMessage } = this.state
 
     // const error = getError()
     // const warning = getWarning()
@@ -92,10 +110,18 @@ class FileUploadFieldContent extends React.Component {
       <div className="form__image-upload">
         {preview}
         {!preview &&
-          <Dropzone className="form__image-upload__image-input"
-            onDrop={(files) => this.onDrop(files)} >
-            <p>Drop image file here or click to select files to upload</p>
+          <Dropzone
+            className="form__image-upload__image-input"
+            onDropAccepted={(files) => this.onDropAccepted(files)}
+            onDropRejected={(files) => this.onDropRejected(files)}
+            multiple={false}
+            minSize={17000}
+            accept={type === "pdf" ? "application/pdf" : "image/jpeg, image/png"}>
+            <p>Drop file here or click to select files to upload</p>
           </Dropzone>
+        }
+        {!preview && errorMessage &&
+          <h5 className="form__field__error">{errorMessage}</h5>
         }
       </div>
     )
