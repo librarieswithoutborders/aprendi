@@ -95,7 +95,7 @@ class CollectionPage extends Component {
           editingMode={editingMode}
           editFunc={() => updateCollection({data: data, type: type, parent: {parentData: parent}})}
           deleteFunc={() => deleteCollection({data: data, type: type, parent: parent, parentType: parentType, history: history})}/>
-        {type == 'subcollection' && <Breadcrumbs data={breadcrumbs} /> }
+        <Breadcrumbs data={breadcrumbs} currTeam={currTeam} />
         <div className="collection__contents">
           {(editingMode || (data.subcollections && data.subcollections.length > 0)) &&
             <div className="collection__section">
