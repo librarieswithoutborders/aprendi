@@ -86,21 +86,23 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
             <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not created any collections yet.`}</h5>
           }
         </div>
-        <div className="team-home-page__section">
-          <h5 className="team-home-page__section-title">Resources</h5>
-          {editingMode && <div className="team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
-          {teamInfo.resources && teamInfo.resources.length > 0 &&
-            <div className="team-home-page__search" >
-              <Search
-                type="resource"
-                itemList={teamInfo.resources}
-                onSelect={resource => showResourceViewer(resource)}/>
-            </div>
-          }
-          {!teamInfo.resources || teamInfo.resources.length === 0 &&
-            <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not added any resources yet.`}</h5>
-          }
-        </div>
+        {editingMode &&
+          <div className="team-home-page__section">
+            <h5 className="team-home-page__section-title">Resources</h5>
+            {editingMode && <div className="team-home-page__button button button-white" onClick={() => createNewResource(teamInfo._id)}>+ Create New Resource</div>}
+            {teamInfo.resources && teamInfo.resources.length > 0 &&
+              <div className="team-home-page__search" >
+                <Search
+                  type="resource"
+                  itemList={teamInfo.resources}
+                  onSelect={resource => showResourceViewer(resource)}/>
+              </div>
+            }
+            {!teamInfo.resources || teamInfo.resources.length === 0 &&
+              <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not added any resources yet.`}</h5>
+            }
+          </div>
+        }
         {editingMode &&
           <div className="team-home-page__section">
             <h5 className="team-home-page__section-title">Users</h5>
