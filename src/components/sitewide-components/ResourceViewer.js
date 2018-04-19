@@ -87,7 +87,7 @@ class ResourceViewer extends Component {
                   <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.updateResource(content)}>Edit Resource</h5>
                 }
                 {editingFunctions.removeResource &&
-                  <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.removeResource(content)}>Remove Resource From Collection</h5>
+                  <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.removeResource(content)}>Remove Resource from Page</h5>
                 }
                 {editingFunctions.deleteResource &&
                   <h5 className="resource-viewer__footer__button" onClick={() => editingFunctions.deleteResource(content)}>Delete Resource</h5>
@@ -130,7 +130,7 @@ const mapDispatchToProps = dispatch => ({
     }
 
     dispatch(showWarningModal({
-      message: `Are you sure you would like to remove resource ${resource.title} from ${parent.parentTitle}?`,
+      message: `Are you sure you want to remove this resource from the page, ${parent.parentTitle}?`,
       options: [{text: 'Remove', action: confirmFunc}]
     }))
   },
@@ -152,7 +152,7 @@ const mapDispatchToProps = dispatch => ({
     options.push({text: 'Permanently Delete', action: () => dispatch(deleteResource(resourceInfo))})
 
     dispatch(showWarningModal({
-      message: `Are you sure you would like to permanently delete resource ${resourceInfo.title}?`,
+      message: 'Are you sure you would like to permanently delete this resource?',
       submessage: 'If this resource is part of other collectons, it will be deleted from wherever it appears.',
       options: options
     }))
