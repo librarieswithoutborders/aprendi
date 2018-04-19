@@ -11,11 +11,11 @@ export const youtubeGetId = url => {
 }
 
 export const vimeoGetId = url => {
-  const regExp = /(www\.)?vimeo.com\/(\d+)($|\/)/;
+  const regExp = /(player\.|www\.)?vimeo.com(\/video)?\/(\d+)/;
   const match = url.match(regExp);
 
   if (match) {
-    return match[2]
+    return match[match.length - 1]
   }
   return 'error'
 }
