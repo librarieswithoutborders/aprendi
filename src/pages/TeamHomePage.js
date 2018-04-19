@@ -82,7 +82,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               createNewText="Create New Collection"
             />
           }
-          {!teamInfo.collections &&
+          {!teamInfo.collections || teamInfo.collections.length === 0 &&
             <h5 className="team-home-page__placeholder-text">{`${teamInfo.team_name} has not created any collections yet.`}</h5>
           }
         </div>
