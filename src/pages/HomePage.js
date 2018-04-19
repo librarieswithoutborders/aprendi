@@ -5,6 +5,7 @@ import ScrollAnimation from 'react-animate-on-scroll'
 import {isMobile} from 'react-device-detect'
 
 import { login } from '../utils/AuthService'
+import SvgIcon from '../components/sitewide-components/SvgIcon'
 
 const FadeIn = ({children, duration, delay}) => {
   const defaultStyle = {
@@ -42,15 +43,14 @@ class HomePage extends React.Component {
         <div className="home-page__section title-section">
           <div className="home-page__section__content-container" >
             <FadeIn duration={800} delay={0} >
-              <h1 className="home-page__section__title">Welcome to My Library Guide</h1>
+              <h1 className="home-page__section__title">Welcome to Aprendi</h1>
             </FadeIn>
             <FadeIn duration={800} delay={100} >
               <div className="home-page__section__content">
-                <p>My Library Guide is a tool developed by Libraries Without Borders to enable people to curate and add content Lorem Ipsum</p>
+                <p className="home-page__text-main">Powered by <a className="home-page__text-link" href="https://www.librarieswithoutborders.org/" target="_blank">Libraries Without Borders</a></p>
                 <div className="home-page__section__button-container">
                   <Link to="/collections/"><div className="button button-transparent">Browse Collections</div></Link>
                   <Link to="/teams/"><div className="button button-transparent">Browse Teams</div></Link>
-                  {!isMobile && <div className="button button-transparent" onClick={() => login()}>Admin</div>}
                 </div>
               </div>
             </FadeIn>
@@ -58,30 +58,82 @@ class HomePage extends React.Component {
           <div className="home-page__section__overlay" />
         </div>
         <div className="home-page__section white">
-          <h1 className="home-page__section__title">About the Project</h1>
+          <h1 className="home-page__section__title">What is Aprendi?</h1>
           <div className="home-page__section__content">
-            <p>Links to LWB US homepage somwehere in here</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur quis augue non lorem tempor elementum. Vivamus mollis non sapien eget efficitur. Integer eget metus ut mauris iaculis consectetur eu eget libero. Sed risus lorem, rutrum eget velit eu, fermentum tincidunt magna. Morbi ac pulvinar massa, et mollis nisi. Suspendisse dictum et ligula quis ultricies. Sed nec elit iaculis, auctor orci ut, ullamcorper nibh.</p>
-            <p>Suspendisse potenti. Aliquam a auctor odio. In hac habitasse platea dictumst. Donec accumsan iaculis convallis. Ut nec diam in neque vehicula porta. Ut vitae mi nec neque porta sollicitudin eget et risus. Proin diam magna, mattis at purus et, pulvinar aliquet enim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec sodales eros odio, quis congue lectus feugiat ac.</p>
-            <p>Aliquam eu imperdiet magna. Nulla posuere semper nunc, in varius orci pellentesque et. Suspendisse potenti. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed porta erat ex. Etiam a lorem fringilla velit lobortis fringilla. Ut rhoncus non quam eget elementum. Pellentesque facilisis libero vel odio blandit, a luctus sapien tempus. Nam elementum eu ante vitae consectetur.</p>
+            <p className="home-page__text-main">Aprendi is a tool built by Libraries Without Borders to help communities curate local resources in a dynamic, reliable, and relevant fashion.</p>
+            <p className="home-page__text-main extra-space">They do this by creating:</p>
+            <div className="home-page__create-options">
+              <div className="home-page__create-options__item">
+                <div className="home-page__create-options__icon-container">
+                  <SvgIcon className="home-page__create-options__icon" name='folder' />
+                </div>
+                <h5 className="home-page__create-options__title">Collections</h5>
+                <p className="home-page__create-options__text">Sets of resources, which may include videos, PDFs, embedded or external websites, images, and notes</p>
+              </div>
+              <hr className="home-page__create-options__divider" />
+              <div className="home-page__create-options__item">
+                <div className="home-page__create-options__icon-container">
+                  <SvgIcon className="home-page__create-options__icon" name='video' />
+                  <SvgIcon className="home-page__create-options__icon" name='document' />
+                  <SvgIcon className="home-page__create-options__icon" name='embed' />
+                  <SvgIcon className="home-page__create-options__icon" name='website' />
+                  <SvgIcon className="home-page__create-options__icon" name='image' />
+                  <SvgIcon className="home-page__create-options__icon" name='text' />
+                </div>
+                <h5 className="home-page__create-options__title">Resources</h5>
+                <p className="home-page__create-options__text">Video, PDFs, embedded or external websites, images, or notes you wish to share</p>
+              </div>
+              <hr className="home-page__create-options__divider" />
+              <div className="home-page__create-options__item">
+                <div className="home-page__create-options__icon-container">
+                  <SvgIcon className="home-page__create-options__icon" name='team' />
+                </div>
+                <h5 className="home-page__create-options__title">Teams</h5>
+                <p className="home-page__create-options__text">Groups of other users to collaborate with in creating content</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="home-page__section blue">
-          <h1 className="home-page__section__title">Starting Guide</h1>
+          <h1 className="home-page__section__title">Get Started</h1>
           <div className="home-page__section__content">
-            <h5 className="home-page__text__main">My Library Guide allows you to find and explore resources collected by members of your community to answer common questions you might have.</h5>
-            <p className="home-page__text__sub">Here are some example resource collections to get you started:</p>
-            <p className="home-page__text__sub">Feel free to explore all of the collections that have been created here.</p>
-            <h5 className="home-page__text__main">Want to create resource collections of your own?</h5>
-
+            <div className="home-page__option-grid">
+              <div className="home-page__option-grid__item">
+                <Link to="/collections/">
+                  <div className="home-page__option-grid__item__content-container">
+                    <h5 className="home-page__option-grid__item__title">Explore</h5>
+                    <h5 className="home-page__option-grid__item__text">Browse collections of resources based on the topics that most interest you</h5>
+                    <h5 className="home-page__option-grid__item__sub-text">Click here to get started!</h5>
+                  </div>
+                </Link>
+              </div>
+              <div className="home-page__option-grid__item">
+                <div className="home-page__option-grid__item__content-container" onClick={() => login()}>
+                  <h5 className="home-page__option-grid__item__title">Curate</h5>
+                  <h5 className="home-page__option-grid__item__text">Collect and organize information yourself</h5>
+                  <h5 className="home-page__option-grid__item__sub-text">Click here to connect a gmail account.  Then you will be asked to either join an existing team or create your own. After that, it’s all up to you!</h5>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="home-page__section white">
+          <h1 className="home-page__section__title">Project Sponsors</h1>
+          <div className="home-page__section__content">
+            <img id="logo-lwb" src="../static/images/lwb_logo.jpg" />
+            <p className="home-page__text-main extra-space">Libraries Without Borders is a 501(c)(3) non-profit dedicated to improving access to information in the US and around the world.</p>
+            <p className="home-page__text-main extra-space bold">Additional Sponsors:</p>
+            <div className="home-page__sponsor-box">
+              <img id="logo-minnesota" src="../static/images/mndoe_logo.png" />
+              <img id="logo-eastern-shore" src="../static/images/commeasternshore_logo.png" />
+              <img id="logo-united-way" src="../static/images/unitedway_logo.png" />
+            </div>
+          </div>
+        </div>
+        <div className="home-page__section blue">
           <h1 className="home-page__section__title">Contact</h1>
           <div className="home-page__section__content">
-            <p>For questions, concerns, or feedback please contact <a className="home-page__text__link" href="mailto:adam.echelman@librarieswithoutborders.org">adam.echelman@librarieswithoutborders.org</a></p>
-            <p>My Library Guide is an open source project initiated by Libraries without Borders</p>
-            <div className="button button-white"><a href="https://github.com/librarieswithoutborders/mylibraryguide">View the Github Repo</a></div>
+            <p>For questions, concerns, or feedback please contact <a className="home-page__text__link" href="mailto:admin@librarieswithoutborders.org">admin@librarieswithoutborders.org</a></p>
           </div>
         </div>
       </div>

@@ -5,15 +5,11 @@
     position: relative;
 
     @include medium {
-      padding: 130px 15px;
+      padding: 65px 0px;
     }
 
     &.blue {
-      background-color: colors(blue-10);
-
-      // * {
-      //   color: white;
-      // }
+      background-color: colors(offwhite);
     }
 
     &.white {
@@ -26,8 +22,16 @@
       background-position: 50% 50%;
       z-index: 10;
 
+      @include medium {
+        padding: 130px 0px;
+      }
+
       * {
         color: white;
+      }
+
+      .home-page__text-main {
+        margin-bottom: $standard-padding;
       }
 
     }
@@ -35,7 +39,7 @@
     &__content-container {
       position: relative;
       z-index: 20;
-      padding: 20px;
+      padding: 30px 20px;
 
       @include medium {
         padding: 30px 50px;
@@ -57,16 +61,28 @@
     }
 
     &__title {
-      font-size: 42px;
-      padding: 35px 0px;
+      font-size: 32px;
+      padding: 25px 0px;
+      color: colors(black);
 
       @include medium {
-        padding-top: 0px;
+        padding: 0px 0px 25px;
       }
+
+      .title-section & {
+        font-size: 42px;
+        color: colors(white);
+
+        @include medium {
+          padding: 0px 0px $standard-padding;
+        }
+      }
+
+
     }
 
     &__content {
-      max-width: 650px;
+      max-width: 700px;
       margin: auto;
       z-index: 20;
     }
@@ -88,5 +104,133 @@
         }
       }
     }
+  }
+
+  &__create-options {
+    &__item {
+      padding: $standard-padding;
+
+    }
+
+    &__icon-container {
+
+    }
+
+    &__icon {
+      width: 30px;
+      margin: 0px 7px;
+      fill: colors(dark-blue);
+    }
+
+    &__title {
+      font-weight: bold;
+      font-size: 18px;
+      color: colors(dark-blue);
+      padding-top: 10px;
+    }
+
+    &__text {
+      line-height: 1.4;
+      margin: 0px;
+      padding-top: 10px;
+      font-size: 14px;
+      color: colors(blue-80);
+    }
+
+    &__divider {
+      display: block;
+      height: 1px;
+      border: 0;
+      border-top: 1px solid colors(grey);
+      opacity: .5;
+      margin: 15px 15%;
+      padding: 0;
+    }
+  }
+
+  &__option-grid {
+    display: table;
+    border-collapse: separate;
+    border-spacing: 15px;
+
+    &__item {
+      display: table-cell;
+      width: 50%;
+      padding: 35px $standard-padding;
+      margin: 0px 10px;
+      background-color: colors(blue-10);
+      border: 3px solid colors(blue-20);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 300ms ease-in-out;
+
+      &:hover {
+        background-color: colors(blue-30);
+        border-color: colors(blue-50);
+      }
+
+      &__content-container {
+        // position: relative;
+        // top: 50%;
+        // transform: translateY(-50%);
+      }
+
+      &__title {
+        font-size: 25px;
+        padding-bottom: 30px;
+        color: colors(orange);
+      }
+
+      &__text, &__sub-text {
+        line-height: 1.4;
+      }
+
+      &__text {
+        color: colors(dark-blue);
+        padding-bottom: 20px;
+      }
+
+      &__sub-text {
+        color: colors(black);
+        font-weight: normal;
+
+      }
+    }
+  }
+
+  &__text-main {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    color: colors(black);
+
+    &.extra-space {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+
+    &.bold {
+      font-weight: bold;
+    }
+  }
+
+  &__text-link {
+    // font-weight: bold;
+    transition: color 250ms ease-in-out;
+    // text-decoration: underline;
+    &:hover {
+      color: colors(blue);
+    }
+  }
+
+  &__sponsor-box {
+    * {
+      height: 100px;
+      margin: 0px 10px;
+    }
+  }
+  #logo-lwb {
+    transform: translateX(12px);
+    margin-top: 7px;
   }
 }
