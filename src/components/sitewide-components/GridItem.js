@@ -87,7 +87,6 @@ class GridItem extends React.Component {
         return (
           <div className="grid__item__text">
             <h5 className="grid__item__text__main">{this.data.team_name}</h5>
-            {editingMode && <h5 className="grid__item__text__sub">{this.data.users.length === 1 ? this.data.users.length + " Member" : this.data.users.length + " Members"}</h5>}
             {editingMode && buttonClickHandler &&
               <div className="button button-white" onClick={() => buttonClickHandler.func(this.data)}>{buttonClickHandler.text}</div>
             }
