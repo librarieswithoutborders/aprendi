@@ -35,7 +35,7 @@
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
-    padding: $standard-padding;
+    padding: $standard-padding $standard-padding 40px;
     margin-bottom: 15vh;
 
     .ReactPDF {
@@ -64,6 +64,11 @@
 
       &__Loader {
         position: relative;
+        min-height: 300px;
+
+        .loading-icon-conatiner {
+          top: 50%;
+        }
       }
     }
 
@@ -95,6 +100,7 @@
         display: block;
         width: 100%;
         height: auto;
+        padding-bottom: $standard-padding;
       }
     }
 

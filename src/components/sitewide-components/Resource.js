@@ -75,11 +75,17 @@ const renderVideo = ({video_provider, resource_url}) => {
 
 const renderRichText = ({rich_text_content}) => <div className="resource__content__richtext" dangerouslySetInnerHTML={{__html: rich_text_content}} />
 
-const renderPdf = ({resource_url}) => <PdfViewer url={resource_url} />
+const renderPdf = ({resource_url}) => (
+  <div className="resource__content__pdf">
+    <PdfViewer url={resource_url} />
+    <a href={resource_url} target="_blank"><div className="button button-transparent-black">View Original PDF File</div></a>
+  </div>
+)
 
 const renderImage = ({image_url}) => (
   <div className="resource__content__image">
     <img className="resource__content__image__image-container" src={image_url} />
+    <a href={image_url} target="_blank"><div className="button button-transparent-black">View Original Image File</div></a>
   </div>
 )
 
