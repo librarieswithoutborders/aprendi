@@ -120,13 +120,13 @@ class HomePage extends React.Component {
         <div className="home-page__section white">
           <h1 className="home-page__section__title">Project Sponsors</h1>
           <div className="home-page__section__content">
-            <img id="logo-lwb" src="https://s3.us-east-2.amazonaws.com/aprendi/static/images/lwb_logo.jpg" />
+            <img id="logo-lwb" src="https://s3.us-east-2.amazonaws.com/aprendi/static/logos/lwb_logo.jpg" />
             <p className="home-page__text-main extra-space">Libraries Without Borders is a 501(c)(3) non-profit dedicated to improving access to information in the US and around the world.</p>
             <p className="home-page__text-main extra-space bold">Additional Sponsors:</p>
             <div className="home-page__sponsor-box">
-              <img id="logo-minnesota" src="https://s3.us-east-2.amazonaws.com/aprendi/static/images/mndoe_logo.png" />
-              <img id="logo-eastern-shore" src="https://s3.us-east-2.amazonaws.com/aprendi/static/images/commeasternshore_logo.png" />
-              <img id="logo-united-way" src="https://s3.us-east-2.amazonaws.com/aprendi/static/images/unitedway_logo.png" />
+              <img id="logo-minnesota" src="https://s3.us-east-2.amazonaws.com/aprendi/static/logos/mndoe_logo.png" />
+              <img id="logo-eastern-shore" src="https://s3.us-east-2.amazonaws.com/aprendi/static/logos/commeasternshore_logo.png" />
+              <img id="logo-united-way" src="https://s3.us-east-2.amazonaws.com/aprendi/static/logos/unitedway_logo.png" />
             </div>
           </div>
         </div>
