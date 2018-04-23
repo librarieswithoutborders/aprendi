@@ -8,14 +8,12 @@ import TeamHomePage from './pages/TeamHomePage'
 import AllTeamsPage from './pages/AllTeamsPage'
 import AllCollectionsPage from './pages/AllCollectionsPage'
 import NotFoundPage from './pages/NotFoundPage'
-import AuthCallbackPage from './pages/AuthCallbackPage'
 import CollectionDataContainer from './pages/CollectionDataContainer'
 
 const routes = (
   <div>
     <Switch>
       <Route exact path="/" component={isLoggedIn() ? UserHomePage : HomePage} />
-      <Route path="/callback" component={AuthCallbackPage} />
       <Route exact path="/teams" component={AllTeamsPage} />
       <Route path="/teams/:teamPath" component={TeamHomePage} />
       <Route path="/collections" component={AllCollectionsPage} />

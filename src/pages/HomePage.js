@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 import Transition from 'react-transition-group/Transition'
 import ScrollAnimation from 'react-animate-on-scroll'
@@ -6,6 +7,7 @@ import {isMobile} from 'react-device-detect'
 
 import { login } from '../utils/AuthService'
 import SvgIcon from '../components/sitewide-components/SvgIcon'
+import UserHomePage from './UserHomePage'
 
 const FadeIn = ({children, duration, delay}) => {
   const defaultStyle = {
@@ -141,5 +143,28 @@ class HomePage extends React.Component {
   }
 }
 
+class HomePageContainer extends React.Component {
+  constructor() {
+    super()
+  }
 
-export default HomePage
+  render() {
+    const {user} = this.props
+
+    if (user && user !== 'Logged out') {
+      return (
+        <UserHomePage />
+      )
+    } else {
+      return (
+        <HomePage />
+      )
+    }
+  }
+}
+
+const mapStateToProps = state => ({
+  user: state.currUser,
+})
+
+export default connect(mapStateToProps)(HomePageContainer)
