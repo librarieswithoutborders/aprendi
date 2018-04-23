@@ -1,37 +1,4 @@
 .resource {
-
-  &__header, &__content {
-    // padding: 15px;
-  }
-
-
-
-    // &__arrow {
-    //   position: absolute;
-    //   top: 50%;
-    //   transform: translateY(-50%);
-    //   &.prev {
-    //     left: 7px;
-    //     .icon {
-    //       transform: rotate(180deg);
-    //     }
-    //   }
-    //   &.next {
-    //     right: 7px;
-    //   }
-    //   .icon {
-    //     height: 20px;
-    //     fill: colors(grey);
-    //     cursor: pointer;
-    //
-    //     &:hover {
-    //       fill: colors(blue);
-    //     }
-    //
-    //   }
-    // }
-  // }
-
   &__content {
     background-color: colors(offwhite);
     z-index: 1;
@@ -39,18 +6,8 @@
     margin-bottom: 15vh;
 
     .ReactPDF {
-      &__Document {
-
-      }
-
       &__Page {
         padding: 20px 0px;
-        // border-bottom: 1px solid colors(blue-50);
-
-        // & > * {
-        //   max-width: 100% !important;
-        //   overflow-x: hidden;
-        // }
 
         &:first-child {
           padding-top: 0px;
@@ -81,11 +38,6 @@
     }
 
     &__video iframe {
-      // position: absolute;
-      // top:0;
-      // left: 0;
-      // width: 100%;
-      // height: 100%;
     }
 
     &__richtext {
