@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import ResponsiveEmbed from 'react-responsive-embed'
+import {isMobile} from 'react-device-detect'
 const $ = require('jquery')
 
 import PdfViewer from './PdfViewer'
@@ -100,6 +101,11 @@ const renderWebsite = ({resource_url, image_url}) => (
   </div>
 )
 
-const renderEmbed = ({resource_url}) => <ResponsiveEmbed src={resource_url} allowfullscreen />
+const renderEmbed = ({resource_url}) => {
+  if (isMobile) {
+    return <iframe src={resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
+  }
+  return <ResponsiveEmbed src={resource_url} allowfullscreen />
+}
 
 export default Resource
