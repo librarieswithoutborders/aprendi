@@ -43,7 +43,7 @@ $border-radius: 5px;
       }
 
       .item-type-resource & {
-        transform: translateY(2*grid-item-height(resource)/5);
+        transform: translateY(2*grid-item-height(resource)/5 + 10px);
         height: calc(3*grid-item-height(resource)/5 - 7px);
 
         box-shadow: inset 0px 3px 25px -7px colors(grey);
@@ -111,7 +111,7 @@ $border-radius: 5px;
         // transform: translateY(-2*grid-item-height(resource)/5);
         height: 2*grid-item-height(resource)/5;
         position: absolute;
-        top: 0;
+        top: 5px;
         // border-bottom: 1px solid colors(grey);
         // background-color: none;
         // background: linear-gradient(0deg, colors(white), rgba(255,255,255,.8) 30%, rgba(255,255,255,0));
@@ -151,8 +151,15 @@ $border-radius: 5px;
           color: colors(white);
         }
 
-        .item-type-team & {
-
+        .item-type-resource & {
+          // truncate to 4 lines - https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 4; /* number of lines to show */
+          line-height: 1.4;        /* fallback */
+          max-height: 1.4*4;
         }
       }
 

@@ -6,7 +6,7 @@ export const teamFieldSettings = [
     label: 'Team Name',
     type: 'Text',
     required: true,
-    validate: maxLength(150),
+    validate: maxLength(120),
     helpText: null,
     globallyUnique: true
   },

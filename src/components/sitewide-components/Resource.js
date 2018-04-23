@@ -60,7 +60,7 @@ const renderVideo = ({video_provider, resource_url}) => {
   let videoContent;
   if (video_provider == 'youtube') {
     videoContent = (
-      <ResponsiveEmbed id="ytplayer" type="text/html" src={`${resource_url}?autoplay=1&rel=0`} frameborder="0" allow="autoplay; encrypted-media" />
+      <ResponsiveEmbed id="ytplayer" type="text/html" src={`${resource_url}?autoplay=1&rel=0`} frameBorder="0" allow="autoplay; encrypted-media" />
     )
   } else {
     videoContent = (
