@@ -3,7 +3,7 @@ import {combineReducers} from 'redux';
 import {collectionList, currCollection} from './collection'
 import {teamList, currTeam} from './team'
 import {userList, currUser} from './user'
-import {resourceList, sharedResourceList, resourceViewerContent} from './resource'
+import {resourceList, resourceViewerContent} from './resource'
 
 
 const adminModalContent = (state = null, action) => {
@@ -64,7 +64,6 @@ const rootReducer = combineReducers({
   userList,
   collectionList,
   resourceList,
-  sharedResourceList,
   resourceViewerContent,
   adminModalContent,
   warningModalContent,

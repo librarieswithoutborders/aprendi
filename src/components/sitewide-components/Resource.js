@@ -6,7 +6,7 @@ const $ = require('jquery')
 
 import PdfViewer from './PdfViewer'
 
-const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource, toggleShared}) => {
+const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource}) => {
   let renderedContent
   switch (content.resource_type) {
     case 'pdf':

@@ -7,7 +7,6 @@ import ResourceExistingSearch from '../sitewide-components/ResourceExistingSearc
 import {hideAdminModal} from '../../actions/index'
 import {collectionAddExistingResource, invalidateCurrCollection} from '../../actions/collection'
 import {subcollectionAddExistingResource} from '../../actions/subcollection'
-import {fetchSharedResourceList} from '../../actions/resource'
 
 
 class ResourceCreator extends Component {
@@ -16,14 +15,6 @@ class ResourceCreator extends Component {
 
     this.state = {
       activeTab: 0
-    }
-  }
-
-  componentWillMount() {
-    const {sharedResourceList, fetchSharedResourceList} = this.props
-
-    if (!sharedResourceList) {
-      fetchSharedResourceList()
     }
   }
 
@@ -89,8 +80,7 @@ class ResourceCreator extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   currTeam: state.currTeam,
-  parent: state.adminModalContent.parent,
-  sharedResourceList: state.sharedResourceList
+  parent: state.adminModalContent.parent
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -100,9 +90,6 @@ const mapDispatchToProps = dispatch => ({
     } else {
       dispatch(subcollectionAddExistingResource(resource, parent.parentId))
     }
-  },
-  fetchSharedResourceList: () => {
-    dispatch(fetchSharedResourceList())
   }
 })
 

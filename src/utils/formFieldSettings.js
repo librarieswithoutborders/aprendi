@@ -143,14 +143,6 @@ export const resourceFieldSettings = [
     locallyUnique: true
   },
   {
-    dbField: 'shared',
-    label: 'Share Resource Across Teams',
-    type: 'Checkbox',
-    required: false,
-    helpText: null,
-    showOnly: ({isCoreAdmin}) => isCoreAdmin
-  },
-  {
     dbField: 'resource_url',
     label: 'Video Url',
     type: 'Text',
@@ -210,14 +202,6 @@ export const resourceFieldSettings = [
     showOnly: ({action, resourceType}) => resourceType === 'rich_text' || (action !== 'create' && resourceType != 'image')
   },
   {
-    dbField: 'more_info',
-    label: 'More Information Link',
-    type: 'Text',
-    required: false,
-    validate: maxLength(150),
-    helpText: null
-  },
-  {
     dbField: 'disclaimer_message',
     label: 'Disclaimer Message',
     type: 'RichText',
@@ -232,7 +216,6 @@ export const resourceFieldSettings = [
     validate: isValidPath,
     helpText: 'This is the text that will go at the end of the unique URL generated for this resource.',
     locallyUnique: true,
-    globallyUnique: true,
     showOnly: ({action}) => action !== 'create'
   }
 ]
