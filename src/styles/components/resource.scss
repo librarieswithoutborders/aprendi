@@ -62,6 +62,7 @@
         text-decoration: underline;
         padding-bottom: $standard-padding;
         display: inline-block;
+        word-break: break-all;
       }
 
       &__screenshot {
