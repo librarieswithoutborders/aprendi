@@ -55,32 +55,3 @@ export const isValidVideoUrl = input => {
     return 'Please Enter a Valid Youtube or Vimeo URL'
   }
 }
-
-export const isValidEmbed = input => {
-  // return new Promise(resolve, reject) {
-  //   let retVal = isValidUrl(input)
-  //   console.log(retVal)
-  //   // url returned an error message
-  //   if (retVal) {
-  //     resolve(retVal)
-  //   } else {
-  //     $.get("//" + input).done(function () {
-  //       resolve(null)
-  //     }).fail(function () {
-  //       resolve("Url does not allow embedding")
-  //     })
-  //   }
-  // }
-}
-
-// export const isPathTaken = (path) => {
-//   return new Promise((resolve, reject) => {
-//     console.log(path)
-//     if (!path || path.length === 0) { resolve(false); return; }
-//     isCollectionPathTaken(path).then(isTaken => {
-//       console.log(isTaken)
-//
-//       resolve(isTaken ? "Path has already been taken, please try a different path" : null)
-//     })
-//   })
-// }

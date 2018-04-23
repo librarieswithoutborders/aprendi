@@ -1,4 +1,4 @@
-import {maxLength, isValidPath, isValidEmail, isValidUrl, isValidVideoUrl, isValidEmbed, isPathTaken} from '../utils/formValidation'
+import {maxLength, isValidPath, isValidEmail, isValidUrl, isValidVideoUrl, isPathTaken} from '../utils/formValidation'
 
 export const teamFieldSettings = [
   {
@@ -182,7 +182,7 @@ export const resourceFieldSettings = [
     type: 'Text',
     required: true,
     helpText: 'Note: some urls do not allow embedding',
-    validate: input => isValidEmbed(input),
+    validate: input => isValidUrl(input),
     showOnly: ({resourceType}) => resourceType === 'embed'
   },
   {

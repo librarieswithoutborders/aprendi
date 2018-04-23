@@ -105,7 +105,7 @@ const renderEmbed = ({resource_url}) => {
   if (isMobile) {
     return <iframe src={resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
   }
-  return <ResponsiveEmbed src={resource_url} allowfullscreen />
+  return <ResponsiveEmbed src={resource_url} allowFullScreen />
 }
 
 export default Resource

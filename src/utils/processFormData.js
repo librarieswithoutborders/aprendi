@@ -67,7 +67,6 @@ const getVimeoScreenshot = id => {
   })
 }
 
-
 const processFormData = (data, action) => new Promise(resolve => {
   console.log('processing form data')
   console.log(data)
@@ -96,7 +95,7 @@ const processFormData = (data, action) => new Promise(resolve => {
           resolve(retObject)
         })
       }
-      return;
+      return
 
     case 'pdf':
       retObject.thumbnail_image_url = retObject.resource_url.replace('/pdf/', '/thumbnail-images/').replace('.pdf', '.png')
