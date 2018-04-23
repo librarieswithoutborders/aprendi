@@ -69,7 +69,7 @@ $border-radius: 5px;
         position: relative;
         transform: translateY(-50%);
 
-        path {
+        path, polygon {
           fill: colors(grey);
         }
       }
