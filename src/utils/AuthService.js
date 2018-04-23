@@ -104,19 +104,7 @@ export async function getCurrUser() {
 
     console.log("PROFILE IS", profile)
 
-    if (profile) {
-      resolve(JSON.parse(profile))
-    } else {
-      let accessToken = window.localStorage.getItem(ACCESS_TOKEN_KEY)
-      lock.getUserInfo(accessToken, (error, profile) => {
-        if (error) {
-          // Handle error
-          return;
-        }
-
-        resolve(profile)
-      });
-    }
+    resolve(JSON.parse(profile))
 
   })
 }
