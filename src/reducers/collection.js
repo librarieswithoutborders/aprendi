@@ -51,7 +51,7 @@ export const currCollection = (state = null, action) => {
 
     case 'DELETE_COLLECTION':
       if (action.status === 'SUCCESS') {
-        return null
+        return 'Invalid'
       }
     case 'CREATE_SUBCOLLECTION':
       if (action.status === 'SUCCESS') {

@@ -40,8 +40,9 @@ class CollectionDataContainer extends Component {
 
     // collection was deleted
     // if (this.props.currCollection && !nextProps.currCollection) {
-
-    //   history.replace('/teams/' + nextProps.currTeam.path)
+    //   console.log('COLLECTION DELETED')
+    //   console.log(this.props.currCollection, nextProps.currCollection)
+    //   // history.replace('/')
     // }
 
     // subcollection was changed, refetching collection
