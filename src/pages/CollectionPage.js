@@ -49,7 +49,7 @@ class CollectionPage extends Component {
     })
 
     if (!hashFound) {
-      history.push(location.pathname)
+      history.replace(location.pathname)
       hideResourceViewer()
     }
   }
