@@ -69,6 +69,12 @@ class AdminForm extends Component {
 
     console.log('THIS IS THE FORM DATA')
     console.log(formData)
+    const resourceUrlChanged = !data || data.resource_url !== formData.resource_url
+    const imageUrlChanged = !data || data.image_url !== formData.image_url
+    console.log('RESOURCE URL CHANGED!!')
+    console.log(resourceUrlChanged)
+    console.log('IMAGE URL CHANGED!!')
+    console.log(imageUrlChanged)
 
     const values = {}
     Object.assign(values, formData)
@@ -80,16 +86,16 @@ class AdminForm extends Component {
       values.resource_type = resourceType
     }
 
-    if ((values.resource_type === 'website' || values.resource_type === 'embed') && (!data || data.resource_url != formData.resource_url)) {
+    if ((values.resource_type === 'website' || values.resource_type === 'embed') && resourceUrlChanged) {
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
         console.log(d)
         values.image_url = d
-        processFormData(values, action).then(result => {
+        processFormData(values, action, resourceUrlChanged, imageUrlChanged).then(result => {
           console.log(result); this.props.submit(result)
         })
       })
     } else {
-      processFormData(values, action).then(result => {
+      processFormData(values, action, resourceUrlChanged, imageUrlChanged).then(result => {
         console.log(result); this.props.submit(result)
       })
     }
