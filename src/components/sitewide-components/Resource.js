@@ -103,9 +103,9 @@ const renderWebsite = ({resource_url, image_url}) => (
 
 const renderEmbed = ({resource_url}) => {
   if (isMobile) {
-    return <iframe src={resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
+    return <iframe src={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
   }
-  return <ResponsiveEmbed src={resource_url} allowFullScreen />
+  return <ResponsiveEmbed src={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} allowFullScreen />
 }
 
 export default Resource

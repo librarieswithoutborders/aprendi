@@ -124,12 +124,12 @@ class UserHomePageContainer extends React.Component {
   }
 
   render() {
-    const {user} = this.props
+    const {user, history} = this.props
 
     if (user) {
       if (user === 'Logged out') {
         return (
-          <HomePage />
+          <HomePage history={history} />
         )
       } else if (user != 'fetching') {
         return (
