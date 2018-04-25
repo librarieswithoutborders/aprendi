@@ -75,7 +75,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
               clickHandler={(data, i) => {
-                console.log(data, i); history.push(`/${data[i].path}`)
+                console.log(data, i, history); history.push(`/${data[i].path}`)
               }}
               isDraggable={false}
               editingMode={editingMode}

@@ -149,11 +149,14 @@ class HomePageContainer extends React.Component {
   }
 
   render() {
-    const {user} = this.props
+    const {user, history} = this.props
+
+    console.log("in HOMEPAGE")
+    console.log(history)
 
     if (user && user !== 'Logged out') {
       return (
-        <UserHomePage />
+        <UserHomePage history={history} />
       )
     } else {
       return (

@@ -14,6 +14,8 @@ import {removeUserFromTeam, addUserToTeam, sendUserInfoRequest} from '../actions
 
 
 const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, editingMode, createTeam}) => {
+  console.log('IN USER HOME PAGE')
+  console.log(history)
   let mainContent;
   let title = 'Welcome '
   title += user.permissions && user.permissions.teams && user.permissions.teams.length > 0 ? 'Back ' : ''
@@ -51,7 +53,9 @@ const UserHomePage = ({user, history, removeUserFromTeam, userJoinTeamRequest, e
               data={user.permissions.teams}
               type="team"
               createNew={() => createTeam(user)}
-              clickHandler={(teams, index) => history.push(`/teams/${teams[index].path}`)}
+              clickHandler={(teams, index) => {
+                console.log('HEREEEEE!', history); history.push(`/teams/${teams[index].path}`)
+              }}
               isDraggable={false}
               editingMode={editingMode}
               createNewText="Create New Team"
