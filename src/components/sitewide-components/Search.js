@@ -243,10 +243,11 @@ const mapStateToProps = (state, ownProps) => {
 	    data: state.userList && !ownProps.showAll ? state.userList.filter(d => !d.core_admin && (d.teams && d.teams.findIndex(team => team._id === state.currTeam._id) < 0)) : state.userList
 	  }
   } else if (type === 'team') {
+    const userId = state.currUserPermissions ? state.currUserPermissions._id : null
+
     return {
-      parent: state.currUser ? state.currUser.permissions : null,
-	    data: state.teamList && !ownProps.showAll ? state.teamList.filter(team => {
-        const userId = state.currUser.permissions._id
+      parent: state.currUserPermissions,
+	    data: state.teamList && !ownProps.showAll && userId ? state.teamList.filter(team => {
         if (team.users && team.users.indexOf(userId) >= 0) {
           return false
         }

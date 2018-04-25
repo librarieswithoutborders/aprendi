@@ -1,19 +1,26 @@
-import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
+import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
 
 import {getCurrUser} from '../utils/AuthService'
 
 export function sendUserInfoRequest() {
   return dispatch => {
-    dispatch(setUserInfo('fetching'))
+    dispatch(setRequestStatus({type: 'FETCH_USER_INFO', status: 'INITIATED'}))
     getCurrUser()
       .then(user => {
         if (user) {
-          dispatch(setUserInfo({userInfo: user}))
+          dispatch(setRequestStatus({type: 'FETCH_USER_INFO', status: 'SUCCESS', data: user}))
           dispatch(fetchUserPermissions(user))
         } else {
-          dispatch(setUserInfo('Logged out'))
+          dispatch(setRequestStatus({type: 'FETCH_USER_INFO', status: 'FAILURE'}))
         }
       })
+  }
+}
+
+export function setCurrUserInfo(user) {
+  return {
+    type: 'SET_CURR_USER_INFO',
+    data: user
   }
 }
 
@@ -35,19 +42,10 @@ export function fetchUserPermissions(user) {
       .then(json => {
         if (json) {
           dispatch(setRequestStatus({type: 'FETCH_USER_PERMISSIONS', status: 'SUCCESS', data: json}))
-          dispatch(setUserInfo({userInfo: user, permissions: json}))
         } else {
           dispatch(setRequestStatus({type: 'FETCH_USER_PERMISSIONS', status: 'FAILURE'}))
-          dispatch(setUserInfo({userInfo: user}))
         }
       })
-  }
-}
-
-export function setUserInfo(user) {
-  return {
-    type: 'SET_USER_INFO',
-    user: user
   }
 }
 

@@ -14,7 +14,7 @@ import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 import canUserEdit from '../utils/canUserEdit'
 
 
-const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUser, userJoinTeamRequest}) => {
+const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, createNewResource, history, showResourceViewer, addUserToTeam, removeUserFromTeam, editingMode, approveUserRequest, isCoreAdmin, currUserPermissions, userJoinTeamRequest}) => {
   const headerContents = {
     title: teamInfo.team_name,
     image_url: teamInfo.image_url,
@@ -29,7 +29,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
         editingMode={editingMode}
         editFunc={() => updateTeam(teamInfo)}
         deleteFunc={() => deleteTeam(teamInfo)}
-        joinFunc={currUser && currUser.permissions && !editingMode ? () => userJoinTeamRequest(currUser.permissions, teamInfo) : null}/>
+        joinFunc={currUserPermissions && !editingMode ? () => userJoinTeamRequest(currUserPermissions, teamInfo) : null}/>
 
       <div className="team-home-page__contents">
         {editingMode && teamInfo.pending_users && teamInfo.pending_users.length > 0 &&
@@ -189,13 +189,13 @@ class TeamHomePageContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const editingMode = canUserEdit(state.currUser, state.currTeam, 'team')
+  const editingMode = canUserEdit(state.currUserPermissions, state.currTeam, 'team')
   return {
     teamInfo: state.currTeam,
     editingMode: editingMode,
-    currUser: state.currUser,
+    currUserPermissions: state.currUserPermissions,
     currCollection: state.currCollection,
-    isCoreAdmin: state.currUser && state.currUser.permissions && state.currUser.permissions.core_admin
+    isCoreAdmin: state.currUserPermissions && state.currUserPermissions.core_admin
   }
 }
 

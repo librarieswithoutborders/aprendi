@@ -6,12 +6,10 @@ import Grid from '../components/sitewide-components/Grid'
 import PageHeader from '../components/sitewide-components/PageHeader'
 import LoadingIcon from '../components/sitewide-components/LoadingIcon'
 
-import {showAdminModal} from '../actions/index'
-import {deleteTeam} from '../actions/team'
 import {fetchCollectionList} from '../actions/collection'
 import canUserEdit from '../utils/canUserEdit'
 
-const AllCollectionsPage = ({collections, createTeam, deleteTeam, history, editingMode, currUser, notFoundRedirected}) => {
+const AllCollectionsPage = ({collections, history, editingMode, notFoundRedirected}) => {
   const headerContents = {
     title: notFoundRedirected ? `Collection at Path /${notFoundRedirected} Not Found` : 'Collections',
     description: notFoundRedirected ? 'Browse Other Collections Below:' : null
@@ -44,7 +42,7 @@ class AllCollectionsPageContainer extends React.Component {
   }
 
   render() {
-    const {collections, createTeam, deleteTeam} = this.props
+    const {collections} = this.props
     if (collections) {
       return <AllCollectionsPage {...this.props} />
     }
@@ -53,11 +51,10 @@ class AllCollectionsPageContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const canEdit = canUserEdit(state.currUser, null, null)
+  const canEdit = canUserEdit(state.currUserPermissions, null, null)
   return {
     collections: state.collectionList,
     editingMode: canEdit,
-    currUser: state.currUser,
     notFoundRedirected: ownProps.history.location.search === '' ? null : ownProps.history.location.search.replace('?not_found=', '')
   }
 }
@@ -65,12 +62,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => ({
   fetchCollectionList: () => {
     dispatch(fetchCollectionList())
-  },
-  createTeam: user => {
-    dispatch(showAdminModal({action: 'create', type: 'collection', user: user}))
-  },
-  deleteTeam: collectionInfo => {
-    dispatch(deleteTeam(collectionInfo))
   }
 })
 

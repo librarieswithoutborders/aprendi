@@ -10,7 +10,7 @@ import ResourceViewer from '../components/sitewide-components/ResourceViewer'
 import ScrollToTop from '../components/sitewide-components/ScrollToTop'
 import ContentOverlay from '../components/sitewide-components/ContentOverlay'
 
-import {sendUserInfoRequest, setUserInfo, fetchUserPermissions} from '../actions/user'
+import {sendUserInfoRequest, setCurrUserInfo, fetchUserPermissions} from '../actions/user'
 import {isLoggedIn, setAuthCallback} from '../utils/AuthService';
 
 import routes from '../routes'
@@ -70,7 +70,7 @@ const mapDispatchToProps = dispatch => ({
   },
   authCallback: user => {
     console.log('in set user info')
-    dispatch(setUserInfo({userInfo: user}))
+    dispatch(setCurrUserInfo(user))
     dispatch(fetchUserPermissions(user))
   }
 })

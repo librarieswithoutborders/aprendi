@@ -163,10 +163,10 @@ class GridItem extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  if (state.currUser && state.currUser.permissions) {
+  if (state.currUserPermissions) {
     return {
-      currUserId: state.currUser.permissions.auth0id,
-      isCoreAdmin: state.currUser.permissions.core_admin
+      currUserId: state.currUserPermissions.auth0id,
+      isCoreAdmin: state.currUserPermissions.core_admin
     }
   } else {
     return {}
