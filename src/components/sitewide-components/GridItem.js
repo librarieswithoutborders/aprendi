@@ -32,9 +32,19 @@ class GridItem extends React.Component {
 
     if (this.data.thumbnail_image_url || this.data.image_url) {
       let styleObject = {}
-      let imageUrl;
+      let imageUrl, imageType;
 
-      imageUrl = this.data.thumbnail_image_url || this.data.image_url
+      if (this.data.image_url) {
+        imageType = this.data.image_url.split(".").pop()
+      }
+
+      console.log(imageType)
+
+      if (imageType === 'png') {
+        imageUrl = this.data.image_url
+      } else {
+        imageUrl = this.data.thumbnail_image_url || this.data.image_url
+      }
 
       styleObject.backgroundImage = 'url("' + imageUrl + '")'
 

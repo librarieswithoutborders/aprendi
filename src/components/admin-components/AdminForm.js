@@ -82,7 +82,8 @@ class AdminForm extends Component {
 
     if ((values.resource_type === 'website' || values.resource_type === 'embed') && (!data || data.resource_url != formData.resource_url)) {
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
-        values.image_url = `https://s3.us-east-2.amazonaws.com/mylibraryguide-assets/images/${d}`
+        console.log(d)
+        values.image_url = d
         processFormData(values, action).then(result => {
           console.log(result); this.props.submit(result)
         })

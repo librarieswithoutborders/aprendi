@@ -73,13 +73,6 @@ const processFormData = (data, action) => new Promise(resolve => {
   const retObject = {}
   Object.assign(retObject, data)
 
-  // if (resourceTypeOverride) {
-  //   retObject.resource_type = resourceTypeOverride
-  // }
-
-  // if (action === "create" && !retObject.path) {
-  //   retObject.path = convertToUrlPath(data.title || data.team_name)
-  // }
   switch (retObject.resource_type) {
     case 'video':
       const results = processVideoUrl(data.resource_url)
