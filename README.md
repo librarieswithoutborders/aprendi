@@ -30,19 +30,22 @@ You will also need to request an environment file from the project administrator
 
 ## Languages & tools
 
+- [Webpack](https://webpack.js.org/)
+
 ### HTML
 
 - [EJS](http://ejs.co/) + [Webpack HTML Plugin](https://webpack.js.org/plugins/html-webpack-plugin/) to generate base html file
 
 ### JavaScript
 
-- [ESlint](https://eslint.org/) - Dev linter
-- [Babel]
-- [React](http://facebook.github.io/react) is used for UI.
+- [ESlint](https://eslint.org/)
+- [Babel](https://babeljs.io/)
+- [React](http://facebook.github.io/react)
+- [Redux](https://redux.js.org/)
 
 ### CSS
 
-- [cssnext](http://cssnext.putaindecode.io) is used to write futureproof CSS for CSS vendor prefix under the hood).
+- [SCSS](https://sass-lang.com/)
 
 _Autoprefixer_ is included and use [caniuse.com](http://caniuse.com/) database to avoid outdated prefixes.
 
