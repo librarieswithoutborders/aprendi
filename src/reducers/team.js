@@ -30,6 +30,14 @@ export const teamList = (state = null, action) => {
       if (action.status === 'SUCCESS' && state) {
         return 'Invalid'
       }
+    case 'TEAM_JOIN_REQUEST':
+      if (action.status === 'SUCCESS' && state) {
+        return 'Invalid'
+      }
+    case 'USER_LEAVE_TEAM':
+      if (action.status === 'SUCCESS' && state) {
+        return 'Invalid'
+      }
     default:
       return state
   }
@@ -74,12 +82,21 @@ export const currTeam = (state = null, action) => {
       }
     case 'TEAM_APPROVE_USER_REQUEST':
       console.log(state, action.data)
-      if (action.status === 'SUCCESS' && state && state != {}) {
+      if (action.status === 'SUCCESS' && state && state.pending_users) {
         const newState = {}
         Object.assign(newState, state)
         const deletedIndex = state.pending_users.indexOf(action.data)
         newState.pending_users.splice(deletedIndex, 1)
         newState.users.push(action.data)
+        return newState
+      }
+    case 'TEAM_DENY_USER_REQUEST':
+      console.log(state, action.data)
+      if (action.status === 'SUCCESS' && state && state.pending_users) {
+        const newState = {}
+        Object.assign(newState, state)
+        const deletedIndex = state.pending_users.indexOf(action.data)
+        newState.pending_users.splice(deletedIndex, 1)
         return newState
       }
     case 'CREATE_COLLECTION':
@@ -140,4 +157,5 @@ export const currTeam = (state = null, action) => {
     default:
       return state
   }
+  return state
 }

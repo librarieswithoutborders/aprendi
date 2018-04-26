@@ -5,7 +5,7 @@ import {isMobile} from 'react-device-detect'
 
 import SvgIcon from './SvgIcon'
 
-import {sendUserInfoRequest, setCurrUserInfo} from '../../actions/user'
+import {sendUserInfoRequest, logoutUser} from '../../actions/user'
 import {login, logout, isLoggedIn} from '../../utils/AuthService'
 
 
@@ -25,7 +25,7 @@ class TopNav extends Component {
   }
 
   render() {
-    const {currUserInfo, history, clearUserInfo} = this.props
+    const {currUserInfo, history, logoutUser} = this.props
     const {dropdownExpanded} = this.state
 
     if (currUserInfo === 'Fetching') {
@@ -45,7 +45,7 @@ class TopNav extends Component {
                   this.toggleMenuExpansion(); history.push('/')
                 }}>My Home Page</li>
                 <li className="top-nav__dropdown__list-item" onClick={() => {
-                  this.toggleMenuExpansion(); logout(history, clearUserInfo)
+                  this.toggleMenuExpansion(); logout(history, logoutUser)
                 }}>Log Out</li>
               </ul>
             </div>
@@ -72,8 +72,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  clearUserInfo: () => {
-    dispatch(setCurrUserInfo('Logged out'))
+  logoutUser: () => {
+    dispatch(logoutUser())
   }
 })
 

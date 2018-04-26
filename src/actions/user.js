@@ -24,6 +24,12 @@ export function setCurrUserInfo(user) {
   }
 }
 
+export function logoutUser() {
+  return {
+    type: 'USER_LOGOUT'
+  }
+}
+
 export function fetchUserPermissions(user) {
   return dispatch => {
     dispatch(setRequestStatus({type: 'FETCH_USER_PERMISSIONS', status: 'INITIATED'}))
@@ -75,9 +81,10 @@ export function addUserToTeam(user, team, approvalStatus) {
   }
 }
 
-export function removeUserFromTeam(user, team) {
+export function removeUserFromTeam(user, team, isSelf) {
+  const actionType = isSelf ? 'USER_LEAVE_TEAM' : 'TEAM_REMOVE_USER'
   return dispatch => {
-    dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', status: 'INITIATED'}))
+    dispatch(setUpdateStatus({type: actionType, status: 'INITIATED'}))
 
     return fetch(
       `${dbPath}/team_remove_user`,
@@ -92,9 +99,9 @@ export function removeUserFromTeam(user, team) {
       .then(response => response.json())
       .then(json => {
         if (json.error) {
-          dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', message: json.error.message, status: 'FAILED'}))
+          dispatch(setUpdateStatus({type: actionType, message: json.error.message, status: 'FAILED'}))
         } else {
-          dispatch(setUpdateStatus({type: 'TEAM_REMOVE_USER', status: 'SUCCESS', data: json}))
+          dispatch(setUpdateStatus({type: actionType, status: 'SUCCESS', data: json}))
         }
       })
   }

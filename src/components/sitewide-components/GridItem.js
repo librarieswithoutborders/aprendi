@@ -69,7 +69,7 @@ class GridItem extends React.Component {
   }
 
   renderContent() {
-    const {index, type, clickHandler, buttonClickHandler, showTeam, editingMode} = this.props
+    const {index, type, clickHandler, buttonClickHandler, button2ClickHandler, showTeam, editingMode} = this.props
 
     switch (type) {
       case "collection":
@@ -109,6 +109,9 @@ class GridItem extends React.Component {
             <h5 className="grid__item__text__sub">{this.data.email}</h5>
             {buttonClickHandler && this.canUserEdit(buttonClickHandler.onlyAllowCurrUser) &&
               <div className="button button-white" onClick={() => buttonClickHandler.func(this.data)}>{buttonClickHandler.text}</div>
+            }
+            {button2ClickHandler && this.canUserEdit(buttonClickHandler.onlyAllowCurrUser) &&
+              <div className="button button-white" onClick={() => button2ClickHandler.func(this.data)}>{button2ClickHandler.text}</div>
             }
           </div>
         )

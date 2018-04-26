@@ -24,6 +24,8 @@ export const currUserInfo = (state = null, action) => {
       return 'Fetching'
     case 'SET_CURR_USER_INFO':
       return action.data
+    case 'USER_LOGOUT':
+      return 'Logged out'
     default:
       return state
   }
@@ -36,22 +38,29 @@ export const currUserPermissions = (state = null, action) => {
         return action.data
       }
     case 'CREATE_TEAM':
-      if (action.status === 'SUCCESS') {
+      if (action.status === 'SUCCESS' && state) {
         const newState = {}
         Object.assign(newState, state)
         newState.teams.push(action.data)
         return newState
       }
-    case 'TEAM_REMOVE_USER':
-      if (action.status === 'SUCCESS' && state && action.data._id === state._id) {
-        return 'Invalid'
+    case 'USER_LEAVE_TEAM':
+      if (action.status === 'SUCCESS' && state) {
+        const newState = {}
+        Object.assign(newState, state)
+        newState.teams.pull(action.data)
+        return newState
       }
     case 'TEAM_JOIN_REQUEST':
       if (action.status === 'SUCCESS') {
         return 'Invalid'
       }
+    case 'USER_LOGOUT':
+      return null
 
     default:
       return state
   }
+
+  return state
 }

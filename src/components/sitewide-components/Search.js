@@ -166,7 +166,6 @@ class Search extends Component {
             </div>
             <div className="search__results-list__item__listing__right">
 			        <h5 className="search__results-list__item__title">{item.team_name}</h5>
-              <h5 className="search__results-list__item__subheading">{item.users && `${item.users.length} Members`}</h5>
             </div>
           </div>
         </div>
@@ -220,14 +219,21 @@ class SearchContainer extends Component {
 
   componentWillMount() {
     const {type, data, fetchItemList} = this.props
-    if (!data) {
+    if (!data || data === 'Invalid') {
+      fetchItemList()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {data, fetchItemList} = this.props
+    if (!data || data === 'Invalid') {
       fetchItemList()
     }
   }
 
   render() {
     const {data, onSelect} = this.props;
-    if (data) {
+    if (data && data !== 'Invalid') {
       return <Search {...this.props} />
     }
     return <LoadingIcon />
@@ -245,9 +251,10 @@ const mapStateToProps = (state, ownProps) => {
   } else if (type === 'team') {
     const userId = state.currUserPermissions ? state.currUserPermissions._id : null
 
-    return {
-      parent: state.currUserPermissions,
-	    data: state.teamList && !ownProps.showAll && userId ? state.teamList.filter(team => {
+    let currData = state.teamList
+
+    if (currData && currData !== 'Invalid' && !ownProps.showAll && userId) {
+      currData = currData.filter(team => {
         if (team.users && team.users.indexOf(userId) >= 0) {
           return false
         }
@@ -256,7 +263,11 @@ const mapStateToProps = (state, ownProps) => {
         }
         return true
       })
-        : state.teamList
+    }
+
+    return {
+      parent: state.currUserPermissions,
+	    data: currData
 	  }
   } else if (type === 'collection') {
     return {

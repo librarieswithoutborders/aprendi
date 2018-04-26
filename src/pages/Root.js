@@ -27,6 +27,12 @@ class Root extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currUserInfo && nextProps.currUserPermissions === 'Invalid') {
+      nextProps.fetchUserPermissions(nextProps.currUserInfo)
+    }
+  }
+
   render() {
     const {store, adminModalContent, warningModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus} = this.props;
 
@@ -67,6 +73,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   sendUserInfoRequest: () => {
     dispatch(sendUserInfoRequest())
+  },
+  fetchUserPermissions: user => {
+    dispatch(fetchUserPermissions(user))
   },
   authCallback: user => {
     console.log('in set user info')

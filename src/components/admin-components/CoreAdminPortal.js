@@ -29,10 +29,10 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
             <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
 
             <div className="core-admin-portal__section-contents">
-              { pendingRequests.map(d => {
+              { pendingRequests.map((d, i) => {
                 if (d.user) {
                   return (
-                    <div className="core-admin-portal__request">
+                    <div key={i} className="core-admin-portal__request">
                       <h5 className="core-admin-portal__request__text">
                         {`${d.user.name} wants to join ${d.team.team_name}`}
                       </h5>

@@ -22,6 +22,10 @@ $border-radius: 5px;
       height: grid-item-height(resource);
     }
 
+    .button {
+      margin: 2px 0px;
+    }
+
     &__image {
       background-color: colors(offwhite);
       background-position: 50% 50%;
