@@ -1,5 +1,11 @@
 # Aprendi
 
+Aprendi is a tool built by Libraries Without Borders to help communities curate local resources in a dynamic, reliable, and relevant fashion.
+
+The live site can be found at [https://www.aprendi.org/](https://www.aprendi.org/).
+
+This repo contains the client app code, the backend codebase can be found [here](https://github.com/librarieswithoutborders/aprendi-server/)
+
 ## Requirements
 
 For development, you will need [Node.js](http://nodejs.org/) installed in your environment and an environment file from the project administrator.
@@ -12,7 +18,7 @@ For development, you will need [Node.js](http://nodejs.org/) installed in your e
     $ cd aprendi
     $ npm install
     
-You will also need to request an environment file from the project administrators
+You will also need to request an environment file from the project administrators and have the [backend server](https://github.com/librarieswithoutborders/aprendi/) running
 
 ### Development: Start/Watch/Eslint
 
