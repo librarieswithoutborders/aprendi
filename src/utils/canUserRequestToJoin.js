@@ -1,5 +1,5 @@
 const canUserRequestToJoin = (currUserPermissions, team) => {
-  if (!currUserPermissions || currUserPermissions == 'Invalid' || !team) {
+  if (!currUserPermissions || currUserPermissions === 'Invalid' || !team) {
     return false
   }
 

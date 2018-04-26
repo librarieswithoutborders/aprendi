@@ -66,7 +66,7 @@ export function uploadFile(file, folder, addHash, callback) {
         }
       )
         .then(response => {
-          if (response.status == 200) {
+          if (response.status === 200) {
             dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'SUCCESS'}))
 
             callback ? callback(finalUploadedUrl) : null

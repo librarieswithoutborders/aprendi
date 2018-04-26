@@ -35,7 +35,7 @@ const processVideoUrl = url => {
 }
 
 const getVimeoScreenshot = id => new Promise(resolve => {
-  $.get(`http://vimeo.com/api/v2/video/${id}.json?callback=showThumb`, (results, err) => {
+  $.get(`http://vimeo.com/api/v2/video/${id}.json?callback=showThumb`, results => {
     resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
   })
 })

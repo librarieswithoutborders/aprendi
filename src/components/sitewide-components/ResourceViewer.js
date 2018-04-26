@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-const $ = require('jquery')
 
 import Resource from './Resource'
 import SvgIcon from './SvgIcon'
 
 import {showAdminModal, showWarningModal} from '../../actions/index'
-import {invalidateCurrCollection, collectionRemoveResource} from '../../actions/collection'
+import {collectionRemoveResource} from '../../actions/collection'
 import {subcollectionRemoveResource} from '../../actions/subcollection'
 import {setCurrResourceIndex, deleteResource, hideResourceViewer} from '../../actions/resource'
 import canUserEdit from '../../utils/canUserEdit'
@@ -97,7 +96,7 @@ class ResourceViewer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const canEdit = canUserEdit(state.currUserPermissions, state.currCollection, 'collection')
   return {
     parent: state.resourceViewerContent.parent,

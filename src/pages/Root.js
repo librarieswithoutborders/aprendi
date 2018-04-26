@@ -33,7 +33,7 @@ class Root extends Component {
   }
 
   render() {
-    const {store, adminModalContent, warningModalContent, resourceViewerContent, hideAdminModal, hideResourceViewer, setUserInfo, updateStatus} = this.props;
+    const {store, adminModalContent, warningModalContent, resourceViewerContent, updateStatus} = this.props;
 
     const showOverlay = adminModalContent || warningModalContent || resourceViewerContent
     return (
@@ -45,9 +45,7 @@ class Root extends Component {
               {adminModalContent && <AdminModal />}
               {showOverlay && <ContentOverlay />}
               {resourceViewerContent && <ResourceViewer />}
-              {updateStatus &&
-              <UpdateStatusBar statusObject={updateStatus} />
-              }
+              {updateStatus && <UpdateStatusBar statusObject={updateStatus} />}
               <div className={showOverlay ? 'content fixed' : 'content'}>
                 <TopNav />
                 <div className="content-container">

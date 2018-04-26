@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 
 const getButtonLabel = type => {
@@ -16,8 +16,6 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, joinFunc, editingMode
   if (image_url) {
     styleObject.backgroundImage = `url("${image_url}")`
   }
-
-  let editButtonText, deleteButtonText;
 
   return (
     <div className="page-header-container">
@@ -45,7 +43,7 @@ const PageHeader = ({contents, type, editFunc, deleteFunc, joinFunc, editingMode
             }
 
 
-            {description && description != '<p><br></p>' &&
+            {description && description !== '<p><br></p>' &&
                 <div className="page-header__description" dangerouslySetInnerHTML={{__html: description}} />
             }
           </div>

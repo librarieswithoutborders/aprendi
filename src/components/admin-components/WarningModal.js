@@ -26,7 +26,7 @@ class WarningModal extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   content: state.warningModalContent
 })
 

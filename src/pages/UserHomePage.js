@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 
 import HomePage from './HomePage'
 import PageHeader from '../components/sitewide-components/PageHeader'
@@ -120,7 +119,7 @@ class UserHomePageContainer extends React.Component {
         return (
           <HomePage history={history} />
         )
-      } else if (currUserInfo != 'Fetching') {
+      } else if (currUserInfo !== 'Fetching') {
         return (
           <UserHomePage {...this.props} />
         );

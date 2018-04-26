@@ -48,8 +48,8 @@ class CollectionDataContainer extends Component {
   }
 
   render() {
-    const {collectionPath, currCollection, fetchCollection, match} = this.props;
-    if (currCollection && currCollection != 'Fetching' && currCollection != 'Not Found' && currCollection != 'Invalid') {
+    const {collectionPath, currCollection, match} = this.props;
+    if (currCollection && currCollection !== 'Fetching' && currCollection !== 'Not Found' && currCollection !== 'Invalid') {
       return <CollectionInternalRouter data={currCollection} match={match} />
     }
     return <LoadingIcon />

@@ -25,7 +25,7 @@ class UpdateStatusBar extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.statusObject != this.props.statusObject) {
+    if (nextProps.statusObject !== this.props.statusObject) {
       window.setTimeout(this.timeoutFunc, appearanceTime)
       this.setState({
         showBar: true

@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom';
 
 import PageHeader from '../components/sitewide-components/PageHeader'
 import Grid from '../components/sitewide-components/Grid'
@@ -8,7 +7,7 @@ import Search from '../components/sitewide-components/Search'
 import LoadingIcon from '../components/sitewide-components/LoadingIcon'
 
 import {showAdminModal, showWarningModal} from '../actions/index'
-import {fetchTeam, deleteTeam, updateTeam, teamApproveUserRequest, teamDenyUserRequest} from '../actions/team'
+import {fetchTeam, deleteTeam, teamApproveUserRequest, teamDenyUserRequest} from '../actions/team'
 import {fetchResourceList, showResourceViewer} from '../actions/resource'
 import {removeUserFromTeam, addUserToTeam} from '../actions/user'
 import canUserEdit from '../utils/canUserEdit'
@@ -151,7 +150,7 @@ class TeamHomePageContainer extends React.Component {
   }
 
   componentWillMount() {
-    const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList, currCollection} = this.props
+    const {teamInfo, fetchTeam, match} = this.props
     const {teamPath} = match.params
 
     if (!teamInfo || teamInfo.path !== teamPath) {

@@ -96,7 +96,7 @@
         "no-const-assign": 2,
         "no-delete-var": 2,
         "no-label-var": 2,
-        "no-shadow": 2,
+        "no-shadow": 0,
         "no-shadow-restricted-names": 2,
         "no-undef": 2,
         "no-undef-init": 2,
@@ -159,7 +159,7 @@
         "wrap-regex": 0,
         // Legacy
         "max-depth": 0,
-        "max-len": [2, 120, {
+        "max-len": [0, 120, {
           "ignoreStrings": true,
           "ignoreTemplateLiterals": true,
           "ignoreComments": true,

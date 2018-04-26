@@ -1,4 +1,4 @@
-const checkIframeHeaders = (url, callback) => {
+const checkIframeHeaders = url => {
   const req = new XMLHttpRequest();
   req.open('GET', url, false);
   req.send(null);

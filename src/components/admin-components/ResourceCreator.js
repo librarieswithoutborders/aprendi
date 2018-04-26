@@ -4,8 +4,7 @@ import {connect} from 'react-redux'
 import ResourceTypeSelector from './ResourceTypeSelector'
 import ResourceExistingSearch from '../sitewide-components/ResourceExistingSearch'
 
-import {hideAdminModal} from '../../actions/index'
-import {collectionAddExistingResource, invalidateCurrCollection} from '../../actions/collection'
+import {collectionAddExistingResource} from '../../actions/collection'
 import {subcollectionAddExistingResource} from '../../actions/subcollection'
 
 
@@ -19,7 +18,7 @@ class ResourceCreator extends Component {
   }
 
   setActiveTab(newActiveTab) {
-    if (newActiveTab != this.state.activeTab) {
+    if (newActiveTab !== this.state.activeTab) {
       this.setState({
         activeTab: newActiveTab
       })
@@ -73,7 +72,7 @@ class ResourceCreator extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   currTeam: state.currTeam,
   parent: state.adminModalContent.parent
 })

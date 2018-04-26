@@ -8,7 +8,7 @@ import LoadingIcon from './LoadingIcon'
 import {fetchTeamList} from '../../actions/team'
 import {fetchCollectionList} from '../../actions/collection'
 import {fetchResourceList} from '../../actions/resource'
-import {fetchUserList, addUserToTeam, makeUserCoreAdmin} from '../../actions/user'
+import {fetchUserList, makeUserCoreAdmin} from '../../actions/user'
 
 
 class Search extends Component {
@@ -16,27 +16,25 @@ class Search extends Component {
     super(props);
 
     this.state = {
-  		value: '',
-  		suggestions: this.props.data,
+      value: '',
+      suggestions: this.props.data,
       extendedView: null
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.data && this.props.data && nextProps.data !== this.props.data) {
     this.setState({
       value: '',
       suggestions: nextProps.data
     })
-    // }
   }
 
   render() {
-    const {value, suggestions, extendedView} = this.state;
+    const {value, suggestions} = this.state;
     const inputProps = {
-  		placeholder: 'Search',
-  		value,
-  		onChange: this.onChange.bind(this)
+      placeholder: 'Search',
+      value,
+      onChange: this.onChange.bind(this)
     };
 
     return (
@@ -59,15 +57,15 @@ class Search extends Component {
   onChange(event, {newValue, method}) {
     if (method !== 'click') {
       this.setState({
-	      value: newValue
-	    });
+        value: newValue
+      });
     }
   }
 
   // Autosuggest will call this function every time you need to update suggestions.
   onSuggestionsFetchRequested({value}) {
     this.setState({
-      	suggestions: this.getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     });
   }
 
@@ -75,7 +73,7 @@ class Search extends Component {
     const {extendedView} = this.state
 
     if (this.props.onSelect) {
-    	this.props.onSelect(suggestion, this.props.parent)
+      this.props.onSelect(suggestion, this.props.parent)
 
       this.setState({
         value: '',
@@ -95,7 +93,6 @@ class Search extends Component {
     }
 
     const inputValue = value.trim().toLowerCase();
-	  const inputLength = inputValue.length;
 
     return data.filter(item => {
       if (type === 'team') {
@@ -116,75 +113,75 @@ class Search extends Component {
     const {extendedView} = this.state
 
     if (type === 'user') {
-	    return (
-	      <div className={extendedView && extendedView._id === item._id ? 'search__results-list__item extended' : 'search__results-list__item'}>
+      return (
+        <div className={extendedView && extendedView._id === item._id ? 'search__results-list__item extended' : 'search__results-list__item'}>
           <div className="search__results-list__item__listing">
             <div className="search__results-list__item__listing__left">
               <SvgIcon name="user" />
             </div>
             <div className="search__results-list__item__listing__right">
-			        <h5 className="search__results-list__item__title">{item.name}</h5>
+              <h5 className="search__results-list__item__title">{item.name}</h5>
               <h5 className="search__results-list__item__subheading">{item.email}</h5>
             </div>
           </div>
           <div className="search__results-list__item__extended-view">
             {extendedView && extendedView._id === item._id &&
-       <div className="search__results-list__item__extended-view__contents">
-         <div className="search__results-list__item__extended-view__field">
-           <h5 className="search__results-list__item__extended-view__field__label">Teams:</h5>
-           <h5 className="search__results-list__item__extended-view__field__value">{item.teams && item.teams.map((d, i) => i > 0 ? `, ${d.team_name}` : d.team_name)}</h5>
-         </div>
-         <div className="search__results-list__item__extended-view__field">
-           <h5 className="search__results-list__item__extended-view__field__label">Joined Date:</h5>
-           <h5 className="search__results-list__item__extended-view__field__value">{item.created_at}</h5>
-         </div>
-         <div className="search__results-list__item__extended-view__field">
-           <h5 className="search__results-list__item__extended-view__field__label">Core Admin:</h5>
-           <h5 className="search__results-list__item__extended-view__field__value">{String(item.core_admin)}</h5>
-         </div>
-         {item.core_admin &&
-           <div className="search__results-list__item__extended-view__button button" onClick={() => {
-             changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
-           }} >Remove Core Admin Permissions</div>
-         }
-         {!item.core_admin &&
-           <div className="search__results-list__item__extended-view__button button" onClick={() => {
-             changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
-           }} >Give Core Admin Permissions</div>
-         }
-       </div>
+			 <div className="search__results-list__item__extended-view__contents">
+				 <div className="search__results-list__item__extended-view__field">
+					 <h5 className="search__results-list__item__extended-view__field__label">Teams:</h5>
+					 <h5 className="search__results-list__item__extended-view__field__value">{item.teams && item.teams.map((d, i) => i > 0 ? `, ${d.team_name}` : d.team_name)}</h5>
+				 </div>
+				 <div className="search__results-list__item__extended-view__field">
+					 <h5 className="search__results-list__item__extended-view__field__label">Joined Date:</h5>
+					 <h5 className="search__results-list__item__extended-view__field__value">{item.created_at}</h5>
+				 </div>
+				 <div className="search__results-list__item__extended-view__field">
+					 <h5 className="search__results-list__item__extended-view__field__label">Core Admin:</h5>
+					 <h5 className="search__results-list__item__extended-view__field__value">{String(item.core_admin)}</h5>
+				 </div>
+				 {item.core_admin &&
+					 <div className="search__results-list__item__extended-view__button button" onClick={() => {
+						 changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
+					 }} >Remove Core Admin Permissions</div>
+				 }
+				 {!item.core_admin &&
+					 <div className="search__results-list__item__extended-view__button button" onClick={() => {
+						 changeUserPermissions({_id: item._id, core_admin: !item.core_admin})
+					 }} >Give Core Admin Permissions</div>
+				 }
+			 </div>
             }
           </div>
         </div>
-    	)
+      )
     } else if (type === 'team') {
       return (
-	      <div className="search__results-list__item">
+        <div className="search__results-list__item">
           <div className="search__results-list__item__listing">
             <div className="search__results-list__item__listing__left">
               <SvgIcon name="team" />
             </div>
             <div className="search__results-list__item__listing__right">
-			        <h5 className="search__results-list__item__title">{item.team_name}</h5>
+              <h5 className="search__results-list__item__title">{item.team_name}</h5>
             </div>
           </div>
         </div>
-    	)
+      )
     } else if (type === 'collection') {
       return (
-	      <div className="search__results-list__item">
+        <div className="search__results-list__item">
           <div className="search__results-list__item__listing">
             <div className="search__results-list__item__listing__left">
               <SvgIcon name="folder" />
             </div>
             <div className="search__results-list__item__listing__right">
-			        <h5 className="search__results-list__item__title">{item.title}</h5>
+              <h5 className="search__results-list__item__title">{item.title}</h5>
               <h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
               <h5 className="search__results-list__item__subheading right">{`/${item.path}`}</h5>
             </div>
           </div>
         </div>
-    	)
+      )
     }
     let iconName
     if (item.resource_type === 'video') {
@@ -195,20 +192,20 @@ class Search extends Component {
       iconName = 'document'
     }
     return (
-	      <div className="search__results-list__item">
+      <div className="search__results-list__item">
         <div className="search__results-list__item__listing">
           <div className="search__results-list__item__listing__left">
             <SvgIcon name={iconName} />
           </div>
           <div className="search__results-list__item__listing__left">
-			        <h5 className="search__results-list__item__title">{item.title}</h5>
+            <h5 className="search__results-list__item__title">{item.title}</h5>
             {showAll && item.team && item.team.team_name &&
-        <h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
+    <h5 className="search__results-list__item__subheading">{item.team.team_name}</h5>
             }
           </div>
         </div>
       </div>
-    	)
+    )
   }
 }
 
@@ -218,13 +215,13 @@ class SearchContainer extends Component {
   }
 
   componentWillMount() {
-    const {type, data, fetchItemList} = this.props
+    const {data, fetchItemList} = this.props
     if (!data || data === 'Invalid') {
       fetchItemList()
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     const {data, fetchItemList} = this.props
     if (!data || data === 'Invalid') {
       fetchItemList()
@@ -232,7 +229,7 @@ class SearchContainer extends Component {
   }
 
   render() {
-    const {data, onSelect} = this.props;
+    const {data} = this.props;
     if (data && data !== 'Invalid') {
       return <Search {...this.props} />
     }
@@ -246,8 +243,8 @@ const mapStateToProps = (state, ownProps) => {
   if (type === 'user') {
     return {
       parent: state.currTeam,
-	    data: state.userList && !ownProps.showAll ? state.userList.filter(d => !d.core_admin && (d.teams && d.teams.findIndex(team => team._id === state.currTeam._id) < 0)) : state.userList
-	  }
+      data: state.userList && !ownProps.showAll ? state.userList.filter(d => !d.core_admin && (d.teams && d.teams.findIndex(team => team._id === state.currTeam._id) < 0)) : state.userList
+    }
   } else if (type === 'team') {
     const userId = state.currUserPermissions ? state.currUserPermissions._id : null
 
@@ -267,18 +264,18 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
       parent: state.currUserPermissions,
-	    data: currData
-	  }
+      data: currData
+    }
   } else if (type === 'collection') {
     return {
       parent: null,
-	    data: state.collectionList
-	  }
+      data: state.collectionList
+    }
   }
   return {
     parent: null,
-	    data: itemList ? itemList : state.resourceList
-	  }
+    data: itemList ? itemList : state.resourceList
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -287,29 +284,29 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   if (type === 'user') {
     return {
       fetchItemList: () => {
-	      dispatch(fetchUserList())
-	    },
+        dispatch(fetchUserList())
+      },
       changeUserPermissions: userInfo => {
         dispatch(makeUserCoreAdmin({data: userInfo}))
       }
-	  }
+    }
   } else if (type === 'team') {
     return {
       fetchItemList: () => {
-	      dispatch(fetchTeamList())
-	    }
-	  }
+        dispatch(fetchTeamList())
+      }
+    }
   } else if (type === 'collection') {
     return {
       fetchItemList: () => {
-	      dispatch(fetchCollectionList())
-	    }
+        dispatch(fetchCollectionList())
+      }
     }
   }
   return {
     fetchItemList: () => {
-	      dispatch(fetchResourceList())
-	    }
+      dispatch(fetchResourceList())
+    }
   }
 }
 

@@ -9,8 +9,8 @@ class ResourceExistingSearch extends Component {
     super(props);
 
     this.state = {
-  		value: '',
-  		suggestions: this.props.resources
+      value: '',
+      suggestions: this.props.resources
     };
   }
 
@@ -36,9 +36,9 @@ class ResourceExistingSearch extends Component {
 
 
     const inputProps = {
-  		placeholder: 'Search',
-  		value,
-  		onChange: this.onChange.bind(this)
+      placeholder: 'Search',
+      value,
+      onChange: this.onChange.bind(this)
     };
 
     return (
@@ -61,15 +61,15 @@ class ResourceExistingSearch extends Component {
   onChange(event, {newValue, method}) {
     if (method !== 'click') {
       this.setState({
-	      value: newValue
-	    });
+        value: newValue
+      });
     }
   }
 
   // Autosuggest will call this function every time you need to update suggestions.
   onSuggestionsFetchRequested({value}) {
     this.setState({
-      	suggestions: this.getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     });
   }
 
@@ -84,7 +84,6 @@ class ResourceExistingSearch extends Component {
     }
 
     const inputValue = value.trim().toLowerCase();
-	  const inputLength = inputValue.length;
 
     return resources.filter(resource => resource.title.indexOf(inputValue) > -1)
   }

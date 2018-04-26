@@ -1,4 +1,4 @@
-import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
+import {dbPath, setUpdateStatus, hideAdminModal} from './index'
 
 export function createSubcollection(subcollectionInfo) {
   return dispatch => {

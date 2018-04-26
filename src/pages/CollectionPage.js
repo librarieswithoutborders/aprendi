@@ -6,7 +6,7 @@ import Breadcrumbs from '../components/sitewide-components/Breadcrumbs'
 import Grid from '../components/sitewide-components/Grid'
 
 import {showAdminModal, showWarningModal} from '../actions/index'
-import {deleteCollection, updateCollection, invalidateCurrCollection, collectionReorderChildren} from '../actions/collection'
+import {deleteCollection, collectionReorderChildren} from '../actions/collection'
 import {deleteSubcollection, updateSubcollection, subcollectionReorderChildren} from '../actions/subcollection'
 import {showResourceViewer, hideResourceViewer} from '../actions/resource'
 import canUserEdit from '../utils/canUserEdit'
@@ -31,7 +31,7 @@ class CollectionPage extends Component {
       history.replace(splitPieces.join('/'))
     }
 
-    if (location.hash != '') {
+    if (location.hash !== '') {
       this.renderResourceFromHash(location.hash.replace('#', ''))
     }
   }
@@ -56,10 +56,10 @@ class CollectionPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {location, history} = this.props
-    if (nextProps.location.hash != this.props.location.hash) {
+    if (nextProps.location.hash !== this.props.location.hash) {
       this.renderResourceFromHash(nextProps.location.hash.replace('#', ''))
     }
-    if (nextProps.resourceViewerContent && this.props.resourceViewerContent && nextProps.resourceViewerContent.currIndex != this.props.resourceViewerContent.currIndex) {
+    if (nextProps.resourceViewerContent && this.props.resourceViewerContent && nextProps.resourceViewerContent.currIndex !== this.props.resourceViewerContent.currIndex) {
       const newHash = nextProps.resourceViewerContent.resourceList[nextProps.resourceViewerContent.currIndex].path
       history.push(`${location.pathname}#${newHash}`)
     }
@@ -146,7 +146,7 @@ class CollectionPage extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   const canEdit = canUserEdit(state.currUserPermissions, state.currCollection, 'collection')
   return {
     resourceViewerContent: state.resourceViewerContent,
@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
   updateCollection: ({data, type, parent}) => {
     dispatch(showAdminModal({action: 'update', type: type, data: data, parent: parent}))
   },
-  deleteCollection: ({data, type, parent, parentType, history}) => {
+  deleteCollection: ({data, type, parent, parentType}) => {
     const confirmFunc = type === 'collection' ? () => dispatch(deleteCollection(data)) : () => dispatch(deleteSubcollection({subcollectionInfo: data, parentId: parent._id, parentType: parentType}))
 
     dispatch(showWarningModal({

@@ -42,4 +42,5 @@ export const isValidVideoUrl = input => {
   if (youtubeGetId(input) === 'error' && vimeoGetId(input) === 'error') {
     return 'Please Enter a Valid Youtube or Vimeo URL'
   }
+  return null
 }

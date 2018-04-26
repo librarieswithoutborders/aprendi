@@ -6,11 +6,11 @@ import Search from '../sitewide-components/Search'
 import LoadingIcon from '../sitewide-components/LoadingIcon'
 
 import {showAdminModal} from '../../actions/index'
-import {deleteTeam, fetchTeamList, teamApproveUserRequest, teamDenyUserRequest, resetCurrTeam} from '../../actions/team'
+import {fetchTeamList, teamApproveUserRequest, teamDenyUserRequest, resetCurrTeam} from '../../actions/team'
 import {showResourceViewer} from '../../actions/resource'
 
 
-const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest, denyUserRequest}) => (
+const CoreAdminPortal = ({pendingRequests, createTeam, history, createResource, showResourceViewer, approveUserRequest, denyUserRequest}) => (
   <div className="core-admin-portal">
     <div className="core-admin-portal__contents">
       <div className="core-admin-portal__section">
@@ -87,7 +87,7 @@ class CoreAdminPortalContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     const {teams, fetchTeamList} = this.props
 
-    if (nextProps.teams === 'Invalid' && teams != 'Invalid') {
+    if (nextProps.teams === 'Invalid' && teams !== 'Invalid') {
       fetchTeamList()
     }
   }
@@ -112,14 +112,14 @@ class CoreAdminPortalContainer extends React.Component {
   render() {
     const {teams} = this.props
 
-    if (teams && teams != 'Invalid') {
+    if (teams && teams !== 'Invalid') {
       return <CoreAdminPortal pendingRequests={this.getPendingRequests(this.props)} {...this.props} />
     }
     return <LoadingIcon />
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   teams: state.teamList,
   currTeam: state.currTeam
 })
@@ -133,9 +133,6 @@ const mapDispatchToProps = dispatch => ({
   },
   createTeam: () => {
     dispatch(showAdminModal({action: 'create', type: 'team'}))
-  },
-  deleteTeam: teamInfo => {
-    dispatch(deleteTeam(teamInfo))
   },
   approveUserRequest: (user, teamInfo) => {
     dispatch(teamApproveUserRequest(user, teamInfo))

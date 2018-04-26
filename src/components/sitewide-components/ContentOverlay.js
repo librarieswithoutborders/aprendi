@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {hideAdminModal, showWarningModal} from '../../actions/index'
 import {hideResourceViewer} from '../../actions/resource'
 
-class ContentOverlay extends React.Component {
+class ContentOverlay extends Component {
   render() {
     const {hideAdminModal, hideResourceViewer, adminModalContent, resourceViewerContent} = this.props
     return (

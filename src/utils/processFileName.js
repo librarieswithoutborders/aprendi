@@ -2,14 +2,13 @@ const sanitize = require('sanitize-filename');
 
 const processFileName = (file, addDateHash) => {
   const matched = file.name.match(/(.+?)(\.[^.]*$|$)/)
-  let placeholder, withoutExtension, extension
+  let extension, placeholder, withoutExtension
 
   if (matched) {
     [placeholder, withoutExtension, extension] = matched
   } else {
     withoutExtension = 'user-uploaded-image'
   }
-
 
   withoutExtension = sanitize(withoutExtension.replace(new RegExp(' ', 'g'), '-'))
 

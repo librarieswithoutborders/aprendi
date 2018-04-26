@@ -1,12 +1,10 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
 import ResponsiveEmbed from 'react-responsive-embed'
 import {isMobile} from 'react-device-detect'
-const $ = require('jquery')
 
 import PdfViewer from './PdfViewer'
 
-const Resource = ({content, nextPrevFunctions, deleteResource, removeResource, updateResource}) => {
+const Resource = ({content}) => {
   let renderedContent
   switch (content.resource_type) {
     case 'pdf':
@@ -58,7 +56,7 @@ const renderVideo = ({video_provider, resource_url}) => {
     return null
   }
   let videoContent;
-  if (video_provider == 'youtube') {
+  if (video_provider === 'youtube') {
     videoContent = (
       <ResponsiveEmbed id="ytplayer" type="text/html" src={`${resource_url}?autoplay=1&rel=0`} frameBorder="0" allow="autoplay; encrypted-media" />
     )
@@ -92,10 +90,10 @@ const renderImage = ({image_url}) => (
 
 const renderWebsite = ({resource_url, image_url}) => (
   <div className="resource__content__website">
-    <a target="_blank" href={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} className="resource__content__website__text-link">
+    <a target="_blank" href={resource_url.substring(0, 4) !== 'http' ? `//${resource_url}` : resource_url} className="resource__content__website__text-link">
       <h5 className="resource__content__website__text-link__text">{`Visit ${resource_url}`}</h5>
     </a>
-    <a target="_blank" href={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} className="resource__content__website__image-link">
+    <a target="_blank" href={resource_url.substring(0, 4) !== 'http' ? `//${resource_url}` : resource_url} className="resource__content__website__image-link">
       <img className="resource__content__website__screenshot" src={image_url} />
     </a>
   </div>
@@ -103,9 +101,9 @@ const renderWebsite = ({resource_url, image_url}) => (
 
 const renderEmbed = ({resource_url}) => {
   if (isMobile) {
-    return <iframe src={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
+    return <iframe src={resource_url.substring(0, 4) !== 'http' ? `//${resource_url}` : resource_url} style={{overflow: 'hidden', height: '100vh', width: '100%'}} height="100%" width="100%" />
   }
-  return <ResponsiveEmbed src={resource_url.substring(0, 4) != 'http' ? `//${resource_url}` : resource_url} allowFullScreen />
+  return <ResponsiveEmbed src={resource_url.substring(0, 4) !== 'http' ? `//${resource_url}` : resource_url} allowFullScreen />
 }
 
 export default Resource

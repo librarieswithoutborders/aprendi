@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, Radio, RadioGroup, Select, Checkbox, TextArea} from 'react-form'
+import {Text, Checkbox, TextArea} from 'react-form'
 
 import FileUploadField from './FileUploadField'
 import RichTextField from './RichTextField'
@@ -7,7 +7,7 @@ import RichTextField from './RichTextField'
 class AdminFormField extends Component {
   renderFieldContent() {
     const {checkLocallyUnique, checkGloballyUnique, error, asyncError} = this.props
-    const {dbField, type, validate, asyncValidate, required, locallyUnique, globallyUnique} = this.props.settings
+    const {dbField, type, validate, required, locallyUnique, globallyUnique} = this.props.settings
 
     const validationWrapper = input => {
       if (required && (!input || input === '')) {
@@ -98,7 +98,7 @@ class AdminFormField extends Component {
 
   render() {
     const {settings, error, asyncError} = this.props
-    const {dbField, type, label, required, helpText} = settings
+    const {dbField, label, required, helpText} = settings
 
     const fieldContent = this.renderFieldContent()
 

@@ -199,7 +199,7 @@ export const resourceFieldSettings = [
     type: 'Image',
     required: false,
     helpText: null,
-    showOnly: ({action, resourceType}) => resourceType === 'rich_text' || (action !== 'create' && resourceType != 'image')
+    showOnly: ({action, resourceType}) => resourceType === 'rich_text' || (action !== 'create' && resourceType !== 'image')
   },
   {
     dbField: 'disclaimer_message',

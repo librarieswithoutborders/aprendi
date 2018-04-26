@@ -4,7 +4,7 @@ import {Form} from 'react-form'
 
 import AdminFormField from './AdminFormField'
 
-import {takeWebScreenshot, checkExternalSiteHeaders} from '../../actions/index'
+import {takeWebScreenshot} from '../../actions/index'
 import {fetchTeamList} from '../../actions/team'
 import {fetchCollectionList} from '../../actions/collection'
 
@@ -62,7 +62,7 @@ class AdminForm extends Component {
     return foundVal ? `This ${field} is already taken.  Please try a different value` : null
   }
 
-  submitForm(formData, a, formApi) {
+  submitForm(formData) {
     const {data, action, team, resourceType, takeWebScreenshot} = this.props
     const resourceUrlChanged = !data || data.resource_url !== formData.resource_url
     const imageUrlChanged = !data || data.image_url !== formData.image_url
@@ -104,7 +104,7 @@ class AdminForm extends Component {
 
   renderFormFields(formApi) {
     const {errors, values} = formApi
-    const {isCoreAdmin, action, resourceType, type} = this.props
+    const {isCoreAdmin, action, resourceType} = this.props
 
     const fields = []
 
@@ -129,26 +129,21 @@ class AdminForm extends Component {
   }
 
   render() {
-    const {type, data, action, updateStatus} = this.props
+    const {data} = this.props
 
     return (
       <Form
         onSubmit={(submittedValues, a, formApi) => this.submitForm(submittedValues, a, formApi)}
         defaultValues={data}
         preSubmit={values => this.populatePath(values)}>
-        { formApi => {
-          const {errors} = formApi
-
-          return (
-            <form id="form" onSubmit={formApi.submitForm}>
-              {this.renderFormFields(formApi)}
-              <div className="form__submit-container">
-                <button type="submit" className="button button-blue form__submit">Submit</button>
-              </div>
-            </form>
-          )
-        }
-        }
+        {formApi => (
+          <form id="form" onSubmit={formApi.submitForm}>
+            {this.renderFormFields(formApi)}
+            <div className="form__submit-container">
+              <button type="submit" className="button button-blue form__submit">Submit</button>
+            </div>
+          </form>
+        )}
       </Form>
     )
   }
@@ -156,7 +151,7 @@ class AdminForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const {type, data} = ownProps
-  const {currUserPermissions, currTeam, adminModalContent, currCollection, collectionList, resourceList, teamList} = state
+  const {currUserPermissions, currTeam, adminModalContent, collectionList, teamList} = state
   let checkLocallyUniqueList, checkGloballyUniqueList;
 
   if (type === 'team') {
@@ -189,15 +184,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const {type} = ownProps
-  let fetchCheckLocallyUniqueList, fetchCheckGloballyUniqueList, checkUnique;
+  let fetchCheckLocallyUniqueList, fetchCheckGloballyUniqueList
 
   if (type === 'team') {
     fetchCheckGloballyUniqueList = () => dispatch(fetchTeamList())
   } else if (type === 'collection') {
     fetchCheckLocallyUniqueList = () => dispatch(fetchCollectionList())
     fetchCheckGloballyUniqueList = () => dispatch(fetchCollectionList())
-  } else if (type === 'subcollection') {
-  } else if (type === 'resource') {
   }
 
   return {

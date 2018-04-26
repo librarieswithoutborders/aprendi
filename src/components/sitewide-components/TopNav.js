@@ -5,8 +5,8 @@ import {isMobile} from 'react-device-detect'
 
 import SvgIcon from './SvgIcon'
 
-import {sendUserInfoRequest, logoutUser} from '../../actions/user'
-import {login, logout, isLoggedIn} from '../../utils/AuthService'
+import {logoutUser} from '../../actions/user'
+import {login, logout} from '../../utils/AuthService'
 
 
 class TopNav extends Component {
