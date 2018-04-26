@@ -65,17 +65,6 @@ class CollectionPage extends Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // console.log("IN SHOULD COMPONENT UPDATE")
-    for (const key in nextProps) {
-      // console.log(key)
-      // console.log(nextProps[key], this.props[key])
-      // console.log(nextProps[key] === this.props[key])
-      // console.log("-----------")
-    }
-    return true
-  }
-
   render() {
     const {data, parent, parentType, breadcrumbs, createSubcollection, updateCollection, deleteCollection, updateOrder, createResource, setResourceViewerContent, history, location, currTeam, editingMode} = this.props
     const type = breadcrumbs.length > 1 ? 'subcollection' : 'collection'

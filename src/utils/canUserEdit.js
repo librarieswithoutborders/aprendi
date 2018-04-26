@@ -13,7 +13,6 @@ const canUserEdit = (currUserPermissions, item, type) => {
       return currUserPermissions.teams.findIndex(d => d._id === item.team._id) > -1
     }
     if (type === 'team' && item) {
-      console.log(item._id)
       return currUserPermissions.teams.findIndex(d => d._id === item._id) > -1
     }
   }

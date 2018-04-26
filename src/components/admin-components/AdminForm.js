@@ -57,25 +57,15 @@ class AdminForm extends Component {
       return `Server Error: Unable to validate ${field}`
     }
 
-    const foundVal = checkUniqueList.find(d => {
-      console.log(d[field], value, d[field] === value); return d[field].toLowerCase() === value.toLowerCase()
-    })
+    const foundVal = checkUniqueList.find(d => d[field].toLowerCase() === value.toLowerCase())
 
     return foundVal ? `This ${field} is already taken.  Please try a different value` : null
   }
 
   submitForm(formData, a, formApi) {
     const {data, action, team, resourceType, takeWebScreenshot} = this.props
-
-    console.log('THIS IS THE FORM DATA')
-    console.log(formData)
     const resourceUrlChanged = !data || data.resource_url !== formData.resource_url
     const imageUrlChanged = !data || data.image_url !== formData.image_url
-    console.log('RESOURCE URL CHANGED!!')
-    console.log(resourceUrlChanged)
-    console.log('IMAGE URL CHANGED!!')
-    console.log(imageUrlChanged)
-
     const values = {}
     Object.assign(values, formData)
     if (team) {
@@ -88,15 +78,14 @@ class AdminForm extends Component {
 
     if ((values.resource_type === 'website' || values.resource_type === 'embed') && resourceUrlChanged) {
       takeWebScreenshot(processExternalSiteUrl(formData.resource_url), d => {
-        console.log(d)
         values.image_url = d
         processFormData(values, action, resourceUrlChanged, imageUrlChanged).then(result => {
-          console.log(result); this.props.submit(result)
+          this.props.submit(result)
         })
       })
     } else {
       processFormData(values, action, resourceUrlChanged, imageUrlChanged).then(result => {
-        console.log(result); this.props.submit(result)
+        this.props.submit(result)
       })
     }
   }
@@ -106,14 +95,9 @@ class AdminForm extends Component {
   }
 
   populatePath(values) {
-    console.log('POPULATING PATH')
-    console.log(values)
-
     if (!values.path) {
       values.path = convertToUrlPath(values.title || values.team_name)
     }
-
-    console.log(values)
 
     return values
   }
@@ -185,13 +169,10 @@ const mapStateToProps = (state, ownProps) => {
       checkLocallyUniqueList = adminModalContent.parent.parentData.subcollections
     }
   } else if (type === 'resource') {
-    console.log('RESOURCE', currTeam)
     if (currTeam && currTeam.resources) {
       checkLocallyUniqueList = currTeam.resources
     }
   }
-
-  console.log('got to here!')
 
   // in order to ensure that the check unique list does not contain the element itself
   if (data) {

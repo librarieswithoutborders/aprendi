@@ -38,8 +38,6 @@ class GridItem extends React.Component {
         imageType = this.data.image_url.split(".").pop()
       }
 
-      console.log(imageType)
-
       if (imageType === 'png') {
         imageUrl = this.data.image_url
       } else {
@@ -61,7 +59,6 @@ class GridItem extends React.Component {
 
     if (onlyAllowCurrUser) {
       if (!currUserId) { return false }
-      console.log(this.data)
       return currUserId === this.data.auth0id
     } else {
       return true
@@ -150,7 +147,7 @@ class GridItem extends React.Component {
           return (
             <div
               className={"grid__item item-type-" + type + (clickHandler ? " clickable" : "")}
-              onClick={() => { console.log(data, index); return clickHandler ? clickHandler(data, index) : null}}
+              onClick={() => {return clickHandler ? clickHandler(data, index) : null}}
               style={{
                 ...defaultStyle,
                 transitionDelay: (50*index) + "ms",

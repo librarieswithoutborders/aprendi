@@ -4,7 +4,6 @@ import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index
 import {fetchTeam} from './team'
 
 export function createCollection(collectionInfo) {
-  console.log(collectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'CREATE_COLLECTION', status: 'INITIATED'}))
 
@@ -20,7 +19,6 @@ export function createCollection(collectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'CREATE_COLLECTION', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -42,7 +40,6 @@ export function fetchCollection(path) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json) {
           dispatch(setRequestStatus({type: 'FETCH_COLLECTION', status: 'SUCCESS', data: json}))
           dispatch(fetchTeam(json.team.path))
@@ -64,15 +61,12 @@ export function fetchCollectionList() {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
-
         dispatch(setRequestStatus({type: 'FETCH_COLLECTIONS', status: 'SUCCESS', data: json}))
       })
   }
 }
 
 export function deleteCollection(collectionInfo) {
-  console.log(collectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'DELETE_COLLECTION', status: 'INITIATED'}))
     return fetch(
@@ -82,14 +76,12 @@ export function deleteCollection(collectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         dispatch(setUpdateStatus({type: 'DELETE_COLLECTION', status: 'SUCCESS', data: collectionInfo}))
       })
   }
 }
 
 export function updateCollection(collectionInfo) {
-  console.log(collectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPDATE_COLLECTION', status: 'INITIATED'}))
 
@@ -105,7 +97,6 @@ export function updateCollection(collectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'UPDATE_COLLECTION', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -132,7 +123,6 @@ export function collectionAddExistingResource(resource, parentId) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'COLLECTION_ADD_EXISTING_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -159,7 +149,6 @@ export function collectionRemoveResource(resource, parentId) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'COLLECTION_REMOVE_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -171,7 +160,6 @@ export function collectionRemoveResource(resource, parentId) {
 }
 
 export function collectionReorderChildren(collectionInfo) {
-  console.log(collectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'COLLECTION_REORDER_CHILDREN', status: 'INITIATED'}))
 
@@ -187,7 +175,6 @@ export function collectionReorderChildren(collectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'COLLECTION_REORDER_CHILDREN', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -202,20 +189,3 @@ export function resetCurrCollection() {
     type: 'RESET_CURR_COLLECTION'
   }
 }
-
-// export function isCollectionPathTaken(path) {
-//   return fetch(
-//     dbPath + "/collection-is-path-taken?path=" + path,
-//     {
-//       method: "GET",
-//     })
-//     .then(response => response.json())
-//     .then(json => {
-//       console.log(json)
-//       if (json.error) {
-//         return false
-//       } else {
-//         return json
-//       }
-//     })
-// }

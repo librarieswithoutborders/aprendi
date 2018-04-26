@@ -38,12 +38,9 @@ export const currCollection = (state = null, action) => {
 
     case 'COLLECTION_REMOVE_RESOURCE':
       if (action.status === 'SUCCESS') {
-        console.log(state)
-
         const newState = {}
         Object.assign(newState, state)
         const deletedIndex = state.resources.indexOf(action.data)
-        console.log(deletedIndex)
         newState.resources.splice(deletedIndex, 1)
         return newState
       }

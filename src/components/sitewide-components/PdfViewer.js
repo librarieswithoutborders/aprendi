@@ -66,8 +66,6 @@ class PdfViewer extends React.Component {
     const {url, singlePage} = this.props
     const { pageNumber, numPages } = this.state;
 
-    console.log(this.props, this.state)
-
     return (
       <div ref="documentContainer">
         <Document

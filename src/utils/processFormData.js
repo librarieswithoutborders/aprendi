@@ -22,7 +22,6 @@ export const vimeoGetId = url => {
 
 const processVideoUrl = url => {
   if (url.match(/youtu/)) {
-    console.log('is youtube')
     const id = youtubeGetId(url)
 
     return {video_provider: 'youtube', resource_url: `https://www.youtube.com/embed/${id}`, resource_id: id}
@@ -35,42 +34,13 @@ const processVideoUrl = url => {
   return null
 }
 
-function promisedResult(id) {
-  console.log('in promise')
-  return new Promise((resolve, reject) => {
-    console.log('really in the promise')
-    $.get(`http://vimeo.com/api/v2/video/${id}.json?callback=showThumb`, (results, err) => {
-      console.log(results)
-      console.log('-----')
-      console.log(results.substring(15, results.length - 2))
-      console.log('-----')
-      console.log(JSON.parse(results.substring(15, results.length - 2)))
-
-      resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
-    })
+const getVimeoScreenshot = id => new Promise(resolve => {
+  $.get(`http://vimeo.com/api/v2/video/${id}.json?callback=showThumb`, (results, err) => {
+    resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
   })
-}
-
-const getVimeoScreenshot = id => {
-  console.log('getting vimeo screenshot')
-
-  return new Promise((resolve, reject) => {
-    $.get(`http://vimeo.com/api/v2/video/${id}.json?callback=showThumb`, (results, err) => {
-      console.log(results)
-      console.log('-----')
-      console.log(results.substring(15, results.length - 2))
-      console.log('-----')
-      console.log(JSON.parse(results.substring(15, results.length - 2)))
-
-      resolve(JSON.parse(results.substring(15, results.length - 2)).thumbnail_large)
-    })
-  })
-}
+})
 
 const processFormData = (data, action, resourceUrlChanged, imageUrlChanged) => new Promise(resolve => {
-  console.log('processing form data')
-  console.log(data)
-
   if (!resourceUrlChanged && !imageUrlChanged) {
     resolve(data)
     return
@@ -119,7 +89,6 @@ const processFormData = (data, action, resourceUrlChanged, imageUrlChanged) => n
 
   if (imageUrlChanged) {
     retObject.thumbnail_image_url = retObject.image_url ? retObject.image_url.replace('/images/', '/thumbnail-images/') : null
-    console.log(retObject)
     resolve(retObject)
     return
   }

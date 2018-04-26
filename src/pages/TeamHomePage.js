@@ -81,7 +81,7 @@ const TeamHomePage = ({teamInfo, updateTeam, deleteTeam, createNewCollection, cr
               type="collection"
               createNew={() => createNewCollection(teamInfo._id)}
               clickHandler={(data, i) => {
-                console.log(data, i, history); history.push(`/${data[i].path}`)
+                history.push(`/${data[i].path}`)
               }}
               isDraggable={false}
               editingMode={editingMode}
@@ -154,16 +154,12 @@ class TeamHomePageContainer extends React.Component {
     const {teamInfo, fetchTeam, match, fetchedResourceLists, fetchResourceList, currCollection} = this.props
     const {teamPath} = match.params
 
-    console.log(teamInfo)
-
     if (!teamInfo || teamInfo.path !== teamPath) {
       fetchTeam(teamPath);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    console.log(this.props)
     const {history, match} = this.props;
     const {teamPath} = match.params
 

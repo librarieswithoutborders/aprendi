@@ -57,7 +57,6 @@ class UpdateStatusBar extends React.Component {
     const [actionType, contentType] = type.split('_')
     let retVal = ''
 
-    console.log(actionType, contentType)
     if (status === 'SUCCESS') {
       retVal += 'Successfully'
 

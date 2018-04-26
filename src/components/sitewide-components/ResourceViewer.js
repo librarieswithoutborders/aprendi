@@ -26,8 +26,6 @@ class ResourceViewer extends Component {
     const content = resourceList[currIndex]
     let headerHeight = 36;
 
-    console.log(parent)
-
     const nextPrevFunctions = {
       next: currIndex !== (this.numResources - 1) ? () => incrementCurrIndex(currIndex) : null,
       prev: currIndex !== 0 ? () => decrementCurrIndex(currIndex) : null
@@ -40,7 +38,6 @@ class ResourceViewer extends Component {
     }
 
     if (this.refs.currText) {
-      console.log(this.refs.currText.clientHeight)
       headerHeight = (this.refs.currText.clientHeight + 15)
     }
 
@@ -62,7 +59,6 @@ class ResourceViewer extends Component {
           <div className="resource-viewer__header__content" style={{height: headerHeight}}>
             {resourceList.map((d, i) => {
               const leftOffset = `${(2 * (i - currIndex) + 1) * 50}%`
-              console.log(i, leftOffset)
               return (
                 <h1 key={i} ref={i === currIndex ? 'currText' : null} className="resource-viewer__header__text" style={{left: leftOffset, opacity: i === currIndex ? 1 : 0}}>{d.title}</h1>
               )
@@ -103,8 +99,6 @@ class ResourceViewer extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const canEdit = canUserEdit(state.currUserPermissions, state.currCollection, 'collection')
-  console.log('CAN EDDDITTTT')
-  console.log(canEdit)
   return {
     parent: state.resourceViewerContent.parent,
     resourceList: state.resourceViewerContent.resourceList,
@@ -115,7 +109,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   incrementCurrIndex: currIndex => {
-    console.log(currIndex)
     dispatch(setCurrResourceIndex(currIndex + 1))
   },
   decrementCurrIndex: currIndex => {
@@ -136,8 +129,6 @@ const mapDispatchToProps = dispatch => ({
   },
   deleteResource: (resourceInfo, parent) => {
     const options = []
-
-    console.log(parent)
 
     if (parent) {
       let alternateFunc

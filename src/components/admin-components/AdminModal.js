@@ -23,23 +23,6 @@ class AdminModal extends Component {
       resourceType: null
     }
   }
-  submitForm(data) {
-    const {action, team} = this.props
-    const {resourceType} = this.state
-    let values = {}
-    Object.assign(values, data)
-    if (team) {
-      values.team = team
-    }
-
-    console.log(values, this.props)
-
-    processFormData(values, action, resourceType).then(result => this.props.submit(result))
-  }
-
-  submitFormFailure(err) {
-    console.log(err)
-  }
 
   setTitle() {
     const {type, action, data} = this.props
@@ -64,7 +47,6 @@ class AdminModal extends Component {
     const {type, data, action, showExisting, submit} = this.props
     const {resourceType} = this.state
 
-    console.log(type, action, resourceType)
     if (type === "resource" && action === "create" && !resourceType ) {
       return <ResourceCreator showExisting={showExisting} setResourceType={(type) => this.setResourceType(type)}/>
     } else if (type === "team" && action === "add_user") {
@@ -87,7 +69,6 @@ class AdminModal extends Component {
   }
 
   setResourceType(type) {
-    console.log("setting resource type", type)
     this.setState({
       resourceType: type
     })
@@ -144,9 +125,8 @@ class AdminModalContainer extends Component {
           update: data => updateSubcollection({data})
         }
       case "resource":
-
         return {
-          create: data => {console.log("CREATING RESOURCE", data); return createResource({data, parent, team})},
+          create: data => createResource({data, parent, team}),
           update: data => updateResource({data})
         }
       case "user":
@@ -164,7 +144,6 @@ class AdminModalContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     modalProps: state.adminModalContent,
   }

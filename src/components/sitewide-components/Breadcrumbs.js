@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import SvgIcon from './SvgIcon'
 
 const Breadcrumbs = ({data, currTeam}) => {
-  console.log(data)
   const shiftedData = [...data]
 
   if (currTeam) {

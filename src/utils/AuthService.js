@@ -7,7 +7,6 @@ const CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 const CLIENT_DOMAIN = process.env.AUTH0_DOMAIN;
 const AUDIENCE = process.env.API_AUDIENCE;
 
-console.log(process.env)
 
 const lock = new Auth0Lock(
   CLIENT_ID,
@@ -33,7 +32,6 @@ const lock = new Auth0Lock(
 
 
 export function setAuthCallback(cb) {
-  console.log("setting auth callback")
   lock.on('authenticated', authResult => {
     // Use the token in authResult to getUserInfo() and save it to localStorage
     lock.getUserInfo(authResult.accessToken, (error, profile) => {
@@ -42,7 +40,6 @@ export function setAuthCallback(cb) {
         return;
       }
 
-      console.log('AUTH RESULT', authResult, profile)
 
       localStorage.setItem(ID_TOKEN_KEY, authResult.accessToken);
       localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
@@ -75,7 +72,6 @@ function clearIdToken() {
 export function isLoggedIn() {
   const idToken = getIdToken();
 
-  console.log("calling is logged in", idToken)
   return !!idToken && !isTokenExpired(idToken);
 }
 
@@ -102,9 +98,6 @@ export async function getCurrUser() {
 
     let profile = window.localStorage.getItem(PROFILE_KEY)
 
-    console.log("PROFILE IS", profile)
-
     resolve(JSON.parse(profile))
-
   })
 }

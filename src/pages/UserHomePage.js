@@ -14,8 +14,6 @@ import {addUserToTeam, sendUserInfoRequest} from '../actions/user'
 
 
 const UserHomePage = ({currUserInfo, currUserPermissions, history, userJoinTeamRequest, editingMode, createTeam}) => {
-  console.log('IN USER HOME PAGE')
-  console.log(history)
   let mainContent;
   let title = 'Welcome '
   title += currUserInfo.given_name
@@ -53,7 +51,7 @@ const UserHomePage = ({currUserInfo, currUserPermissions, history, userJoinTeamR
               type="team"
               createNew={() => createTeam(currUserPermissions)}
               clickHandler={(teams, index) => {
-                console.log('HEREEEEE!', history); history.push(`/teams/${teams[index].path}`)
+                history.push(`/teams/${teams[index].path}`)
               }}
               isDraggable={false}
               editingMode={editingMode}

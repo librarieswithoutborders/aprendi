@@ -1,7 +1,6 @@
 import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
 
 export function createTeam(teamInfo) {
-  console.log(teamInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'CREATE_TEAM', status: 'INITIATED'}))
 
@@ -17,7 +16,6 @@ export function createTeam(teamInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'CREATE_TEAM', status: 'FAILED'}))
         } else {
@@ -29,7 +27,6 @@ export function createTeam(teamInfo) {
 }
 
 export function updateTeam(teamInfo) {
-  console.log(teamInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPDATE_TEAM', status: 'INITIATED'}))
 
@@ -45,7 +42,6 @@ export function updateTeam(teamInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'UPDATE_TEAM', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -66,15 +62,12 @@ export function deleteTeam(teamInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
-
         dispatch(setUpdateStatus({type: 'DELETE_TEAM', status: 'SUCCESS', data: teamInfo}))
       })
   }
 }
 
 export function fetchTeam(path) {
-  console.log('get team info for ', path)
   return dispatch => {
     dispatch(setRequestStatus({type: 'FETCH_TEAM', status: 'INITIATED'}))
 
@@ -85,7 +78,6 @@ export function fetchTeam(path) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json) {
           dispatch(setRequestStatus({type: 'FETCH_TEAM', status: 'SUCCESS', data: json}))
         } else {
@@ -106,15 +98,12 @@ export function fetchTeamList() {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
-
         dispatch(setRequestStatus({type: 'FETCH_TEAMS', status: 'SUCCESS', data: json}))
       })
   }
 }
 
 export function teamApproveUserRequest(user, team) {
-  console.log('adding', user, team)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'TEAM_APPROVE_USER_REQUEST', status: 'INITIATED'}))
 
@@ -130,7 +119,6 @@ export function teamApproveUserRequest(user, team) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'TEAM_APPROVE_USER_REQUEST', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -141,7 +129,6 @@ export function teamApproveUserRequest(user, team) {
 }
 
 export function teamDenyUserRequest(user, team) {
-  console.log('removing', user, team)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'TEAM_DENY_USER_REQUEST', status: 'INITIATED'}))
 
@@ -157,7 +144,6 @@ export function teamDenyUserRequest(user, team) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'TEAM_DENY_USER_REQUEST', message: json.error.message, status: 'FAILED'}))
         } else {

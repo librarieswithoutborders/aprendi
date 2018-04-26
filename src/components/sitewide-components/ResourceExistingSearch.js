@@ -15,8 +15,6 @@ class ResourceExistingSearch extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('receiving new PROPSSSSS')
-    console.log(nextProps.resources, this.props.resources)
     // if (nextProps.resources && this.props.resources && nextProps.resources !== this.props.resources) {
     this.setState({
       value: '',
@@ -36,8 +34,6 @@ class ResourceExistingSearch extends Component {
   render() {
     const {value, suggestions} = this.state;
 
-    console.log(suggestions)
-    console.log(this.props.resources)
 
     const inputProps = {
   		placeholder: 'Search',
@@ -63,7 +59,6 @@ class ResourceExistingSearch extends Component {
   }
 
   onChange(event, {newValue, method}) {
-    console.log('on change', event, newValue, method)
     if (method !== 'click') {
       this.setState({
 	      value: newValue
@@ -73,22 +68,16 @@ class ResourceExistingSearch extends Component {
 
   // Autosuggest will call this function every time you need to update suggestions.
   onSuggestionsFetchRequested({value}) {
-    console.log('updating suggestions', value)
-
     this.setState({
       	suggestions: this.getSuggestions(value)
     });
   }
 
   onSuggestionSelected(event, {suggestion}) {
-    console.log('selected', suggestion, event)
-
-    console.log('dispatching action to set resource data')
     this.props.onSelect(suggestion)
   }
 
   getSuggestions(value) {
-    console.log('getting suggestions', value)
     const {resources} = this.props
     if (!value) {
       return resources
@@ -101,7 +90,6 @@ class ResourceExistingSearch extends Component {
   }
 
   getSuggestionValue(value) {
-    console.log('getting suggestion value', value)
     return value.title
   }
 

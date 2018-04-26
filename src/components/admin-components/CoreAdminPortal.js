@@ -10,21 +10,15 @@ import {deleteTeam, fetchTeamList, teamApproveUserRequest, teamDenyUserRequest, 
 import {showResourceViewer} from '../../actions/resource'
 
 
-const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest, denyUserRequest}) => {
-  console.log(teams)
-
-  console.log('PENDING REQUESTS!')
-  console.log(pendingRequests)
-
-  return (
-    <div className="core-admin-portal">
-      <div className="core-admin-portal__contents">
-        <div className="core-admin-portal__section">
-          <div className="core-admin-portal__section-contents">
-            <a href="https://analytics.google.com/analytics/web/#/embed/report-home/a111215204w165837051p166348924" target="_blank"><div className="button button-white">View Analytics Dashboard</div></a>
-          </div>
+const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, history, createResource, showResourceViewer, approveUserRequest, denyUserRequest}) => (
+  <div className="core-admin-portal">
+    <div className="core-admin-portal__contents">
+      <div className="core-admin-portal__section">
+        <div className="core-admin-portal__section-contents">
+          <a href="https://analytics.google.com/analytics/web/#/embed/report-home/a111215204w165837051p166348924" target="_blank"><div className="button button-white">View Analytics Dashboard</div></a>
         </div>
-        { pendingRequests && pendingRequests.length > 0 &&
+      </div>
+      { pendingRequests && pendingRequests.length > 0 &&
           <div className="core-admin-portal__section">
             <h5 className="core-admin-portal__section-title">Pending User Requests</h5>
 
@@ -45,38 +39,37 @@ const CoreAdminPortal = ({pendingRequests, teams, createTeam, deleteTeam, histor
               })}
             </div>
           </div>
-        }
+      }
 
-        <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">All Teams</h5>
-          <div className="core-admin-portal__section-contents">
-            <div className="core-admin-portal__button button button-white" onClick={() => createTeam()}>Create New Team</div>
-            <Search type="team" showAll={true} onSelect={item => history.push(`/teams/${item.path}`)}/>
-          </div>
+      <div className="core-admin-portal__section">
+        <h5 className="core-admin-portal__section-title">All Teams</h5>
+        <div className="core-admin-portal__section-contents">
+          <div className="core-admin-portal__button button button-white" onClick={() => createTeam()}>Create New Team</div>
+          <Search type="team" showAll={true} onSelect={item => history.push(`/teams/${item.path}`)}/>
         </div>
-        <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">All Users</h5>
-          <div className="core-admin-portal__section-contents">
-            <Search type="user" showAll={true} />
-          </div>
+      </div>
+      <div className="core-admin-portal__section">
+        <h5 className="core-admin-portal__section-title">All Users</h5>
+        <div className="core-admin-portal__section-contents">
+          <Search type="user" showAll={true} />
         </div>
-        <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">All Collections</h5>
-          <div className="core-admin-portal__section-contents">
-            <Search type="collection" showAll={true} onSelect={item => history.push(`/${item.path}`)}/>
-          </div>
+      </div>
+      <div className="core-admin-portal__section">
+        <h5 className="core-admin-portal__section-title">All Collections</h5>
+        <div className="core-admin-portal__section-contents">
+          <Search type="collection" showAll={true} onSelect={item => history.push(`/${item.path}`)}/>
         </div>
-        <div className="core-admin-portal__section">
-          <h5 className="core-admin-portal__section-title">All Resources</h5>
-          <div className="core-admin-portal__section-contents">
-            <div className="core-admin-portal__button button button-white" onClick={() => createResource()}>Create New Resource</div>
-            <Search type="resource" showAll={true} onSelect={resource => showResourceViewer(resource)}/>
-          </div>
+      </div>
+      <div className="core-admin-portal__section">
+        <h5 className="core-admin-portal__section-title">All Resources</h5>
+        <div className="core-admin-portal__section-contents">
+          <div className="core-admin-portal__button button button-white" onClick={() => createResource()}>Create New Resource</div>
+          <Search type="resource" showAll={true} onSelect={resource => showResourceViewer(resource)}/>
         </div>
       </div>
     </div>
-  )
-}
+  </div>
+)
 
 class CoreAdminPortalContainer extends React.Component {
   componentWillMount() {
@@ -106,7 +99,6 @@ class CoreAdminPortalContainer extends React.Component {
 
     if (teams && teams.length > 0) {
       teams.forEach(team => {
-        console.log(team)
         if (team.pending_users.length > 0) {
           const thisTeamsList = team.pending_users.map(d => ({team: team, user: d}))
           fullList = [...fullList, ...thisTeamsList]

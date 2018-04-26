@@ -23,7 +23,6 @@ export function setCurrResourceIndex(newIndex) {
 }
 
 export function createResource(resourceInfo) {
-  console.log(resourceInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'CREATE_RESOURCE', status: 'INITIATED'}))
 
@@ -39,7 +38,6 @@ export function createResource(resourceInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'CREATE_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -51,7 +49,6 @@ export function createResource(resourceInfo) {
 }
 
 export function updateResource(resourceInfo) {
-  console.log(resourceInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPDATE_RESOURCE', status: 'INITIATED'}))
 
@@ -67,7 +64,6 @@ export function updateResource(resourceInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'UPDATE_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -79,7 +75,6 @@ export function updateResource(resourceInfo) {
 }
 
 export function deleteResource(resourceInfo) {
-  console.log(resourceInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'DELETE_RESOURCE', status: 'INITIATED'}))
     return fetch(
@@ -89,7 +84,6 @@ export function deleteResource(resourceInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         dispatch(setUpdateStatus({type: 'DELETE_RESOURCE', status: 'SUCCESS', data: resourceInfo}))
       })
   }
@@ -106,8 +100,6 @@ export function fetchResourceList() {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
-
         dispatch(setRequestStatus({type: 'FETCH_RESOURCES', status: 'SUCCESS', data: json}))
       })
   }

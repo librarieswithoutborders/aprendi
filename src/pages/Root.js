@@ -22,7 +22,6 @@ class Root extends Component {
 
     setAuthCallback(authCallback)
     if (isLoggedIn()) {
-      console.log('calling sendUserInfoRequest from root mount')
       this.props.sendUserInfoRequest()
     }
   }
@@ -78,7 +77,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchUserPermissions(user))
   },
   authCallback: user => {
-    console.log('in set user info')
     dispatch(setCurrUserInfo(user))
     dispatch(fetchUserPermissions(user))
   }

@@ -6,8 +6,6 @@ export const teamList = (state = null, action) => {
       }
     case 'CREATE_TEAM':
       if (action.status === 'SUCCESS' && state) {
-        console.log('success!')
-        console.log([...state, ...[action.data]])
         return [...state, ...[action.data]]
       }
     case 'UPDATE_TEAM':
@@ -81,7 +79,6 @@ export const currTeam = (state = null, action) => {
         return newState
       }
     case 'TEAM_APPROVE_USER_REQUEST':
-      console.log(state, action.data)
       if (action.status === 'SUCCESS' && state && state.pending_users) {
         const newState = {}
         Object.assign(newState, state)
@@ -91,7 +88,6 @@ export const currTeam = (state = null, action) => {
         return newState
       }
     case 'TEAM_DENY_USER_REQUEST':
-      console.log(state, action.data)
       if (action.status === 'SUCCESS' && state && state.pending_users) {
         const newState = {}
         Object.assign(newState, state)
@@ -112,7 +108,6 @@ export const currTeam = (state = null, action) => {
         Object.assign(newState, state)
         if (state && state.collections) {
           const updatedIndex = state.collections.findIndex(d => d._id === action.data._id)
-          console.log(updatedIndex)
           newState.collections.splice(updatedIndex, 1, action.data)
         }
         return newState
@@ -140,7 +135,6 @@ export const currTeam = (state = null, action) => {
         Object.assign(newState, state)
         if (state && state.resources) {
           const updatedIndex = state.resources.findIndex(d => d._id === action.data._id)
-          console.log(updatedIndex)
           newState.resources.splice(updatedIndex, 1, action.data)
         }
         return newState
@@ -150,7 +144,6 @@ export const currTeam = (state = null, action) => {
         const newState = {}
         Object.assign(newState, state)
         const deletedIndex = state.resources.indexOf(action.data)
-        console.log(deletedIndex)
         newState.resources.splice(deletedIndex, 1)
         return newState
       }

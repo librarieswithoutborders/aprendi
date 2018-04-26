@@ -9,7 +9,6 @@ function processExternalSiteUrl(url) {
     retVal = `https://${url}`
   }
 
-  console.log(retVal)
   return retVal
 }
 

@@ -1,7 +1,6 @@
 import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
 
 export function createSubcollection(subcollectionInfo) {
-  console.log(subcollectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'CREATE_SUBCOLLECTION', status: 'INITIATED'}))
 
@@ -17,7 +16,6 @@ export function createSubcollection(subcollectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'CREATE_SUBCOLLECTION', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -29,7 +27,6 @@ export function createSubcollection(subcollectionInfo) {
 }
 
 export function updateSubcollection(subcollectionInfo) {
-  console.log(subcollectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'UPDATE_SUBCOLLECTION', status: 'INITIATED'}))
 
@@ -45,7 +42,6 @@ export function updateSubcollection(subcollectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'UPDATE_SUBCOLLECTION', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -57,7 +53,6 @@ export function updateSubcollection(subcollectionInfo) {
 }
 
 export function subcollectionReorderChildren(subcollectionInfo) {
-  console.log(subcollectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'SUBCOLLECTION_REORDER_CHILDREN', status: 'INITIATED'}))
 
@@ -73,7 +68,6 @@ export function subcollectionReorderChildren(subcollectionInfo) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'SUBCOLLECTION_REORDER_CHILDREN', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -99,7 +93,6 @@ export function subcollectionAddExistingResource(resource, parentId) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'SUBCOLLECTION_ADD_EXISTING_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -126,7 +119,6 @@ export function subcollectionRemoveResource(resource, parentId) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         if (json.error) {
           dispatch(setUpdateStatus({type: 'SUBCOLLECTION_REMOVE_RESOURCE', message: json.error.message, status: 'FAILED'}))
         } else {
@@ -138,7 +130,6 @@ export function subcollectionRemoveResource(resource, parentId) {
 }
 
 export function deleteSubcollection({subcollectionInfo, parentId, parentType}) {
-  console.log(subcollectionInfo)
   return dispatch => {
     dispatch(setUpdateStatus({type: 'DELETE_SUBCOLLECTION', status: 'INITIATED'}))
     return fetch(
@@ -148,7 +139,6 @@ export function deleteSubcollection({subcollectionInfo, parentId, parentType}) {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json)
         dispatch(setUpdateStatus({type: 'DELETE_SUBCOLLECTION', status: 'SUCCESS', data: subcollectionInfo}))
       })
   }

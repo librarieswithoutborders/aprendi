@@ -32,8 +32,6 @@ class FileUploadFieldContent extends React.Component {
   onDropRejected(files) {
     const {type} = this.props
 
-    console.log("rejected", files)
-
     this.setState({
       errorMessage: "File Upload Rejected. The minimum file size is 17KB and the accepted file types are png, jpg, jpeg, and pdf"
     })
@@ -47,10 +45,8 @@ class FileUploadFieldContent extends React.Component {
   }
 
   getSnapshotOfPdf(canvasElem, fileUrl) {
-    console.log(fileUrl)
     let splitPieces = fileUrl.split("/")
     let newFileUrl = splitPieces[splitPieces.length - 1].replace(".pdf", ".png")
-    console.log("UPLOADING", newFileUrl)
     canvasElem.toBlob(blob => {
       let file = new File([blob], newFileUrl, {type: 'image/png'})
       this.props.uploadFile({file: file, folder:'thumbnail-images', addHash: false, callback: null})
@@ -84,7 +80,6 @@ class FileUploadFieldContent extends React.Component {
     const {type, fieldApi} = this.props
     const { setValue } = fieldApi
 
-    console.log(fileName)
 
     setValue(fileName)
     this.setState({
@@ -93,7 +88,6 @@ class FileUploadFieldContent extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     const { type, fieldApi, ...rest } = this.props
     const { value, setValue } = fieldApi
     const { errorMessage } = this.state
@@ -102,7 +96,6 @@ class FileUploadFieldContent extends React.Component {
     // const warning = getWarning()
     // const success = getSuccess()
 
-    console.log(value)
 
     let preview = this.state.currValue ? this.generatePreview() : null
 
@@ -133,12 +126,10 @@ class FileUploadField extends React.Component {
     return (
       <Field field={this.props.field} >
         {fieldApi => {
-          console.log(fieldApi)
           return <FileUploadFieldContent fieldApi={fieldApi} {...this.props} />
         }}
       </Field>
     )
-
   }
 }
 

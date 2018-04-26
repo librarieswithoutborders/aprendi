@@ -45,18 +45,10 @@ class Grid extends React.Component {
   }
 
   onBreakpointChange = breakpoint => {
-    console.log("breakpoint changing!")
     this.setState({
       currentBreakpoint: breakpoint
     });
   };
-
-  onWidthChange = props => {
-    console.log("width changed!")
-    // this.setState({
-    //   width: props.containerWidth
-    // })
-  }
 
   generateDOM() {
     const { data, clickHandler, createNew, type, editingMode, showTeam } = this.props;
@@ -153,7 +145,6 @@ class Grid extends React.Component {
         onBreakpointChange={() => this.onBreakpointChange()}
         onDragStop={this.onDragStop.bind(this)}
         onLayoutChange={this.onLayoutChange.bind(this)}
-        onWidthChange={() => this.onWidthChange()}
         measureBeforeMount={false}
         useCSSTransforms={true}
         preventCollision={false}

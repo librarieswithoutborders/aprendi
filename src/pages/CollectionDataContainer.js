@@ -19,14 +19,12 @@ class CollectionDataContainer extends Component {
   }
 
   componentWillUnmount() {
-    console.log('UNMOUNTING!!!')
     this.props.resetCurrCollection()
   }
 
   componentWillReceiveProps(nextProps) {
     const {collectionPath, history} = this.props;
 
-    console.log(history)
 
     if (nextProps.currCollection === 'Not Found') {
       history.replace(`/collections/?not_found=${collectionPath}`)
@@ -39,8 +37,6 @@ class CollectionDataContainer extends Component {
 
     // collection was deleted
     // if (this.props.currCollection && !nextProps.currCollection) {
-    //   console.log('COLLECTION DELETED')
-    //   console.log(this.props.currCollection, nextProps.currCollection)
     //   // history.replace('/')
     // }
 

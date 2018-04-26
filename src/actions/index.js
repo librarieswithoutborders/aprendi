@@ -52,7 +52,6 @@ export function uploadFile(file, folder, addHash, callback) {
     dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'INITIATED'}))
 
     return getS3SignedRequest(newFile, folder, response => {
-      console.log(response)
       if (!response || !response.signedUrl) {
         dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'FAILED'}))
         return
@@ -67,7 +66,6 @@ export function uploadFile(file, folder, addHash, callback) {
         }
       )
         .then(response => {
-          console.log(response)
           if (response.status == 200) {
             dispatch(setUpdateStatus({type: 'UPLOAD_FILE', status: 'SUCCESS'}))
 
@@ -89,7 +87,6 @@ export function takeWebScreenshot(url, callback) {
       }
     ).then(response => response.json())
       .then(d => {
-        console.log(d)
         callback(d)
         dispatch(setUpdateStatus({type: 'FILE_UPLOAD', status: 'SUCCESS', data: d}))
       })
