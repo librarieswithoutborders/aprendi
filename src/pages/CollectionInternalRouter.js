@@ -5,7 +5,6 @@ import {Route, Switch} from 'react-router-dom'
 import Grid from '../components/sitewide-components/Grid'
 import CollectionPage from './CollectionPage'
 
-import {showAdminModal} from '../actions/index'
 import {fetchCollection} from '../actions/collection'
 import {PropsRoute} from '../utils/propsRoute'
 

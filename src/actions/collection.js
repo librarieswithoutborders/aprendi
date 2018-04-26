@@ -1,4 +1,4 @@
-import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
+import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
 
 // maybe find away to call this somewhere else
 import {fetchTeam} from './team'

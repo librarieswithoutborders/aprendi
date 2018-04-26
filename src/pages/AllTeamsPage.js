@@ -10,7 +10,7 @@ import {showAdminModal} from '../actions/index'
 import {deleteTeam, fetchTeamList} from '../actions/team'
 import canUserEdit from '../utils/canUserEdit'
 
-const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, currUser, notFoundRedirected}) => {
+const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, currUserPermissions, notFoundRedirected}) => {
   const headerContents = {
     title: notFoundRedirected ? `Team at Path /${notFoundRedirected} Not Found` : 'Teams',
     description: notFoundRedirected ? 'Browse Other Teams Below:' : null
@@ -22,7 +22,7 @@ const AllTeamsPage = ({teams, createTeam, deleteTeam, history, editingMode, curr
       <Grid
         data={teams}
         type="team"
-        createNew={() => createTeam(currUser)}
+        createNew={() => createTeam(currUserPermissions)}
         clickHandler={(teams, i) => history.push(`/teams/${teams[i].path}`)}
         isDraggable={false}
         editingMode={editingMode}
@@ -42,7 +42,7 @@ class AllTeamsPageContainer extends React.Component {
   }
 
   render() {
-    const {teams, createTeam, deleteTeam} = this.props;
+    const {teams} = this.props;
     if (teams) {
       return <AllTeamsPage {...this.props} />
     }
@@ -51,11 +51,11 @@ class AllTeamsPageContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const canEdit = canUserEdit(state.currUser, null, null)
+  const canEdit = canUserEdit(state.currUserPermissions, null, null)
   return {
     teams: state.teamList,
     editingMode: canEdit,
-    currUser: state.currUser,
+    currUserPermissions: state.currUserPermissions,
     notFoundRedirected: ownProps.history.location.search === '' ? null : ownProps.history.location.search.replace('?not_found=', '')
   }
 }

@@ -1,4 +1,4 @@
-import {dbPath, setUpdateStatus, setRequestStatus, showAdminModal, hideAdminModal} from './index'
+import {dbPath, setUpdateStatus, setRequestStatus, hideAdminModal} from './index'
 
 export function showResourceViewer({parent, resourceList, currIndex}) {
   return {

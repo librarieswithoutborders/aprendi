@@ -6,6 +6,8 @@ class UpdateStatusBar extends React.Component {
   constructor() {
     super()
 
+    this.timeoutFunc = () => this.hide()
+
     this.state = {
       showBar: true
     }
@@ -13,14 +15,18 @@ class UpdateStatusBar extends React.Component {
 
   componentDidMount() {
     const {status} = this.props.statusObject
-    if (status && status === 'SUCCESS') {
-      window.setTimeout(() => this.hide(), appearanceTime)
+    if (status) {
+      if (status === 'SUCCESS') {
+        window.setTimeout(this.timeoutFunc, appearanceTime)
+      } else {
+        window.clearTimeout(this.timeoutFunc)
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.statusObject != this.props.statusObject) {
-      window.setTimeout(() => this.hide(), appearanceTime)
+      window.setTimeout(this.timeoutFunc, appearanceTime)
       this.setState({
         showBar: true
       })

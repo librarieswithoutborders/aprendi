@@ -158,7 +158,7 @@ class CollectionPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const canEdit = canUserEdit(state.currUser, state.currCollection, 'collection')
+  const canEdit = canUserEdit(state.currUserPermissions, state.currCollection, 'collection')
   return {
     resourceViewerContent: state.resourceViewerContent,
     currTeam: state.currTeam,

@@ -10,7 +10,7 @@ import ResourceViewer from '../components/sitewide-components/ResourceViewer'
 import ScrollToTop from '../components/sitewide-components/ScrollToTop'
 import ContentOverlay from '../components/sitewide-components/ContentOverlay'
 
-import {sendUserInfoRequest, setUserInfo, fetchUserPermissions} from '../actions/user'
+import {sendUserInfoRequest, setCurrUserInfo, fetchUserPermissions} from '../actions/user'
 import {isLoggedIn, setAuthCallback} from '../utils/AuthService';
 
 import routes from '../routes'
@@ -24,6 +24,12 @@ class Root extends Component {
     if (isLoggedIn()) {
       console.log('calling sendUserInfoRequest from root mount')
       this.props.sendUserInfoRequest()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currUserInfo && nextProps.currUserPermissions === 'Invalid') {
+      nextProps.fetchUserPermissions(nextProps.currUserInfo)
     }
   }
 
@@ -68,9 +74,12 @@ const mapDispatchToProps = dispatch => ({
   sendUserInfoRequest: () => {
     dispatch(sendUserInfoRequest())
   },
+  fetchUserPermissions: user => {
+    dispatch(fetchUserPermissions(user))
+  },
   authCallback: user => {
     console.log('in set user info')
-    dispatch(setUserInfo({userInfo: user}))
+    dispatch(setCurrUserInfo(user))
     dispatch(fetchUserPermissions(user))
   }
 })

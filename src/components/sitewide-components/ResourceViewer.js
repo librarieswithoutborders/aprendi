@@ -102,7 +102,7 @@ class ResourceViewer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const canEdit = canUserEdit(state.currUser, state.currCollection, 'collection')
+  const canEdit = canUserEdit(state.currUserPermissions, state.currCollection, 'collection')
   console.log('CAN EDDDITTTT')
   console.log(canEdit)
   return {

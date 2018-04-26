@@ -124,11 +124,8 @@ class AdminModalContainer extends Component {
       case "team":
         return {
           create: data => {
-            console.log(data)
-            if (user && user.permissions._id) {
-              console.log({users:[user.permissions._id], ...data})
-              createTeam({data:{users:[user.permissions._id], ...data}})
-
+            if (user && user._id) {
+              createTeam({data:{users:[user._id], ...data}})
             } else {
               createTeam({data})
             }

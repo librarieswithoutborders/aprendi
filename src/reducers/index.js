@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 
 import {collectionList, currCollection} from './collection'
 import {teamList, currTeam} from './team'
-import {userList, currUser} from './user'
+import {userList, currUserInfo, currUserPermissions} from './user'
 import {resourceList, resourceViewerContent} from './resource'
 
 
@@ -58,7 +58,8 @@ const fileUploadStatus = (state = null, action) => {
 
 const rootReducer = combineReducers({
   currTeam,
-  currUser,
+  currUserInfo,
+  currUserPermissions,
   currCollection,
   teamList,
   userList,

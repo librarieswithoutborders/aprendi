@@ -149,12 +149,9 @@ class HomePageContainer extends React.Component {
   }
 
   render() {
-    const {user, history} = this.props
+    const {currUserInfo, history} = this.props
 
-    console.log("in HOMEPAGE")
-    console.log(history)
-
-    if (user && user !== 'Logged out') {
+    if (currUserInfo && currUserInfo !== 'Logged out') {
       return (
         <UserHomePage history={history} />
       )
@@ -167,7 +164,7 @@ class HomePageContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.currUser,
+  currUserInfo: state.currUserInfo,
 })
 
 export default connect(mapStateToProps)(HomePageContainer)

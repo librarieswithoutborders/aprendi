@@ -172,7 +172,7 @@ class AdminForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const {type, data} = ownProps
-  const {currUser, currTeam, adminModalContent, currCollection, collectionList, resourceList, teamList} = state
+  const {currUserPermissions, currTeam, adminModalContent, currCollection, collectionList, resourceList, teamList} = state
   let checkLocallyUniqueList, checkGloballyUniqueList;
 
   if (type === 'team') {
@@ -200,7 +200,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    isCoreAdmin: currUser && currUser.permissions && currUser.permissions.core_admin,
+    isCoreAdmin: currUserPermissions && currUserPermissions.core_admin,
     checkLocallyUniqueList: checkLocallyUniqueList,
     checkGloballyUniqueList: checkGloballyUniqueList
   }

@@ -6,7 +6,6 @@ import LoadingIcon from '../components/sitewide-components/LoadingIcon'
 
 import {fetchCollection, resetCurrCollection} from '../actions/collection'
 
-
 class CollectionDataContainer extends Component {
   constructor() {
     super()
@@ -76,9 +75,6 @@ const mapDispatchToProps = dispatch => ({
   },
   resetCurrCollection: () => {
     dispatch(resetCurrCollection())
-  },
-  showAdminModal: props => {
-    dispatch(showAdminModal(props))
   }
 })
 
