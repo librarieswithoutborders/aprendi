@@ -17,12 +17,8 @@ class UpdateStatusBar extends React.Component {
     const {status} = this.props.statusObject
     if (status) {
       if (status === 'SUCCESS') {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~')
-        console.log('setting timeout')
         window.setTimeout(this.timeoutFunc, appearanceTime)
       } else {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~')
-        console.log('clearing timeout')
         window.clearTimeout(this.timeoutFunc)
       }
     }
