@@ -32,13 +32,12 @@ You will also need to request an environment file from the project administrator
 
 ### HTML
 
-- [Jade](http://jade-lang.com/) for some templating.
+- [EJS](http://ejs.co/) + [Webpack HTML Plugin](https://webpack.js.org/plugins/html-webpack-plugin/) to generate base html file
 
 ### JavaScript
 
-- [JSHint](http://www.jshint.com/docs/) is used to prevent JavaScript error.
-- [JSCS](https://npmjs.org/package/jscs) is used to check coding conventions.
-- [Browserify](http://browserify.org/) to handle allow us to write our client-side scripts with [es6 syntax](http://es6.github.io/) thanks to [es6ify](https://github.com/thlorenz/es6ify).
+- [ESlint](https://eslint.org/) - Dev linter
+- [Babel]
 - [React](http://facebook.github.io/react) is used for UI.
 
 ### CSS
