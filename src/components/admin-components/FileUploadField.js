@@ -108,7 +108,7 @@ class FileUploadFieldContent extends React.Component {
             onDropAccepted={(files) => this.onDropAccepted(files)}
             onDropRejected={(files) => this.onDropRejected(files)}
             multiple={false}
-            minSize={17000}
+            minSize={type === "pdf" ? 0 : 17000}
             accept={type === "pdf" ? "application/pdf" : "image/jpeg, image/png"}>
             <p>Drop file here or click to select files to upload</p>
           </Dropzone>
