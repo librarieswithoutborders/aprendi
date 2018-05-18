@@ -16,7 +16,7 @@ const processFileName = (file, addDateHash) => {
     withoutExtension = `${withoutExtension}_${+new Date()}`
   }
 
-  const newFileName = extension ? withoutExtension + extension : withoutExtension
+  const newFileName = extension ? withoutExtension + extension.toLowerCase() : withoutExtension
   const blob = file.slice(0, -1, file.type)
 
   return new File([blob], newFileName, {type: file.type})
