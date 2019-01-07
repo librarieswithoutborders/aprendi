@@ -135,7 +135,7 @@ class HomePage extends React.Component {
         <div className="home-page__section blue">
           <h1 className="home-page__section__title">Contact</h1>
           <div className="home-page__section__content">
-            <p>For questions, concerns, or feedback please contact <a className="home-page__text__link" href="mailto:admin@librarieswithoutborders.org">admin@librarieswithoutborders.org</a></p>
+            <p>For questions, concerns, or feedback please contact <a className="home-page__text__link" href="mailto:admin@librarieswithoutborders.us">admin@librarieswithoutborders.org</a></p>
           </div>
         </div>
       </div>
